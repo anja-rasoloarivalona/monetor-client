@@ -1,0 +1,5 @@
+export const SET_TEXT = "SET_TEXT"
+export const SET_THEME = "SET_THEME"
+export const SET_USER = "SET_USER"
+export const CLEAR_USER = "CLEAR_USER"
+export const SET_LOCALE = "SET_LOCALE"

@@ -1,0 +1,42 @@
+{
+    "dashboard": {
+        "fr": "Tableau de bord",
+        "en": "Dashboard"
+    },
+    "english": {
+        "fr": "Anglais",
+        "en": "English"
+    },
+    "features": {
+        "fr": "Fonctionnalités",
+        "en": "Features"
+    },
+    "french": {
+        "fr": "Français",
+        "en": "French"
+    } ,
+    "get_started": {
+        "fr": "Commencer",
+        "en": "Get started now"
+    },
+    "home": {
+        "fr": "Accueil",
+        "en": "Home"
+    },
+    "login": {
+        "fr": "Se connecter",
+        "en": "Log In"
+    },
+    "logout": {
+        "fr": "Se déconnecter",
+        "en": "Logout"
+    },
+    "signup": {
+        "fr": "S'inscrire",
+        "en": "Signup"
+    },
+    "transactions": {
+        "fr": "Transactions",
+        "en": "Transactions"
+    }
+}

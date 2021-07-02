@@ -1,0 +1,32 @@
+{
+    "link_forgot_password": {
+        "fr": "mot-de-passe-oublié",
+        "en": "forgot-password",
+        "page": "login",
+        "type": "public"
+    },
+    "link_home": {
+        "fr": "home",
+        "en": "home",
+        "page": "home",
+        "type": "public"
+    },
+    "link_login": {
+        "fr": "se-connecter",
+        "en": "login",
+        "page": "login",
+        "type": "public"
+    },
+    "link_setup": {
+        "fr": "configuration",
+        "en": "setup",
+        "page": "setup",
+        "type": "app"
+    },
+    "link_signup": {
+        "fr": "inscription",
+        "en": "sign-up",
+        "page": "signup",
+        "type": "public"
+    }
+}
