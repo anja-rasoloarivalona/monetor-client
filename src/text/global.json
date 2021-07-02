@@ -1,0 +1,22 @@
+{
+    "email": {
+        "fr": "Email",
+        "en": "Email"
+    },
+    "login": {
+        "fr": "Se connecter",
+        "en": "Login"
+    },
+    "password": {
+        "fr": "Mot de passe",
+        "en": "Password"
+    },
+    "signup": {
+        "fr": "S'inscrire",
+        "en": "Sign up"
+    },
+    "username": {
+        "fr": "Nom d'utilisateur",
+        "en": "Username"
+    }
+}
