@@ -1,7 +1,10 @@
 import React from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Form } from '../../components'
+import axios from 'axios'
+import { getIpData } from '../../functions'
+import * as actions from '../../store/actions'
 
 const Container = styled.div`
     width: 100%;
@@ -24,6 +27,8 @@ const Title = styled.h1`
 `
 
 const Signup = () => {
+
+    const dispatch = useDispatch()
 
     const { 
         text: { text }
@@ -59,8 +64,32 @@ const Signup = () => {
         },
     ]
 
-    const signupHandler = () => {
+    const signupHandler = async data => {
+        try {
 
+            const ipData = await getIpData()
+            const res = await axios.post("/signup", {
+                ...data,
+                ipAddress: ipData.ip,
+                city: ipData.city,
+                country: ipData.country_name
+            })
+
+            console.log({
+                res
+            })
+
+
+            if(res.status === 201){
+                dispatch(actions.setUser(res.data.data))
+
+            }
+       
+        } catch(err){
+            console.log({
+                err
+            })
+        }
     }
 
     return (

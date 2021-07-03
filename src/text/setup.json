@@ -1,0 +1,15 @@
+{
+    
+    "wallet_text": {
+        "fr": "Un actif représente le bien que vous utilisez pour effectuer un paiement ou pour recevoir vos revenus",
+        "en": "An asset represents the property you use to make a payment or to receive your income"
+    },
+    "currency_text_a": {
+        "fr": "Votre monnaie de référence doit être celle que vous utilisez quotidiennement",
+        "en": "Your reference currency should be the one you use on a daily basis."
+    },
+    "currency_text_b": {
+        "fr": "Votre solde et vos statistiques seront affichés dans cette devise",
+        "en": "Your balance and statistics will be displayed in that currency"
+    }
+}

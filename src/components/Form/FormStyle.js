@@ -1,6 +1,5 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Field as FormikField } from 'formik'
-
 
 const inputStyle = {
     height: "4.5rem",
@@ -42,14 +41,26 @@ const Container = styled.div`
                 color: ${props => props.theme.form.focused.color};
             }
         }
+ 
+
         &:-webkit-autofill,
         &:-webkit-autofill:hover, 
         &:-webkit-autofill:focus, 
         &:-webkit-autofill:active  {
             // -webkit-box-shadow: 0 0 0px 1000px ${props => props.theme.form.unfocused.background} inset !important;
             // -webkit-text-fill-color: ${props => props.theme.textActive};
-            // border: 1px solid ${props => props.theme.form.unfocused.background};
+            // border: none;
+            // outline: none;
+            // overflow: hidden;
         }
+
+        ${props => {
+            if(props.error){
+                return {
+                    border: ` 1px solid ${props => props.theme.error}`
+                }
+            }
+        }}
 
     }
 `
@@ -66,11 +77,25 @@ const Label = styled.label`
 `
 
 const Input = styled.input`
-    ${{...inputStyle}}
+    ${{...inputStyle}};
+    ${props => {
+        if(props.error){
+            return {
+                border: ` 1px solid ${props => props.theme.error}`
+            }
+        }
+    }}
 `
 
 const Field = styled(FormikField)`
-    ${{...inputStyle}}
+    ${{...inputStyle}};
+    ${props => {
+        if(props.error){
+            return {
+                border: `1px solid ${props.theme.error} !important`
+            }
+        }
+    }}
 `
 
 const Error = styled.div`
@@ -82,10 +107,21 @@ const Error = styled.div`
     color: ${props => props.theme.error};
 `
 
+const Unit = styled.div`
+    position: absolute;
+    top: 2.2rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    color: ${props => props.theme.form.unfocused.color};
+    height: min-content;
+`
+
 export {
     Container,
     Label, 
     Input,
     Field,
-    Error
+    Error,
+    Unit
 }

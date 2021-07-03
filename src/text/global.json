@@ -1,22 +1,94 @@
 {
+    "add": {
+        "fr": "Ajouter",
+        "en": "Add"
+    },
+    "balance": {
+        "fr": "Balance",
+        "en": "Balance"
+    },
+    "budget": {
+        "fr": "Budget",
+        "en": "Budget"
+    } ,
+    "cash": {
+        "fr": "Cash",
+        "en": "Cash"
+    },
+    "credit_card": {
+        "fr": "Carte de crédit",
+        "en": "Credit card"
+    },
+    "currency": {
+        "fr": "Devise",
+        "en": "Currency"
+    },
+    "dark_mode": {
+        "fr": "Dark mode",
+        "en": "Dark mode"
+    },
+    "dark_mode_benefit": {
+        "fr": "Réglez l'apparence de Monetor pour réduire l'éblouissement et donner une pause à vos yeux.",
+        "en": "Adjust the appearance of Monetor to reduce glare and give your eyes a break."
+    },
+    "debit_card": {
+        "fr": "Carte de débit",
+        "en": "Debit card"
+    },
     "email": {
         "fr": "Email",
         "en": "Email"
+    },
+    "language": {
+        "fr": "Langue",
+        "en": "Language"
     },
     "login": {
         "fr": "Se connecter",
         "en": "Login"
     },
+    "logout": {
+        "fr": "Se déconnecter",
+        "en": "Logout"
+    },
+    "name": {
+        "fr": "Nom",
+        "en": "Name"
+    },
+    "next": {
+        "fr": "Suivant",
+        "en": "Next"
+    },
+    "on": {
+        "fr": "Activer",
+        "en": "On"
+    },
+    "off": {
+        "fr": "Désactiver",
+        "en": "Off"
+    },
     "password": {
         "fr": "Mot de passe",
         "en": "Password"
+    },
+    "settings": {
+        "fr": "Paramètres",
+        "en": "Settings"
     },
     "signup": {
         "fr": "S'inscrire",
         "en": "Sign up"
     },
+    "type": {
+        "fr": "Type",
+        "en": "Type"
+    },
     "username": {
         "fr": "Nom d'utilisateur",
         "en": "Username"
+    },
+    "wallet": {
+        "fr": "Actif",
+        "en": "Wallet"
     }
 }

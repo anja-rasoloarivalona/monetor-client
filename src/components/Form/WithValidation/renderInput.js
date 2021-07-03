@@ -1,4 +1,5 @@
 import Input from './Input'
+import Select from './Select'
 
 export const renderInput = props => {
     const inputType = props.input.input_type;
@@ -7,8 +8,8 @@ export const renderInput = props => {
             return <Input {...props} />
         // case "textarea":
         //     return <TextArea {...props} />
-        // case "select":
-        //     return <Select {...props}/>
+        case "select":
+            return <Select {...props}/>
         // case "date":
         //     return <DatePicker {...props}/>
         // case "category":

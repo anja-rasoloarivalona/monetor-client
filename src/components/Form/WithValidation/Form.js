@@ -15,6 +15,10 @@ const Form = props => {
 
     const { windowWidth } =  useWindowSize()
 
+    console.log({
+        values
+    })
+
     const {
         settings: { locale }
     } = useSelector(state => state)

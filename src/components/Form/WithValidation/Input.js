@@ -1,5 +1,5 @@
 import React from "react"
-import { Container, Label, Field, Error } from '../FormStyle'
+import { Container, Label, Field, Error, Unit } from '../FormStyle'
 
 
 const Input = props => {
@@ -25,6 +25,7 @@ const Input = props => {
             <Label htmlFor={input.id} style={{...input.labelStyle}}>
                 {input.label} {input.required &&  `\u002A`} 
             </Label>
+            {input.unit && <Unit id="unit">{input.unit}</Unit>}
         </Container>
      )
 };
