@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import { FontAwesomeIcon  } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside } from '../../../hooks'
+import { ScrollBar } from '../../../components'
 
 const Container = styled.div`
     height: 4rem;
@@ -15,8 +16,10 @@ const CurrentValue = styled.div`
     height: 4rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     cursor: pointer;
+    font-size: 1.4rem;
+    color: ${props => props.theme.textActive};
 
     svg {
         margin-left: 1rem;
@@ -24,20 +27,26 @@ const CurrentValue = styled.div`
     }
 `
 
-const List = styled.ul`
+const List = styled(ScrollBar)`
     position: absolute;
     top: 100%;
     right: 0;
     min-width: 15rem;
-    list-style: none;
     border: 1px solid ${props => props.theme.form.unfocused.border};
-    background: red;
+    background: ${props => props.theme.background};
     z-index: 2;
 `
 
 const ListItem = styled.div`
     padding: 1rem;
+    padding-right: 2rem;
     cursor: pointer;
+    font-size: 1.4rem;
+
+    :hover {
+        background: ${props => props.theme.textActive};
+        color: ${props => props.theme.background};
+    }
 `
 
 const Select = props => {
@@ -79,7 +88,10 @@ const Select = props => {
                 />
             </CurrentValue>
             {showList && (
-                <List ref={list}>
+                <List
+                    ref={list}
+                    style={{...props.customListStyle}}
+                >
                     {options.map(option => (
                         <ListItem
                             key={option.value}

@@ -7,5 +7,16 @@ export {
 } from './theme'
 
 export {
-    setLocale
+    setLocale,
+    setCurrency
 } from './settings'
+
+export {
+    setUser,
+    clearUser,
+    setCheckedUserToken
+} from './user'
+
+export {
+    initApp
+} from './middlewares'

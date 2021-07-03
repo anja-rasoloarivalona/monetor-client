@@ -3,15 +3,16 @@ import { updatedObject } from '../utils'
 
 const themes = {
     light: {
-        primary: "#2E3E4E",
+        primary: "#0b529a",
         background: "white",
         surface: "#ffffff",
         onSurface: "#313131",
         text: "black",
-        textActive: "grey",
+        textActive: "black",
         error: "red",
         boxShadow: "0px 1px 2px -1px rgb(113 113 113 / 75%)",
         appBackground: "white",
+        white: "white",
         form: {
             unfocused: {
                 color:  "#5f5f5f",
@@ -29,26 +30,30 @@ const themes = {
         }
     },
     dark: {
-        primary: "#2E3E4E",
-        background: "#202020",
-        surface: "#13161b",
+        primary: "#0b529a",
+        background: "#181818",
+        surface: "#212121",
         onSurface: "#313131",
-        text: "white",
-        textActive: "#e8e8e8",
+        text: "#aaaaaa",
+        textActive: "white",
         error: "red",
-        boxShadow: "0px 1px 2px -1px rgb(113 113 113 / 75%)",
+        boxShadow: "0 0px 6px rgb(0 0 0 / 19%), 0 3px 2px rgb(0 0 0 / 23%)",
         appBackground: "linear-gradient(to bottom right,#070c10 30%,#020d19 100%)",
         form: {
             unfocused: {
                 color:  "#5f5f5f",
                 border: "#3c3c3c",
-                background: "#13161b",
+                background: "#212121",
             },
             focused: {
                 color: "white",
                 border: "white",
-                background: "#13161b",
+                background: "#212121",
             },
+        },
+        disabled: {
+            background: "grey",
+            color: "white"
         },
         gradient: function(level){
             return `rgba(255, 255, 255, ${level})`

@@ -3,11 +3,16 @@ import { Button } from './Button'
 import { SubmitButton } from './SubmitButton'
 import { AppLoader } from './Loader'
 import { EnhancedForm, formProps } from './Form/WithValidation/Form'
+import { Amount } from './Amount'
+import { ScrollBar } from './Scrollbar'
+
 export {
     Link,
     Button,
     SubmitButton,
     AppLoader as Loader,
     EnhancedForm as Form,
-    formProps
+    formProps,
+    Amount,
+    ScrollBar
 }

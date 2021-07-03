@@ -39,11 +39,10 @@ const Button = styled.button`
     }}
 
     ${props => {
-        if(props.disabled){
+        if(props.isDisabled){
             return {
-                background: "white",
-                color: props.theme.dynamic.semi_bright,
-                border: `1px solid ${props.theme.dynamic.semi_bright}`,
+                background: props.theme.disabled.background,
+                color: props.theme.disabled.color,
                 cursor: "not-allowed",
                 boxShadow: "none !important"
             }

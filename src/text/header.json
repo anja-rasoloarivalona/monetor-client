@@ -31,6 +31,10 @@
         "fr": "Se déconnecter",
         "en": "Logout"
     },
+    "settings": {
+        "fr": "Paramètres",
+        "en": "Settings"
+    },
     "signup": {
         "fr": "S'inscrire",
         "en": "Signup"

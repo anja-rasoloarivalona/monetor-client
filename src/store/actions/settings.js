@@ -7,6 +7,14 @@ const setLocale = locale => {
     }
 }
 
+const setCurrency = currency => {
+    return {
+        type: actionTypes.SET_CURRENCY,
+        currency
+    }
+}
+
 export {
+    setCurrency,
     setLocale
 }

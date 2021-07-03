@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import HomeHeader from "./HomeHeader/HomeHeader";
+import AppHeader from "./AppHeader/AppHeader"
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
     position: fixed;
@@ -12,9 +14,17 @@ const Container = styled.div`
 `
 
 const Header = () => {
+
+    const {
+        text: { type }
+    } = useSelector(state => state)
+
     return (
         <Container>
-            <HomeHeader />
+            {type === 'app' ?
+                <AppHeader /> :
+                <HomeHeader />
+            }
         </Container>
      )
 };
