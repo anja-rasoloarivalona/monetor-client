@@ -8,6 +8,7 @@ import SettingsPannel from './SettingsPannel'
 const Container = styled.div`
     display: flex;
     align-items: center;
+    color: ${props =>  props.theme.textActive};
 `
 
 const ImageContainer = styled.div`
@@ -27,7 +28,6 @@ const ImageContainer = styled.div`
     }
 `
 const UserName = styled.div`
-    color: ${props => props.theme.text};
     margin-right: 1rem;
     font-size: 1.6rem;
 `
@@ -59,7 +59,7 @@ const List = styled.div`
     right: 3rem;
     width: 35rem;
     height: max-content;
-    background: ${props => props.theme.surface};
+    background: ${props => props.theme.type === "dark" ? props.theme.surface : props.theme.white};
     z-index: 9;
     box-shadow: ${props => props.theme.boxShadow};
     border-radius: 1rem;

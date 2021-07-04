@@ -5,7 +5,7 @@ const inputStyle = {
     height: "4.5rem",
     width: "100%",
     paddingLeft: "1.2rem",
-    borderRadius: "1rem",
+    borderRadius: ".5rem",
     marginBottom: "3rem",
     marginTop: "1rem"
 }
@@ -14,6 +14,7 @@ const Container = styled.div`
     width: 100%;
     position: relative;
     margin-bottom: 2rem;
+    font-family: Roboto;
 
     * {
         box-sizing: border-box;
@@ -25,6 +26,8 @@ const Container = styled.div`
         border: 1px solid ${props => props.theme.form.unfocused.border};
         font-size: 1.6rem;
         color: ${props => props.theme.textActive};
+        font-family: Roboto;
+
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -88,6 +91,8 @@ const Input = styled.input`
 `
 
 const Field = styled(FormikField)`
+    font-family: Roboto;
+
     ${{...inputStyle}};
     ${props => {
         if(props.error){
@@ -103,7 +108,7 @@ const Error = styled.div`
     top: 6rem;
     left: 1rem;
     font-size: 1.2rem;
-    z-index: 13;
+    z-index: 2;
     color: ${props => props.theme.error};
 `
 

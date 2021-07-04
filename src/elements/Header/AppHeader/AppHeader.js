@@ -5,13 +5,14 @@ import UserProfile from "./UserProfile"
 
 const Container = styled.div`
     height: 8rem;
-    width: calc(100vw - 20rem);
-    margin-left: 20rem;
+    width: 100vw;
     padding: 0 3rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     background: ${props => props.theme.surface};
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
 `
 
 const AppHeader = () => {

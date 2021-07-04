@@ -3,6 +3,10 @@
         "fr": "Ajouter",
         "en": "Add"
     },
+    "amount": {
+        "fr": "Montant",
+        "en": "Amount"
+    },
     "balance": {
         "fr": "Balance",
         "en": "Balance"
@@ -15,9 +19,17 @@
         "fr": "Cash",
         "en": "Cash"
     },
+    "category": {
+        "fr": "Catégorie",
+        "en": "Category"
+    },
     "credit_card": {
         "fr": "Carte de crédit",
         "en": "Credit card"
+    },
+    "credit_limit": {
+        "fr": "Limite de crédit",
+        "en": "Credit limit"
     },
     "currency": {
         "fr": "Devise",
@@ -31,6 +43,14 @@
         "fr": "Réglez l'apparence de Monetor pour réduire l'éblouissement et donner une pause à vos yeux.",
         "en": "Adjust the appearance of Monetor to reduce glare and give your eyes a break."
     },
+    "dashboard": {
+        "fr": "Tableau de bord",
+        "en": "Dashboard"
+    },
+    "date": {
+        "fr": "Date",
+        "en": "Date"
+    },
     "debit_card": {
         "fr": "Carte de débit",
         "en": "Debit card"
@@ -39,9 +59,49 @@
         "fr": "Email",
         "en": "Email"
     },
+    "expense": {
+        "fr": "Dépense",
+        "en": "Expense"
+    },
+    "expenses": {
+        "fr": "Dépenses",
+        "en": "Expenses"
+    },
+    "finance": {
+        "fr": "Finance",
+        "en": "Finance"
+    },
+    "fixed": {
+        "fr": "Fixe",
+        "en": "Fixed"
+    },
+    "frequency": {
+        "fr": "Fréquence",
+        "en": "Frequency"
+    },
+    "friends": {
+        "fr": "Amis",
+        "en": "Friends"
+    },
+    "groups": {
+        "fr": "Groupes",
+        "en": "Groups"
+    },
+    "income": {
+        "fr": "Revenu",
+        "en": "Income"
+    },
+    "incomes": {
+        "fr": "Revenus",
+        "en": "Incomes"
+    },
     "language": {
         "fr": "Langue",
         "en": "Language"
+    },
+    "last_date_of_payment": {
+        "fr": "Date du dernier paiement",
+        "en": "Last paiement date"
     },
     "login": {
         "fr": "Se connecter",
@@ -51,9 +111,17 @@
         "fr": "Se déconnecter",
         "en": "Logout"
     },
+    "my_wallet": {
+        "fr": "Mon portefeuille",
+        "en": "My wallet"
+    },
     "name": {
         "fr": "Nom",
         "en": "Name"
+    },
+    "network": {
+        "fr": "Network",
+        "en": "Network"
     },
     "next": {
         "fr": "Suivant",
@@ -71,6 +139,30 @@
         "fr": "Mot de passe",
         "en": "Password"
     },
+    "per_day": {
+        "fr": "Par jour",
+        "en": "Per day"
+    },  
+    "period": {
+        "fr": "Période",
+        "en": "Period"
+    },
+    "period_start": {
+        "fr": "Début de la période",
+        "en": "Beginning of the period"
+    },
+    "per_week": {
+        "fr": "Par semaine",
+        "en": "Per week"
+    },
+    "per_month": {
+        "fr": "Par mois",
+        "en": "Per month"
+    },
+    "per_year": {
+        "fr": "Par an",
+        "en": "Per year"
+    },
     "settings": {
         "fr": "Paramètres",
         "en": "Settings"
@@ -79,6 +171,22 @@
         "fr": "S'inscrire",
         "en": "Sign up"
     },
+    "skip": {
+        "fr": "Passer",
+        "en": "Skip"
+    },
+    "to_do": {
+        "fr": "À faire",
+        "en": "To-do"
+    },
+    "to_do_title": {
+        "fr": "Les tâches à accomplir",
+        "en": "Things to get done"
+    },
+    "transactions": {
+        "fr": "Transactions",
+        "en": "Transactions"
+    },
     "type": {
         "fr": "Type",
         "en": "Type"
@@ -86,6 +194,10 @@
     "username": {
         "fr": "Nom d'utilisateur",
         "en": "Username"
+    },
+    "variable": {
+        "fr": "Variable",
+        "en": "Variable"
     },
     "wallet": {
         "fr": "Actif",

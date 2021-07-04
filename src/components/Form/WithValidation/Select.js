@@ -20,7 +20,7 @@ const Select = props => {
 
     const getStyle = () => {
 
-        const unfocusedBorderStyle = `1px solid ${theme.form.unfocused.border}`
+        const unfocusedBorderStyle =  `1px solid ${theme.form.unfocused.border}`
         const focusedBorderStyle = `1px solid ${theme.form.focused.border}`
         const errorStyle = `1px solid ${theme.error}`
     
@@ -40,10 +40,14 @@ const Select = props => {
                     color: theme.textActive,
                     boxShadow: "none",
                     height: "4.5rem",
-                    border: touched && errors && touched[input.name] && errors[input.name] ?  errorStyle : state.isFocused ? focusedBorderStyle : unfocusedBorderStyle,
+                    border: 
+                        touched && errors && touched[input.name] && errors[input.name] ?  
+                            errorStyle : 
+                            state.isFocused ? focusedBorderStyle : unfocusedBorderStyle,
                     backgroundColor: theme.form.unfocused.background,
                     cursor: 'pointer',
                     paddingLeft: "1.2rem",
+                    // paddingRight: "1.2rem",
                     marginTop: "1rem",
                     marginBottom: "3rem",
                     '& svg': {
@@ -81,7 +85,8 @@ const Select = props => {
                 paddingBottom: 0,
                 color: theme.text,
                 zIndex: 14,
-                border:  unfocusedBorderStyle
+                border: theme.type === "dark" ? focusedBorderStyle : "none",
+                borderRadius: ".5rem"
             }),
             option: (provided, state) => ({
                 ...provided,
@@ -90,10 +95,10 @@ const Select = props => {
                 alignItems: "center",
                 fontSize: "1.4rem",
                 '&:hover': {
-                    backgroundColor: theme.textActive,
-                    color: theme.background
+                    backgroundColor: theme.type === "dark" ? theme.textActive : theme.onSurface,
+                    color:  theme.type === "dark" ? theme.background : theme.text
                 },
-                backgroundColor: theme.background,
+                backgroundColor: theme.type === "dark" ? theme.background : theme.surface,
                 cursor: 'pointer',
             })
           }

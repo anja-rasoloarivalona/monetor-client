@@ -1,4 +1,10 @@
 {
+    "link_dashboard": {
+        "fr": "tableau-de-bord",
+        "en": "dashboard",
+        "page": "dashboard",
+        "type": "app"
+    },
     "link_forgot_password": {
         "fr": "mot-de-passe-oublié",
         "en": "forgot-password",
@@ -28,5 +34,17 @@
         "en": "sign-up",
         "page": "signup",
         "type": "public"
+    },
+    "link_to-do": {
+        "fr": "à-faire",
+        "en": "to-do",
+        "page": "to-do",
+        "type": "app"
+    },
+    "link_transactions": {
+        "fr": "transactions",
+        "en": "transactions",
+        "page": "transactions",
+        "type": "app"
     }
 }

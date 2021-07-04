@@ -9,6 +9,7 @@ import setup from './setup.json'
 const lexique = { login, signup, home, setup}
 
 const getText = (locale, page) => {
+
     const text = {
         header: {},
         text: {},
