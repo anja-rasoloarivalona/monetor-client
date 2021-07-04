@@ -5,7 +5,7 @@ import { useOnClickOutside } from '../../../hooks'
 import { ScrollBar } from '../../../components'
 
 const Container = styled.div`
-    height: 4rem;
+    height: 4.5rem;
     position: relative;
     color: ${props => props.theme.text};
     width: max-content;
@@ -13,18 +13,28 @@ const Container = styled.div`
 
 const CurrentValue = styled.div`
     width: max-content;
-    height: 4rem;
+    height: 4.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
     font-size: 1.4rem;
     color: ${props => props.theme.textActive};
+    border: 1px solid ${props => props.theme.form.unfocused.border};
+    border-radius: .5rem;
 
     svg {
         margin-left: 1rem;
         font-size: 1.4rem;
     }
+
+    ${props => {
+        if(props.showList){
+            return {
+                border: `1px solid ${ props.theme.form.focused.border}`
+            }
+        }
+    }}
 `
 
 const List = styled(ScrollBar)`
@@ -32,14 +42,27 @@ const List = styled(ScrollBar)`
     top: 100%;
     right: 0;
     min-width: 15rem;
-    border: 1px solid ${props => props.theme.form.unfocused.border};
+    border: 1px solid ${props => props.theme.form.focused.border};
     background: ${props => props.theme.background};
     z-index: 2;
+    top: calc(100% + .7rem);
+    border-radius: .5rem;
+
+
+    ${props => {
+        if(props.theme.type === "light"){
+            return {
+                background: props.theme.surface,
+                boxShadow: "0 0 0 1px hsl(0deg 0% 0% / 10%), 0 4px 11px hsl(0deg 0% 0% / 10%)",
+                border: "none",
+            }
+        }
+    }}
 `
 
 const ListItem = styled.div`
-    padding: 1rem;
-    padding-right: 2rem;
+    padding: 1rem 2rem;
+    padding-left: 1.2rem;
     cursor: pointer;
     font-size: 1.4rem;
 
@@ -47,6 +70,18 @@ const ListItem = styled.div`
         background: ${props => props.theme.textActive};
         color: ${props => props.theme.background};
     }
+
+    ${props => {
+        if(props.theme.type === "light"){
+            return {
+                ":hover": {
+                    background: props.theme.onSurface,
+                    color: props.theme.text
+                }
+
+            }
+        }
+    }}
 `
 
 const Select = props => {
@@ -81,6 +116,7 @@ const Select = props => {
             <CurrentValue
                 onClick={() => setShowList(true)}
                 style={{...props.customValueStyle}}
+                showList={showList}
             >
                 {displayedValue || "Select..."}
                 <FontAwesomeIcon 

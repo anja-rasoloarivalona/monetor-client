@@ -1,5 +1,7 @@
 import Input from './Input'
 import Select from './Select'
+import Category from '../Custom/Category'
+import Date from './Date'
 
 export const renderInput = props => {
     const inputType = props.input.input_type;
@@ -10,10 +12,10 @@ export const renderInput = props => {
         //     return <TextArea {...props} />
         case "select":
             return <Select {...props}/>
-        // case "date":
-        //     return <DatePicker {...props}/>
-        // case "category":
-        //     return <CategoryInput {...props} />
+        case "date":
+            return <Date {...props}/>
+        case "category":
+            return <Category {...props} />
         default: return
     }
 }

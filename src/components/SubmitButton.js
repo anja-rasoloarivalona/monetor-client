@@ -6,11 +6,15 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+
+    button {
+        margin: 0 2rem;
+    }
 `
 
 const SubmitButton = props => {
 
-    const { isSubmitting, label, onClick, submitButtonStyle, disabled, secondaryLabel, onClickSecondary } = props
+    const { isSubmitting, label, onClick, submitButtonStyle, disabled, secondaryLabel, onClickSecondary, secondaryButtonStyle } = props
 
     return (
         <Container>
@@ -21,6 +25,7 @@ const SubmitButton = props => {
                         <Button
                             onClick={onClickSecondary}
                             secondary type="button"
+                            style={{...secondaryButtonStyle}}
                         >
                             {secondaryLabel}
                         </Button>

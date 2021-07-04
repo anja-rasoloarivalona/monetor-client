@@ -20,7 +20,23 @@ const setCheckedUserToken = value => {
     }
 }
 
+const addWallet = wallet => {
+    return {
+        type: actionTypes.ADD_WALLET,
+        wallet
+    }
+}
+
+const addBudget = budget => {
+    return {
+        type: actionTypes.ADD_BUDGET,
+        budget
+    }
+}
+
 export {
+    addBudget,
+    addWallet,
     setUser,
     clearUser,
     setCheckedUserToken

@@ -111,7 +111,8 @@ const SettingsPannel = () => {
                 {label: header.french, value: "fr"},
                 {label:  header.english, value: "en"}
             ],
-            currentValue: settings.locale
+            currentValue: settings.locale,
+            onChange: (value) => dispatch(actions.setLocale(value))
         },
         // {
         //     title: text.settings
@@ -142,6 +143,7 @@ const SettingsPannel = () => {
                                 input={_option}
                                 currentValue={option.currentValue}
                                 onChange={option.onChange}
+                                noClick={true}
                         />
                        </RadioInputContainer>
                    ))}

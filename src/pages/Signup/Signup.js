@@ -74,17 +74,9 @@ const Signup = () => {
                 city: ipData.city,
                 country: ipData.country_name
             })
-
-            console.log({
-                res
-            })
-
-
             if(res.status === 201){
                 dispatch(actions.setUser(res.data.data))
-
             }
-       
         } catch(err){
             console.log({
                 err

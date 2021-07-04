@@ -24,11 +24,12 @@ const Currency = props => {
 
     const dispatch = useDispatch()
 
-    const { selectedCurrency, setSelectedCurrency, changeSectionHandler } = props
+    const { navigateHandler } = props
 
     const {
         text: { text },
-        theme
+        theme,
+        settings
     } = useSelector(state => state)
 
     const getCurrencies = () => {
@@ -43,7 +44,6 @@ const Currency = props => {
     }
 
     const onSelectHandler = value => {
-        setSelectedCurrency(value)
         dispatch(actions.setCurrency(value))
     }
 
@@ -60,7 +60,7 @@ const Currency = props => {
                     {text.currency_text_b}
                 </SubTitle>
                 <Select 
-                    currentValue={selectedCurrency}
+                    currentValue={settings.currency}
                     options={getCurrencies()}
                     onChange={(value) => onSelectHandler(value)}
                     customListStyle={{
@@ -79,8 +79,8 @@ const Currency = props => {
                 />
                 <ButtonContainer>
                     <Button
-                        isDisabled={!selectedCurrency}
-                        onClick={() => changeSectionHandler("wallet")}
+                        isDisabled={!settings.currency}
+                        onClick={() => navigateHandler("next")}
                     >
                         {text.next}
                     </Button>

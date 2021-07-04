@@ -11,13 +11,11 @@ let errorText = {}
 
 const Form = props => {
 
+    formProps = props
+
     const { inputs, errors, touched, handleChange, values, handleBlur, setFieldValue, isSubmitting, getValues, getErrors, formStyle, disabled, getTouched } = props
 
     const { windowWidth } =  useWindowSize()
-
-    console.log({
-        values
-    })
 
     const {
         settings: { locale }
@@ -39,28 +37,31 @@ const Form = props => {
     errorText = _errorText[locale]
 
 
-    // useEffect(() => {
-    //     if(getValues){
-    //         console.log({
-    //             values
-    //         })
-    //         getValues(values)
-    //     }
-    // },[values])
+    useEffect(() => {
+        if(getValues){
+            console.log({
+                values
+            })
+            getValues(values)
+        }
+    },[values])
 
 
-    // useEffect(() => {
-    //     if(getErrors){
-    //         getErrors(errors)
-    //     }
-    // },[errors])
+    useEffect(() => {
+        console.log({
+            errors
+        })
+        if(getErrors){
+            getErrors(errors)
+        }
+    },[errors])
 
 
-    // useEffect(() => {
-    //     if(getTouched){
-    //         getTouched(touched)
-    //     }
-    // },[touched])
+    useEffect(() => {
+        if(getTouched){
+            getTouched(touched)
+        }
+    },[touched])
 
     const formStyles = {
         grid: {
@@ -93,10 +94,12 @@ const Form = props => {
                 isSubmitting={isSubmitting}
                 label={props.buttonLabel}
                 onClick={props.onClickButton}
-                secondaryLabel={props.secondaryLabel}
-                onClickSecondary={props.onClickSecondary}
                 submitButtonStyle={props.submitButtonStyle}
                 disabled={disabled}
+
+                secondaryLabel={props.secondaryLabel}
+                onClickSecondary={props.onClickSecondary}
+                secondaryButtonStyle={props.secondaryButtonStyle}
             />
         </FormComponent>
      )
@@ -127,6 +130,10 @@ const EnhancedForm = withFormik({
                     date: {
                         notRequired: Yup.date(),
                         required: Yup.date().required(errorText.required_field)
+                    },
+                    object: {
+                        notRequired: Yup.object(),
+                        required: Yup.object().required(errorText.required_field)
                     },
                     default: {
                         notRequired: Yup.string(),

@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const Container = styled.div`
-  background: ${props => props.theme.appBackground};
+  background: ${props => props.theme.homeBackground};
   min-height: 100vh;
 
   ${props => {
@@ -52,7 +52,8 @@ const App = () => {
     const { 
       theme,
       text,
-      user
+      user,
+      categories
     } = useSelector(state => state)
 
     useEffect(() => {
@@ -63,7 +64,7 @@ const App = () => {
 
 
     const isTextReady = text.header && text.text
-    const isAppReady = isTextReady && user.checkedToken 
+    const isAppReady = isTextReady && user.checkedToken  && categories
 
     return (
       <BrowserRouter>

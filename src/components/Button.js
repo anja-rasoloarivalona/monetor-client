@@ -31,8 +31,8 @@ const Button = styled.button`
         if(props.secondary){
             return {
                 background: "white",
-                border: `1px solid  ${props.theme.dynamic.medium}`,
-                color: props.theme.dynamic.medium,
+                border: `1px solid  ${props.theme.background}`,
+                color: props.theme.background,
                 marginRight: "10px"
             }
         }
@@ -45,6 +45,17 @@ const Button = styled.button`
                 color: props.theme.disabled.color,
                 cursor: "not-allowed",
                 boxShadow: "none !important"
+            }
+        }
+    }}
+
+    ${props => {
+        if(props.isOutlined){
+            return {
+                background: "transparent",
+                border: "1px solid transparent",
+                borderColor: "inherit",
+                borderRadius: ".2rem"
             }
         }
     }}

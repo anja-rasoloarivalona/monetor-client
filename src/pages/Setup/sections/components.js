@@ -4,7 +4,9 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     padding-top: 10rem;
-    width: 100%;
+    width: 90%;
+    position: relative;
+    max-width: 95rem;
 `
 
 
@@ -19,6 +21,7 @@ const SubTitle = styled.div`
     font-size: 1.4rem;
     color: ${props => props.theme.text};
     line-height: 1.4;
+    text-align: center;
 `
 
 export {

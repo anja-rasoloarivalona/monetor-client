@@ -46,14 +46,20 @@ const Check = styled.div`
 
 const RadioInput = props => {
 
-    const { input, currentValue, onChange  } = props
+    const { input, currentValue, onChange, noClick  } = props
 
     const isChecked = input.value === currentValue
+
+    const onClickHandler = value => {
+        if(!noClick){
+            onChange(input.value)
+        }
+    }
 
     return (
         <Container
             isChecked={isChecked}
-            onClick={() => onChange(input.value)}
+            onClick={() => onClickHandler(input.value)}
         >
             <Label className="label">
                 {input.label}

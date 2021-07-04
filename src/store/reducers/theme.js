@@ -4,26 +4,33 @@ import { updatedObject } from '../utils'
 const themes = {
     light: {
         primary: "#0b529a",
-        background: "white",
+        secondary: "#478ab1",
+        background: "#f3f3f3",
         surface: "#ffffff",
-        onSurface: "#313131",
+        onSurface: "#eaeaea",
         text: "black",
         textActive: "black",
         error: "red",
-        boxShadow: "0px 1px 2px -1px rgb(113 113 113 / 75%)",
-        appBackground: "white",
-        white: "white",
+        boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
+        homeBackground: "#ffffff",
+        white: "#ffffff",
+        grey: "grey",
+        dark: "rgb(20, 20, 20)",
         form: {
             unfocused: {
                 color:  "#5f5f5f",
-                border: "#5f5f5f",
-                background: "white",
+                border: "#cccccc",
+                background: "#ffffff",
             },
             focused: {
                 color: "#5f5f5f",
                 border: "#5f5f5f",
-                background: "white",
+                background: "#ffffff",
             },
+        },
+        disabled: {
+            background: "grey",
+            color: "#ffffff"
         },
         gradient: function(level){
             return `rgba(0, 0, 0, ${level})`
@@ -31,6 +38,7 @@ const themes = {
     },
     dark: {
         primary: "#0b529a",
+        secondary: "#478ab1",
         background: "#181818",
         surface: "#212121",
         onSurface: "#313131",
@@ -38,7 +46,7 @@ const themes = {
         textActive: "white",
         error: "red",
         boxShadow: "0 0px 6px rgb(0 0 0 / 19%), 0 3px 2px rgb(0 0 0 / 23%)",
-        appBackground: "linear-gradient(to bottom right,#070c10 30%,#020d19 100%)",
+        homeBackground: "linear-gradient(to bottom right,#070c10 30%,#020d19 100%)",
         form: {
             unfocused: {
                 color:  "#5f5f5f",
@@ -68,6 +76,7 @@ const initialState = {
 }
 
 const setTheme = (state, action) => {
+    localStorage.setItem("theme", action.theme)
     return updatedObject(state, {
         type: action.theme,
         ...themes[action.theme]

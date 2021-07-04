@@ -1,5 +1,8 @@
 {
-    
+    "budget_text": {
+        "fr": "Un budget est une estimation des recettes et des dépenses sur une période de temps donnée.",
+        "en": "A budget is an estimation of revenue and expenses over a specified future period of time"
+    },
     "wallet_text": {
         "fr": "Un actif représente le bien que vous utilisez pour effectuer un paiement ou pour recevoir vos revenus",
         "en": "An asset represents the property you use to make a payment or to receive your income"

@@ -13,6 +13,7 @@ const Input = props => {
         >
             <Field 
                 name={input.name}
+                type={input.type}
                 placeholder={input.required ? `${input.placeholder} \u002A` : input.placeholder}  
                 disabled={input.disabled}
                 style={{...input.fieldStyle}}
