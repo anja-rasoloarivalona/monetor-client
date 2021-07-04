@@ -7,10 +7,10 @@ import * as actions from '../../store/actions'
 
 const Container = styled(ScrollBar)`
     position: fixed;
-    top: 8rem;
+    top: 6.5rem;
     left:0;
     width: 23rem;
-    height: calc(100vh - 8rem);
+    height: calc(100vh - 6.5rem);
     background: ${props => props.theme.surface};
     color: ${props => props.theme.textActive};
 `
