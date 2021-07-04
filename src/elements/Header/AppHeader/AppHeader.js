@@ -4,7 +4,7 @@ import {  useSelector } from 'react-redux'
 import UserProfile from "./UserProfile"
 
 const Container = styled.div`
-    height: 8rem;
+    height: 6.5rem;
     width: 100vw;
     padding: 0 3rem;
     display: flex;

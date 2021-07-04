@@ -15,7 +15,7 @@ import Sidebar from "../elements/Sidebar/Sidebar"
 
 const Container = styled.div`
     min-height: 100vh;
-    padding-top: 8rem;
+    padding-top: 6.5rem;
 
     ${props => {
         if(props.isSidebarDisplayed){

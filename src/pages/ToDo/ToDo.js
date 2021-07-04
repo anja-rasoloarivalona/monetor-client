@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
-import { useDrag, useDrop } from "react-dnd";
+import List from './List'
+
 
 const Container = styled.div`
     width: 100%;
@@ -20,64 +21,13 @@ const HeaderTitle = styled.div``
 const Content = styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between;
-`
 
-const ListContainer = styled.div`
-    width: 30rem;
-    height: 50vh;
-    background: white;
-    display: flex;
-    justify-content: center;
-`
-
-const CardContainer = styled.div`
-    width: 20rem;
-    height: 20rem;
-    background: red;
+    > div {
+        margin-right: 2rem;
+    }
 `
 
 
-const Card = () => {
-
-    const [{ isDragging }, dragRef] = useDrag({
-        type: "card",
-        collect: (monitor) => ({
-          isDragging: monitor.isDragging(),
-        }),
-      });
-
-    return (
-        <CardContainer 
-            ref={dragRef}
-            style={{
-                backgroundColor: isDragging ? "#fbb" : "palegoldenrod",
-            }}
-        />
-    )
-}
-
-const List = props => {
-
-    const { moveCard, card  } = props
-
-    const [{ isOver }, dropRef] = useDrop({
-        accept: "card",
-        drop: () => moveCard(),
-        collect: (monitor) => ({
-          isOver: !!monitor.isOver(),
-        }),
-      });
-
-    return (
-        <ListContainer 
-            ref={dropRef}
-            style={{ backgroundColor: isOver ? "#bbf" : "rgba(0,0,0,.12" }}
-        >
-            {card ? <Card /> : "Empty"}
-        </ListContainer>
-    )
-}
 
 const ToDo = () => {
 
@@ -85,12 +35,97 @@ const ToDo = () => {
         text: { text }
     } = useSelector(state => state)
 
-    const [index, setIndex] = useState(1);
 
-    const moveCard = (i) => {
-        setIndex(i);
-      }
+    const initialList = [
+        {
+            id: "To Do",
+            title: "To Do"
+        },
+        {
+            id: "Doing",
+            title: "Doing"
+        },
+        {
+            id: "Done",
+            title: "Done"
+        },
+    ]
+
+    const initialToDos = [
+        {
+            id: "123(D)AWOD",
+            title: "Groceries",
+            message: "Yo",
+            parentId: "To Do",
+            index: 0,
+            color: "blue"
+        },
+        {
+            id: "456DQWLK",
+            title: "LOl",
+            message: "Comone",
+            parentId: "To Do",
+            index: 1,
+            color: "red"
+        },
+        {
+            id: "456DQWLKA",
+            title: "KOC",
+            message: "Comone",
+            parentId: "To Do",
+            index: 2,
+            color: "purple"
+        },
+    ]
+
+
+
+    const [listData, setListData] = useState(initialList)
+    const [toDos, setToDos] = useState(initialToDos)
+
+
+    const updateToDosIndex = data => {
+        const updatedTodos = []
+        const splitedToDo = {}
+        data.forEach(i => {
+            updatedTodos.push(i)
+            if(splitedToDo[i.parentId]){
+                splitedToDo[i.parentId].push(i)
+            } else {
+                splitedToDo[i.parentId] = [i]
+            }
+        })
+        Object.keys(splitedToDo).forEach(key => {
+            splitedToDo[key].forEach((i, newIndex) => {
+                const foundIndex = updatedTodos.findIndex(a => a.id === i.id)
+                updatedTodos[foundIndex].index = newIndex
+            })
+        })
+        return updatedTodos
+    }
+
+
+    const moveCardBetweenList = (movedToDo, list) => {
+        const updatedTodos = []
+        toDos.forEach(toDo => {
+            const updatedToDo = {
+                ...toDo,
+                parentId: movedToDo.id === toDo.id ? list.id : toDo.parentId
+            }
+            updatedTodos.push(updatedToDo)
+        })
+        const formatted = updateToDosIndex(updatedTodos)
+        setToDos(formatted)
+    }
     
+    useEffect(() => {
+        console.log({
+            toDos
+        })
+    },[toDos])
+
+
+    // return <Test />
 
     return (
         <Container>
@@ -99,11 +134,27 @@ const ToDo = () => {
                     {text.to_do_title}
                 </HeaderTitle>
             </Header>
+
+            
              <Content>
-                <List moveCard={moveCard.bind(null, 1)} card={index === 1}>
-                </List>
-                <List moveCard={moveCard.bind(null, 2)} card={index === 2}>
-                </List>
+                {listData.map(list =>  {
+                    const listToDos = []
+                    toDos.forEach( toDo => {
+                        if(toDo && toDo.parentId === list.id){
+                            listToDos.push(toDo)
+                        }
+                    })
+                    return (
+                        <List
+                            key={list.id}
+                            moveCardBetweenList={(toDo) => moveCardBetweenList(toDo, list )}
+                            listToDos={listToDos}
+                            toDos={toDos}
+                            setToDos={setToDos}
+                            updateToDosIndex={updateToDosIndex}
+                        />
+                    )
+                })}
             </Content>
         </Container>
      )
