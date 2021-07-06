@@ -36,96 +36,128 @@ const ToDo = () => {
     } = useSelector(state => state)
 
 
-    const initialList = [
-        {
-            id: "To Do",
-            title: "To Do"
+    const initial = {
+        "todo": {
+            title: "To do",
+            id: "todo",
+            todos: [
+                {
+                    id: "123(D)AWOD",
+                    title: "Groceries",
+                    todoListId: "todo",
+                    index: 0,
+                },
+                {
+                    id: "456DQWLK",
+                    title: "LOl",
+                    todoListId: "todo",
+                    index: 1,
+                },
+            ]
         },
-        {
-            id: "Doing",
-            title: "Doing"
+        "doing": {
+            title: "Doing",
+            id: "doing",
+            todos: [
+                {
+                    id: "456DQWLKA",
+                    title: "KOC",
+                    todoListId: "doing",
+                    index: 0
+                }
+            ]
         },
-        {
-            id: "Done",
-            title: "Done"
-        },
-    ]
-
-    const initialToDos = [
-        {
-            id: "123(D)AWOD",
-            title: "Groceries",
-            message: "Yo",
-            parentId: "To Do",
-            index: 0,
-            color: "blue"
-        },
-        {
-            id: "456DQWLK",
-            title: "LOl",
-            message: "Comone",
-            parentId: "To Do",
-            index: 1,
-            color: "red"
-        },
-        {
-            id: "456DQWLKA",
-            title: "KOC",
-            message: "Comone",
-            parentId: "To Do",
-            index: 2,
-            color: "purple"
-        },
-    ]
-
-
-
-    const [listData, setListData] = useState(initialList)
-    const [toDos, setToDos] = useState(initialToDos)
-
-
-    const updateToDosIndex = data => {
-        const updatedTodos = []
-        const splitedToDo = {}
-        data.forEach(i => {
-            updatedTodos.push(i)
-            if(splitedToDo[i.parentId]){
-                splitedToDo[i.parentId].push(i)
-            } else {
-                splitedToDo[i.parentId] = [i]
-            }
-        })
-        Object.keys(splitedToDo).forEach(key => {
-            splitedToDo[key].forEach((i, newIndex) => {
-                const foundIndex = updatedTodos.findIndex(a => a.id === i.id)
-                updatedTodos[foundIndex].index = newIndex
-            })
-        })
-        return updatedTodos
+        "done": {
+            tilte: "Done",
+            id: "done",
+            todos: []
+        }
     }
 
 
-    const moveCardBetweenList = (movedToDo, list) => {
-        const updatedTodos = []
-        toDos.forEach(toDo => {
-            const updatedToDo = {
-                ...toDo,
-                parentId: movedToDo.id === toDo.id ? list.id : toDo.parentId
+    const [todoLists, setTodoLists] = useState(initial)
+
+    const moveHandler = data => {
+        const { movedItem, hoveredItem, toList } = data
+
+        if(toList){
+            console.log({
+                movedItem,
+                hoveredItem,
+                toList 
+            })
+        } else {
+            if(movedItem && hoveredItem){
+
+                const isMovingInSameList = movedItem.todoListId === hoveredItem.todoListId
+
+                if(isMovingInSameList){
+                    const updatedList = todoLists[movedItem.todoListId]
+                    const updatedContent = updatedList.todos
+                    const aux = updatedContent[hoveredItem.index]
+                    updatedContent[hoveredItem.index] = updatedContent[movedItem.index]
+                    updatedContent[movedItem.index] = aux
+                    updatedContent.forEach( (t, index) => {
+                        updatedContent[index].index = index
+                    })
+                    setTodoLists(prev => {
+                        return {
+                            ...prev,
+                            [updatedList.id]: {
+                                ...prev[updatedList.id],
+                                todos: updatedContent
+                            }
+                        }
+                    })
+                } else {
+                    console.log("MOVING OUTSIDE", {
+                        movedItem,
+                        hoveredItem
+                    })
+                }
+
+           
             }
-            updatedTodos.push(updatedToDo)
-        })
-        const formatted = updateToDosIndex(updatedTodos)
-        setToDos(formatted)
+  
+        }
+    }
+
+ 
+    const updateToDosIndex = data => {
+        // const updatedTodos = []
+        // const splitedToDo = {}
+        // data.forEach(i => {
+        //     updatedTodos.push(i)
+        //     if(splitedToDo[i.parentId]){
+        //         splitedToDo[i.parentId].push(i)
+        //     } else {
+        //         splitedToDo[i.parentId] = [i]
+        //     }
+        // })
+        // Object.keys(splitedToDo).forEach(key => {
+        //     splitedToDo[key].forEach((i, newIndex) => {
+        //         const foundIndex = updatedTodos.findIndex(a => a.id === i.id)
+        //         updatedTodos[foundIndex].index = newIndex
+        //     })
+        // })
+        // return updatedTodos
+    }
+
+
+    const moveCardBetweenList = data => {
+        // const updatedTodos = []
+        // toDos.forEach(toDo => {
+        //     const updatedToDo = {
+        //         ...toDo,
+        //         parentId: movedToDo.id === toDo.id ? list.id : toDo.parentId
+        //     }
+        //     updatedTodos.push(updatedToDo)
+        // })
+        // const formatted = updateToDosIndex(updatedTodos)
+        // setToDos(formatted)
     }
     
-    useEffect(() => {
-        console.log({
-            toDos
-        })
-    },[toDos])
 
-
-    // return <Test />
 
     return (
         <Container>
@@ -137,21 +169,12 @@ const ToDo = () => {
 
             
              <Content>
-                {listData.map(list =>  {
-                    const listToDos = []
-                    toDos.forEach( toDo => {
-                        if(toDo && toDo.parentId === list.id){
-                            listToDos.push(toDo)
-                        }
-                    })
+                {Object.keys(todoLists).map(listId => {
                     return (
-                        <List
-                            key={list.id}
-                            moveCardBetweenList={(toDo) => moveCardBetweenList(toDo, list )}
-                            listToDos={listToDos}
-                            toDos={toDos}
-                            setToDos={setToDos}
-                            updateToDosIndex={updateToDosIndex}
+                        <List 
+                            key={listId}
+                            list={todoLists[listId]}
+                            moveHandler={moveHandler}
                         />
                     )
                 })}

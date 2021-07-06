@@ -5,8 +5,9 @@ import signup from './signup.json'
 import login from './login.json'
 import home from './home.json'
 import setup from './setup.json'
+import todo from './to-do.json'
 
-const lexique = { login, signup, home, setup}
+const lexique = { login, signup, home, setup, todo}
 
 const getText = (locale, page) => {
 
