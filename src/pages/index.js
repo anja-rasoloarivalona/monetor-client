@@ -7,7 +7,7 @@ import Login from "./Login/Login"
 import Signup from "./Signup/Signup"
 import Setup from "./Setup/Setup"
 import Dashboard from './Dashboard/Dashboard'
-import ToDo from './ToDo/ToDo'
+import Todo from './Todo/Todo'
 import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import links from '../text/links.json'
@@ -78,11 +78,15 @@ const Routes = props => {
     },[currency, user])
 
     const isSidebarDisplayed = () => {
-        const routesWithSidebar = [`${text.link_dashboard}`, `${text["link_to-do"]}`]
+        const routesWithSidebar = [`${text.link_dashboard}`, `${text.link_todo}`]
         const currentPathName = location.pathname.split("/")[1]
         return routesWithSidebar.includes(currentPathName)
     }
 
+
+    console.log({
+        link: text.link_todo
+    })
 
     return (
         <Container isSidebarDisplayed={isSidebarDisplayed()}>
@@ -96,7 +100,7 @@ const Routes = props => {
                 <Route path={`/${text.link_signup}`} component={Signup} />
                 <Route path={`/${text.link_setup}`} component={Setup} />
                 <Route path={`/${text.link_dashboard}`} component={Dashboard} />
-                <Route path={`/${text["link_to-do"]}`} component={ToDo} />
+                <Route path={`/${text.link_todo}`} component={Todo} />
                 {/* <Redirect to="/"/>  */}
             </Switch>
         </Container>

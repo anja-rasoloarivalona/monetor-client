@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const Card = props => {
 
-    const { toDo, index, moveCardInsideList } = props
+    const {todo, moveHandler } = props
 
 
     const ref = useRef(null);
@@ -34,7 +34,7 @@ const Card = props => {
                 return;
             }
             const dragIndex = item.index;
-            const hoverIndex = index;
+            const hoverIndex = todo.index;
             // Don't replace items with themselves
             if (dragIndex === hoverIndex) {
                 return;
@@ -59,7 +59,11 @@ const Card = props => {
                 return;
             }
             // Time to actually perform the action
-            moveCardInsideList(dragIndex, hoverIndex);
+            moveHandler({
+                movedItem: item,
+                hoveredItem: todo
+            })
+            // moveHandler(dragIndex, hoverIndex);
             // Note: we're mutating the monitor item here!
             // Generally it's better to avoid mutations,
             // but it's good here for the sake of performance
@@ -70,7 +74,7 @@ const Card = props => {
 
     const [{ isDragging }, dragRef, preview ] = useDrag({
         type: "card",
-        item: toDo,
+        item: todo,
         collect: (monitor) => ({
           isDragging: monitor.isDragging()
         }),
@@ -92,7 +96,7 @@ const Card = props => {
                 // backgroundColor: isDragging ? "blue" : "red",
             }}
         >
-            { toDo.title}
+            {todo.title}
         </Container>
     )
 };

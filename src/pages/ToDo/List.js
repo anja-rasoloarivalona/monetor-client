@@ -19,51 +19,46 @@ const Container = styled.div`
 
 const List = props => {
 
-    const { moveCardBetweenList, toDos, listToDos,  setToDos } = props
 
+
+    const { list, moveHandler } = props
 
 
     const [{ isOver }, dropRef] = useDrop({
         accept: "card",
-        drop: (toDo) => moveCardBetweenList(toDo),
+        drop: (movedItem) => moveHandler({
+            movedItem,
+            toList: list
+        }),
         collect: (monitor) => ({
           isOver: !!monitor.isOver(),
         }),
       });
 
 
-      const moveCardInsideList = useCallback((dragIndex, hoverIndex) => {
-        if(dragIndex !== undefined && hoverIndex !== undefined){
-            const updatedTodos = [...toDos]
-            const aux = toDos[hoverIndex]
-            updatedTodos[hoverIndex] = toDos[dragIndex]
-            updatedTodos[dragIndex] = aux
-            updatedTodos.forEach( (t, index) => {
-                updatedTodos[index].index = index
-            })
-            setToDos(updatedTodos)
-        }
-        // const dragToDo = toDos[dragIndex];
-
-        // setToDos(update(toDos, {
-        //     $splice: [
-        //         [dragIndex, 1],
-        //         [hoverIndex, 0, dragToDo],
-        //     ],
-        // }));
-    }, [toDos]);
+    //   const moveCardInsideList = useCallback((dragIndex, hoverIndex) => {
+    //     if(dragIndex !== undefined && hoverIndex !== undefined){
+    //         const updatedTodos = [...toDos]
+    //         const aux = toDos[hoverIndex]
+    //         updatedTodos[hoverIndex] = toDos[dragIndex]
+    //         updatedTodos[dragIndex] = aux
+    //         updatedTodos.forEach( (t, index) => {
+    //             updatedTodos[index].index = index
+    //         })
+    //         setToDos(updatedTodos)
+    //     }
+    // }, [toDos]);
 
     return (
         <Container 
             ref={dropRef}
             style={{ backgroundColor: isOver ? "#bbf" : "rgba(0,0,0,.12" }}
         >
-            {listToDos.map((toDo, index) => (
+            {list.todos.map((todo, index) => (
                 <Card 
-                    toDo={toDo}
-                    key={toDo.id}
-                    moveCardInsideList={moveCardInsideList}
-                    index={index}
+                    todo={todo}
+                    key={todo.id}
+                    moveHandler={moveHandler}
                 />
             ))}
         </Container>

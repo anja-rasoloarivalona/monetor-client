@@ -35,10 +35,10 @@
         "page": "signup",
         "type": "public"
     },
-    "link_to-do": {
+    "link_todo": {
         "fr": "à-faire",
-        "en": "to-do",
-        "page": "to-do",
+        "en": "todo",
+        "page": "todo",
         "type": "app"
     },
     "link_transactions": {

@@ -16,9 +16,9 @@ const initApp = () => {
             try {
                 const res = await axios.post("/verify-token", { token })
                 if(res.status === 200){
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
                     dispatch(setCurrency(JSON.parse(res.data.data.settings.currency)))
                     dispatch(setUser(res.data.data))
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
                 }
             } catch(err){
                 console.log({

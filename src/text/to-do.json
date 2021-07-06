@@ -1,0 +1,19 @@
+{
+    "doing": {
+        "fr": "En cours",
+        "en": "Doing"
+    },
+    "done": {
+        "fr": "Terminés",
+        "en": "Done"
+    },
+    "title": {
+        "fr": "Les tâches à accomplir",
+        "en": "Things to get done"
+    },
+    "to_do": {
+        "fr": "À faire",
+        "en": "To-do"
+    }
+
+}
