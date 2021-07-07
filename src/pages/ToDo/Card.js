@@ -35,9 +35,6 @@ const Card = props => {
             if (!ref.current) {
                 return;
             }
-
-
-
             const dragIndex = item.index;
             const hoverIndex = todo.index;
             const isSameItem = item.id === todo.id
@@ -66,7 +63,6 @@ const Card = props => {
                 return;
             }
 
-
             // Time to actually perform the action
             moveHandler({
                 movedItem: item,
@@ -83,10 +79,13 @@ const Card = props => {
 
     const [{ isDragging }, dragRef, preview ] = useDrag({
         type: "card",
-        item: todo,
+        item: () => {
+            return todo
+        },
         collect: (monitor) => ({
           isDragging: monitor.isDragging()
         }),
+        end: () => setDraggedCard(null),
     });
 
     useEffect(() => {
@@ -96,21 +95,8 @@ const Card = props => {
     useEffect(() => {
         if(isDragging){
             setDraggedCard(todo)
-        } else {
-            setDraggedCard(null)
         }
     },[isDragging])
-
-
-    useEffect(() => {
-        // if(draggedCard && draggedCard.id === todo.id){
-        //     console.log({
-        //         draggedCard,
-        //         todo
-        //     })
-        // }
-    },[draggedCard])
-
 
 
     dragRef(drop(ref))
@@ -119,7 +105,7 @@ const Card = props => {
         <Container
             ref={ref}
             data-handler-id={handlerId}
-            isDragging={isDragging}
+            isDragging={isDragging || (draggedCard && draggedCard.id === todo.id)}
         >
             {todo.title}
         </Container>
