@@ -36,6 +36,24 @@ const ToDo = () => {
     } = useSelector(state => state)
 
 
+    const insertInToArray = (arr, index, newItem) => [
+        // part of the array before the specified index
+        ...arr.slice(0, index),
+        // inserted item
+        newItem,
+        // part of the array after the specified index
+        ...arr.slice(index)
+    ]
+
+    const updateIndexes = arr => {
+        const data = [...arr]
+        data.forEach((i, index) => {
+            data[index].index = index
+        })
+        return data
+    }
+
+
     const initial = {
         "todo": {
             title: "To do",
@@ -68,7 +86,7 @@ const ToDo = () => {
             ]
         },
         "done": {
-            tilte: "Done",
+            title: "Done",
             id: "done",
             todos: []
         }
@@ -76,44 +94,62 @@ const ToDo = () => {
 
 
     const [todoLists, setTodoLists] = useState(initial)
+    const [draggedCard, setDraggedCard] = useState(null)
+
+
+
 
     const moveHandler = data => {
-        const { movedItem, hoveredItem, toList } = data
+        const { movedItem, hoveredItem, toListId } = data
 
-        if(toList){
-            console.log({
-                movedItem,
-                hoveredItem,
-                toList 
-            })
+        if(toListId){
+            console.log("ABOUT TO MOVE TO LIST")
+
+            if(!hoveredItem){
+                console.log("NO HOVEREDITEM")
+                const movedItemIsAlreadyInsideList = todoLists[toListId].todos.findIndex(t => t.id === movedItem.id) > -1
+                if(!movedItemIsAlreadyInsideList){
+                    const updatedList = moveCardBetweenList(movedItem, null, toListId)
+                    setTodoLists(updatedList)
+                }
+            } else {
+                console.log("GOT HOVERED ITEM")
+            }
         } else {
             if(movedItem && hoveredItem){
 
                 const isMovingInSameList = movedItem.todoListId === hoveredItem.todoListId
 
                 if(isMovingInSameList){
+
+                    console.log("ABOUT TO MOVE IN SAME LIST")
+
                     const updatedList = todoLists[movedItem.todoListId]
                     const updatedContent = updatedList.todos
                     const aux = updatedContent[hoveredItem.index]
                     updatedContent[hoveredItem.index] = updatedContent[movedItem.index]
                     updatedContent[movedItem.index] = aux
-                    updatedContent.forEach( (t, index) => {
-                        updatedContent[index].index = index
-                    })
+
                     setTodoLists(prev => {
                         return {
                             ...prev,
                             [updatedList.id]: {
                                 ...prev[updatedList.id],
-                                todos: updatedContent
+                                todos: updateIndexes(updatedContent) 
                             }
                         }
                     })
                 } else {
-                    console.log("MOVING OUTSIDE", {
-                        movedItem,
-                        hoveredItem
-                    })
+
+                    console.log("ABOUT TO MOVE OUTSIDE")
+                    const movedItemIsAlreadyInsideList = todoLists[hoveredItem.todoListId].todos.findIndex(i => i.id === movedItem.id) > -1
+                    
+                    if(!movedItemIsAlreadyInsideList){
+                        const updatedList = moveCardBetweenList(movedItem, hoveredItem)
+                        setTodoLists(updatedList)
+                    }
+
+          
                 }
 
            
@@ -122,41 +158,38 @@ const ToDo = () => {
         }
     }
 
- 
-    const updateToDosIndex = data => {
-        // const updatedTodos = []
-        // const splitedToDo = {}
-        // data.forEach(i => {
-        //     updatedTodos.push(i)
-        //     if(splitedToDo[i.parentId]){
-        //         splitedToDo[i.parentId].push(i)
-        //     } else {
-        //         splitedToDo[i.parentId] = [i]
-        //     }
-        // })
-        // Object.keys(splitedToDo).forEach(key => {
-        //     splitedToDo[key].forEach((i, newIndex) => {
-        //         const foundIndex = updatedTodos.findIndex(a => a.id === i.id)
-        //         updatedTodos[foundIndex].index = newIndex
-        //     })
-        // })
-        // return updatedTodos
+
+    const moveCardBetweenList = (movedItem, hoveredItem, toListId) => {
+
+        const updatedList = {...todoLists}
+
+        if(movedItem){
+            const movedItemListId = movedItem.todoListId
+            updatedList[movedItemListId] = {
+                ...updatedList[movedItemListId],
+                todos: updatedList[movedItemListId].todos.filter(i => i.id !== movedItem.id)
+            }
+        }
+
+        if(!toListId && hoveredItem){
+            const hoveredItemListId = hoveredItem.todoListId
+            updatedList[hoveredItemListId] = {
+                ...updatedList[hoveredItemListId],
+                todos: insertInToArray(updatedList[hoveredItemListId].todos, hoveredItem.index, {
+                    ...movedItem,
+                    todoListId: hoveredItem.todoListId
+                })
+            }
+        } else {
+            updatedList[toListId].todos.push({
+                ...movedItem,
+                todoListId: toListId
+            })
+        }
+
+        return updatedList
     }
 
-
-    const moveCardBetweenList = data => {
-        // const updatedTodos = []
-        // toDos.forEach(toDo => {
-        //     const updatedToDo = {
-        //         ...toDo,
-        //         parentId: movedToDo.id === toDo.id ? list.id : toDo.parentId
-        //     }
-        //     updatedTodos.push(updatedToDo)
-        // })
-        // const formatted = updateToDosIndex(updatedTodos)
-        // setToDos(formatted)
-    }
-    
 
 
     return (
@@ -175,6 +208,9 @@ const ToDo = () => {
                             key={listId}
                             list={todoLists[listId]}
                             moveHandler={moveHandler}
+                            setDraggedCard={setDraggedCard}
+                            draggedCard={draggedCard}
+                            todoLists={todoLists}
                         />
                     )
                 })}

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import {  useDrop } from "react-dnd";
 import Card from './Card'
@@ -16,51 +16,60 @@ const Container = styled.div`
     position: relative;
 `
 
+const Header = styled.div`
+    font-size: 2rem;
+`
+
+const Placeholder = styled.div`
+    min-height: 4rem;
+    width: 100%;
+    background: transparent;
+    height: ${props => props.height ? `${props.height}px` : "unset"};
+`
 
 const List = props => {
 
+    const {todoLists, list, moveHandler, setDraggedCard, draggedCard } = props
 
-
-    const { list, moveHandler } = props
-
-
-    const [{ isOver }, dropRef] = useDrop({
+    const [{ isOver, movedItem }, dropRef] = useDrop({
         accept: "card",
-        drop: (movedItem) => moveHandler({
-            movedItem,
-            toList: list
-        }),
+        drop: (movedItem) => {
+            moveHandler({
+                movedItem,
+                toListId: list.id
+            })
+            setDraggedCard(null)
+        },
         collect: (monitor) => ({
-          isOver: !!monitor.isOver(),
-        }),
-      });
+          isOver: monitor.isOver(),
+        })
+    });
 
 
-    //   const moveCardInsideList = useCallback((dragIndex, hoverIndex) => {
-    //     if(dragIndex !== undefined && hoverIndex !== undefined){
-    //         const updatedTodos = [...toDos]
-    //         const aux = toDos[hoverIndex]
-    //         updatedTodos[hoverIndex] = toDos[dragIndex]
-    //         updatedTodos[dragIndex] = aux
-    //         updatedTodos.forEach( (t, index) => {
-    //             updatedTodos[index].index = index
-    //         })
-    //         setToDos(updatedTodos)
-    //     }
-    // }, [toDos]);
 
     return (
         <Container 
             ref={dropRef}
             style={{ backgroundColor: isOver ? "#bbf" : "rgba(0,0,0,.12" }}
         >
-            {list.todos.map((todo, index) => (
-                <Card 
-                    todo={todo}
-                    key={todo.id}
-                    moveHandler={moveHandler}
-                />
-            ))}
+            <Header>
+                {list.title}
+            </Header>
+            {list.todos.map(todo => {
+                if(draggedCard && draggedCard.id === todo.id){
+                    return <Placeholder />
+                } else {
+                    return (
+                        <Card 
+                            todo={todo}
+                            key={todo.id}
+                            moveHandler={moveHandler}
+                            setDraggedCard={setDraggedCard}
+                            draggedCard={draggedCard}
+                        />
+                    )
+                }
+            })}
         </Container>
     )
 };

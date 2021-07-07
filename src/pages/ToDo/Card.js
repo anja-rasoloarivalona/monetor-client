@@ -15,9 +15,11 @@ const Container = styled.div`
     opacity: ${props => props.isDragging ? 0 : 1}
 `
 
+
+
 const Card = props => {
 
-    const {todo, moveHandler } = props
+    const {todo, moveHandler,setDraggedCard,  draggedCard } = props
 
 
     const ref = useRef(null);
@@ -33,10 +35,14 @@ const Card = props => {
             if (!ref.current) {
                 return;
             }
+
+
+
             const dragIndex = item.index;
             const hoverIndex = todo.index;
+            const isSameItem = item.id === todo.id
             // Don't replace items with themselves
-            if (dragIndex === hoverIndex) {
+            if (isSameItem) {
                 return;
             }
             // Determine rectangle on screen
@@ -50,6 +56,7 @@ const Card = props => {
             // Only perform the move when the mouse has crossed half of the items height
             // When dragging downwards, only move when the cursor is below 50%
             // When dragging upwards, only move when the cursor is above 50%
+                 
             // Dragging downwards
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
@@ -58,6 +65,8 @@ const Card = props => {
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
                 return;
             }
+
+
             // Time to actually perform the action
             moveHandler({
                 movedItem: item,
@@ -84,6 +93,26 @@ const Card = props => {
         preview(getEmptyImage(), { captureDraggingState: true })
       }, [])
 
+    useEffect(() => {
+        if(isDragging){
+            setDraggedCard(todo)
+        } else {
+            setDraggedCard(null)
+        }
+    },[isDragging])
+
+
+    useEffect(() => {
+        // if(draggedCard && draggedCard.id === todo.id){
+        //     console.log({
+        //         draggedCard,
+        //         todo
+        //     })
+        // }
+    },[draggedCard])
+
+
+
     dragRef(drop(ref))
 
     return (
@@ -91,10 +120,6 @@ const Card = props => {
             ref={ref}
             data-handler-id={handlerId}
             isDragging={isDragging}
-            role={"DraggableCard"}
-            style={{
-                // backgroundColor: isDragging ? "blue" : "red",
-            }}
         >
             {todo.title}
         </Container>
