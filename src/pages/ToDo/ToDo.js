@@ -97,72 +97,71 @@ const ToDo = () => {
     const [draggedCard, setDraggedCard] = useState(null)
 
 
-
-
     const moveHandler = data => {
+
         const { movedItem, hoveredItem, toListId } = data
 
         if(toListId){
-            console.log("ABOUT TO MOVE TO LIST")
-
+            // console.log("ABOUT TO MOVE TO LIST")
             if(!hoveredItem){
-                console.log("NO HOVEREDITEM")
-                const movedItemIsAlreadyInsideList = todoLists[toListId].todos.findIndex(t => t.id === movedItem.id) > -1
+                // console.log("NO HOVEREDITEM")
+                const movedItemIsAlreadyInsideList = todoLists[toListId].todos.findIndex(t => t.id === draggedCard.id) > -1
                 if(!movedItemIsAlreadyInsideList){
-                    const updatedList = moveCardBetweenList(movedItem, null, toListId)
+                    const updatedList = moveCardBetweenList(draggedCard, null, toListId)
                     setTodoLists(updatedList)
+                    setDraggedCard(prev => ({
+                        ...prev,
+                        todoListId: toListId
+                    }))
                 }
-            } else {
-                console.log("GOT HOVERED ITEM")
             }
         } else {
-            if(movedItem && hoveredItem){
-
-                const isMovingInSameList = movedItem.todoListId === hoveredItem.todoListId
-
+            if(draggedCard && hoveredItem){
+                const isMovingInSameList = draggedCard.todoListId === hoveredItem.todoListId
                 if(isMovingInSameList){
-
-                    console.log("ABOUT TO MOVE IN SAME LIST")
-
-                    const updatedList = todoLists[movedItem.todoListId]
+                    const updatedList = todoLists[draggedCard.todoListId]
                     const updatedContent = updatedList.todos
                     const aux = updatedContent[hoveredItem.index]
-                    updatedContent[hoveredItem.index] = updatedContent[movedItem.index]
-                    updatedContent[movedItem.index] = aux
-
-                    setTodoLists(prev => {
-                        return {
-                            ...prev,
-                            [updatedList.id]: {
-                                ...prev[updatedList.id],
-                                todos: updateIndexes(updatedContent) 
-                            }
+                    updatedContent[hoveredItem.index] = updatedContent[draggedCard.index]
+                    updatedContent[draggedCard.index] = aux
+                    const res = {
+                        ...todoLists,
+                        [updatedList.id]: {
+                            ...todoLists[updatedList.id],
+                            todos: updateIndexes(updatedContent) 
                         }
-                    })
-                } else {
-
-                    console.log("ABOUT TO MOVE OUTSIDE")
-                    const movedItemIsAlreadyInsideList = todoLists[hoveredItem.todoListId].todos.findIndex(i => i.id === movedItem.id) > -1
-                    
-                    if(!movedItemIsAlreadyInsideList){
-                        const updatedList = moveCardBetweenList(movedItem, hoveredItem)
-                        setTodoLists(updatedList)
                     }
-
-          
+                    // console.log("ABOUT TO MOVE IN SAME LIST", {
+                    //     draggedCard,
+                    //     hoveredItem,
+                    //     todoLists,
+                    //     updatedList: res
+                    // })
+                    setTodoLists(res)
+                } else {
+                    const movedItemIsAlreadyInsideList = todoLists[hoveredItem.todoListId].todos.findIndex(i => i.id === draggedCard.id) > -1
+                    if(!movedItemIsAlreadyInsideList){
+                        const updatedList = moveCardBetweenList(draggedCard, hoveredItem)
+                        // console.log("ABOUT TO MOVE OUTSIDE", {
+                        //     draggedCard,
+                        //     hoveredItem,
+                        //     todoLists,
+                        //     updatedList
+                        // })
+                        setTodoLists(updatedList)
+                        setDraggedCard(prev => ({
+                            ...prev,
+                            todoListId: hoveredItem.todoListId
+                        }))
+                    }
                 }
-
-           
             }
-  
         }
     }
 
 
     const moveCardBetweenList = (movedItem, hoveredItem, toListId) => {
-
         const updatedList = {...todoLists}
-
         if(movedItem){
             const movedItemListId = movedItem.todoListId
             updatedList[movedItemListId] = {
@@ -170,7 +169,6 @@ const ToDo = () => {
                 todos: updatedList[movedItemListId].todos.filter(i => i.id !== movedItem.id)
             }
         }
-
         if(!toListId && hoveredItem){
             const hoveredItemListId = hoveredItem.todoListId
             updatedList[hoveredItemListId] = {
@@ -186,7 +184,6 @@ const ToDo = () => {
                 todoListId: toListId
             })
         }
-
         return updatedList
     }
 

@@ -29,9 +29,9 @@ const Placeholder = styled.div`
 
 const List = props => {
 
-    const {todoLists, list, moveHandler, setDraggedCard, draggedCard } = props
+    const {list, moveHandler, setDraggedCard, draggedCard } = props
 
-    const [{ isOver, movedItem }, dropRef] = useDrop({
+    const [{ isOver }, dropRef] = useDrop({
         accept: "card",
         drop: (movedItem) => {
             moveHandler({
@@ -55,21 +55,15 @@ const List = props => {
             <Header>
                 {list.title}
             </Header>
-            {list.todos.map(todo => {
-                if(draggedCard && draggedCard.id === todo.id){
-                    return <Placeholder />
-                } else {
-                    return (
-                        <Card 
-                            todo={todo}
-                            key={todo.id}
-                            moveHandler={moveHandler}
-                            setDraggedCard={setDraggedCard}
-                            draggedCard={draggedCard}
-                        />
-                    )
-                }
-            })}
+            {list.todos.map(todo => (
+                <Card 
+                    todo={todo}
+                    key={todo.id}
+                    moveHandler={moveHandler}
+                    setDraggedCard={setDraggedCard}
+                    draggedCard={draggedCard}
+                />
+            ))}
         </Container>
     )
 };
