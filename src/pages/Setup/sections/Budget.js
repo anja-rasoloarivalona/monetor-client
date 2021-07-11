@@ -261,7 +261,7 @@ const Budget = props => {
                         />
                     </FormContainer>
             </Content>
-            {budgets && renderBudgetList()}
+            {budgets && budgets.length > 0 && renderBudgetList()}
         </Container>
      )
 };

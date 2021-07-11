@@ -59,7 +59,7 @@ const List = styled.div`
     right: 3rem;
     width: 35rem;
     height: max-content;
-    background: ${props => props.theme.type === "dark" ? props.theme.surface : props.theme.white};
+    background: ${props => props.theme.type === "dark" ? props.theme.background : props.theme.white};
     z-index: 9;
     box-shadow: ${props => props.theme.boxShadow};
     border-radius: 1rem;

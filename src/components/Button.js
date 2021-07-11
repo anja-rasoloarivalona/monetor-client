@@ -59,6 +59,21 @@ const Button = styled.button`
             }
         }
     }}
+
+    ${props => {
+        if(props.small){
+            return {
+                padding: ".5rem 1.2rem",
+                borderRadius: ".3rem"
+            }
+        }
+        if(props.medium){
+            return {
+                padding: "1rem 2rem",
+                borderRadius: ".3rem"
+            }
+        }
+    }}
 `;
 
 export {

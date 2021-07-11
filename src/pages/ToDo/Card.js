@@ -6,20 +6,27 @@ import { getEmptyImage } from "react-dnd-html5-backend";
 const Container = styled.div`
     height: 100%;
     width: 100%;
-    min-height: 4rem;
     display: flex;
     align-items: center;
-    justify-content: center;
     margin-bottom: 1rem;
     background: white;
-    opacity: ${props => props.isDragging ? 0 : 1}
+    opacity: ${props => props.isDragging ? 0 : 1};
+    padding:  1rem;
+    box-shadow: ${props => props.theme.boxShadowLight};
+    border-radius: .3rem;
+    cursor: pointer;
 `
 
+const Title = styled.div`
+    font-size: 1.4rem;
+    flex: 1;
+    line-height: 1.4;
 
+`
 
 const Card = props => {
 
-    const {todo, moveHandler,setDraggedCard,  draggedCard } = props
+    const {todo, moveHandler,setDraggedCard,  draggedCard, setIsEdited } = props
 
 
     const ref = useRef(null);
@@ -106,8 +113,11 @@ const Card = props => {
             ref={ref}
             data-handler-id={handlerId}
             isDragging={isDragging || (draggedCard && draggedCard.id === todo.id)}
+            onClick={() => setIsEdited(todo)}
         >
-            {todo.title}
+            <Title>
+                {todo.title}
+            </Title>
         </Container>
     )
 };

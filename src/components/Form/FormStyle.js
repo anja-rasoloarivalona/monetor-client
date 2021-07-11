@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 import { Field as FormikField } from 'formik'
+import ReactDatePicker from 'react-datepicker'
 
 const inputStyle = {
     height: "4.5rem",
@@ -122,11 +123,74 @@ const Unit = styled.div`
     height: min-content;
 `
 
+const DateContainer = styled(Container)`
+    margin-bottom: 3rem;
+
+    .react-datepicker__triangle {
+        display: none;
+    }
+
+    .react-datepicker-popper {
+        transform: translate(0px, 45px);
+        width: 100%;
+        z-index: 20;
+
+        & > div:first-child {
+            display: flex;
+            justify-content: flex-end
+        }
+    }
+
+    .react-datepicker-wrapper {
+        width: 100%;
+    }
+
+    .react-datepicker {
+        width: 100%;
+        max-width: 25rem;
+
+    }
+
+    .react-datepicker__month-container {
+        width: 100%;
+        max-width: 25rem;
+    }
+
+    .react-datepicker__day-names {
+        margin-top: 1rem;
+    }
+
+    .react-datepicker__day-name {
+        width: 2.5rem;
+        padding: .5rem 0;
+    }
+
+    .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+        width: 2.5rem;
+        padding: .5rem 0;
+
+    }
+`
+
+const DateInput = styled(ReactDatePicker)`
+    width: 100%;
+    height: 4.5rem;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+    padding-left: 1.2rem;
+    font-family: Roboto;
+    font-size: 1.6rem;
+`
+
+
 export {
     Container,
     Label, 
     Input,
     Field,
     Error,
-    Unit
+    Unit,
+    DateContainer,
+    DateInput
 }

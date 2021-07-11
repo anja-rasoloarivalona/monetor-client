@@ -1,5 +1,7 @@
 import * as actionTypes from '../actions/actionTypes'
 import { updatedObject } from '../utils'
+import axios from 'axios'
+import { arrayToObject } from '../../functions'
 
 const initialState = {
     id: null,
@@ -7,6 +9,7 @@ const initialState = {
     budgets: null,
     wallets: null,
     transactions: null,
+    todoLists: null,
     checkedToken: false
 }
 
@@ -14,11 +17,15 @@ const clearUser = () => {
     return initialState
 }
 
+
 const setUser = (state, action) => {
-    localStorage.setItem("token", action.user.token)
+    const token = action.user.token
+    localStorage.setItem("token", token)
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
     return updatedObject(state, {
         ...action.user,
-        checkedToken: true
+        checkedToken: true,
+        todoLists: arrayToObject(action.user.todoLists, "id"),
     })
 }
 
@@ -41,7 +48,6 @@ const addBudget = (state, action) => {
 }
 
 
-
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SET_USER: return setUser(state, action)
@@ -49,6 +55,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_CHECKED_USER_TOKEN: return checkedToken(state, action)
         case actionTypes.ADD_WALLET: return addWallet(state, action)
         case actionTypes.ADD_BUDGET: return addBudget(state, action)
+        case actionTypes.SET_TODO_LISTS: return updatedObject(state, {todoLists: action.todoLists})
         default: return state
     }
 }

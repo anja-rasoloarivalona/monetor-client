@@ -32,21 +32,17 @@ const Routes = props => {
     const location = useLocation()
 
     const {
-        text: { text, page },
+        text: { text, page, type: pageType },
         settings: { currency, locale },
         user
     } = useSelector(state => state)
 
 
-    // useEffect(() => {
-    //     console.log({
-    //         currency,
-    //         user
-    //     })
-    //     if(currency && user.wallets){
-    //         props.history.push(text.link_dashboard)
-    //     }
-    // },[])
+    useEffect(() => {
+       if(pageType === "app" && !user.id){
+           props.history.push(`/${text.link_login}`)
+       }
+    },[text, user, location])
 
     useEffect(() => {
         if(page){
@@ -70,12 +66,20 @@ const Routes = props => {
 
     useEffect(() => {
         if(user){
-            const isNotCOnfigured = user.id &&  (!user.wallets || !user.wallets[0].id)
-            if(isNotCOnfigured && location.pathname !== `/${text.link_setup}`){
+            const userHasWallet = user.wallets && user.wallets.length > 0 && user.wallets[0].id
+            if(!userHasWallet && location.pathname !== `/${text.link_setup}`){
                 props.history.push(`/${text.link_setup}`)
             }
+            if(userHasWallet && currency){
+                const forbiddenPages = [text.link_login, text.link_signup, text.link_setup]
+                const currentPathname = location.pathname.split("/")[1]
+                if(forbiddenPages.includes(currentPathname)){
+                    props.history.push(`/${text.link_dashboard}`)
+                }
+
+            }
         }
-    },[currency, user])
+    },[currency, user, location])
 
     const isSidebarDisplayed = () => {
         const routesWithSidebar = [`${text.link_dashboard}`, `${text.link_todo}`]
@@ -84,9 +88,6 @@ const Routes = props => {
     }
 
 
-    console.log({
-        link: text.link_todo
-    })
 
     return (
         <Container isSidebarDisplayed={isSidebarDisplayed()}>

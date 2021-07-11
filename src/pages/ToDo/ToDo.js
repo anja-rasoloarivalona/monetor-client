@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import List from './List'
-
+import AddList from './AddList'
+import EditForm from "./EditForm/EditForm"
+import * as actions from '../../store/actions'
+import { insertInToArray } from '../../functions'
+import { Loader } from '../../components'
 
 const Container = styled.div`
     width: 100%;
@@ -27,23 +31,15 @@ const Content = styled.div`
     }
 `
 
-
-
 const ToDo = () => {
 
+    const dispatch = useDispatch()
+
     const { 
-        text: { text }
+        text: { text },
+        user: { todoLists: initial }
     } = useSelector(state => state)
 
-
-    const insertInToArray = (arr, index, newItem) => [
-        // part of the array before the specified index
-        ...arr.slice(0, index),
-        // inserted item
-        newItem,
-        // part of the array after the specified index
-        ...arr.slice(index)
-    ]
 
     const updateIndexes = arr => {
         const data = [...arr]
@@ -53,48 +49,37 @@ const ToDo = () => {
         return data
     }
 
+    const [ mounted, setMounted ] = useState(false)
+    const [ isInitialized, setIsInitialized ] = useState(false)
+    const [ todoLists, setTodoLists ] = useState(null)
+    const [ draggedCard, setDraggedCard ] = useState(null)
+    const [ hasUnsavedChanges, setHasUnsavedChanges ] = useState(false)
+    const [ edited, setIsEdited ] = useState(null)
 
-    const initial = {
-        "todo": {
-            title: "To do",
-            id: "todo",
-            todos: [
-                {
-                    id: "123(D)AWOD",
-                    title: "Groceries",
-                    todoListId: "todo",
-                    index: 0,
-                },
-                {
-                    id: "456DQWLK",
-                    title: "LOl",
-                    todoListId: "todo",
-                    index: 1,
-                },
-            ]
-        },
-        "doing": {
-            title: "Doing",
-            id: "doing",
-            todos: [
-                {
-                    id: "456DQWLKA",
-                    title: "KOC",
-                    todoListId: "doing",
-                    index: 0
-                }
-            ]
-        },
-        "done": {
-            title: "Done",
-            id: "done",
-            todos: []
+
+    useEffect(() => {
+        setMounted(true)
+    },[])
+
+    useEffect(() => {
+        if(initial && !isInitialized){
+            setTodoLists(initial)
+            setIsInitialized(true)
         }
-    }
+    },[initial])
 
-
-    const [todoLists, setTodoLists] = useState(initial)
-    const [draggedCard, setDraggedCard] = useState(null)
+    useEffect(() => {
+        let timeout
+        if(mounted){
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+                if(hasUnsavedChanges){
+                    console.log("I M READy")
+                }
+            }, 1000)
+        }
+        // dispatch(actions.setTodoLists(todoLists))
+    },[todoLists])
 
 
     const moveHandler = data => {
@@ -159,7 +144,6 @@ const ToDo = () => {
         }
     }
 
-
     const moveCardBetweenList = (movedItem, hoveredItem, toListId) => {
         const updatedList = {...todoLists}
         if(movedItem){
@@ -188,30 +172,49 @@ const ToDo = () => {
     }
 
 
-
     return (
         <Container>
-            <Header>
-                <HeaderTitle>
-                    {text.to_do_title}
-                </HeaderTitle>
-            </Header>
 
-            
-             <Content>
-                {Object.keys(todoLists).map(listId => {
-                    return (
-                        <List 
-                            key={listId}
-                            list={todoLists[listId]}
-                            moveHandler={moveHandler}
-                            setDraggedCard={setDraggedCard}
-                            draggedCard={draggedCard}
+            {!isInitialized ?
+                <Loader /> :
+                <>
+                    <Header>
+                        <HeaderTitle>
+                            {text.to_do_title}
+                        </HeaderTitle>
+                    </Header>
+
+                    
+                     <Content>
+                        {Object.keys(todoLists).map(listId => {
+                            return (
+                                <List 
+                                    key={listId}
+                                    list={todoLists[listId]}
+                                    moveHandler={moveHandler}
+                                    setDraggedCard={setDraggedCard}
+                                    draggedCard={draggedCard}
+                                    todoLists={todoLists}
+                                    setTodoLists={setTodoLists}
+                                    setIsEdited={setIsEdited}
+                                />
+                            )
+                        })}
+                        <AddList
+                            setTodoLists={setTodoLists}
                             todoLists={todoLists}
                         />
-                    )
-                })}
-            </Content>
+                    </Content>
+
+                    {edited && (
+                        <EditForm 
+                            edited={edited}
+                            todoLists={todoLists}
+                        />
+                    )}
+                </>
+            }
+
         </Container>
      )
 };

@@ -144,7 +144,7 @@ const Wallet = props => {
                         />
                     </FormContainer>
             </Content>
-            {wallets && (
+            {wallets && wallets.length > 0 && (
                 <WalletList>
                     {wallets.map((wallet) => (
                         <WalletComponent wallet={wallet}/>

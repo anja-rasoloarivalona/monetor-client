@@ -1,4 +1,24 @@
 {
+    "add_card": {
+        "fr": "Ajouter une carte",
+        "en": "Add a card"
+    },
+    "add_a_list": {
+        "fr": "Ajouter une liste",
+        "en": "Add a list"
+    },
+    "add_list": {
+        "fr": "Ajouter",
+        "en": "Add list"
+    },
+    "add_to_card": {
+        "fr": "Ajouter à la carte",
+        "en": "Add to card"
+    },
+    "check_list": {
+        "fr": "Liste de contrôle",
+        "en": "Check list"
+    },
     "doing": {
         "fr": "En cours",
         "en": "Doing"
@@ -6,6 +26,10 @@
     "done": {
         "fr": "Terminés",
         "en": "Done"
+    },
+    "due_date": {
+        "fr": "Date d'échéance",
+        "en": "Due date"
     },
     "title": {
         "fr": "Les tâches à accomplir",
