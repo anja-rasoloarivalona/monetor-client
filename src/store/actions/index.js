@@ -16,7 +16,9 @@ export {
     clearUser,
     setCheckedUserToken,
     addWallet,
-    addBudget
+    addBudget,
+    updateTodoLits,
+    setTodoLists
 } from './user'
 
 export {

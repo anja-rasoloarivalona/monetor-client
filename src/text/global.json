@@ -7,6 +7,10 @@
         "fr": "Montant",
         "en": "Amount"
     },
+    "attachments": {
+        "fr": "Fichiers",
+        "en": "Attachments"
+    },
     "balance": {
         "fr": "Balance",
         "en": "Balance"
@@ -22,6 +26,10 @@
     "category": {
         "fr": "Catégorie",
         "en": "Category"
+    },
+    "close_formatting_help": {
+        "fr": "Fermer mise en forme",
+        "en": "Close formatting"
     },
     "credit_card": {
         "fr": "Carte de crédit",
@@ -55,6 +63,10 @@
         "fr": "Carte de débit",
         "en": "Debit card"
     },
+    "description": {
+        "fr": "Description",
+        "en": "Description"
+    },
     "email": {
         "fr": "Email",
         "en": "Email"
@@ -83,9 +95,17 @@
         "fr": "Amis",
         "en": "Friends"
     },
+    "formatting_help": {
+        "fr": "Mise en forme",
+        "en": "Formatting help"
+    },
     "groups": {
         "fr": "Groupes",
         "en": "Groups"
+    },
+    "in_list": {
+        "fr": "Dans la liste",
+        "en": "In list"
     },
     "income": {
         "fr": "Revenu",
@@ -94,6 +114,10 @@
     "incomes": {
         "fr": "Revenus",
         "en": "Incomes"
+    },
+    "labels": {
+        "fr": "Étiquettes",
+        "en": "Labels"
     },
     "language": {
         "fr": "Langue",
@@ -162,6 +186,10 @@
     "per_year": {
         "fr": "Par an",
         "en": "Per year"
+    },
+    "save": {
+        "fr": "Enregistrer",
+        "en": "Save"
     },
     "settings": {
         "fr": "Paramètres",

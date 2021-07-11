@@ -137,7 +137,7 @@ const Sidebar = () => {
             id: "toDo",
             label: text.to_do,
             icon: "user",
-            path: `/${text["link_to-do"]}`
+            path: `/${text.link_todo}`
         },
         {
             id: "settings",

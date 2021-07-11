@@ -11,7 +11,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: flex-end;
     background: ${props => props.theme.surface};
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    box-shadow: ${props => props.theme.boxShadowLight};
 
 `
 

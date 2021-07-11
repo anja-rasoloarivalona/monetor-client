@@ -12,6 +12,7 @@ const themes = {
         textActive: "black",
         error: "red",
         boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
+        boxShadowLight: "0 1px 0 rgb(9 30 66 / 25%)",
         homeBackground: "#ffffff",
         white: "#ffffff",
         grey: "grey",

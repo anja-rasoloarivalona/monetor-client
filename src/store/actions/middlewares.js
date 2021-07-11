@@ -16,15 +16,39 @@ const initApp = () => {
             try {
                 const res = await axios.post("/verify-token", { token })
                 if(res.status === 200){
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-                    dispatch(setCurrency(JSON.parse(res.data.data.settings.currency)))
-                    dispatch(setUser(res.data.data))
+                    if(res.data.data.settings){
+                        dispatch(setCurrency(JSON.parse(res.data.data.settings.currency)))
+                    } else {
+                        dispatch({
+                            type: actionTypes.SET_CHECKED_USER_TOKEN,
+                            value: true
+                        })
+                    }
+                    delete res.data.data.settings
+                    const updatedTodos = []
+                    if(res.data.data.todoLists){
+                        res.data.data.todoLists.forEach(list => {
+                            updatedTodos.push({
+                                ...list,
+                                todos: list.todos ? list.todos.sort((a, b) => a.index - b.index) : []
+                            })
+                        })
+                    }
+                    dispatch(setUser({
+                        ...res.data.data,
+                        todoLists: updatedTodos
+                    }))
                 }
             } catch(err){
                 console.log({
                     err
                 })
             }
+        } else {
+            dispatch({
+                type: actionTypes.SET_CHECKED_USER_TOKEN,
+                value: true
+            })
         }
     }
 }

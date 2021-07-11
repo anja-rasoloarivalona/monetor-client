@@ -8,9 +8,14 @@ import { Loader } from './components'
 import * as actions from './store/actions'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import en from 'date-fns/locale/en-US'
+import fr from 'date-fns/locale/fr-CA'
+import { registerLocale } from 'react-datepicker'
 import axios from 'axios'
 library.add(fas)
 axios.defaults.baseURL  = process.env.REACT_APP_API_URL
+registerLocale('en', en)
+registerLocale('fr', fr)
 
 const GlobalStyle = createGlobalStyle`
     body {

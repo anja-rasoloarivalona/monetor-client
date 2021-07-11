@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes'
+import axios from 'axios'
 
 const setUser = user => {
     return {
@@ -34,10 +35,54 @@ const addBudget = budget => {
     }
 }
 
+const setTodoLists = todoLists => {
+    return {
+        type: actionTypes.SET_TODO_LISTS,
+        todoLists
+    }
+}
+
+
+const updateTodoLits = data => {
+    return async function(dispatch, getState){
+        try {
+
+            const {
+                user: { todoLists }
+            } = getState()
+
+            const { action, item } = data
+            const methods = {
+                "add": "post",
+                "delete": "delete",
+                "update": "put"
+            }
+
+            const res = await axios({
+                method: methods[action],
+                url: "/todo",
+                data: item
+            })
+
+            console.log({
+                res
+            })
+        } catch(err){
+            console.log({
+                err
+            })
+        }
+    }
+    
+}
+
+
 export {
     addBudget,
     addWallet,
     setUser,
     clearUser,
-    setCheckedUserToken
+    setCheckedUserToken,
+    setTodoLists,
+    updateTodoLits
 }

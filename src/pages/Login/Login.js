@@ -1,8 +1,10 @@
 import React, {useState, useEffect } from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Form, Link } from '../../components'
 import { useLocation } from 'react-router-dom'
+import axios from 'axios'
+import * as actions from '../../store/actions'
 
 const Container = styled.div`
     width: 100%;
@@ -32,6 +34,7 @@ const ForgotPassword = styled.div`
 
 const Login = () => {
 
+    const dispatch = useDispatch()
     const location = useLocation()
 
     const { 
@@ -85,8 +88,25 @@ const Login = () => {
     },[forgotPassword])
 
 
-    const loginHanlder = () => {
-
+    const loginHanlder = async data => {
+        try {
+            const res = await axios.post('/login', {
+                email: data.email,
+                password: data.password
+            })
+            const user = res.data.data.user
+            const resData = {
+                token: res.data.data.token,
+                ...user,
+            }
+            delete resData.settings
+            dispatch(actions.setUser(resData))
+            dispatch(actions.setCurrency(user.settings))
+        } catch(err){
+            console.log({
+                err
+            })
+        }
     }
 
     return (
