@@ -5,6 +5,12 @@
         "page": "dashboard",
         "type": "app"
     },
+    "link_finance": {
+        "fr": "finance",
+        "en": "finance",
+        "page": "finance",
+        "type": "app"
+    },
     "link_forgot_password": {
         "fr": "mot-de-passe-oublié",
         "en": "forgot-password",

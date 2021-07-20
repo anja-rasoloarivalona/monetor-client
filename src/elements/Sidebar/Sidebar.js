@@ -73,13 +73,29 @@ const ToggleContainer = styled.div`
     align-items: center;
 `
 
-const SubList = styled.div``
+const SubList = styled.div`
+    display: flex;
+    flex-direction: column;
+`
 
 const SubListItem = styled.div`
     padding: 1rem 2rem;
     padding-left: 7rem;
     font-size: 1.4rem;
+    width: 100%;
     cursor: pointer;
+    :hover {
+        background: ${props => props.theme.onSurface};
+    }
+`
+
+const SubListItemLink = styled(Link)`
+    padding: 1rem 2rem;
+    padding-left: 7rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    width: 100%;
+
     :hover {
         background: ${props => props.theme.onSurface};
     }
@@ -106,7 +122,7 @@ const Sidebar = () => {
                     id: "dashboard",
                     label: text.dashboard,
                     icon: "user",
-                    path: `/${text.link_dashboard}`
+                    path: `/finance/${text.link_dashboard}`
                 },
                 {
                     id: "transactions",
@@ -197,11 +213,22 @@ const Sidebar = () => {
                         }
                         {displayedList.includes(option.id) && (
                             <SubList>
-                                {option.children.map(child => (
-                                    <SubListItem>
-                                        {child.label}
-                                    </SubListItem>
-                                ))}
+                                {option.children.map(child => {
+                                    if(child.path){
+                                        return (
+                                            <SubListItemLink to={child.path}>
+                                                {child.label}
+                                            </SubListItemLink>
+                                        )
+                                    } else {
+                                        return (
+                                            <SubListItem>
+                                                {child.label}
+                                            </SubListItem>
+                                        )
+                                        
+                                    }
+                                })}
                             </SubList>
                         )}
                     

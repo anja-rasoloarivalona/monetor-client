@@ -4,6 +4,8 @@ import settings from './settings'
 import user from './user'
 import categories from './categories'
 import data from './data'
+import form from './form'
+import finance from './finance'
 
 export {
     text,
@@ -11,5 +13,7 @@ export {
     settings,
     user,
     categories,
-    data
+    data,
+    form,
+    finance
 }

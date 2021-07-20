@@ -7,11 +7,6 @@ const setText = page => {
             settings: { locale }
         } = getState()
         const text = getText(locale, page)
-
-        console.log({
-            textPage: text.page
-        })
-
         dispatch({
             type: actionTypes.SET_TEXT,
             text

@@ -6,7 +6,7 @@ import Home from "./Home/Home"
 import Login from "./Login/Login"
 import Signup from "./Signup/Signup"
 import Setup from "./Setup/Setup"
-import Dashboard from './Dashboard/Dashboard'
+import Dashboard from './FinanceDashboard/FinanceDashboard'
 import Todo from './Todo/Todo'
 import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -50,7 +50,10 @@ const Routes = props => {
                 dispatch(actions.setText("home"))
             } else {
                 const translatedPath =  links[`link_${page.id}`][locale]
-                props.history.push(`/${translatedPath}`)
+                if(page.locale !== translatedPath){
+                    props.history.push(`/${translatedPath}`)
+
+                }
             }
         }
     },[locale])
@@ -59,6 +62,13 @@ const Routes = props => {
         const currentPathname = location.pathname.split("/")[1] || "home"
         const pathHasChanged = page && page.locale !== currentPathname
         if(pathHasChanged){
+
+            console.log({
+                pathHasChanged,
+                currentPathname,
+                page
+            })
+
             dispatch(actions.setText(currentPathname))
         }
     },[location])
@@ -82,7 +92,7 @@ const Routes = props => {
     },[currency, user, location])
 
     const isSidebarDisplayed = () => {
-        const routesWithSidebar = [`${text.link_dashboard}`, `${text.link_todo}`]
+        const routesWithSidebar = [`${text.link_dashboard}`, `${text.link_todo}`, `finance`]
         const currentPathName = location.pathname.split("/")[1]
         return routesWithSidebar.includes(currentPathName)
     }
@@ -100,7 +110,7 @@ const Routes = props => {
                 <Route path={`/${text.link_forgot_password}`} component={Login}/>
                 <Route path={`/${text.link_signup}`} component={Signup} />
                 <Route path={`/${text.link_setup}`} component={Setup} />
-                <Route path={`/${text.link_dashboard}`} component={Dashboard} />
+                <Route path={`/${text.link_finance}/${text.link_dashboard}`} component={Dashboard} />
                 <Route path={`/${text.link_todo}`} component={Todo} />
                 {/* <Redirect to="/"/>  */}
             </Switch>
