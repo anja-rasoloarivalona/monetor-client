@@ -6,11 +6,11 @@ import login from './login.json'
 import home from './home.json'
 import setup from './setup.json'
 import todo from './to-do.json'
+import finance from './finance.json'
 
-const lexique = { login, signup, home, setup, todo}
+const lexique = { login, signup, home, setup, todo, finance}
 
 const getText = (locale, page) => {
-
     const text = {
         header: {},
         text: {},
