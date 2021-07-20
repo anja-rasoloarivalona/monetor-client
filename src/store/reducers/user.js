@@ -14,7 +14,12 @@ const initialState = {
 }
 
 const clearUser = () => {
-    return initialState
+    localStorage.removeItem("token")
+    axios.defaults.headers.common['Authorization'] = 'Bearer ';
+    return {
+        ...initialState,
+        checkedToken: true
+    }
 }
 
 

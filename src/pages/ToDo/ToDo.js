@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
@@ -7,6 +8,8 @@ import EditForm from "./EditForm/EditForm"
 import * as actions from '../../store/actions'
 import { insertInToArray } from '../../functions'
 import { Loader } from '../../components'
+import axios from 'axios'
+import Preview from './CardPreview'
 
 const Container = styled.div`
     width: 100%;
@@ -52,10 +55,15 @@ const ToDo = () => {
     const [ mounted, setMounted ] = useState(false)
     const [ isInitialized, setIsInitialized ] = useState(false)
     const [ todoLists, setTodoLists ] = useState(null)
+    const [ lastSavedTodoLists, setLastSavedTodoLists] = useState(null)
     const [ draggedCard, setDraggedCard ] = useState(null)
     const [ hasUnsavedChanges, setHasUnsavedChanges ] = useState(false)
-    const [ edited, setIsEdited ] = useState(null)
+    const [ toBeSaved, setToBeSaved ] = useState(null)
 
+
+    const [ isSaving, setIsSaving ] = useState(false)
+    const [ edited, setIsEdited ] = useState(null)
+    let timeout
 
     useEffect(() => {
         setMounted(true)
@@ -64,23 +72,69 @@ const ToDo = () => {
     useEffect(() => {
         if(initial && !isInitialized){
             setTodoLists(initial)
+            setLastSavedTodoLists(initial)
             setIsInitialized(true)
         }
     },[initial])
 
     useEffect(() => {
-        let timeout
         if(mounted){
+
+            dispatch(actions.setTodoLists(todoLists))
+
             clearTimeout(timeout)
             timeout = setTimeout(() => {
                 if(hasUnsavedChanges){
-                    console.log("I M READy")
+                    const hasChanged = []
+                    Object.keys(todoLists).forEach(todoListId => {
+                        todoLists[todoListId].todos.forEach((todo, index) => {
+                            if(!lastSavedTodoLists[todoListId].todos[index] || lastSavedTodoLists[todoListId].todos[index].id !== todo.Id){
+                                hasChanged.push({
+                                    ...todo,
+                                    type: "todo"
+                                })
+                            }
+                        })
+                    })
+                    if(hasChanged.length > 0){
+                        setToBeSaved(hasChanged)
+                    }
                 }
-            }, 1000)
+            }, 1500)
         }
-        // dispatch(actions.setTodoLists(todoLists))
     },[todoLists])
 
+    useEffect(() => {
+        if(toBeSaved){
+            saveHandler(toBeSaved)
+        }
+    },[toBeSaved])
+
+
+    const saveHandler = async data => {
+        if(!isSaving){
+            setIsSaving(true)
+            try {
+                
+                const res = await axios({
+                    method: "put",
+                    url: "/todo/many",
+                    data
+                })
+                if(res.status === 200){
+                    setIsSaving(false)
+                    setHasUnsavedChanges(false)
+                    setToBeSaved(null)
+                }
+            } catch(err){
+                console.log({
+                    err
+                })
+            }
+        }
+        
+
+    }
 
     const moveHandler = data => {
 
@@ -98,6 +152,7 @@ const ToDo = () => {
                         ...prev,
                         todoListId: toListId
                     }))
+                    setHasUnsavedChanges(true)
                 }
             }
         } else {
@@ -109,6 +164,7 @@ const ToDo = () => {
                     const aux = updatedContent[hoveredItem.index]
                     updatedContent[hoveredItem.index] = updatedContent[draggedCard.index]
                     updatedContent[draggedCard.index] = aux
+                    
                     const res = {
                         ...todoLists,
                         [updatedList.id]: {
@@ -123,6 +179,7 @@ const ToDo = () => {
                     //     updatedList: res
                     // })
                     setTodoLists(res)
+                    setHasUnsavedChanges(true)
                 } else {
                     const movedItemIsAlreadyInsideList = todoLists[hoveredItem.todoListId].todos.findIndex(i => i.id === draggedCard.id) > -1
                     if(!movedItemIsAlreadyInsideList){
@@ -134,6 +191,7 @@ const ToDo = () => {
                         //     updatedList
                         // })
                         setTodoLists(updatedList)
+                        setHasUnsavedChanges(true)
                         setDraggedCard(prev => ({
                             ...prev,
                             todoListId: hoveredItem.todoListId
@@ -145,6 +203,13 @@ const ToDo = () => {
     }
 
     const moveCardBetweenList = (movedItem, hoveredItem, toListId) => {
+
+        // console.log("MOVING CARD BETWEEN LIST", {
+        //     movedItem,
+        //     hoveredItem,
+        //     toListId
+        // })
+
         const updatedList = {...todoLists}
         if(movedItem){
             const movedItemListId = movedItem.todoListId
@@ -152,7 +217,11 @@ const ToDo = () => {
                 ...updatedList[movedItemListId],
                 todos: updatedList[movedItemListId].todos.filter(i => i.id !== movedItem.id)
             }
+            updatedList[movedItemListId].todos.forEach((todo, index) => {
+                updatedList[movedItemListId].todos[index].index = index
+            })
         }
+
         if(!toListId && hoveredItem){
             const hoveredItemListId = hoveredItem.todoListId
             updatedList[hoveredItemListId] = {
@@ -168,6 +237,10 @@ const ToDo = () => {
                 todoListId: toListId
             })
         }
+
+
+        // console.log("AFTER MOVING CARD BETWEEN LIST", updatedList)
+
         return updatedList
     }
 
@@ -209,12 +282,14 @@ const ToDo = () => {
                     {edited && (
                         <EditForm 
                             edited={edited}
+                            setIsEdited={setIsEdited}
+                            setTodoLists={setTodoLists}
                             todoLists={todoLists}
                         />
                     )}
                 </>
             }
-
+            <Preview />
         </Container>
      )
 };

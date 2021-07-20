@@ -43,13 +43,19 @@ const initApp = () => {
                 console.log({
                     err
                 })
+                dispatch(logoutUser())
             }
         } else {
-            dispatch({
-                type: actionTypes.SET_CHECKED_USER_TOKEN,
-                value: true
-            })
+            dispatch(logoutUser())
         }
+    }
+}
+
+const logoutUser = () => {
+    return async function(dispatch){
+        dispatch({
+            type: actionTypes.CLEAR_USER,
+        })
     }
 }
 

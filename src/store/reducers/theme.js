@@ -17,6 +17,7 @@ const themes = {
         white: "#ffffff",
         grey: "grey",
         dark: "rgb(20, 20, 20)",
+        green: "green",
         form: {
             unfocused: {
                 color:  "#5f5f5f",

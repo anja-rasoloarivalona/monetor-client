@@ -1,11 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import AddDueDate from "./AddDueDate"
+import AddDueDate from "./DueDateInput"
+import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 const Container = styled.div`
     width: 20rem;
+    position: absolute;
+    top: 9rem;
+    right: 2rem;
 `
 
 const Title = styled.div`
@@ -18,15 +22,18 @@ const List = styled.ul`
 `
 
 const ListItem = styled.li`
+    margin-bottom: 1rem;
+    position: relative;
+`
+
+const ListItemContent = styled.div`
+    width: 100%;
     display: flex;
     align-items: center;
     background: ${props => props.theme.background};
-    font-size: 1.4rem;
     padding: 1rem 2rem;
-    margin-bottom: 1rem;
     cursor: pointer;
     border-radius: .3rem;
-    position: relative;
 
     svg {
         margin-right: 1rem;
@@ -34,24 +41,44 @@ const ListItem = styled.li`
 `
 
 const ListItemLabel = styled.div`
- 
+    font-size: 1.4rem;
 `
 
 
-const AddComponent = () => {
+const AddComponent = props => {
+
+    const { dueDate, setDueDate, setIsAddingCheckList} = props
 
     const {
         text: { text }
     } = useSelector(state => state)
 
-    const [currentAction, setCurrentAction ] = useState("due-date")
+    const [currentAction, setCurrentAction ] = useState(null)
 
     const addActions = [
-        {id: "due-date",  label: text.due_date, icon: "clock", Component: <AddDueDate />},
-        {id: "chech-list", label: text.check_list, icon: "list-ul"},
+        {
+            id: "due-date", 
+            label: text.due_date,
+            icon: faClock,
+            Component: (
+                <AddDueDate 
+                    dueDate={dueDate}
+                    setDueDate={setDueDate}
+                    closeHandler={() => setCurrentAction(null)}
+                />
+            ),
+            action: () => setCurrentAction("due-date")
+        },
+        {
+            id: "chech-list",
+            label: text.check_list,
+            icon: "list-ul",
+            action: () => setIsAddingCheckList(true)
+        },
         {id: "labesl", label: text.labels, icon: "tag"},
         {id: "attachments", label: text.attachments, icon: "paperclip"}
     ]
+
 
     return (
         <Container>
@@ -62,12 +89,16 @@ const AddComponent = () => {
                     const cta = action.Component
 
                     return (
-                        <ListItem key={action.id}>
+                        <ListItem
+                            key={action.id}
+                        >
+                            <ListItemContent onClick={() => action.action()}>
                                 <FontAwesomeIcon icon={action.icon}/>
                                 <ListItemLabel>
                                     {action.label}
                                 </ListItemLabel>
-                                {currentAction === action.id && cta}
+                            </ListItemContent>
+                            {action.Component && currentAction === action.id && cta}
                         </ListItem>
                     )
                 })}    

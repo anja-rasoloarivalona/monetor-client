@@ -65,7 +65,7 @@ const Routes = props => {
     
 
     useEffect(() => {
-        if(user){
+        if(user && user.token){
             const userHasWallet = user.wallets && user.wallets.length > 0 && user.wallets[0].id
             if(!userHasWallet && location.pathname !== `/${text.link_setup}`){
                 props.history.push(`/${text.link_setup}`)

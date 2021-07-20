@@ -1,11 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside } from '../../../hooks'
-import { TextEditor } from '../../../components/Form/WithoutValidation'
-import { Button } from '../../../components'
 import AddComponent from "./AddComponent"
+import Description from './Description'
+import CheckList from './CheckList'
+import DueDate from "./DueDate"
+import Header from './Header'
+import axios from "axios"
+import { usePrevious } from '../../../hooks'
+import * as actions from '../../../store/actions'
+import { isArray } from '../../../functions'
 
 const Container = styled.div`
     position: fixed;
@@ -17,13 +24,14 @@ const Container = styled.div`
     background: rgba(0,0,0, .3);
     display: flex;
     justify-content: center;
+    overflow-y: scroll;
 `
 const CloseButton = styled.div`
     width: 4rem;
     height: 4rem;
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: .5rem;
+    right: .5rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -41,9 +49,9 @@ const CloseButton = styled.div`
 `
 
 
-const Content = styled.div`
+const Modal = styled.div`
     max-height: 90vh;
-    min-height: 30vh;
+    min-height: 37rem;
     height: max-content;
     margin-top: 5vh;
     width: 90%;
@@ -53,196 +61,212 @@ const Content = styled.div`
     border-radius: .5rem;
     position: relative;
     padding: 2rem;
+    padding-right: 25rem;
     display: flex;
     flex-direction: column;
 `
 
-const Header = styled.div`
-    min-height: 3.5rem;
-    width: 90%;
-`
 
-const HeaderTitle = styled.div`
-    width: 100%;
-    min-height: 3.5rem;
-    display: flex;
-    align-items: center;
-    cursor: ${props => props.isEditingTitle ? "initial" : "cursor"};
-    position: relative;
-
-    svg {
-        margin-right: .2rem;
-        font-size: 2.4rem;
-    }
-`
-
-
-const HeaderTitleLabel = styled.div`
-    font-size: 1.6rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 1rem;
-    border: 1px solid transparent;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-`
-
-const HeaderTitleInput = styled.input`
-    height: 3.5rem;
-    width: 100%;
-    font-family: inherit;
-    border: 1px solid ${props => props.theme.form.unfocused.border};
-    background: ${props => props.theme.form.unfocused.background};
-    font-size: 1.6rem;
-    padding: 0 1rem;
-    border-radius: .3rem;
-    font-weight: bold;
-
-    &:focus {
-        outline: none;
-        border: 1px solid ${props => props.theme.form.focused.border};
-    }
-`
-
-const Body = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 20rem;
-    grid-template-rows: max-content;
-    grid-auto-rows: max-content;
-    width: 100%;
-    margin-top: 3rem;
-    column-gap 2rem;
-`
-
-const HeaderListName = styled.div`
-    margin-left: 3.8rem;
-    font-size: 1.4rem;
-    color: ${props => props.theme.grey};
-    margin-top: .5rem;
-`
-
-
-const Description = styled.div`
-`
-
-const DescriptionTitle = styled.div`
-    display: flex;
-    align-items: center;
-    display: flex;
-    align-items: center;
-    font-size: 1.6rem;
-
-    svg {
-        margin-right: 2.2rem;
-        font-size: 1.8rem;
-    }
-`
-
-const DescriptionInputContainer = styled.div`
-    margin-top: 2rem;
-    position: relative;
-    padding-left: 4rem;
-`
-
-const DescriptionCta = styled.div`
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: 9;
-    padding-left: 4rem;
-`
 
 
 const EditForm = props => {
 
-    const { edited, todoLists } = props
+    const modal = useRef()
+    
+    const { edited, setIsEdited, todoLists, setTodoLists } = props
 
+    const [ isAddingCheckList, setIsAddingCheckList ] = useState(false)
     const [ isEditingTitle, setIsEditingTitle ] = useState(false)
+    const [ isEditingDescription, setIsEditingDescription ] = useState(edited.description ? false : true)
+
     const [ title, setTitle ] = useState(edited.title)
-    const [ description, setDescription ] = useState(edited.content)
+    const [ description, setDescription ] = useState(edited.description)
+    const [ dueDate, setDueDate ] = useState(edited.dueDate)
+    const [ checkList, setCheckList ] = useState(edited.checkList || [])
+
 
     const {
         text: { text }
     } = useSelector(state => state)
 
-    const headerRef = useRef()
-    const titleInputRef = useRef()
 
-    useOnClickOutside(titleInputRef, () => {
-        setIsEditingTitle(false)
+    useOnClickOutside(modal, () => {
+        setIsEdited(null)
     })
 
+    // useEffect(() => {
+    //     console.log({
+    //         edited
+    //     })
+    // },[edited])
+
     useEffect(() => {
-        if(isEditingTitle){
-            titleInputRef.current.focus()
+        if(dueDate){
+            const dueDateHasChanged = edited.dueDate && dueDate ? new Date(dueDate).getTime() !== new Date(edited.dueDate).getTime() : dueDate
+            if(dueDateHasChanged){
+                const tobeSaved = {
+                    ...edited, 
+                    dueDate,
+                    type: "todo"
+                }
+                updateHandler(tobeSaved)
+            }
         }
-    },[isEditingTitle])
+    },[dueDate])
+
+    useEffect(() => {
+        const titleHasChanged = edited.title !== title
+        if(titleHasChanged && !isEditingTitle){
+            const tobeSaved = {
+                ...edited, 
+                title
+            }
+            updateHandler(tobeSaved)
+        }
+    },[title, isEditingTitle])
 
 
+    useEffect(() => {
+        const descriptionHasChanged = edited.description !== description
+        if(descriptionHasChanged && !isEditingDescription){
+            const tobeSaved = {
+                ...edited, 
+                description
+            }
+            updateHandler(tobeSaved)
+        }
+
+    },[description, isEditingDescription])
+
+
+    useEffect(() => {
+        if(checkList && checkList.length > 0){
+            let payload = null
+            let isNew = false
+
+            if(edited.checkList && edited.checkList.length > 0){
+                checkList.forEach(item => {
+                    if(!item.id && !payload){
+                        payload = item
+                        isNew = true
+                    } else {
+                        if(item.hasChanged){
+                            console.log({
+                                payload
+                            })
+                            payload = payload ? [...payload, item] :  [ item ]
+                        }
+                    }
+                })
+            } else {
+                payload = checkList[0]
+                isNew = true
+            }
+            if(payload){
+                const tobeSaved = {
+                    ...edited,
+                    checkList: checkList.map(i => ({ ...i, hasChanged: false }))
+                }
+                updateHandler(tobeSaved, payload, isNew)
+            }
+        }   
+    },[checkList])
+
+
+    const updateHandler = (tobeSaved, payload, isNew) => {
+        setTodoLists(prev => {
+            const listId = edited.todoListId
+            const tempIndex = prev[listId].todos.findIndex(i => i.id === edited.id)
+            const updatedLists = {...prev}
+            updatedLists[listId].todos[tempIndex] = tobeSaved
+            return updatedLists
+        })
+        setIsEdited(tobeSaved)
+        saveHandler(payload ? payload : tobeSaved, isNew)
+    }
+
+    const saveHandler = async (tobeSaved, isNew) => {
+        try {
+            const res = await axios({
+                method: isNew ? 'POST' : 'PUT',
+                url: isArray(tobeSaved) ? "/todo/many" :  "/todo",
+                data: tobeSaved
+            })
+            if(isNew){
+                if(tobeSaved.type === "checkList"){
+                    const index = checkList.findIndex(i => i.index === tobeSaved.index)
+                    const updatedCheckList = [...checkList]
+                    updatedCheckList[index] = {...res.data.data}
+                    let updatedTodo = {}
+                    setIsEdited(prev => {
+                        updatedTodo = {
+                            ...prev,
+                            checkList: updatedCheckList
+                        }
+                        return updatedTodo
+                    })
+                    setCheckList(updatedCheckList)
+                    setTodoLists(prev => {
+                        const listId = edited.todoListId
+                        const tempIndex = prev[listId].todos.findIndex(i => i.id === edited.id)
+                        const updatedLists = {...prev}
+                        updatedLists[listId].todos[tempIndex] = updatedTodo
+                        return updatedLists
+                    })
+                }
+            }
+        } catch(err){
+            console.log({
+                err
+            })
+        }
+    }
 
     return (
         <Container>
-            <Content>
-                <CloseButton>
-                    <FontAwesomeIcon 
-                        icon="times"
-                    />
+            <Modal>
+                <CloseButton onClick={() => setIsEdited(null)}>
+                    <FontAwesomeIcon icon="times" />
                 </CloseButton>
-                <Header>
-                    <HeaderTitle
-                        ref={headerRef}
-                        isEditingTitle={isEditingTitle}
-                    >
-                        <FontAwesomeIcon 
-                            icon="pencil-alt"
-                        />
-                        {isEditingTitle ?
-                            <HeaderTitleInput
-                                ref={titleInputRef} 
-                                value={title}
-                                onChange={e => setTitle(e.target.value)}
-                            /> :
-                            <HeaderTitleLabel onClick={() => setIsEditingTitle(true)}>
-                                {edited.title}
-                            </HeaderTitleLabel>
-                        }
-                    </HeaderTitle>
-                    <HeaderListName>
-                        {text.in_list} {todoLists[edited.todoListId].title}
-                    </HeaderListName>
-                </Header>
-                
-                
-                <Body>
-                    <Description>
-                        <DescriptionTitle>
-                            <FontAwesomeIcon 
-                                icon="bars"
-                            />
-                            {text.description}
-                        </DescriptionTitle>
-                        <DescriptionInputContainer>
-                            <TextEditor
-                                currentValue={description} 
-                                input={{
-                                    placeholder: text.description
-                                }}
-                                onChange={setDescription}
-                            />
-                            <DescriptionCta>
-                                <Button medium>
-                                    {text.save}
-                                </Button>
-                            </DescriptionCta>
-                        </DescriptionInputContainer>
-                    </Description>
 
-                    <AddComponent />
-                </Body>
-                
-            </Content>
+                <Header
+                    setIsEdited={setIsEdited} 
+                    edited={edited}
+                    title={title}
+                    setTitle={setTitle}
+                    todoLists={todoLists}
+                    isEditingTitle={isEditingTitle}
+                    setIsEditingTitle={setIsEditingTitle}
+                />
+                {edited.dueDate && (
+                    <DueDate
+                        edited={edited}
+                        setDueDate={setDueDate}
+                        dueDate={dueDate}
+                    />
+                )}
+
+                <Description
+                    isEditingDescription={isEditingDescription}
+                    setIsEditingDescription={setIsEditingDescription} 
+                    description={description}
+                    setDescription={setDescription}
+                />
+                <AddComponent
+                    dueDate={dueDate} 
+                    setDueDate={setDueDate}
+                    setIsAddingCheckList={setIsAddingCheckList}
+                />
+                {((checkList && checkList.length > 0) || isAddingCheckList) && (
+                    <CheckList
+                        edited={edited} 
+                        checkList={checkList}
+                        setCheckList={setCheckList}
+                        isAddingCheckList={isAddingCheckList}
+                        setIsAddingCheckList={setIsAddingCheckList}
+                    />
+                )}
+            </Modal>
         </Container>
      )
 };

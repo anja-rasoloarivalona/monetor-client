@@ -5,6 +5,7 @@ import { AppLoader } from './Loader'
 import { EnhancedForm, formProps } from './Form/WithValidation/Form'
 import { Amount } from './Amount'
 import { ScrollBar } from './Scrollbar'
+import { AppDate } from './Date'
 
 export {
     Link,
@@ -14,5 +15,6 @@ export {
     EnhancedForm as Form,
     formProps,
     Amount,
-    ScrollBar
+    ScrollBar,
+    AppDate
 }

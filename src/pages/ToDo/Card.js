@@ -2,12 +2,15 @@ import React, { useRef, useEffect } from "react"
 import styled from "styled-components"
 import { useDrag, useDrop } from "react-dnd";
 import { getEmptyImage } from "react-dnd-html5-backend";
+import { AppDate } from '../../components'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 const Container = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     margin-bottom: 1rem;
     background: white;
     opacity: ${props => props.isDragging ? 0 : 1};
@@ -21,8 +24,62 @@ const Title = styled.div`
     font-size: 1.4rem;
     flex: 1;
     line-height: 1.4;
+    width: 100%;
+`
+
+const Cta = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: ${props => props.theme.grey};
+`
+
+
+const CtaDueDate = styled.div`
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    border-radius: .3rem;
+    margin-right: .7rem;
+
+    svg {
+        margin-right: .5rem;
+    }
+
+    ${props => {
+        if(props.completed){
+            return {
+                background: props.theme.green,
+                color: "white"
+            }
+        }
+    }}
+`
+
+const CtaDescription = styled.div`
 
 `
+
+const CtaCheckList = styled.div`
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    border-radius: .3rem;
+    margin-right: 1rem;
+
+    svg {
+        margin-right: .5rem;
+    }
+`
+
+
+const CtaCheckListLabel = styled.div`
+
+`
+
+
 
 const Card = props => {
 
@@ -108,8 +165,22 @@ const Card = props => {
 
     dragRef(drop(ref))
 
+    const showCta = todo.dueDate || todo.description || todo.checkList.length > 0
+
+
+    const getCompletedCheckList = () => {
+        let completed = 0
+        todo.checkList.forEach(item => {
+            if(item.completedAt){
+                completed += 1
+            }
+        })
+        return completed
+    }
+
     return (
         <Container
+            id={todo.id}
             ref={ref}
             data-handler-id={handlerId}
             isDragging={isDragging || (draggedCard && draggedCard.id === todo.id)}
@@ -118,6 +189,35 @@ const Card = props => {
             <Title>
                 {todo.title}
             </Title>
+            {showCta && (
+                <Cta>
+                    {todo.dueDate && (
+                        <CtaDueDate completed={todo.completedAt}>
+                            <FontAwesomeIcon icon={faClock} />
+                            <AppDate 
+                                value={todo.dueDate}
+                                format="mm dd"
+                                month="short"
+                            />
+                        </CtaDueDate>
+                    )}
+                    {todo.checkList.length > 0  && (
+                        <CtaCheckList>
+                            <FontAwesomeIcon icon="list" />
+                            <CtaCheckListLabel>
+                                {getCompletedCheckList()}/{todo.checkList.length}
+                            </CtaCheckListLabel>
+                        </CtaCheckList>
+                    )}
+
+                    {todo.description && (
+                        <CtaDescription>
+                            <FontAwesomeIcon icon="align-left"/>
+                        </CtaDescription>
+                    )}
+                </Cta>
+            )}
+
         </Container>
     )
 };
