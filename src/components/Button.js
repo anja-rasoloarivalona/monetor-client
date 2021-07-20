@@ -63,7 +63,7 @@ const Button = styled.button`
     ${props => {
         if(props.small){
             return {
-                padding: ".5rem 1.2rem",
+                padding: "1rem 1.2rem",
                 borderRadius: ".3rem"
             }
         }
@@ -71,6 +71,15 @@ const Button = styled.button`
             return {
                 padding: "1rem 2rem",
                 borderRadius: ".3rem"
+            }
+        }
+    }}
+
+    ${props => {
+        if(props.transparent){
+            return {
+                background: "transparent",
+                color: props.theme.primary
             }
         }
     }}

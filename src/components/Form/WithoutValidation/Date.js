@@ -15,7 +15,10 @@ const Date = props => {
 
     return (
         <Container>
-                <DateInput 
+                <DateInput
+                    {...props.props}
+                    autoFocus
+                    inline
                     dateFormat={format}
                     minDate={input.minDate ? input.minDate : null}
                     maxDate={input.maxDate ? input.maxDate : null}

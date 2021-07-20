@@ -18,7 +18,7 @@ const Container = styled.div`
         border-top-color: ${props => props.toolbarHidden ? props.theme.form.unfocused.border : 'transparent'};
         margin: 0;
         padding: 1rem;
-        padding-left: 1.6rem;
+        padding-left: .6rem;
 
         font-family: Roboto;
         border-bottom-left-radius: 4px;
@@ -88,9 +88,8 @@ const FormatHelperButton = styled.div`
 `
 
 const TextEditor = props => {
-
     
-    const {currentValue,  input, onChange } = props
+    const {currentValue,  input, onChange, onFocus, onBlur } = props
 
     const {
         text: { text },
@@ -101,6 +100,18 @@ const TextEditor = props => {
     const [ initialized, setInitialized ] = useState(false)
     const [ toolbarHidden, setToolbarHidden] = useState(true)
 
+
+    useEffect(() => {
+        if(currentValue && currentValue !== ""){
+            if(!initialized){
+                const initial = EditorState.createWithContent(stateFromHTML(currentValue))
+                setEditor(initial)
+                setInitialized(true) 
+            }
+        }
+    },[currentValue])
+
+
     useEffect(() => {
         if(editor){
             const content = stateToHTML(editor.getCurrentContent())
@@ -108,6 +119,20 @@ const TextEditor = props => {
         }
     },[editor])
 
+
+
+
+    const onFocusHandler = () => {
+        if(onFocus){
+            onFocus()
+        }
+    }
+
+    const onBlurHandler = () => {
+        if(onBlur){
+            onBlur()
+        }
+    }
 
 
     return (
@@ -119,6 +144,8 @@ const TextEditor = props => {
                 onEditorStateChange={val => setEditor(val)}
                 placeholder={input.placeholder}
                 locale={locale}
+                onFocus={onFocusHandler}
+                onBlur={onBlurHandler}
                 toolbar={{
                     options: [
                         'inline',

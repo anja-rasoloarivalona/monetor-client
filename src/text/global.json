@@ -7,6 +7,10 @@
         "fr": "Montant",
         "en": "Amount"
     },
+    "at": {
+        "fr": "à",
+        "en": "at"
+    },
     "attachments": {
         "fr": "Fichiers",
         "en": "Attachments"
@@ -18,7 +22,11 @@
     "budget": {
         "fr": "Budget",
         "en": "Budget"
-    } ,
+    },
+    "cancel": {
+        "fr": "Annuler",
+        "en": "Cancel"
+    },
     "cash": {
         "fr": "Cash",
         "en": "Cash"
@@ -30,6 +38,10 @@
     "close_formatting_help": {
         "fr": "Fermer mise en forme",
         "en": "Close formatting"
+    },
+    "complete": {
+        "fr": "Complété",
+        "en": "Complete"
     },
     "credit_card": {
         "fr": "Carte de crédit",
@@ -63,9 +75,17 @@
         "fr": "Carte de débit",
         "en": "Debit card"
     },
+    "delete": {
+        "fr": "Supprimer",
+        "en": "Delete"
+    },
     "description": {
         "fr": "Description",
         "en": "Description"
+    },
+    "edit": {
+        "fr": "Modifier",
+        "en": "Edit"
     },
     "email": {
         "fr": "Email",
@@ -202,6 +222,10 @@
     "skip": {
         "fr": "Passer",
         "en": "Skip"
+    },
+    "time": {
+        "fr": "Heure",
+        "en": "Time"
     },
     "to_do": {
         "fr": "À faire",

@@ -15,6 +15,10 @@
         "fr": "Ajouter à la carte",
         "en": "Add to card"
     },
+    "change_due_date": {
+        "fr": "Modifier l'échéance",
+        "en": "Change due date"
+    },
     "check_list": {
         "fr": "Liste de contrôle",
         "en": "Check list"
