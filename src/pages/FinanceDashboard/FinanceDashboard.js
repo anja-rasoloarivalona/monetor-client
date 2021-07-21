@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { layout as defaultLayout } from './defaultLayout.json'
 import { useWindowSize } from '../../hooks'
-import * as actions from '../../store/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import GridLayout from 'react-grid-layout'
 import "../../../node_modules/react-grid-layout/css/styles.css"
@@ -106,12 +105,7 @@ const Dashboard = () => {
         }
     },[config, wallets])
 
-    useEffect(() => {
-        console.log({
-            layout,
-            config
-        })
-    },[layout])
+
 
 
     const components = {
