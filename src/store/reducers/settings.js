@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes'
 import { updatedObject } from '../utils'
 
 const initialState = {
-    locale: "en",
+    locale: localStorage.getItem("language") || "en",
     currency: null
 }
 

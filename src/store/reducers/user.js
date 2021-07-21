@@ -10,15 +10,17 @@ const initialState = {
     wallets: null,
     transactions: null,
     todoLists: null,
-    checkedToken: false
+    checkedToken: false,
+    location: null
 }
 
-const clearUser = () => {
+const clearUser = (state) => {
     localStorage.removeItem("token")
     axios.defaults.headers.common['Authorization'] = 'Bearer ';
     return {
         ...initialState,
-        checkedToken: true
+        checkedToken: true,
+        location: state.location
     }
 }
 
@@ -63,7 +65,7 @@ const addTransaction = (state, action) => {
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SET_USER: return setUser(state, action)
-        case actionTypes.CLEAR_USER: return clearUser()
+        case actionTypes.CLEAR_USER: return clearUser(state)
         case actionTypes.SET_CHECKED_USER_TOKEN: return checkedToken(state, action)
         case actionTypes.ADD_WALLET: return addWallet(state, action)
         case actionTypes.ADD_BUDGET: return addBudget(state, action)

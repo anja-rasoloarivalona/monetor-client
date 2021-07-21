@@ -96,6 +96,10 @@ const Routes = props => {
 
 
 
+    console.log({
+        test: text.link_app_home
+    })
+
     return (
         <Container isSidebarDisplayed={isSidebarDisplayed()}>
 
