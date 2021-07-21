@@ -8,7 +8,7 @@ const initialState = {
 
 const setForm = (state, action) => {
     const { data } = action
-    if(!data.opened){
+    if(!data || !data.opened){
         return initialState
     }
     return updatedObject(state, {

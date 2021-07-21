@@ -198,7 +198,7 @@ const Category = props => {
                 showPlaceholder={!currentValue}
             >
                 <Label className="label">
-                    {input.label}
+                    {input.label} {input.required &&  `\u002A`} 
                 </Label>
                 <CurrentValue
                     className="value"

@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import {isFirefox  } from 'react-device-detect'
 
-const ScrollBar = styled.div`
-    overflow-y: ${() => isFirefox ? "auto" : "overlay"};
+
+const Scroll = styled.div`
     ::-webkit-scrollbar {
         width: 16px;
     }
@@ -24,6 +24,15 @@ const ScrollBar = styled.div`
         background-color: transparent;
     }
 `
+
+const ScrollBar = styled(Scroll)`
+    overflow-y: ${() => isFirefox ? "auto" : "overlay"};
+`
+const ScrollHorizontalBar = styled(Scroll)`
+    overflow-x: ${() => isFirefox ? "auto" : "overlay"};
+`
+
 export {
-    ScrollBar
+    ScrollBar,
+    ScrollHorizontalBar
 }

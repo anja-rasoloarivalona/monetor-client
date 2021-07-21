@@ -73,7 +73,13 @@ const updateTodoLits = data => {
             })
         }
     }
-    
+}
+
+const addTransaction = data => {
+    return {
+        type: actionTypes.ADD_TRANSACTION,
+        data
+    }
 }
 
 
@@ -84,5 +90,6 @@ export {
     clearUser,
     setCheckedUserToken,
     setTodoLists,
-    updateTodoLits
+    updateTodoLits,
+    addTransaction
 }

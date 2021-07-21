@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { keyframes, css } from 'styled-components'
 
 export const scrollToTop = () => {
     document.body.scrollTop = 0; // For Safari
@@ -145,4 +146,63 @@ export  const usePrevious = (value) => {
       ref.current = value;
     });
     return ref.current;
-  }
+}
+
+export const useAppearAnimation = (isMounted, delayTime) => {
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    let timeoutId
+    if (isMounted && !shouldRender) {
+      setShouldRender(true);
+    } else if (!isMounted && shouldRender) {
+      timeoutId = setTimeout(() => setShouldRender(false), delayTime);
+    }
+    return () => clearTimeout(timeoutId);
+  }, [isMounted, delayTime, shouldRender]);
+
+
+  const inKeyframes = keyframes`
+    0% {
+      transform: translateY(3rem);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      transform: 0;
+    }
+  `
+  
+  const inAnimation = () => 
+    css`
+      ${inKeyframes} .5s ease-in
+    `
+
+
+
+  const outKeyframes = keyframes`
+    0% {
+      transform: 0;
+    }
+    20% {
+      transform: translateY(2rem);
+    }
+    100% {
+      transform: translateY(3rem);
+      opacity: 0;
+    }
+  `
+  const outAnimation = () => 
+    css`
+      ${outKeyframes} .2s ease-in
+    `
+
+
+  return {
+    shouldRender,
+    inAnimation,
+    outAnimation
+  };
+}

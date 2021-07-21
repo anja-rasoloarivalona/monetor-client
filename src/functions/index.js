@@ -123,7 +123,13 @@ const formatDate = (date, format, language, monthText) => {
     return format;
 }
 
-
+const renderAmount = (amount, locale, currency) => {
+    if(locale === "fr"){
+        return `${parseInt(amount.toFixed(2))}${currency}`
+    } else {
+        return `${currency}${parseInt(amount.toFixed(2))}`
+    }
+}
 
 
 export {
@@ -132,5 +138,6 @@ export {
     generateId,
     insertInToArray,
     formatDate,
-    isArray
+    isArray,
+    renderAmount
 }

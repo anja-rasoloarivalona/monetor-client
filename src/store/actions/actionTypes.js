@@ -9,5 +9,6 @@ export const ADD_WALLET = "ADD_WALLET"
 export const SET_CATEGORIES = "SET_CATEGORIES"
 export const ADD_BUDGET = "ADD_BUDGET"
 export const SET_TODO_LISTS = "SET_TODO_LISTS"
-
 export const SET_FORM = "SET_FORM"
+export const ADD_TRANSACTION = "ADD_TRANSACTION"
+export const SET_FINANCIAL_FILTERS = "SET_FINANCIAL_FILTERS"
