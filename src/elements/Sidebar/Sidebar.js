@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { ScrollBar, Link } from '../../components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useSelector, useDispatch } from 'react-redux'
-import * as actions from '../../store/actions'
+import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 const Container = styled(ScrollBar)`
     position: fixed;
@@ -104,7 +104,7 @@ const SubListItemLink = styled(Link)`
 
 const Sidebar = () => {
 
-    const dispatch = useDispatch()
+    const location = useLocation()
 
     const [ displayedList, setDisplayedList ] = useState([])
 

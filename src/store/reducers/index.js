@@ -6,6 +6,7 @@ import categories from './categories'
 import data from './data'
 import form from './form'
 import finance from './finance'
+import home from './home'
 
 export {
     text,
@@ -15,5 +16,6 @@ export {
     categories,
     data,
     form,
-    finance
+    finance,
+    home
 }

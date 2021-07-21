@@ -18,10 +18,16 @@
         "type": "public"
     },
     "link_home": {
-        "fr": "home",
-        "en": "home",
+        "fr": "",
+        "en": "",
         "page": "home",
         "type": "public"
+    },
+    "link_app_home": {
+        "fr": "accueil",
+        "en": "home",
+        "page": "app_home",
+        "type": "app"
     },
     "link_login": {
         "fr": "se-connecter",

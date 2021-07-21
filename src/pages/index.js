@@ -2,12 +2,13 @@
 import React, { useEffect } from "react"
 import styled from "styled-components"
 import { Route, Switch, Redirect, useLocation, withRouter } from 'react-router-dom'
-import Home from "./Home/Home"
+import PublicHome from "./PublicHome/Home"
 import Login from "./Login/Login"
 import Signup from "./Signup/Signup"
 import Setup from "./Setup/Setup"
 import Dashboard from './FinanceDashboard/FinanceDashboard'
 import Todo from './Todo/Todo'
+import Home from './Home/Home'
 import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import links from '../text/links.json'
@@ -88,7 +89,7 @@ const Routes = props => {
     },[currency, user, location])
 
     const isSidebarDisplayed = () => {
-        const routesWithSidebar = [`${text.link_dashboard}`, `${text.link_todo}`, `finance`]
+        const routesWithSidebar = [`finance`]
         const currentPathName = location.pathname.split("/")[1]
         return routesWithSidebar.includes(currentPathName)
     }
@@ -97,21 +98,19 @@ const Routes = props => {
 
     return (
         <Container isSidebarDisplayed={isSidebarDisplayed()}>
-            {isSidebarDisplayed() && (
-                <>
-                    <Sidebar />
-                    <AddComponent />
-                </>
-            )}
+
             <Forms />
+            {isSidebarDisplayed() &&  <Sidebar />}
+            {user.id && <AddComponent />}
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={PublicHome} />
                 <Route path={`/${text.link_login}`} component={Login}/>
                 <Route path={`/${text.link_forgot_password}`} component={Login}/>
                 <Route path={`/${text.link_signup}`} component={Signup} />
                 <Route path={`/${text.link_setup}`} component={Setup} />
                 <Route path={`/${text.link_finance}/${text.link_dashboard}`} component={Dashboard} />
                 <Route path={`/${text.link_todo}`} component={Todo} />
+                <Route path={`/${text.link_app_home}`} component={Home} />
                 {/* <Redirect to="/"/>  */}
             </Switch>
         </Container>
