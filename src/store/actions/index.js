@@ -33,3 +33,7 @@ export {
 export {
     setFinancialFilters
 } from './finance'
+
+export {
+    setWeather
+} from './home'

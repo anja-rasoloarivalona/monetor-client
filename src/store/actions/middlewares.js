@@ -1,14 +1,16 @@
 import * as actionTypes from './actionTypes'
-import { setTheme, setUser, setCurrency } from './index'
+import { setTheme, setUser, setCurrency, setWeather } from './index'
 import axios from 'axios'
 import { getCategories } from './categories'
-
+import publicIp from 'public-ip'
+const key = process.env.REACT_APP_WEATHER_API_KEY
 
 const initApp = () => {
     return async function(dispatch){
         const token = localStorage.getItem("token")
         const theme = localStorage.getItem("theme")
 
+        dispatch(getUserLocation())
         dispatch(getCategories())
         dispatch(setTheme(theme))
       
@@ -47,6 +49,33 @@ const initApp = () => {
             }
         } else {
             dispatch(logoutUser())
+        }
+    }
+}
+
+const getUserLocation = () => {
+    return async function(dispatch, getState){
+        try {
+
+            const { 
+                settings: { locale }
+            } = getState()
+
+            let currentWeatherData = localStorage.getItem("weather")
+            if(!currentWeatherData){
+                const { data: location } = await axios.get('https://ipapi.co/json/')
+                const res = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${location.city.toLowerCase()}&days=2&lang=${locale}`)
+                currentWeatherData = res.data
+                localStorage.setItem("weather", JSON.stringify(currentWeatherData))
+            }
+            if(typeof currentWeatherData === "string"){
+                currentWeatherData = JSON.parse(currentWeatherData)
+            }
+            dispatch(setWeather(currentWeatherData))
+        } catch(err){
+            console.log({
+                err
+            })
         }
     }
 }

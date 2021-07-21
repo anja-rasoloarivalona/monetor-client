@@ -22,10 +22,12 @@ const initialState = {
             layout: null
         }
     },
+    weather: null
 }
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
+        case actionTypes.SET_WEATHER: return updatedObject(state, {weather: action.data })
         default: return state
     }
 }

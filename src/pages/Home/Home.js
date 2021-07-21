@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import GridLayout from 'react-grid-layout'
 import "../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../node_modules/react-resizable/css/styles.css"
-import Weather from "./items/Weather"
+import Weather from "./items/Weather/Weather"
 
 const Container = styled.div`
     width: 100%;
@@ -45,6 +45,9 @@ const GridItem = styled.div`
 `
 
 const Home = () => {
+
+
+
 
     const { windowWidth } = useWindowSize()
 
@@ -96,6 +99,10 @@ const Home = () => {
             </GridItem>
         )
     }
+
+    console.log({
+        layout
+    })
 
 
     return (

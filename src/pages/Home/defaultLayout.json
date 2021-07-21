@@ -6,8 +6,10 @@
             { "w": 9, "h": 7, "x": 0, "y": 0, "i": "weather", "display": true }
         ],
         "xl": [
+            { "w": 9, "h": 6, "x": 0, "y": 0, "i": "weather", "display": true }
         ],
         "lg": [
+            { "w": 9, "h": 7, "x": 0, "y": 0, "i": "weather", "display": true }
         ],
         "md": [
         ],
