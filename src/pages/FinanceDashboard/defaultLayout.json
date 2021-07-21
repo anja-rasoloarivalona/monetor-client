@@ -4,10 +4,15 @@
             { "w": 14, "h": 7, "x": 0, "y": 0, "i": "overview", "display": true }
         ],
         "xxl": [
-            { "w": 14, "h": 7, "x": 0, "y": 0, "i": "overview", "display": true }
+            { "w": 14, "h": 7, "x": 0, "y": 0, "i": "overview", "display": true },
+            { "w": 9, "h": 7, "x": 0, "y": 7, "i": "expenses", "display": true },
+            { "w": 10, "h": 7, "x": 14, "y": 0, "i": "transactions", "display": true },
+            { "w": 12, "h": 8, "x": 9, "y": 0, "i": "history", "display": true }
         ],
         "xl": [
-            { "w": 14, "h": 7, "x": 0, "y": 0, "i": "overview", "display": true }
+            { "w": 14, "h": 7, "x": 0, "y": 0, "i": "overview", "display": true },
+            { "w": 14, "h": 7, "x": 0, "y": 7, "i": "expenses", "display": true },
+            { "w": 10, "h": 7, "x": 14, "y": 0, "i": "transactions", "display": true }
         ],
         "lg": [
             { "w": 14, "h": 7, "x": 0, "y": 0, "i": "overview", "display": true }

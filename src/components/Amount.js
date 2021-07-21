@@ -8,7 +8,7 @@ const Amount = props => {
 
     const { value } = props
     const {
-        settings : { locale }
+        settings : { locale, currency },
     } = useSelector(state => state)
 
     const addSpaces = value => {
@@ -20,13 +20,13 @@ const Amount = props => {
     if(locale === "fr"){
         return (
             <Container>
-                {addSpaces(value.toFixed(2))} $
+                {addSpaces(value.toFixed(2))}{currency.symbol}
             </Container>
         )
     } else {
         return (
             <Container>
-                $ {addSpaces(value.toFixed(2))} 
+                {currency.symbol}{addSpaces(value.toFixed(2))} 
             </Container>
         )
     }

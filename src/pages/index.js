@@ -12,6 +12,8 @@ import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import links from '../text/links.json'
 import Sidebar from "../elements/Sidebar/Sidebar"
+import AddComponent from "../elements/AddComponent/AddComponent"
+import Forms from '../elements/Forms/Forms'
 
 const Container = styled.div`
     min-height: 100vh;
@@ -56,19 +58,13 @@ const Routes = props => {
                 }
             }
         }
+        dispatch(actions.setFinancialFilters())
     },[locale])
 
     useEffect(() => {
         const currentPathname = location.pathname.split("/")[1] || "home"
         const pathHasChanged = page && page.locale !== currentPathname
         if(pathHasChanged){
-
-            console.log({
-                pathHasChanged,
-                currentPathname,
-                page
-            })
-
             dispatch(actions.setText(currentPathname))
         }
     },[location])
@@ -102,8 +98,12 @@ const Routes = props => {
     return (
         <Container isSidebarDisplayed={isSidebarDisplayed()}>
             {isSidebarDisplayed() && (
-                <Sidebar />
+                <>
+                    <Sidebar />
+                    <AddComponent />
+                </>
             )}
+            <Forms />
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path={`/${text.link_login}`} component={Login}/>

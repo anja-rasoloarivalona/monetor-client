@@ -52,6 +52,13 @@ const addBudget = (state, action) => {
     })
 }
 
+const addTransaction = (state, action) => {
+    const { data } = action
+    return updatedObject(state, {
+        wallets: data.wallets,
+        transactions: data.transactions
+    })
+}
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
@@ -61,6 +68,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ADD_WALLET: return addWallet(state, action)
         case actionTypes.ADD_BUDGET: return addBudget(state, action)
         case actionTypes.SET_TODO_LISTS: return updatedObject(state, {todoLists: action.todoLists})
+        case actionTypes.ADD_TRANSACTION: return addTransaction(state, action)
         default: return state
     }
 }

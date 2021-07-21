@@ -18,9 +18,18 @@ export {
     addWallet,
     addBudget,
     updateTodoLits,
-    setTodoLists
+    setTodoLists,
+    addTransaction
 } from './user'
 
 export {
     initApp
 } from './middlewares'
+
+export { 
+     setForm
+} from './form'
+
+export {
+    setFinancialFilters
+} from './finance'

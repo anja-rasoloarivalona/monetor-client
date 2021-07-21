@@ -4,8 +4,9 @@ import { SubmitButton } from './SubmitButton'
 import { AppLoader } from './Loader'
 import { EnhancedForm, formProps } from './Form/WithValidation/Form'
 import { Amount } from './Amount'
-import { ScrollBar } from './Scrollbar'
+import { ScrollBar, ScrollHorizontalBar } from './Scrollbar'
 import { AppDate } from './Date'
+import {ScrollDrag } from './ScrollOnDrag'
 
 export {
     Link,
@@ -16,5 +17,7 @@ export {
     formProps,
     Amount,
     ScrollBar,
-    AppDate
+    AppDate,
+    ScrollDrag,
+    ScrollHorizontalBar
 }
