@@ -44,7 +44,7 @@ const HeaderIconContainer = styled.div`
             margin: auto;
             width: 3rem;
             height: 3rem;
-            background: ${props => props.theme.textActive};
+            background: ${props => props.theme.textLight};
             border-radius: 50%;
             z-index: -1;
         };
@@ -68,7 +68,7 @@ const Section = styled.div`
 `
 
 const SectionTitle = styled.div`
-    color: ${props => props.theme.textActive};
+    color: ${props => props.theme.textLight};
     font-size: 1.4rem;
     margin-bottom: .5rem;
 `

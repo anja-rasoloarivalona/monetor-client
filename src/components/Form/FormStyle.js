@@ -26,7 +26,7 @@ const Container = styled.div`
         background: ${props => props.theme.form.unfocused.background};
         border: 1px solid ${props => props.theme.form.unfocused.border};
         font-size: 1.6rem;
-        color: ${props => props.theme.textActive};
+        color: ${props => props.theme.textLight};
         font-family: Roboto;
 
         &::-webkit-outer-spin-button,
@@ -52,7 +52,7 @@ const Container = styled.div`
         &:-webkit-autofill:focus, 
         &:-webkit-autofill:active  {
             // -webkit-box-shadow: 0 0 0px 1000px ${props => props.theme.form.unfocused.background} inset !important;
-            // -webkit-text-fill-color: ${props => props.theme.textActive};
+            // -webkit-text-fill-color: ${props => props.theme.textLight};
             // border: none;
             // outline: none;
             // overflow: hidden;

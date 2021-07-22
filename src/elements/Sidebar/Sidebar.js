@@ -22,7 +22,7 @@ const Container = styled(ScrollBar)`
     width: 30rem;
     height: 100vh;
     background: ${props => props.theme.surface};
-    color: ${props => props.theme.textActive};
+    color: ${props => props.theme.textLight};
     z-index: 100;
     transform: translateX(${props => props.showSidebar ? 'none' : '-100%'});
     transition: all .3s ease-in;
@@ -61,7 +61,7 @@ const CloseButton = styled.div`
     :hover {
         background: ${props => props.theme.background};
         svg {
-            color: ${props => props.theme.grey};
+            color: ${props => props.themetextLight};
         }
     }
 `
@@ -112,7 +112,7 @@ const ListItemIconContainer = styled.div`
 
 const ListItemLabel = styled.div`
     font-size: 1.5rem;
-    color: ${props => props.theme.textActive};
+    color: ${props => props.theme.textLight};
 `
 const ToggleContainer = styled.div`
     position: absolute;

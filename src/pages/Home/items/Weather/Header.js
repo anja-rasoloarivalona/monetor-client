@@ -52,7 +52,7 @@ const FeelsLikeLabel = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    color: ${props => props.theme.grey};
+    color: ${props => props.themetextLight};
 
 `
 

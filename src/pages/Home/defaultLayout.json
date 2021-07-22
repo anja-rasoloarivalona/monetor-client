@@ -3,7 +3,8 @@
         "max": [
         ],
         "xxl": [
-            { "w": 9, "h": 7, "x": 0, "y": 0, "i": "weather", "display": true }
+            { "w": 9, "h": 7, "x": 0, "y": 0, "i": "weather", "display": true },
+            { "w": 8, "h": 7, "x": 9, "y": 0, "i": "appSelector", "display": true }
         ],
         "xl": [
             { "w": 9, "h": 6, "x": 0, "y": 0, "i": "weather", "display": true },

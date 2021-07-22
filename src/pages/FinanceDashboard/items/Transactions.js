@@ -62,7 +62,7 @@ const ListItemLabelText = styled.div`
 `;
 
 const ListItemLabelDate = styled.div`
-  color: ${(props) => props.theme.grey};
+  color: ${(props) => props.themetextLight};
 `;
 
 const ListItemIcon = styled.div`

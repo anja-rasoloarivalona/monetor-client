@@ -23,7 +23,7 @@ const ListItemCheckboxContainer = styled.div`
 const ListItemCheckbox = styled.div`
     width: 2rem;
     height: 2rem;
-    border: 1px solid ${props => props.theme.grey};
+    border: 1px solid ${props => props.themetextLight};
     border-radius: .3rem;
     display: flex;
     align-items: center;

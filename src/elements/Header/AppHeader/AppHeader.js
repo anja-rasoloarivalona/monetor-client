@@ -5,6 +5,7 @@ import UserProfile from "./UserProfile"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons'
 import AppSelector from "./AppSelector"
+import Searchbar from "./Searchbar"
 
 const Container = styled.div`
     height: 6.5rem;
@@ -47,7 +48,7 @@ const IconContainer = styled.div`
 
     svg {
         font-size: 1.7rem;
-        color: ${props => props.theme.grey};
+        color: ${props => props.themetextLight};
     }
 
     :hover {
@@ -60,24 +61,44 @@ const AppHeader = props => {
 
     const { setShowSidebar } = props
 
+    const { 
+        user
+    } = useSelector(state => state)
+
     return (
         <Container>
-            <Section>
-                <IconContainer onClick={() => setShowSidebar(true)}>
-                    <FontAwesomeIcon icon="bars"/>
-                </IconContainer>
-            </Section>
-            <Section>
-                <IconContainer>
-                    <FontAwesomeIcon icon={faComment}/>
-                </IconContainer>
-                <IconContainer>
-                    <FontAwesomeIcon icon={faBell}/>
-                </IconContainer>
-                <UserProfile />
-                <AppSelector />  
-            </Section>
+            
+            {user.setupAt ?
+                <>
+                    <Section>
+                        <IconContainer onClick={() => setShowSidebar(true)}>
+                            <FontAwesomeIcon icon="bars"/>
+                        </IconContainer>
+                    </Section>
+                    <Section>
+                        <Searchbar />
+                    </Section>
+                    <Section>
+                        <IconContainer>
+                            <FontAwesomeIcon icon={faComment}/>
+                        </IconContainer>
+                        <IconContainer>
+                            <FontAwesomeIcon icon={faBell}/>
+                        </IconContainer>
+                        <UserProfile />
+                        <AppSelector />  
+                    </Section>
+                </> :
+                <>
+                    <Section>
 
+                    </Section>
+                    <Section>
+                        <UserProfile />
+                    </Section>
+                </>
+           
+            }
         </Container>
      )
 };

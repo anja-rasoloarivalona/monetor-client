@@ -29,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
 const Container = styled.div`
   background: ${(props) => props.theme.homeBackground};
   min-height: 100vh;
+  color: ${props => props.theme.text};
 
   ${(props) => {
     if (props.loading) {

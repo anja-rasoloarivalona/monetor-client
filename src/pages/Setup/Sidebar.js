@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Container = styled.div`
     position: fixed;
-    top: 8rem;
+    top: 6.5rem;
     left: 0;
     width: 14rem;
-    height: calc(100vh - 8rem);
+    height: calc(100vh - 6.5rem);
     z-index: 10;
     background: ${props => props.theme.surface};
     border-right: 1px solid ${props => props.theme.onSurface};
@@ -48,11 +48,11 @@ const ListItem = styled.div`
                 ".icon-container": {
                     background: props.theme.primary,
                     "svg": {
-                        color: props.theme.type === "dark" ? props.theme.textActive : props.theme.white
+                        color: props.theme.type === "dark" ? props.theme.textLight : props.theme.white
                     }
                 },
                 ".label": {
-                    color: props.theme.textActive
+                    color: props.theme.textLight
                 },
                 ".bar": {
                     background: props.theme.primary
@@ -64,11 +64,11 @@ const ListItem = styled.div`
                 ".icon-container": {
                     background: props.theme.secondary,
                     "svg": {
-                        color: props.theme.type === "dark" ? props.theme.textActive : props.theme.white
+                        color: props.theme.type === "dark" ? props.theme.textLight : props.theme.white
                     }
                 },
                 ".label": {
-                    color: props.theme.textActive
+                    color: props.theme.textLight
                 },
                 ".bar": {
                     background: props.theme.secondary
@@ -88,13 +88,13 @@ const ListItemIconContainer = styled.div`
     background: ${props => props.theme.background};
 
     svg {
-        color: ${props => props.theme.type === "dark" ? props.theme.text : props.theme.grey};
+        color: ${props => props.theme.type === "dark" ? props.theme.text : props.themetextLight};
         font-size: 1.8rem;
     }
 `
 
 const ListItemLabel = styled.div`
-    color: ${props => props.theme.type === "dark" ? props.theme.text : props.theme.grey};
+    color: ${props => props.theme.type === "dark" ? props.theme.text : props.themetextLight};
     font-size: 1.6rem;
     margin: 1rem 0;
 `

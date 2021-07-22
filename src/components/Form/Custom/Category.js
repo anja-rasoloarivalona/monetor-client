@@ -89,7 +89,7 @@ const ListItem = styled.div`
         if(props.isListDisplayed){
             return {
                 "&, :hover": {
-                    background: props.isListDisplayed ? props.theme.onSurface : props.theme.textActive,
+                    background: props.isListDisplayed ? props.theme.onSurface : props.theme.textLight,
                     color: props.isListDisplayed ? props.theme.text : props.theme.background
                 },
               
@@ -97,7 +97,7 @@ const ListItem = styled.div`
         } else {
             return {
                 ":hover": {
-                    background: props.isListDisplayed ? props.theme.onSurface : props.theme.textActive,
+                    background: props.isListDisplayed ? props.theme.onSurface : props.theme.textLight,
                     color: props.isListDisplayed ? props.theme.text : props.theme.background
                 }
             }
@@ -137,7 +137,7 @@ const SubListItem = styled.div`
     border-radius: .5rem;
 
     :hover {
-        background: ${props => props.theme.textActive};
+        background: ${props => props.theme.textLight};
         color: ${props => props.theme.background};
     }
 `

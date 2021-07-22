@@ -74,6 +74,7 @@ const AppLoader = props => {
             <Loader
                 size={sizes.loader}
                 margin={sizes.loaderMargin}
+                className="loader"
             >
                 <div></div><div></div><div></div><div></div>
             </Loader>

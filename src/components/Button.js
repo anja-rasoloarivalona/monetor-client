@@ -4,7 +4,7 @@ const Button = styled.button`
     padding: 1rem 3rem;
     font-size: 1.4rem;
     letter-spacing: 0.37px;
-    color: white;
+    color: ${props => props.theme.white};
     border: none;
     border-radius: 500px;
     transition: all 0.4s;
@@ -20,7 +20,7 @@ const Button = styled.button`
     }
 
     > a {
-        color: white !important;
+        color: ${props => props.theme.white};
         text-decoration: none;
     }
 

@@ -23,7 +23,7 @@ const Subtitle = styled.div`
 const Title = styled.div`
     font-size: 4.5rem;
     font-weight: bold;
-    color: ${props => props.theme.textActive};
+    color: ${props => props.theme.textLight};
     margin: 2rem 0;
 `
 

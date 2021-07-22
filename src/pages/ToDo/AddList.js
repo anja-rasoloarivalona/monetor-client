@@ -51,9 +51,9 @@ const Cta = styled.div`
     svg {
         font-size: 2rem;
         cursor: pointer;
-        color: ${props => props.theme.grey};
+        color: ${props => props.themetextLight};
         :hover {
-            color: ${props => props.theme.textActive};
+            color: ${props => props.theme.textLight};
         }
     }
 `

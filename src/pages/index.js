@@ -9,6 +9,7 @@ import Setup from "./Setup/Setup"
 import Dashboard from './FinanceDashboard/FinanceDashboard'
 import Todo from './Todo/Todo'
 import Home from './Home/Home'
+import Messages from './Messages/Messages'
 import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import links from '../text/links.json'
@@ -39,9 +40,9 @@ const Routes = props => {
 
 
     useEffect(() => {
-       if(pageType === "app" && !user.id){
+        if(pageType === "app" && !user.id){
            props.history.push(`/${text.link_login}`)
-       }
+        }
     },[text, user, location])
 
     useEffect(() => {
@@ -52,7 +53,6 @@ const Routes = props => {
                 const translatedPath =  links[`link_${page.id}`][locale]
                 if(page.locale !== translatedPath){
                     props.history.push(`/${translatedPath}`)
-
                 }
             }
         }
@@ -70,17 +70,16 @@ const Routes = props => {
 
     useEffect(() => {
         if(user && user.token){
-            const userHasWallet = user.wallets && user.wallets.length > 0 && user.wallets[0].id
-            if(!userHasWallet && location.pathname !== `/${text.link_setup}`){
-                props.history.push(`/${text.link_setup}`)
-            }
-            if(userHasWallet && currency){
+            if(!user.setupAt){
+                if(location.pathname !== `/${text.link_setup}`){
+                    props.history.push(`/${text.link_setup}`)
+                }
+            } else {
                 const forbiddenPages = [text.link_login, text.link_signup, text.link_setup]
                 const currentPathname = location.pathname.split("/")[1]
                 if(forbiddenPages.includes(currentPathname)){
-                    props.history.push(`/${text.link_dashboard}`)
+                    props.history.push(`/${text.link_home}`)
                 }
-
             }
         }
     },[currency, user, location])
@@ -96,6 +95,7 @@ const Routes = props => {
                 <Route path={`/${text.link_finance}/${text.link_dashboard}`} component={Dashboard} />
                 <Route path={`/${text.link_todo}`} component={Todo} />
                 <Route path={`/${text.link_app_home}`} component={Home} />
+                <Route path={`/${text.link_messages}`} component={Messages} />
                 {/* <Redirect to="/"/>  */}
             </Switch>
         </Container>

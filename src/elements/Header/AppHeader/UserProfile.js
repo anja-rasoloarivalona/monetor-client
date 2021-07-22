@@ -9,7 +9,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons'
 const Container = styled.div`
     display: flex;
     align-items: center;
-    color: ${props =>  props.theme.textActive};
+    color: ${props =>  props.theme.textLight};
     margin-left: 1rem;
 `
 
@@ -26,7 +26,7 @@ const ImageContainer = styled.div`
 
     svg {
         font-size: 1.7rem;
-        color: ${props => props.theme.grey};
+        color: ${props => props.themetextLight};
     }
 `
 const UserName = styled.div`
@@ -50,7 +50,7 @@ const ToggleContainer = styled.div`
     &:hover {
         background: ${props => props.theme.background};
         svg {
-            color: ${props => props.theme.textActive};
+            color: ${props => props.theme.textLight};
         }
     }
 `
@@ -86,10 +86,10 @@ const ListItemContent = styled.div`
     :hover {
         background: ${props => props.theme.onSurface};
         .label {
-            color: ${props => props.theme.textActive}
+            color: ${props => props.theme.textLight}
         }
         .toggle {
-            color: ${props => props.theme.textActive}
+            color: ${props => props.theme.textLight}
         }
     }
 
@@ -115,7 +115,7 @@ const ListItemIconContainer = styled.div`
     margin-right: 2rem;
 
     svg {
-        color: ${props => props.theme.textActive};
+        color: ${props => props.theme.textLight};
         font-size: 1.5rem;
     }
 `

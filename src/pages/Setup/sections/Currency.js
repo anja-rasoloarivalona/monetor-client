@@ -44,6 +44,9 @@ const Currency = props => {
     }
 
     const onSelectHandler = value => {
+        console.log({
+            value
+        })
         dispatch(actions.setCurrency(value))
     }
 
