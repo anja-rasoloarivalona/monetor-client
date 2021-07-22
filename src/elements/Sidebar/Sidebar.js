@@ -5,14 +5,65 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
+const Background = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 99;
+`
+
 const Container = styled(ScrollBar)`
     position: fixed;
-    top: 6.5rem;
-    left:0;
-    width: 23rem;
-    height: calc(100vh - 6.5rem);
+    top: 0;
+    left: 0;
+    width: 30rem;
+    height: 100vh;
     background: ${props => props.theme.surface};
     color: ${props => props.theme.textActive};
+    z-index: 100;
+    transform: translateX(${props => props.showSidebar ? 'none' : '-100%'});
+    transition: all .3s ease-in;
+`
+
+const Header = styled.div`
+    height: 6.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid ${props => props.theme.background};
+    padding: 0 2rem;
+`
+const HeaderLabel = styled.div`
+   font-size: 1.6rem;
+`
+
+const CloseButton = styled.div`
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    left: 32rem;
+    z-index: 110;
+
+    svg {
+        font-size: 2.6rem;
+        color: ${props => props.theme.background};
+    }
+
+    :hover {
+        background: ${props => props.theme.background};
+        svg {
+            color: ${props => props.theme.grey};
+        }
+    }
 `
 
 const List = styled.div`
@@ -102,7 +153,9 @@ const SubListItemLink = styled(Link)`
 `
 
 
-const Sidebar = () => {
+const Sidebar = props => {
+
+    const { showSidebar, setShowSidebar } = props
 
     const location = useLocation()
 
@@ -182,7 +235,22 @@ const Sidebar = () => {
     }
 
     return (
-        <Container>
+        <>
+        {showSidebar && (
+            <>
+                <Background onClick={() => setShowSidebar(false)}/>
+                <CloseButton onClick={() => setShowSidebar(false)}>
+                    <FontAwesomeIcon icon="times"/>
+                </CloseButton>
+            </>
+        )}
+ 
+        <Container showSidebar={showSidebar}>
+            <Header>
+                <HeaderLabel>
+                    Menu
+                </HeaderLabel>
+            </Header>
             <List>
                 {options.map(option => (
                     <ListItem key={option.id}>
@@ -206,7 +274,7 @@ const Sidebar = () => {
                                 </ListItemLabel>
                                 {option.children && (
                                     <ToggleContainer>
-                                        <FontAwesomeIcon icon="chevron-down"/>
+                                        <FontAwesomeIcon icon="chevron-right"/>
                                     </ToggleContainer>
                                 )}
                             </ListItemContent>
@@ -236,6 +304,7 @@ const Sidebar = () => {
                 ))}
             </List>
         </Container>
+        </>
      )
 };
 

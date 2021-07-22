@@ -116,7 +116,8 @@ const ToggleListItem = styled.div`
 const AddComponent = () => {
 
     const {
-        text: { text }
+        text: { text },
+        user
     } = useSelector(state => state)
 
     const [ showList, setShowList ] = useState(false)
@@ -151,6 +152,10 @@ const AddComponent = () => {
             id: "budget"
         }
     ]
+
+    if(!user.id){
+        return null
+    }
 
     return (
         <Container ref={container}>

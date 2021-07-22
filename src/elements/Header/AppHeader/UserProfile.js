@@ -4,11 +4,13 @@ import {  useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside } from '../../../hooks'
 import SettingsPannel from './SettingsPannel'
+import { faUser } from '@fortawesome/free-regular-svg-icons'
 
 const Container = styled.div`
     display: flex;
     align-items: center;
     color: ${props =>  props.theme.textActive};
+    margin-left: 1rem;
 `
 
 const ImageContainer = styled.div`
@@ -20,11 +22,11 @@ const ImageContainer = styled.div`
     border-radius: 50%;
     overflow: hidden;
     margin-right: 2rem;
-    background: ${props => props.theme.surface};
+    background: ${props => props.theme.background};
 
     svg {
         font-size: 1.7rem;
-        color: ${props => props.theme.text};
+        color: ${props => props.theme.grey};
     }
 `
 const UserName = styled.div`
@@ -131,8 +133,8 @@ const UserProfile = () => {
 
     const list = useRef()
 
-    const [ showList, setShowList ] = useState(true)
-    const [ showSettingsPannel, setShowSettingsPannel] = useState(true)
+    const [ showList, setShowList ] = useState(false)
+    const [ showSettingsPannel, setShowSettingsPannel] = useState(false)
 
 
     const options = [
@@ -146,7 +148,7 @@ const UserProfile = () => {
     return (
         <Container ref={list}>
             <ImageContainer>
-                <FontAwesomeIcon icon="user"/>
+                <FontAwesomeIcon icon={faUser}/>
             </ImageContainer>
             <UserName>
                 {user.username}
@@ -159,7 +161,10 @@ const UserProfile = () => {
                     {showSettingsPannel ?
                         <SettingsPannel /> :
                         options.map(option => (
-                            <ListItem id={option.label}>
+                            <ListItem
+                                id={option.label}
+                                onClick={option.onToggle ? option.onToggle() : null }
+                            >
                                 <ListItemContent>
                                     <ListItemIconContainer>
                                         <FontAwesomeIcon 
