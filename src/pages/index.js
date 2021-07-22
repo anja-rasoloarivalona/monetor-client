@@ -12,9 +12,6 @@ import Home from './Home/Home'
 import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import links from '../text/links.json'
-import Sidebar from "../elements/Sidebar/Sidebar"
-import AddComponent from "../elements/AddComponent/AddComponent"
-import Forms from '../elements/Forms/Forms'
 
 const Container = styled.div`
     min-height: 100vh;
@@ -88,24 +85,8 @@ const Routes = props => {
         }
     },[currency, user, location])
 
-    const isSidebarDisplayed = () => {
-        const routesWithSidebar = [`finance`]
-        const currentPathName = location.pathname.split("/")[1]
-        return routesWithSidebar.includes(currentPathName)
-    }
-
-
-
-    console.log({
-        test: text.link_app_home
-    })
-
     return (
-        <Container isSidebarDisplayed={isSidebarDisplayed()}>
-
-            <Forms />
-            {isSidebarDisplayed() &&  <Sidebar />}
-            {user.id && <AddComponent />}
+        <Container>
             <Switch>
                 <Route exact path="/" component={PublicHome} />
                 <Route path={`/${text.link_login}`} component={Login}/>

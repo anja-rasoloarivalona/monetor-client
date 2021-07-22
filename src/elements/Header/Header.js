@@ -13,7 +13,9 @@ const Container = styled.div`
     z-index: 9;
 `
 
-const Header = () => {
+const Header = props => {
+
+    const { setShowSidebar } = props
 
     const {
         text: { type }
@@ -22,7 +24,7 @@ const Header = () => {
     return (
         <Container>
             {type === 'app' ?
-                <AppHeader /> :
+                <AppHeader setShowSidebar={setShowSidebar}/> :
                 <HomeHeader />
             }
         </Container>

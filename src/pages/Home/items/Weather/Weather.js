@@ -10,37 +10,6 @@ const Container = styled.div`
     padding: 1rem;
 `
 
-const HeaderLocation = styled.div`
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-`
-
-const HeaderWeather = styled.div`
-`
-
-const HeaderWeatherValue = styled.div`
-    display: flex;
-    width: max-content;
-    height: max-content;
-    position: relative;
-`
-
-
-
-const HeaderWeatherValueText = styled.span`
-    font-size: 4.5rem;
-    font-weight: bold;
-    line-height: .9;
-`
-
-const HeaderWeatherValueUnit = styled.span`
-    font-size: 1.4rem;
-    height: 100%;
-    flex: 1;
-    position: absolute;
-    left: 100%;
-    top: 0;
-`
 
 const Weather = () => {
 
