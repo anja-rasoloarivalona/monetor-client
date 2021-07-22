@@ -6,7 +6,7 @@ import transactionsImg from '../../../../images/transactions.png'
 import agendaImg from '../../../../images/agenda.png'
 import contactsImg from '../../../../images/contacts.png'
 import messagesImg from '../../../../images/messages.png'
-
+import { Link } from '../../../../components'
 
 const Container = styled.div`
     width: 100%;
@@ -27,7 +27,7 @@ const List = styled.div`
     width: 100%;
 `
 
-const ListItem = styled.div`
+const ListItem = styled(Link)`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -35,7 +35,7 @@ const ListItem = styled.div`
     padding: 1rem;
     border-radius: 1rem;
     cursor: pointer;
-
+    
     :hover {
         background: ${props => props.theme.background};
     }
@@ -67,24 +67,28 @@ const AppSelector = () => {
     const items = [
         {
             label: text.to_do,
-            src: todoImg
+            src: todoImg,
+            link: text.link_todo
         },
         {
             label: text.agenda,
-            src: agendaImg
+            src: agendaImg,
+            link: ""
         },
         {
             label: text.contacts,
-            src: contactsImg
+            src: contactsImg,
+            link: ""
         },
         {
             label: text.messages,
-            src: messagesImg
+            src: messagesImg,
+            link: text.link_messages
         },
         {
             label: text.transactions,
-            src: transactionsImg
-            
+            src: transactionsImg,
+            link: text.link_finance + "/" + text.link_dashboard
         },
     ]
 
@@ -95,7 +99,10 @@ const AppSelector = () => {
           </Header>
           <List>
             {items.map((item , index) => (
-                <ListItem key={index}>
+                <ListItem
+                    key={index}
+                    to={`/${item.link}`}
+                >
                     <ListItemImgContainer>
                     <ListItemImg src={item.src}/>
                     </ListItemImgContainer>

@@ -3,7 +3,8 @@ import { updatedObject } from '../utils'
 
 const initialState = {
     locale: localStorage.getItem("language") || "en",
-    currency: null
+    currency: null,
+    socket: null
 }
 
 const setCurrency = (state, action) => {
@@ -16,6 +17,7 @@ const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SET_LOCALE: return updatedObject(state, {locale: action.locale})
         case actionTypes.SET_CURRENCY: return setCurrency(state, action)
+        case actionTypes.SET_SOCKET: return updatedObject(state, {socket: action.socket})
         default: return state
     }
 }

@@ -117,11 +117,6 @@ const NextHours = () => {
         setData(nextHours)
     }
 
-
-    console.log({
-        data
-    })
-
     if(!data){
         return null
     }

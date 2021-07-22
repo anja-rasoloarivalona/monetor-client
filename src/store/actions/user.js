@@ -82,6 +82,53 @@ const addTransaction = data => {
     }
 }
 
+const setOnlineContacts = props => {
+
+    return async function(dispatch, getState){
+        const {
+            user: { contacts }
+        } = getState()
+
+        const { action, data } = props
+        const updatedContacts = []
+        switch(action){
+            case "joined":
+                contacts.forEach(contact => {
+                    let isConnected = false
+                    if(data.includes(contact.user.id)){
+                        isConnected = true
+                    }
+                    updatedContacts.push({
+                        ...contact,
+                        isConnected
+                    })
+                })
+                break;
+            case "contact-joined":
+                contacts.forEach(contact => {
+                    updatedContacts.push({
+                      ...contact,
+                      isConnected: contact.user.id === data ? true : contact.isConnected
+                    })
+                })
+                break;
+            case "contact-left":
+                contacts.forEach(contact => {
+                    updatedContacts.push({
+                      ...contact,
+                      isConnected: contact.user.id === data ? false : contact.isConnected
+                    })
+                })
+                break;
+            default: return
+        }
+        
+        return dispatch({
+            type: actionTypes.SET_ONLINE_CONTACTS,
+            onlineContacts: updatedContacts
+        })
+    }
+}
 
 export {
     addBudget,
@@ -91,5 +138,6 @@ export {
     setCheckedUserToken,
     setTodoLists,
     updateTodoLits,
-    addTransaction
+    addTransaction,
+    setOnlineContacts
 }

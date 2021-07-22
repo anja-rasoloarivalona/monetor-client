@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Sidebar from './Sidebar'
 import Chat from './Chat'
 import MessageBar from "./MessageBar"
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
     width: 100%;
@@ -18,6 +19,15 @@ const Content = styled.div`
 `
 
 const Messages = () => {
+
+    const {
+        user
+    } = useSelector(state => state)
+
+    if(!user.contacts){
+        return null
+    }
+
     return (
         <Container>
             <Sidebar />

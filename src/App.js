@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { Header, Sidebar, Forms, AddComponent } from "./elements";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,6 +12,8 @@ import en from "date-fns/locale/en-US";
 import fr from "date-fns/locale/fr-CA";
 import { registerLocale } from "react-datepicker";
 import axios from "axios";
+import io from 'socket.io-client'
+
 library.add(fas);
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 registerLocale("en", en);
@@ -52,16 +54,78 @@ const Container = styled.div`
 
 const App = () => {
   
+  const API_URL = process.env.REACT_APP_API_URL
+
   const dispatch = useDispatch();
-  const { theme, text, user, categories } = useSelector((state) => state);
+  const {
+      theme,
+      text, 
+      user,
+      categories,
+      settings: { socket: reduxSocket } 
+  } = useSelector((state) => state);
 
   const [ showSidebar, setShowSidebar ] = useState(false)
+
 
   useEffect(() => {
     const currentPathname = window.location.pathname.split("/")[1] || "home";
     dispatch(actions.setText(currentPathname));
     dispatch(actions.initApp());
   }, []);
+
+
+  useEffect(() => {
+    if(user.id && !reduxSocket){
+      const connectSocket = () => {
+        const res = io(API_URL, {
+            "transports": ["polling","websocket"],
+            "transportOptions": {
+              "polling": {
+                  "extraHeaders": {
+                      "Authorization": `Bearer ${user.token}`
+                  }
+              }
+            }
+        })
+        return res
+      }
+      const socket = connectSocket()
+      socket.on("connect", () => {
+        const userContacts = []
+        if(user.contacts){
+            user.contacts.forEach(contact => {
+              userContacts.push(contact.user.id)
+            })
+        }
+
+        socket.emit('join', { userId: user.id, contacts: userContacts })
+
+        socket.on("joined", data => {
+            dispatch(actions.setSocket(socket))
+            dispatch(actions.setOnlineContacts({
+              action: "joined",
+              data
+            }))
+        })
+
+
+        socket.on("contact-left", data => {
+          dispatch(actions.setOnlineContacts({
+            action: "contact-left",
+            data
+          }))
+        })
+
+        socket.on("contact-joined", data => {
+          dispatch(actions.setOnlineContacts({
+            action: "contact-joined",
+            data
+          }))
+        })
+      });
+    }
+  },[user.id])
 
   const isTextReady = text.header && text.text;
   const isAppReady = isTextReady && user.checkedToken && categories;

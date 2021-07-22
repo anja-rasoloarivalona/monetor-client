@@ -102,11 +102,6 @@ const Home = () => {
         )
     }
 
-    console.log({
-        layout
-    })
-
-
     return (
         <Container>
             <GridContainer>

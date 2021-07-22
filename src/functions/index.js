@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { uuid } from 'uuidv4'
+import moment from 'moment'
 
 const IP_KEY = process.env.REACT_APP_IP_KEY
 
@@ -131,6 +132,59 @@ const renderAmount = (amount, locale, currency) => {
     }
 }
 
+const getTimeStamp = (_timestamp, locale) => {
+
+    const weekDays = [
+        {fr: "dim", en: "Sun"},
+        {fr: "lun", en: "Mon"},
+        {fr: "mar", en: "Tue"},
+        {fr: "mer", en: "Wed"},
+        {fr: "jeu", en: "Thu"},
+        {fr: "ven", en: "Wed"},
+        {fr: "sam", en: "Sat"},
+    ]
+
+    const timestamp = new Date(_timestamp)
+    const today = moment(new Date()) 
+    const time = moment(timestamp, 'ddd DD-MMM-YYYY, hh:mm A').format('hh:mm A') 
+    const date = moment(timestamp)
+
+
+    const diffDays = moment.duration(today.diff(date)).asDays();
+    const diffMinutes = moment.duration(today.diff(date)).asMinutes()
+    const diffHours = moment.duration(today.diff(date)).asHours()
+
+    if(diffMinutes <= 2){
+        if(locale === "fr"){
+            return "Maintenant"
+        } else {
+            return "Now"
+        }
+    }
+
+    if(diffMinutes < 60){
+        if(locale === "fr"){
+            return `il y a ${parseInt(diffMinutes)}min`
+        } else {
+            return `${parseInt(diffMinutes)} min ago`
+        }
+    }
+
+    if(diffHours < 24){
+        if(locale === "fr"){
+            return `il y a ${parseInt(diffHours)}h`
+        } else {
+            return `${parseInt(diffHours)}h ago`
+        }
+    }
+
+    if(diffDays < 5){
+        const day =  weekDays[date.day()][locale]
+        return day + " " + time
+    }
+    const fulldate = formatDate(timestamp, "dd/mm/yy", locale)
+    return fulldate + " - " + time
+}
 
 export {
     arrayToObject,
@@ -139,5 +193,6 @@ export {
     insertInToArray,
     formatDate,
     isArray,
-    renderAmount
+    renderAmount,
+    getTimeStamp
 }
