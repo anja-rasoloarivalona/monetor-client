@@ -7,6 +7,7 @@ import GridLayout from 'react-grid-layout'
 import "../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../node_modules/react-resizable/css/styles.css"
 import Weather from "./items/Weather/Weather"
+import AppSelector from "./items/AppSelector/AppSelector"
 
 const Container = styled.div`
     width: 100%;
@@ -84,6 +85,7 @@ const Home = () => {
     
     const components = {
         "weather": Weather,
+        "appSelector": AppSelector
     }
 
 
