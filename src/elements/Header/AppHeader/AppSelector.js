@@ -21,7 +21,7 @@ const IconContainer = styled.div`
     padding: .7rem;
 
     svg {
-        fill: ${props => props.theme.grey};
+        fill: ${props => props.themetextLight};
     }
 
     :hover {

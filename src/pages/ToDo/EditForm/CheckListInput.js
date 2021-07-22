@@ -19,7 +19,7 @@ const Container = styled.div`
 `
 
 const DueDate = styled.div`
-    color: ${props => props.theme.grey};
+    color: ${props => props.themetextLight};
     position: relative;
 
     :hover {

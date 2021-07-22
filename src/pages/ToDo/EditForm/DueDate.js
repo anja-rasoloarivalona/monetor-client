@@ -20,14 +20,14 @@ const Content = styled.div`
 
 const Title = styled.div`
     font-size: 1.4rem;
-    color: ${props => props.theme.grey};
+    color: ${props => props.themetextLight};
     text-transform: uppercase;
 `
 
 const CheckBoxContainer = styled.div`
     width: 1.8rem;
     height: 1.7rem;
-    border: 1px solid ${props => props.theme.grey};
+    border: 1px solid ${props => props.themetextLight};
     border-radius: .3rem;
     cursor: pointer;
 `
@@ -65,7 +65,7 @@ const Toggle = styled.div`
     
     svg {
         font-size: 1rem;
-        color: ${props => props.theme.grey};
+        color: ${props => props.themetextLight};
     }
 
     :hover {

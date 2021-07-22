@@ -14,7 +14,7 @@ const Container = styled.div`
                     borderColor: props.theme.primary
                 },
                 ".label": {
-                    color: props.theme.textActive
+                    color: props.theme.textLight
                 }
             }
         }

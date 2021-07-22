@@ -20,7 +20,7 @@ const Container = styled.div`
 
 const Header = styled.div`
     font-size: 2rem;
-    color: ${props => props.theme.textActive};
+    color: ${props => props.theme.textLight};
 `
 
 const HeaderTitle = styled.div``

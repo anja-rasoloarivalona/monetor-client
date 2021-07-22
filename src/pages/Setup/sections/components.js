@@ -12,7 +12,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
     font-size: 3rem;
-    color: ${props => props.theme.textActive};
+    color: ${props => props.theme.textLight};
     text-transform: uppercase;
     margin-bottom: 2rem;
 `

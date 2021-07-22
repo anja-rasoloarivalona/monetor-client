@@ -33,7 +33,7 @@ const Cta = styled.div`
     align-items: center;
     margin-top: 1rem;
     font-size: 1.2rem;
-    color: ${props => props.theme.grey};
+    color: ${props => props.themetextLight};
 `
 
 

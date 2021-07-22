@@ -37,7 +37,7 @@ const Select = props => {
             control: (provided, state) => {
                 return  {
                     ...provided,
-                    color: theme.textActive,
+                    color: theme.textLight,
                     boxShadow: "none",
                     height: "4.5rem",
                     border: 
@@ -67,7 +67,7 @@ const Select = props => {
             },
             singleValue: (provided) => ({
                 ...provided,
-                color: theme.textActive
+                color: theme.textLight
             }),
             placeholder: (provided, state) => ({
                 ...provided,
@@ -95,7 +95,7 @@ const Select = props => {
                 alignItems: "center",
                 fontSize: "1.4rem",
                 '&:hover': {
-                    backgroundColor: theme.type === "dark" ? theme.textActive : theme.onSurface,
+                    backgroundColor: theme.type === "dark" ? theme.textLight : theme.onSurface,
                     color:  theme.type === "dark" ? theme.background : theme.text
                 },
                 backgroundColor: theme.type === "dark" ? theme.background : theme.surface,

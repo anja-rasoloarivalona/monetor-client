@@ -7,7 +7,7 @@ const Input = styled.input`
     padding-left: 1.2rem;
     background: ${props => props.theme.form.unfocused.background};
     border: 1px solid ${props => props.theme.form.unfocused.border};
-    color: ${props => props.theme.textActive};
+    color: ${props => props.theme.textLight};
     font-family: Roboto;
     border-radius: .3rem;
 

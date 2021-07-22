@@ -64,15 +64,30 @@ const Signup = () => {
         },
     ]
 
+    const getUserlocation = async () => {
+        try {
+            const { data: location } = await axios.get('https://ipapi.co/json/')
+            return location
+        } catch(err){
+            console.log({
+                err,
+                message: "FAILED TO GET USER LOCATION"
+            })
+        }
+    }
+
     const signupHandler = async data => {
         try {
-
-            const ipData = await getIpData()
+            const location = await getUserlocation()
             const res = await axios.post("/signup", {
                 ...data,
-                ipAddress: ipData.ip,
-                city: ipData.city,
-                country: ipData.country_name
+                ipAddress: location.ip,
+                city: location.city,
+                country: location.country_name,
+                province: location.region_code,
+                postalCode: location.postal,
+                lat: location.latitude,
+                lng: location.longitude
             })
             if(res.status === 201){
                 dispatch(actions.setUser(res.data.data))

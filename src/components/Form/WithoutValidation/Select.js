@@ -19,7 +19,7 @@ const CurrentValue = styled.div`
     justify-content: space-between;
     cursor: pointer;
     font-size: 1.4rem;
-    color: ${props => props.theme.textActive};
+    color: ${props => props.theme.textLight};
     border: 1px solid ${props => props.theme.form.unfocused.border};
     border-radius: .5rem;
 
@@ -67,7 +67,7 @@ const ListItem = styled.div`
     font-size: 1.4rem;
 
     :hover {
-        background: ${props => props.theme.textActive};
+        background: ${props => props.theme.textLight};
         color: ${props => props.theme.background};
     }
 

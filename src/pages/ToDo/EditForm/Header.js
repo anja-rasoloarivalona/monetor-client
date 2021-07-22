@@ -62,7 +62,7 @@ const TitleInput = styled.input`
 const ListName = styled.div`
     margin-left: 4rem;
     font-size: 1.3rem;
-    color: ${props => props.theme.grey};
+    color: ${props => props.themetextLight};
     margin-top: .5rem;
 `
 

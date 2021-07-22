@@ -7,7 +7,7 @@ const Link = styled(NavLink)`
         text-decoration: none;
     };
     &:hover, &.active {
-        color: ${props => props.theme.textActive};
+        color: ${props => props.theme.textLight};
     };
 
     ${props => {
@@ -15,7 +15,7 @@ const Link = styled(NavLink)`
             return {
                 padding: "1.2rem 3rem",
                 background: props.theme.primary,
-                color: `${props.theme.textActive} !important`,
+                color: `${props.theme.textLight} !important`,
                 borderRadius: "2rem"
             }
         }
@@ -23,7 +23,7 @@ const Link = styled(NavLink)`
             return {
                 padding: "1.2rem 2rem",
                 border: `1px solid ${props.theme.text}`,
-                color: `${props.theme.textActive} !important`,
+                color: `${props.theme.textLight} !important`,
                 borderRadius: '3px'
             }
         }

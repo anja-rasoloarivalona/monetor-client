@@ -36,7 +36,7 @@ const AddCard = styled.div`
     text-align: start;
     width: 100%;
     font-size: 1.3rem;
-    color: ${props => props.theme.grey};
+    color: ${props => props.themetextLight};
     margin-top: .8rem;
     cursor: pointer;
     :hover {

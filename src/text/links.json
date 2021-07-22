@@ -1,4 +1,10 @@
 {
+    "link_app_home": {
+        "fr": "accueil",
+        "en": "home",
+        "page": "app_home",
+        "type": "app"
+    },
     "link_dashboard": {
         "fr": "tableau-de-bord",
         "en": "dashboard",
@@ -23,17 +29,17 @@
         "page": "home",
         "type": "public"
     },
-    "link_app_home": {
-        "fr": "accueil",
-        "en": "home",
-        "page": "app_home",
-        "type": "app"
-    },
     "link_login": {
         "fr": "se-connecter",
         "en": "login",
         "page": "login",
         "type": "public"
+    },
+    "link_messages": {
+        "fr": "messages",
+        "en": "messages",
+        "page": "messages",
+        "type": "app"
     },
     "link_setup": {
         "fr": "configuration",
