@@ -14,7 +14,15 @@ const setCurrency = currency => {
     }
 }
 
+const setSocket = socket => {
+    return {
+        type: actionTypes.SET_SOCKET,
+        socket
+    }
+}
+
 export {
     setCurrency,
-    setLocale
+    setLocale,
+    setSocket
 }

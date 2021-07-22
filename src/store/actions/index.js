@@ -8,7 +8,8 @@ export {
 
 export {
     setLocale,
-    setCurrency
+    setCurrency,
+    setSocket
 } from './settings'
 
 export {
@@ -19,7 +20,8 @@ export {
     addBudget,
     updateTodoLits,
     setTodoLists,
-    addTransaction
+    addTransaction,
+    setOnlineContacts
 } from './user'
 
 export {

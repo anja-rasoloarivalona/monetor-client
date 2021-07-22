@@ -11,7 +11,7 @@ const initialState = {
     transactions: null,
     todoLists: null,
     checkedToken: false,
-    location: null
+    location: null,
 }
 
 const clearUser = (state) => {
@@ -62,6 +62,13 @@ const addTransaction = (state, action) => {
     })
 }
 
+const setOnlineContacts = (state, action) => {
+    const { onlineContacts } = action
+    return updatedObject(state, {
+        contacts: onlineContacts
+    })
+}
+
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SET_USER: return setUser(state, action)
@@ -71,6 +78,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ADD_BUDGET: return addBudget(state, action)
         case actionTypes.SET_TODO_LISTS: return updatedObject(state, {todoLists: action.todoLists})
         case actionTypes.ADD_TRANSACTION: return addTransaction(state, action)
+        case actionTypes.SET_ONLINE_CONTACTS: return setOnlineContacts(state, action)
         default: return state
     }
 }

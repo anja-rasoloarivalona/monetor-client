@@ -36,9 +36,6 @@ const initApp = () => {
                             })
                         })
                     }
-                    console.log({
-                        res
-                    })
                     dispatch(setUser({
                         ...res.data.data,
                         todoLists: updatedTodos

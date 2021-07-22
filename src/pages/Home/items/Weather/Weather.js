@@ -18,10 +18,6 @@ const Weather = () => {
         home: { weather }
     } = useSelector(state => state)
 
-    console.log({
-        weather
-    })
-
     if(!weather){
         return <div>Loading..</div>
     }
