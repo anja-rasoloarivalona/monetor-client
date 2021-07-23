@@ -186,6 +186,32 @@ const getTimeStamp = (_timestamp, locale) => {
     return fulldate + " - " + time
 }
 
+
+const sortMessages = (messages, locale) => {
+    const group = []
+    messages.forEach(currentMessage => {
+        group.push({
+            ...currentMessage,
+            timestamp: getTimeStamp(currentMessage.createdAt, locale)
+        })
+    })
+    const sortedGroup = group.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt ))
+    const formattedGroup = []
+    sortedGroup.forEach(msg => {
+        if(formattedGroup.length === 0){
+            formattedGroup.push([msg])
+        } else {
+            const lastIndex = formattedGroup.length - 1
+            if(formattedGroup[lastIndex][0].fromId === msg.fromId){
+                formattedGroup[lastIndex].push(msg)
+            } else {
+                formattedGroup.push([msg])
+            }
+        }
+    })
+    return formattedGroup
+}
+
 export {
     arrayToObject,
     getIpData,
@@ -194,5 +220,6 @@ export {
     formatDate,
     isArray,
     renderAmount,
-    getTimeStamp
+    getTimeStamp,
+    sortMessages
 }

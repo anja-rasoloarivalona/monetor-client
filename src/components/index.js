@@ -7,9 +7,11 @@ import { Amount } from './Amount'
 import { ScrollBar, ScrollHorizontalBar } from './Scrollbar'
 import { AppDate } from './Date'
 import {ScrollDrag } from './ScrollOnDrag'
+import { LoadingAnimation } from './LoadingAnimation'
 
 export {
     Link,
+    LoadingAnimation,
     Button,
     SubmitButton,
     AppLoader as Loader,

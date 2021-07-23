@@ -123,12 +123,27 @@ const App = () => {
             data
           }))
         })
+
+        socket.on("new-message", data => {
+          dispatch(actions.addMessage(data))
+        })
+
+        socket.on('messages', messages => {
+          if(messages){
+            const id = messages[0].associationId
+            dispatch(actions.setMessages({
+              messages: messages.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt )),
+              id
+            }))
+          }
+        })
       });
     }
   },[user.id])
 
   const isTextReady = text.header && text.text;
-  const isAppReady = isTextReady && user.checkedToken && categories;
+  const areDataloaded = isTextReady && user.checkedToken && categories;
+  const isAppReady = user.id ? (reduxSocket && areDataloaded) : areDataloaded
 
   return (
     <BrowserRouter>
@@ -145,7 +160,7 @@ const App = () => {
                 setShowSidebar={setShowSidebar}
               />
               <Forms />
-              <AddComponent />
+              {/* <AddComponent /> */}
               <Routes />
             </>
           ) : (

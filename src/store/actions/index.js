@@ -39,3 +39,8 @@ export {
 export {
     setWeather
 } from './home'
+
+export {
+    setMessages,
+    addMessage
+} from './messages'
