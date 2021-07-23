@@ -50,22 +50,16 @@ const updateTodoLits = data => {
             const {
                 user: { todoLists }
             } = getState()
-
             const { action, item } = data
             const methods = {
                 "add": "post",
                 "delete": "delete",
                 "update": "put"
             }
-
             const res = await axios({
                 method: methods[action],
                 url: "/todo",
                 data: item
-            })
-
-            console.log({
-                res
             })
         } catch(err){
             console.log({
@@ -122,7 +116,7 @@ const setOnlineContacts = props => {
                 break;
             default: return
         }
-        
+
         return dispatch({
             type: actionTypes.SET_ONLINE_CONTACTS,
             onlineContacts: updatedContacts

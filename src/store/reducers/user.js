@@ -69,6 +69,7 @@ const setOnlineContacts = (state, action) => {
     })
 }
 
+
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SET_USER: return setUser(state, action)

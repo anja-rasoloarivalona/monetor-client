@@ -314,5 +314,9 @@
     "year": {
         "fr": "année",
         "en": "year"
+    },
+    "you": {
+        "fr": "Vous",
+        "en": "You"
     }
 }
