@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Title } from './style'
 import { Line } from 'react-chartjs-2'
-import { formatDate } from '../../../functions'
-import { ScrollDrag,ScrollHorizontalBar } from '../../../components'
+import { formatDate } from '../../../../functions'
+import { ScrollDrag,ScrollHorizontalBar } from '../../../../components'
 import { useSelector } from 'react-redux'
-import { Select } from '../../../components/Form/WithoutValidation'
+import { Select } from '../../../../components/Form/WithoutValidation'
 
 
 const Container = styled.div`

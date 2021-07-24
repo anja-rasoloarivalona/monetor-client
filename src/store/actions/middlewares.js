@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes'
 import { setTheme, setUser, setCurrency, setWeather } from './index'
 import axios from 'axios'
 import { getCategories } from './categories'
-import publicIp from 'public-ip'
+
 const key = process.env.REACT_APP_WEATHER_API_KEY
 
 const initApp = () => {
@@ -61,6 +61,7 @@ const getUserLocation = () => {
                 settings: { locale }
             } = getState()
 
+            // let currentWeatherData= null
             let currentWeatherData = localStorage.getItem("weather")
             if(!currentWeatherData){
                 const { data: location } = await axios.get('https://ipapi.co/json/')
@@ -87,6 +88,8 @@ const logoutUser = () => {
         })
     }
 }
+
+
 
 export {
     initApp

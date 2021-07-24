@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { createStore, applyMiddleware, compose, combineReducers } from "redux"
 import thunk from "redux-thunk"
 import { Provider } from 'react-redux'
-import { theme, text, settings, user, categories, data, form, finance, home, messages } from './store/reducers'
+import { theme, text, settings, user, categories, data, form, finance, home, messages, notifications } from './store/reducers'
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -20,7 +20,8 @@ const rootReducer = combineReducers({
   form,
   finance,
   home,
-  messages
+  messages,
+  notifications
 })
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

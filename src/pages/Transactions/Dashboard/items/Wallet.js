@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import { ReactComponent as Chip } from '../../../icons/sim-card.svg'
-import { ReactComponent as Money } from '../../../icons/money.svg'
+import { ReactComponent as Chip } from '../../../../icons/sim-card.svg'
+import { ReactComponent as Money } from '../../../../icons/money.svg'
 import { useSelector } from 'react-redux'
-import { Amount } from '../../../components'
+import { Amount } from '../../../../components'
 
 const Container = styled.div`
     width: 100%;

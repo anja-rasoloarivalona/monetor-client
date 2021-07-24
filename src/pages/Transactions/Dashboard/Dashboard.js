@@ -1,29 +1,18 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { layout as defaultLayout } from './defaultLayout.json'
-import { useWindowSize } from '../../hooks'
+import { useWindowSize } from '../../../hooks'
 import { useSelector, useDispatch } from 'react-redux'
 import GridLayout from 'react-grid-layout'
-import "../../../node_modules/react-grid-layout/css/styles.css"
-import "../../../node_modules/react-resizable/css/styles.css"
+import "../../../../node_modules/react-grid-layout/css/styles.css"
+import "../../../../node_modules/react-resizable/css/styles.css"
 import Overview from './items/Overview'
 import Expenses from './items/Expenses'
 import Transactions from './items/Transactions'
 import History from "./items/History"
 import Wallet from "./items/Wallet"
 
-const Container = styled.div`
-    width: 100%;
-    min-height: calc(100vh - 6.5rem);
-    padding-left: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: ${props => props.theme.background};
-    position: relative;
-    z-index: 2;
-    overflow-x: hidden;
-`
+
 const GridContainer = styled.div`
     width: 100%;
     height: 100%;
@@ -131,22 +120,20 @@ const Dashboard = () => {
     }
 
     return (
-        <Container>
-            <GridContainer>
-                <GridLayout
-                    className="layout"
-                    layout={layout}
-                    cols={config.cols}
-                    rowHeight={34}
-                    width={windowWidth - 250}
-                    margin={[15, 15]}
-                    isDraggable={true}
-                    isResizable={true}
-                >
-                    {layout.filter(i => i.display === true).map(renderItem)}
-                </GridLayout>
-            </GridContainer>
-        </Container>
+        <GridContainer>
+            <GridLayout
+                className="layout"
+                layout={layout}
+                cols={config.cols}
+                rowHeight={34}
+                width={windowWidth - 250}
+                margin={[15, 15]}
+                isDraggable={true}
+                isResizable={true}
+            >
+                {layout.filter(i => i.display === true).map(renderItem)}
+            </GridLayout>
+        </GridContainer>
      )
 };
 

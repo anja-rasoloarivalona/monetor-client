@@ -15,6 +15,7 @@ const Container = styled(ScrollBar)`
     width: 100%;
     height: calc(100% - ${props => props.messageBarHeight}px);
     padding: 2rem;
+    padding-right: 4rem;
     position: relative;
     background: ${props => props.theme.surface};
 `

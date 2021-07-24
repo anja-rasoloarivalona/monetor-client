@@ -8,6 +8,7 @@ import form from './form'
 import finance from './finance'
 import home from './home'
 import messages from './messages'
+import notifications from './notifications'
 
 export {
     text,
@@ -19,5 +20,6 @@ export {
     form,
     finance,
     home,
-    messages
+    messages,
+    notifications
 }

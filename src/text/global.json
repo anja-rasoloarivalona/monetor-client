@@ -159,6 +159,10 @@
         "fr": "Groupes",
         "en": "Groups"
     },
+    "home": {
+        "fr": "Accueil",
+        "en": "Home"
+    },
     "in_list": {
         "fr": "Dans la liste",
         "en": "In list"
@@ -171,6 +175,10 @@
         "fr": "Revenus",
         "en": "Incomes"
     },
+    "invite_members": {
+        "fr": "Inviter",
+        "en": "Invite members"
+    },
     "labels": {
         "fr": "Étiquettes",
         "en": "Labels"
@@ -182,6 +190,10 @@
     "last_date_of_payment": {
         "fr": "Date du dernier paiement",
         "en": "Last paiement date"
+    },
+    "list": {
+        "fr": "List",
+        "en": "List"
     },
     "login": {
         "fr": "Se connecter",
@@ -250,6 +262,10 @@
     "per_year": {
         "fr": "Par an",
         "en": "Per year"
+    },
+    "profile": {
+        "fr": "Profil",
+        "en": "Profile"
     },
     "save": {
         "fr": "Enregistrer",
