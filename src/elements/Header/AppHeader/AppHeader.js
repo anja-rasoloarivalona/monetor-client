@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons'
 import AppSelector from "./AppSelector"
 import Searchbar from "./Searchbar"
+import { Link } from '../../../components'
 
 const Container = styled.div`
     height: 6.5rem;
@@ -36,6 +37,18 @@ const Section = styled.div`
     align-items: center;
 `
 
+const ToggleMenu = styled(Section)`
+    width: 30rem;
+    height: 100%;
+
+    a {
+        font-size: 1.8rem;
+        margin-left: 1rem;
+    }
+
+`
+
+
 const IconContainer = styled.div`
     width: 4rem;
     height: 4rem;
@@ -62,7 +75,8 @@ const AppHeader = props => {
     const { setShowSidebar } = props
 
     const { 
-        user
+        user,
+        text: { text }
     } = useSelector(state => state)
 
     return (
@@ -70,11 +84,14 @@ const AppHeader = props => {
             
             {user.setupAt ?
                 <>
-                    <Section>
+                    <ToggleMenu>
                         <IconContainer onClick={() => setShowSidebar(true)}>
                             <FontAwesomeIcon icon="bars"/>
                         </IconContainer>
-                    </Section>
+                        <Link to={`/${text.link_app_home}`}>
+                            {text.home}
+                        </Link>
+                    </ToggleMenu>
                     <Section>
                         <Searchbar />
                     </Section>

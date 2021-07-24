@@ -6,7 +6,7 @@ import PublicHome from "./PublicHome/Home"
 import Login from "./Login/Login"
 import Signup from "./Signup/Signup"
 import Setup from "./Setup/Setup"
-import Dashboard from './FinanceDashboard/FinanceDashboard'
+import Transactions from './Transactions/Transactions'
 import Todo from './Todo/Todo'
 import Home from './Home/Home'
 import Messages from './Messages/Messages'
@@ -92,7 +92,7 @@ const Routes = props => {
                 <Route path={`/${text.link_forgot_password}`} component={Login}/>
                 <Route path={`/${text.link_signup}`} component={Signup} />
                 <Route path={`/${text.link_setup}`} component={Setup} />
-                <Route path={`/${text.link_finance}/${text.link_dashboard}`} component={Dashboard} />
+                <Route path={`/${text.link_transactions}`} component={Transactions} />
                 <Route path={`/${text.link_todo}`} component={Todo} />
                 <Route path={`/${text.link_app_home}`} component={Home} />
                 <Route path={`/${text.link_messages}`} component={Messages} />

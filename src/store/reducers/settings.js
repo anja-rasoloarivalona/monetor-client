@@ -2,9 +2,10 @@ import * as actionTypes from '../actions/actionTypes'
 import { updatedObject } from '../utils'
 
 const initialState = {
-    locale: localStorage.getItem("language") || "en",
+    locale: localStorage.getItem("locale") || "en",
     currency: null,
-    socket: null
+    socket: null,
+    unitType: localStorage.getItem("unitType") || "imperial"
 }
 
 const setCurrency = (state, action) => {
@@ -13,11 +14,26 @@ const setCurrency = (state, action) => {
     })
 }
 
+const setLocale = (state, action) => {
+    localStorage.setItem("locale", action.locale)
+    return updatedObject(state, {
+        locale: action.locale
+    })
+}
+
+const setUnitType = (state, action) => {
+    localStorage.setItem("unitType", action.unit)
+    return updatedObject(state, {
+        unitType: action.unit
+    })
+}
+
 const reducer = (state = initialState, action) => {
     switch(action.type){
-        case actionTypes.SET_LOCALE: return updatedObject(state, {locale: action.locale})
+        case actionTypes.SET_LOCALE: return setLocale(state, action)
         case actionTypes.SET_CURRENCY: return setCurrency(state, action)
         case actionTypes.SET_SOCKET: return updatedObject(state, {socket: action.socket})
+        case actionTypes.SET_UNIT_TYPE: return setUnitType(state, action)
         default: return state
     }
 }

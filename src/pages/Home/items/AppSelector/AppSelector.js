@@ -88,7 +88,7 @@ const AppSelector = () => {
         {
             label: text.transactions,
             src: transactionsImg,
-            link: text.link_finance + "/" + text.link_dashboard
+            link: text.link_transactions + "/" + text.link_dashboard
         },
     ]
 

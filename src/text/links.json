@@ -5,16 +5,20 @@
         "page": "app_home",
         "type": "app"
     },
+    "link_budget": {
+        "fr": "budget",
+        "en": "budget"
+    },
     "link_dashboard": {
         "fr": "tableau-de-bord",
         "en": "dashboard",
         "page": "dashboard",
         "type": "app"
     },
-    "link_finance": {
-        "fr": "finance",
-        "en": "finance",
-        "page": "finance",
+    "link_transactions": {
+        "fr": "transactions",
+        "en": "transactions",
+        "page": "transactions",
         "type": "app"
     },
     "link_forgot_password": {
@@ -28,6 +32,10 @@
         "en": "",
         "page": "home",
         "type": "public"
+    },
+    "link_list": {
+        "fr": "list",
+        "en": "list"
     },
     "link_login": {
         "fr": "se-connecter",
@@ -47,6 +55,12 @@
         "page": "setup",
         "type": "app"
     },
+    "link_settings": {
+        "fr": "paramètres",
+        "en": "settings",
+        "page": "settings",
+        "type": "app"
+    },
     "link_signup": {
         "fr": "inscription",
         "en": "sign-up",
@@ -59,10 +73,10 @@
         "page": "todo",
         "type": "app"
     },
-    "link_transactions": {
-        "fr": "transactions",
-        "en": "transactions",
-        "page": "transactions",
+    "link_profile": {
+        "fr": "profil",
+        "en": "profile",
+        "page": "profile",
         "type": "app"
     }
 }

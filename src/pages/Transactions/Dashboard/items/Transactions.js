@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Title } from "./style";
 import { useSelector } from "react-redux";
-import { Select } from "../../../components/Form/WithoutValidation";
-import { Amount, AppDate } from "../../../components";
+import { Select } from "../../../../components/Form/WithoutValidation";
+import { Amount, AppDate } from "../../../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Container = styled.div`

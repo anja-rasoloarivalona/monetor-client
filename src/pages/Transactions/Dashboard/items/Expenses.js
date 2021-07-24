@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Title } from './style'
 import { useSelector } from 'react-redux'
-import { Select } from '../../../components/Form/WithoutValidation'
-import { Amount, AppDate } from '../../../components'
+import { Select } from '../../../../components/Form/WithoutValidation'
+import { Amount, AppDate } from '../../../../components'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Doughnut } from "react-chartjs-2";
-import { renderAmount } from '../../../functions'
+import { renderAmount } from '../../../../functions'
 
 const Container = styled.div`
     width: 100%;
