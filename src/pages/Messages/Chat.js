@@ -66,11 +66,6 @@ const Chat = props => {
     },[current, conversations])
 
     useEffect(() => {
-
-        console.log({
-            messages
-        })
-
         const convoEnd = document.getElementById("convo_end")
         if(convoEnd){
             convoEnd.scrollIntoView()
@@ -87,10 +82,10 @@ const Chat = props => {
                     <ConvoGroup key={uuid()}>
                         {group.map((item, index) => (
                             <MessageItem 
-                            key={item.id} 
-                            message={item}
-                            index={index}
-                            group={group}
+                                key={item.id} 
+                                message={item}
+                                index={index}
+                                group={group}
                             />
                         ))}
                     </ConvoGroup>

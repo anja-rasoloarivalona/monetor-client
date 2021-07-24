@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faComment } from '@fortawesome/free-regular-svg-icons'
 import AppSelector from "./AppSelector"
 import Searchbar from "./Searchbar"
+import Messages from './Messages'
 import { Link } from '../../../components'
 
 const Container = styled.div`
@@ -96,9 +97,7 @@ const AppHeader = props => {
                         <Searchbar />
                     </Section>
                     <Section>
-                        <IconContainer>
-                            <FontAwesomeIcon icon={faComment}/>
-                        </IconContainer>
+                        <Messages />
                         <IconContainer>
                             <FontAwesomeIcon icon={faBell}/>
                         </IconContainer>

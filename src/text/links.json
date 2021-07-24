@@ -9,6 +9,12 @@
         "fr": "budget",
         "en": "budget"
     },
+    "link_calendar": {
+        "fr": "calendrier",
+        "en": "calendar",
+        "page": "calendar",
+        "type": "app"
+    },
     "link_dashboard": {
         "fr": "tableau-de-bord",
         "en": "dashboard",

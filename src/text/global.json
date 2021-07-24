@@ -43,6 +43,10 @@
         "fr": "Budget",
         "en": "Budget"
     },
+    "calendar": {
+        "fr": "Calendrier",
+        "en": "Calendar"
+    },
     "cancel": {
         "fr": "Annuler",
         "en": "Cancel"

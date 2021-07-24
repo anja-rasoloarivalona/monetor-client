@@ -124,6 +124,16 @@ const setOnlineContacts = props => {
     }
 }
 
+const toggleDraggableMessage = data => {
+    console.log({
+        data
+    })
+    return {
+        type: actionTypes.TOGGLE_DRAGGABLE_MESSAGE,
+        data
+    }
+}
+
 export {
     addBudget,
     addWallet,
@@ -133,5 +143,6 @@ export {
     setTodoLists,
     updateTodoLits,
     addTransaction,
-    setOnlineContacts
+    setOnlineContacts,
+    toggleDraggableMessage
 }
