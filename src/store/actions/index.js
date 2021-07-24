@@ -21,7 +21,8 @@ export {
     updateTodoLits,
     setTodoLists,
     addTransaction,
-    setOnlineContacts
+    setOnlineContacts,
+    toggleDraggableMessage
 } from './user'
 
 export {

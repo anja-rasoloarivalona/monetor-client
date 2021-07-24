@@ -84,7 +84,7 @@ const ListItemLabel = styled.div`
 
 const AppSelector = () => {
 
-    const [ showList, setShowList ] = useState(true)
+    const [ showList, setShowList ] = useState(false)
 
     const container = useRef()
 
@@ -101,9 +101,9 @@ const AppSelector = () => {
             link: text.link_todo
         },
         {
-            label: text.agenda,
+            label: text.calendar,
             src: agendaImg,
-            link: ""
+            link: text.link_calendar
         },
         {
             label: text.contacts,

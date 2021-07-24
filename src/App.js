@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
-import { Header, Sidebar, Forms, AddComponent } from "./elements";
+import { Header, Sidebar, Forms, AddComponent, Draggable } from "./elements";
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./pages";
@@ -159,6 +159,7 @@ const App = () => {
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
               />
+              <Draggable />
               <Forms />
               {/* <AddComponent /> */}
               <Routes />

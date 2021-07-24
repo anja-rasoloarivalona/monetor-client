@@ -18,6 +18,15 @@ const Container = styled.div`
     align-items: center;
     padding: 1rem;
     border-top: 1px solid ${props => props.theme.form.unfocused.border};
+
+    ${props => {
+        if(props.rounded){
+            return {
+                borderBottomLeftRadius: ".6rem",
+                borderBottomRightRadius: ".6rem"
+            }
+        }
+    }}
 `
 
 const TextArea = styled.textarea`
@@ -63,7 +72,7 @@ const MessageBar = props => {
 
     const dispatch = useDispatch()
 
-    const { setMessageBarHeight, messageBarHeight, current } = props
+    const { setMessageBarHeight, messageBarHeight, current, rounded } = props
 
     const [ message, setMessage ] = useState('')
     const [ isFocused, setIsFocused ] = useState(false)
@@ -124,7 +133,7 @@ const MessageBar = props => {
     }
 
     return (
-        <Container  ref={messageBarRef} >
+        <Container  ref={messageBarRef} rounded={rounded}>
             <TextArea
                 id="messagebar"
                 value={message}

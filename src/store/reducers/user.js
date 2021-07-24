@@ -69,6 +69,28 @@ const setOnlineContacts = (state, action) => {
     })
 }
 
+const toggleDraggableMessage = (state, action) => {
+
+  
+
+    const { open, id  } = action.data
+    const updatedContacts = []
+    state.contacts.forEach(contact => {
+        updatedContacts.push({
+            ...contact,
+            isDragOpened: id === contact.id ? open : contact.isDragOpened
+        })
+    })
+
+    console.log({
+        updatedContacts
+    })
+
+    return updatedObject(state, {
+        contacts: updatedContacts
+    })
+}
+
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
@@ -80,6 +102,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_TODO_LISTS: return updatedObject(state, {todoLists: action.todoLists})
         case actionTypes.ADD_TRANSACTION: return addTransaction(state, action)
         case actionTypes.SET_ONLINE_CONTACTS: return setOnlineContacts(state, action)
+        case actionTypes.TOGGLE_DRAGGABLE_MESSAGE: return toggleDraggableMessage(state, action)
         default: return state
     }
 }

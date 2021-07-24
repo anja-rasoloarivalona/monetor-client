@@ -115,9 +115,9 @@ const AppList = props => {
             link: text.link_todo
         },
         {
-            label: text.agenda,
+            label: text.calendar,
             src: agendaImg,
-            link: ""
+            link: text.link_calendar
         },
         {
             label: text.contacts,
