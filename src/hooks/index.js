@@ -206,3 +206,32 @@ export const useAppearAnimation = (isMounted, delayTime) => {
     outAnimation
   };
 }
+
+export const isScrolledIntoView = (el) => {
+  let isVisible
+  if(!el) return true
+  const rect = el.getBoundingClientRect()
+  const elemTop = rect.top
+  const elemBottom = rect.bottom
+  isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight)
+  return isVisible;
+}
+
+export const useIntersection = (element, rootMargin) => {
+  const [isVisible, setState] = useState(false);
+
+  useEffect(() => {
+      const observer = new IntersectionObserver(
+          ([entry]) => {
+              setState(entry.isIntersecting);
+          }, { rootMargin }
+      );
+
+      element && observer.observe(element);
+
+      return () => observer.unobserve(element);
+  }, []);
+
+  return isVisible;
+};
+
