@@ -7,7 +7,10 @@ import NextHours from "./NextHours"
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    padding: 1rem;
+    padding: 2rem;
+    background: ${props => props.theme.surface};
+    box-shadow: ${props => props.theme.boxShadowLight};
+    border-radius: 1rem;
 `
 
 
