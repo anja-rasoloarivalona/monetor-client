@@ -63,9 +63,10 @@ const Calendar = props => {
                     end: null,
                     from: null 
                 }
-                 current.month === today.getMonth() ? range.from = today : range.from = moment(`15-${ current.period}`, "DD-MM-YYYY")   
+                current.month === today.getMonth() ? range.from = today : range.from = moment(`15-${ current.period}`, "DD-MM-YYYY")   
                 range.start = moment(range.from).startOf('week').isoWeekday(1);
                 range.end = moment(range.from).endOf('week').isoWeekday(1);
+                range.from = new Date(moment(range.start).add(3, 'days')) 
                 setViewMode({
                     type: "week",
                     current: range

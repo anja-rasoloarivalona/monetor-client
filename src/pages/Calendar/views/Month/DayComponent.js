@@ -8,7 +8,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     padding: .2rem;
-    scroll-snap-align: start;
+    // scroll-snap-align: start;
     opacity: ${props => props.isScrollInitialized ? 1 : 0};
 
 `

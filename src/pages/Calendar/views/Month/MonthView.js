@@ -20,6 +20,8 @@ const Container = styled(ScrollBar)`
     scroll-behavior: smooth;
     padding: 0 4rem;
 
+    background: ${props => props.theme.surface};
+
 
     ::-webkit-scrollbar {
         display: none;
