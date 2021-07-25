@@ -29,6 +29,28 @@ const months = {
     ]
 }
 
+const days = {
+    fr: [
+        {short: "lun", long: "lundi"},
+        {short: "mar", long: "mardi"},
+        {short: "mer", long: "mercredi"},
+        {short: "jeu", long: "jeudi"},
+        {short: "ven", long: "vendredi"},
+        {short: "sam", long: "samedi"},
+        {short: "dim", long: "dimanche"},
+    ],
+    en: [
+        {short: "mon", long: "monday"},
+        {short: "tue", long: "tuesday"},
+        {short: "wed", long: "wednesday"},
+        {short: "thu", long: "thursday"},
+        {short: "fri", long: "friday"},
+        {short: "sat", long: "saturday"},
+        {short: "sun", long: "sunday"},
+    ],
+}
+
 export {
-    months
+    months,
+    days
 }

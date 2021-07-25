@@ -118,7 +118,7 @@ const Messages = () => {
 
     const dispatch = useDispatch()
     
-    const [ showList, setShowList ] = useState(true)
+    const [ showList, setShowList ] = useState(false)
 
     const container = useRef()
 

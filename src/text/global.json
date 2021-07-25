@@ -327,6 +327,10 @@
         "fr": "Variable",
         "en": "Variable"
     },
+    "week": {
+        "fr": "Semaine",
+        "en": "Week"
+    } ,
     "wallet": {
         "fr": "Actif",
         "en": "Wallet"
