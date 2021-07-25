@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { months, days } from './data'
 import { useSelector } from 'react-redux'
 import {  Button } from '../../components'
+import moment from 'moment'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const Container = styled.div`
     width: 100%;
@@ -25,8 +27,28 @@ const Section = styled.div`
 `
 
 const Title = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const TitleLabel = styled.div`
     font-size: 2rem;
     font-weight: 500;
+    margin: 0 2rem;
+`
+
+const TitleIcon = styled.div`
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    :hover {
+        background: ${props => props.theme.background};
+    }
 `
 
 
@@ -72,14 +94,88 @@ const Header = props => {
         text: { text }
     } = useSelector(state => state)
 
+    const navigationHandler = direction => {
+        if(type === "week"){
+            const updatedCurrent = {...current}
+            if(direction === "next"){
+                updatedCurrent.start = new Date(moment(current.start).startOf('week').isoWeekday(1).add(2, 'week')) 
+                updatedCurrent.end = new Date(moment(current.start).endOf('week').isoWeekday(1).add(2, 'week')) 
+            } else {
+                updatedCurrent.start = new Date(moment(current.start).startOf('week').isoWeekday(1))
+                updatedCurrent.end = new Date(moment(current.start).endOf('week').isoWeekday(1)) 
+            }
+            updatedCurrent.from = new Date(moment(updatedCurrent.start).add(3, 'days')) 
+            
+            
+            // new Date(updatedCurrent.start) 
+
+
+            console.log({
+                updatedCurrent
+            })
+
+
+            // if(direction === "next"){
+            //     updatedCurrent.start = moment(current.from).startOf('week').isoWeekday(1).add(1, 'week')
+            //     updatedCurrent.end = moment(current.from).endOf('week').isoWeekday(1).add(1, 'week')
+            // } else {
+            //     updatedCurrent.start = moment(current.from).startOf('week').isoWeekday(1).subtract(1, 'week')
+            //     updatedCurrent.end = moment(current.from).endOf('week').isoWeekday(1).subtract(1, 'week')
+            // }
+            // updatedCurrent.from = current.start
+            
+            
+            setViewMode(prev => ({
+                type: "week",
+                current: updatedCurrent
+            }))
+
+        }
+    }
+
     const renderTitle = () => {
         if(type === "month"){
             return (
-                <Title>{months[locale][current.month].long} {current.year}</Title>
+                <Title>
+                    <TitleLabel>
+                        {months[locale][current.month].long} {current.year}
+                    </TitleLabel>
+                </Title>
             )
         }
         return (
-            <Title>{months[locale][current.from.getMonth()].long} {current.from.getFullYear()}</Title>
+            <Title>
+                <TitleIcon onClick={() => navigationHandler("prev")}>
+                    <FontAwesomeIcon icon="chevron-left" />
+                </TitleIcon>
+                <TitleLabel>
+                    {months[locale][current.from.getMonth()].long} {current.from.getFullYear()}
+                </TitleLabel>
+                <TitleIcon onClick={() => navigationHandler("next")}>
+                    <FontAwesomeIcon icon="chevron-right" />
+                </TitleIcon>
+            </Title>
+        )
+    }
+
+    const getCurrentWeekDates = () => {
+        const res = []
+        for(let i = 0; i < 7; i++){
+            const date = moment(current.start).add(i, 'days')
+            res.push(new Date(date).getDate())
+        }
+        return res
+    }
+
+    const renderDayItem = (day, index) => {
+        let label = day.short
+        if(type === "week"){
+            label += ` ${getCurrentWeekDates()[index]}`
+        }
+        return (
+            <DaysItem key={index}>
+                {label}
+             </DaysItem>
         )
     }
 
@@ -105,11 +201,7 @@ const Header = props => {
                 </Section>
             </Top>
             <Days type={type}>
-            {days[locale].map((day, index) => (
-                    <DaysItem key={index}>
-                        {day.short}
-                    </DaysItem>
-                ))}
+                {days[locale].map((day, index) => renderDayItem(day, index))}
             </Days>
         </Container>
      )

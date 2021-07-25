@@ -26,6 +26,7 @@
     "immutability-helper": "^3.1.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "moment-range": "^4.0.2",
     "public-ip": "^4.0.4",
     "query-string": "^7.0.1",
     "re-resizable": "^6.9.0",

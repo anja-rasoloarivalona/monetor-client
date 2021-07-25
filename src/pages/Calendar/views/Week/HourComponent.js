@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import HourComponentPart from "./HourComponentPart"
 
 const Container = styled.div`
     width: 100%;
@@ -7,6 +8,8 @@ const Container = styled.div`
     position: relative;
     border-right: 1px solid ${props => props.theme.form.unfocused.border};
     border-bottom: 1px solid ${props => props.theme.form.unfocused.border};
+    display: flex;
+    flex-direction: column;
 
     :before {
         content: "";
@@ -14,27 +17,26 @@ const Container = styled.div`
         top: 0;
         bottom: 0;
         margin: auto;
-        left: 0;
         width: 100%;
         height: 1px;
-        z-index: 1;
-        background:  ${props => props.theme.background};
+        background: ${props => props.theme.background};
     }
-`
-
-const Content = styled.div`
-    position: relative;
-    z-index: 2;
 `
 
 const HourComponent = props => {
 
     const { viewMode, item  } = props
 
+    const parts = [0, 1]
+
     return (
         <Container>
-            <Content>
-            </Content>
+            {/* {parts.map(part => (
+                <HourComponentPart
+                    index={part} 
+                    item={item}
+                />
+            ))} */}
         </Container>
      )
 };

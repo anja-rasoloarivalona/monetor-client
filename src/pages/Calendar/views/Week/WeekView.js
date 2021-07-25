@@ -7,6 +7,7 @@ import Sidebar from './Sidebar'
 import HourComponent from './HourComponent'
 import { getHoursDate } from '../../functions'
 import { days } from '../../data'
+import DraggableGrid from "./DraggableGrid" 
 
 const Container = styled(ScrollBar)`
     width: 100%;
@@ -23,6 +24,7 @@ const Hours = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(24, 8rem);
+    position: relative;
 `
 
 const WeekView = props => {
@@ -59,6 +61,9 @@ const WeekView = props => {
                         viewMode={viewMode}
                     />
                 ))}
+                <DraggableGrid 
+                    current={viewMode.current}
+                />
             </Hours>
         </Container>
      )
