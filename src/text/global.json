@@ -303,6 +303,10 @@
         "fr": "Heure",
         "en": "Time"
     },
+    "today": {
+        "fr": "Aujourd'hui",
+        "en": "Today"
+    },
     "to_do": {
         "fr": "À faire",
         "en": "To do"

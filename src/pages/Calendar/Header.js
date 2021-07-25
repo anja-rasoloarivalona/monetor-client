@@ -104,27 +104,7 @@ const Header = props => {
                 updatedCurrent.start = new Date(moment(current.start).startOf('week').isoWeekday(1))
                 updatedCurrent.end = new Date(moment(current.start).endOf('week').isoWeekday(1)) 
             }
-            updatedCurrent.from = new Date(moment(updatedCurrent.start).add(3, 'days')) 
-            
-            
-            // new Date(updatedCurrent.start) 
-
-
-            console.log({
-                updatedCurrent
-            })
-
-
-            // if(direction === "next"){
-            //     updatedCurrent.start = moment(current.from).startOf('week').isoWeekday(1).add(1, 'week')
-            //     updatedCurrent.end = moment(current.from).endOf('week').isoWeekday(1).add(1, 'week')
-            // } else {
-            //     updatedCurrent.start = moment(current.from).startOf('week').isoWeekday(1).subtract(1, 'week')
-            //     updatedCurrent.end = moment(current.from).endOf('week').isoWeekday(1).subtract(1, 'week')
-            // }
-            // updatedCurrent.from = current.start
-            
-            
+            updatedCurrent.from = new Date(moment(updatedCurrent.start).add(3, 'days'))             
             setViewMode(prev => ({
                 type: "week",
                 current: updatedCurrent

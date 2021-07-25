@@ -8,6 +8,7 @@ import "../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../node_modules/react-resizable/css/styles.css"
 import Weather from "./items/Weather/Weather"
 import AppSelector from "./items/AppSelector/AppSelector"
+import Calendar from "./items/Calendar/Calendar"
 
 const Container = styled.div`
     width: 100%;
@@ -34,10 +35,6 @@ const GridItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${props => props.theme.surface};
-    border-radius: 1.5rem;
-    box-shadow: ${props => props.theme.boxShadowLight};
-    padding: 1rem;
 
     .react-resizable-handle.react-resizable-handle-se {
         bottom: 1rem !important;
@@ -85,7 +82,8 @@ const Home = () => {
     
     const components = {
         "weather": Weather,
-        "appSelector": AppSelector
+        "appSelector": AppSelector,
+        "calendar": Calendar
     }
 
 
@@ -110,7 +108,7 @@ const Home = () => {
                     layout={layout}
                     cols={config.cols}
                     rowHeight={34}
-                    width={windowWidth - 250}
+                    width={windowWidth}
                     margin={[15, 15]}
                     isDraggable={true}
                     isResizable={true}
