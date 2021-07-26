@@ -22,7 +22,7 @@ const Container = styled.div`
     }
 `
 
-const HourComponent = props => {
+const HourComponent = () => {
     return (
         <Container  className="hour"/>
      )

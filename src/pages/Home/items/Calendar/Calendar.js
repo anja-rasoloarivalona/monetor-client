@@ -8,6 +8,9 @@ import { ScrollBar, AppDate } from '../../../../components'
 import { days } from '../../../Calendar/data'
 import moment from 'moment'
 import WeekView from '../../../Calendar/views/Week/WeekView'
+import Dynamic from '../../../Calendar/views/Week/DynamicSlider'
+import CalendarTitle from "./CalendarTitle"
+
 
 const Container = styled.div`
     width: 100%;
@@ -15,20 +18,6 @@ const Container = styled.div`
     overflow: hidden;
     background: ${props => props.theme.surface};
     box-shadow: ${props => props.theme.boxShadowLight};
-`
-
-const Title = styled.div`
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    border-bottom: 1px solid ${props => props.theme.background};
-    color: ${props => props.theme.textLight};
-`
-const TitleDay = styled.div`
-    text-transform: uppercase;
-    margin-right: .5rem;
 `
 
 
@@ -95,29 +84,23 @@ const Calendar = () => {
         }
     }
 
-    const renderTitle = () => {
-        if(current.nb === 1){
-            const day =  days[locale][current.from.getDay() - 1].short
-            return (
-                <>
-                    <TitleDay>{day}</TitleDay>
-                    <AppDate value={current.from} format="mm-dd"/>
-                </>
-            )
-        }
-    }
-
     const navigationHandler = type => {
         if(type === "next"){
-            console.log({
-                type
-            })
-
             setCurrent(prev => ({
                 ...prev,
                 start: moment(new Date(prev.start)).add(config.days, "day"),
                 end: moment(new Date(prev.end)).add(config.days, "day"),
                 from: new Date(moment(new Date(prev.start)).add(config.days, "day")),
+                type
+            }))
+        }
+        if(type === "prev"){
+            setCurrent(prev => ({
+                ...prev,
+                start: moment(new Date(prev.start)).subtract(config.days, "day"),
+                end: moment(new Date(prev.end)).subtract(config.days, "day"),
+                from: new Date(moment(new Date(prev.start)).subtract(config.days, "day")),
+                type
             }))
         }
     }
@@ -131,9 +114,7 @@ const Calendar = () => {
                 setCurrent={setCurrent}
                 navigationHandler={navigationHandler}
             />
-            <Title>
-                {renderTitle()}
-            </Title>
+            <CalendarTitle current={current}/>
             <Content config={config}>
                 <WeekView 
                     viewMode={{

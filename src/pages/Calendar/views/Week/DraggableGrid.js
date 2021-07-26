@@ -11,15 +11,8 @@ import moment from 'moment'
 import {getInRangeTodoLists,  getHourData } from '../../functions'
 
 const Container = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    z-index 1;
-    display: flex;
-    transform: translateX(${props => props.pos * 110}%);
-    transition: transform .3s ease-in;
 
     .layout {
         width: 100%;
@@ -44,40 +37,24 @@ const TodoItemContainer = styled.div`
 
 const DraggableGrid = props => {
 
-    const { current: _current, config, pos, id } = props
+    const { current, config } = props
 
     const [layout, setLayout] = useState(null)
 
     const { windowWidth } = useWindowSize()
 
-    const [ current, setCurrent ] = useState({..._current})
-
- 
 
     const {
         user: { todoLists },
         settings: { unitType }
     } = useSelector(state => state)
 
-    useEffect(() => {
-        const updatedCurrent = {...current}
-        if(id === 'next'){
-            updatedCurrent.start = moment(new Date(current.start)).add(config.days, "day")
-            updatedCurrent.end = moment(new Date(current.end)).add(config.days, "day")
-            updatedCurrent.id = "next"
-        }
-
-        if(id === "prev"){
-            updatedCurrent.start = moment(new Date(current.start)).subtract(config.days, "day")
-            updatedCurrent.end = moment(new Date(current.end)).subtract(config.days, "day")
-            updatedCurrent.id = "prev"
-        }
-        setCurrent(updatedCurrent)
-    },[_current])
-
 
     useEffect(() => {
         const _layout = getInRangeTodoLists(todoLists, current, unitType)
+        console.log({
+            _layout
+        })
         setLayout(_layout)
     },[todoLists, current])
 
@@ -87,14 +64,14 @@ const DraggableGrid = props => {
 
 
     const getDashboardWidth = () => {
-        if(props.config && props.config.container.current){
+        if(props.config && props.config.container && props.config.container.current){
             return props.config.container.current.clientWidth - props.config.sidebar
         } 
         return windowWidth - 200
     }
 
     return (
-        <Container pos={pos}>
+        <Container>
             <GridLayout
                 className="layout"
                 layout={layout}
