@@ -87,7 +87,7 @@ const ToggleViewModeButton = styled(Button)`
 
 const Header = props => {
 
-    const { viewMode: { type, current }, setViewMode, toggleViewModeHandler } = props
+    const { viewMode: { type, current }, setViewMode, toggleViewModeHandler, config } = props
 
     const {
         settings: { locale },
@@ -98,16 +98,22 @@ const Header = props => {
         if(type === "week"){
             const updatedCurrent = {...current}
             if(direction === "next"){
-                updatedCurrent.start = new Date(moment(current.start).startOf('week').isoWeekday(1).add(2, 'week')) 
-                updatedCurrent.end = new Date(moment(current.start).endOf('week').isoWeekday(1).add(2, 'week')) 
+                updatedCurrent.start = new Date(moment(current.start).add(config.days, 'days'))
+                updatedCurrent.end = new Date(moment(current.end).add(config.days, 'days')) 
+                updatedCurrent.from = new Date(moment(updatedCurrent.start).add(config.days, 'days'))             
+
             } else {
-                updatedCurrent.start = new Date(moment(current.start).startOf('week').isoWeekday(1))
-                updatedCurrent.end = new Date(moment(current.start).endOf('week').isoWeekday(1)) 
+                updatedCurrent.start = new Date(moment(current.start).subtract(config.days, "days"))
+                updatedCurrent.end = new Date(moment(current.end).subtract(config.days, "days")) 
+                updatedCurrent.from = new Date(moment(updatedCurrent.start).subtract(config.days, 'days'))             
+
             }
-            updatedCurrent.from = new Date(moment(updatedCurrent.start).add(3, 'days'))             
             setViewMode(prev => ({
                 type: "week",
-                current: updatedCurrent
+                current: {
+                    ...updatedCurrent,
+                    direction
+                }
             }))
 
         }

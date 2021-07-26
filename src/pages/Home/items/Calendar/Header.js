@@ -74,7 +74,7 @@ const Header = props => {
                     <ButtonItem>
                         {text.today}
                     </ButtonItem>
-                    <ButtonItem>
+                    <ButtonItem onClick={() =>navigationHandler("prev")}>
                         <FontAwesomeIcon icon="chevron-left"/>
                     </ButtonItem>
                     <ButtonItem onClick={() =>navigationHandler("next")}>

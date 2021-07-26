@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import Header from './Header'
 import MonthView from './views/Month/MonthView'
@@ -16,23 +16,27 @@ const Container = styled.div`
 `
 
 const ViewContainer = styled.div`
-    width: 100vw;
-    display: grid;
-    grid-template-columns: repeat(2, 100vw);
-    grid-tempate-rows: max-content;
-    grid-auto-rows: max-content;
-    transform: translateX(${props => props.type === "month" ? 0 : "-100%"});
-    transition: all .3s ease-in;
+
 `
 
 
 const Calendar = props => {
 
+    const container = useRef()
+
     const { windowHeight } = useWindowSize()
 
-    const {config = { itemHeight: (windowHeight - 100 - 65 - 20) / 6 } } = props
 
-    // const {config = { itemHeight: 200 } } = props
+    const config = {
+        sidebar: 200,
+        days: 7,
+        container,
+        hourItem: {
+            height: (windowHeight - 100 - 65 - 20) / 6 
+        },
+        full: true
+    }
+
 
     const today = new Date()
     const day = today.getDay()
@@ -93,28 +97,25 @@ const Calendar = props => {
     }
 
     return (
-        <Container 
-            config={config}
-            windowHeight={windowHeight}
-        >
+        <Container ref={container}>
             <Header 
                 viewMode={viewMode}
                 setViewMode={setViewMode}
                 toggleViewModeHandler={toggleViewModeHandler}
+                config={config}
             />
             <ViewContainer 
                 type={viewMode.type}
             >
-                <MonthView 
+                {/* <MonthView 
                     viewMode={viewMode}
                     setViewMode={setViewMode}
                     config={config}
-                />
-
-
+                /> */}
                 <WeekView 
                     viewMode={viewMode}
                     setViewMode={setViewMode}
+                    config={config}
                 />
             </ViewContainer>
 
