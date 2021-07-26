@@ -61,8 +61,8 @@ const getUserLocation = () => {
                 settings: { locale }
             } = getState()
 
-            // let currentWeatherData= null
-            let currentWeatherData = localStorage.getItem("weather")
+            let currentWeatherData= null
+            // let currentWeatherData = localStorage.getItem("weather")
             if(!currentWeatherData){
                 const { data: location } = await axios.get('https://ipapi.co/json/')
                 const res = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${location.city.toLowerCase()}&days=2&lang=${locale}`)

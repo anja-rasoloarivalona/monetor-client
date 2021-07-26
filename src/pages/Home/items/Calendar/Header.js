@@ -59,7 +59,9 @@ const CalendarSelectorLabel = styled.div`
 `
 
 
-const Header = () => {
+const Header = props => {
+
+    const { navigationHandler } = props
 
     const {
         text: { text }
@@ -75,7 +77,7 @@ const Header = () => {
                     <ButtonItem>
                         <FontAwesomeIcon icon="chevron-left"/>
                     </ButtonItem>
-                    <ButtonItem>
+                    <ButtonItem onClick={() =>navigationHandler("next")}>
                         <FontAwesomeIcon icon="chevron-right"/>
                     </ButtonItem>
                 </ButtonContainer>

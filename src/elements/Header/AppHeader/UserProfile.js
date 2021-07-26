@@ -4,6 +4,7 @@ import {  useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside } from '../../../hooks'
 import SettingsPannel from './SettingsPannel'
+import UserProfileImage from "./UserProfileImage"
 import { faUser } from '@fortawesome/free-regular-svg-icons'
 
 const Container = styled.div`
@@ -147,9 +148,7 @@ const UserProfile = () => {
 
     return (
         <Container ref={list}>
-            <ImageContainer>
-                <FontAwesomeIcon icon={faUser}/>
-            </ImageContainer>
+            <UserProfileImage />
             <UserName>
                 {user.username}
             </UserName>

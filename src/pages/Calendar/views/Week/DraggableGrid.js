@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
@@ -7,7 +8,7 @@ import "../../../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../../../node_modules/react-resizable/css/styles.css"
 import TodoItem from './TodoItem'
 import moment from 'moment'
-import { getHourData } from '../../functions'
+import {getInRangeTodoLists,  getHourData } from '../../functions'
 
 const Container = styled.div`
     position: absolute;
@@ -17,6 +18,8 @@ const Container = styled.div`
     height: 100%;
     z-index 1;
     display: flex;
+    transform: translateX(${props => props.pos * 110}%);
+    transition: transform .3s ease-in;
 
     .layout {
         width: 100%;
@@ -41,64 +44,40 @@ const TodoItemContainer = styled.div`
 
 const DraggableGrid = props => {
 
-    const { current } = props
+    const { current: _current, config, pos, id } = props
 
     const [layout, setLayout] = useState(null)
 
     const { windowWidth } = useWindowSize()
+
+    const [ current, setCurrent ] = useState({..._current})
+
+ 
 
     const {
         user: { todoLists },
         settings: { unitType }
     } = useSelector(state => state)
 
+    useEffect(() => {
+        const updatedCurrent = {...current}
+        if(id === 'next'){
+            updatedCurrent.start = moment(new Date(current.start)).add(config.days, "day")
+            updatedCurrent.end = moment(new Date(current.end)).add(config.days, "day")
+            updatedCurrent.id = "next"
+        }
+
+        if(id === "prev"){
+            updatedCurrent.start = moment(new Date(current.start)).subtract(config.days, "day")
+            updatedCurrent.end = moment(new Date(current.end)).subtract(config.days, "day")
+            updatedCurrent.id = "prev"
+        }
+        setCurrent(updatedCurrent)
+    },[_current])
+
 
     useEffect(() => {
-        const data = []
-        const _layout = []
-
-        const isInRange = item => {
-            if(!item.dueDate) return false
-            const date = new Date(item.dueDate)
-            if(date <= new Date(current.end) && date >= new Date(current.start)){
-                return true
-            }
-            return false
-        }
-        Object.keys(todoLists).forEach(listId => {
-            const list = todoLists[listId]
-            list.todos.forEach(todo => {
-                if(isInRange(todo)){
-                    data.push(todo)
-                }
-                if(todo.checkList){
-                    todo.checkList.forEach(listItem => {
-                        if(isInRange(listItem)){
-                            data.push(listItem)
-                        }
-                    })
-                }
-            })
-        })
-        data.forEach(item => {
-            const date = new Date(item.dueDate)
-            const configData = {
-                day: date.getDay() ,
-                ...getHourData(date, unitType)
-            }
-            const pos = {
-                x: configData.day * 2,
-                y: configData.hour * 2,
-                w: 2,
-                h: 1,
-                i: item.id
-            }
-            _layout.push({
-                ...pos,
-                item,
-                configData
-            })
-        })
+        const _layout = getInRangeTodoLists(todoLists, current, unitType)
         setLayout(_layout)
     },[todoLists, current])
 
@@ -106,15 +85,23 @@ const DraggableGrid = props => {
         return null
     }
 
+
+    const getDashboardWidth = () => {
+        if(props.config && props.config.container.current){
+            return props.config.container.current.clientWidth - props.config.sidebar
+        } 
+        return windowWidth - 200
+    }
+
     return (
-        <Container>
+        <Container pos={pos}>
             <GridLayout
                 className="layout"
                 layout={layout}
-                cols={14}
+                cols={config.days * 2}
                 rows={48}
-                rowHeight={40}
-                width={windowWidth - 200}
+                rowHeight={config.hourItem.height / 2}
+                width={getDashboardWidth()}
                 isDraggable={true}
                 isResizable={true}
                 margin={[0, 0]}

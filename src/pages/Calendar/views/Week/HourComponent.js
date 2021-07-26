@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import HourComponentPart from "./HourComponentPart"
 
 const Container = styled.div`
     width: 100%;
@@ -24,20 +23,8 @@ const Container = styled.div`
 `
 
 const HourComponent = props => {
-
-    const { viewMode, item  } = props
-
-    const parts = [0, 1]
-
     return (
-        <Container>
-            {/* {parts.map(part => (
-                <HourComponentPart
-                    index={part} 
-                    item={item}
-                />
-            ))} */}
-        </Container>
+        <Container  className="hour"/>
      )
 };
 

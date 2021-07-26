@@ -26,7 +26,7 @@ const ListItem = styled.div`
 
 
 
-const Sidebar = () => {
+const Sidebar = props => {
 
     const {
         settings: { unitType }
@@ -38,10 +38,10 @@ const Sidebar = () => {
 
   
     return (
-        <Container>
+        <Container className="sidebar">
             <List>
                 {getHoursDate(unitType).map((h, index) => (
-                    <ListItem key={index}>
+                    <ListItem key={index} className="item">
                         {h}
                     </ListItem>
                 ))}
