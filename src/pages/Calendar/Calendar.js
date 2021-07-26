@@ -34,8 +34,9 @@ const Calendar = props => {
 
     // const {config = { itemHeight: 200 } } = props
 
-
     const today = new Date()
+    const day = today.getDay()
+    const currentStart = day > 0 ? moment(today).startOf('week').isoWeekday(1).add(1, 'week') :  moment(today).startOf('week').isoWeekday(1)
 
     const initialViewMode = {
         type: "week",
@@ -45,9 +46,9 @@ const Calendar = props => {
         //     period: moment(today).format("MM-YYYY")
         // },
         current: {
-            start: moment(today).startOf('week').isoWeekday(1),
-            end: moment(today).endOf('week').isoWeekday(1),
-            from: today 
+            start: currentStart,
+            end: moment(currentStart).add(6, "days"),
+            from: today
         }
     }
 
