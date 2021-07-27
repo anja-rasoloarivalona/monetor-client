@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef, useEffect } from "react"
 import styled from "styled-components"
 
 const Input = styled.input`
@@ -26,7 +26,9 @@ const Input = styled.input`
 
 const InputComponent = props => {
 
-    const { value, onChange, onFocus, onBlur, customRef } = props
+    const { value, onChange, onFocus, onBlur, customRef, focusOnMount } = props
+
+    const input = useRef()
 
     const handleOnFocus = () => {
         if(onFocus){
@@ -40,9 +42,18 @@ const InputComponent = props => {
         }
     }
 
+    useEffect(() => {
+        console.log({
+            focusOnMount
+        })
+        if(focusOnMount){
+            input.current.focus()
+        }
+    }, [])
+
     return (
         <Input
-            ref={customRef}
+            ref={customRef || input}
             value={value}
             onChange={e => onChange(e.target.value)}
             onFocus={handleOnFocus}

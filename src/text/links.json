@@ -67,6 +67,24 @@
         "page": "settings",
         "type": "app"
     },
+    "link_settings_general": {
+        "fr": "général",
+        "en": "general",
+        "page": "settings",
+        "type": "app"
+    },
+    "link_settings_display": {
+        "fr": "affichage",
+        "en": "display",
+        "page": "settings",
+        "type": "app"
+    },
+    "link_settings_security": {
+        "fr": "sécurité",
+        "en": "security",
+        "page": "settings",
+        "type": "app"
+    },
     "link_signup": {
         "fr": "inscription",
         "en": "sign-up",

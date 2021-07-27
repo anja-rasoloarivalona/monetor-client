@@ -9,7 +9,7 @@ const currencies = [
     {"cc":"AUD","symbol":"$","name":"Australian dollar"},
     {"cc":"AWG","symbol":"\u0192","name":"Aruban florin"},
     {"cc":"AZN","symbol":"AZN","name":"Azerbaijani manat"},
-    {"cc":"BAM","symbol":"KM","name":"Bosnia and Herzegovina konvertibilna marka"},
+    {"cc":"BAM","symbol":"KM","name":"Bosnia and Herzegovina"},
     {"cc":"BBD","symbol":"Bds$","name":"Barbadian dollar"},
     {"cc":"BDT","symbol":"\u09f3","name":"Bangladeshi taka"},
     {"cc":"BGN","symbol":"BGN","name":"Bulgarian lev"},

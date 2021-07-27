@@ -13,7 +13,7 @@ const Form = props => {
 
     formProps = props
 
-    const { inputs, errors, touched, handleChange, values, handleBlur, setFieldValue, isSubmitting, getValues, getErrors, formStyle, disabled, getTouched } = props
+    const { inputs, errors, touched, handleChange, values, handleBlur, setFieldValue, isSubmitting, getValues, getErrors, formStyle, disabled, getTouched, hideSubmitCta } = props
 
     const { windowWidth } =  useWindowSize()
 
@@ -90,17 +90,19 @@ const Form = props => {
                 onChange: setFieldValue
             }))}
             {props.children}
-            <SubmitButton 
-                isSubmitting={isSubmitting}
-                label={props.buttonLabel}
-                onClick={props.onClickButton}
-                submitButtonStyle={props.submitButtonStyle}
-                disabled={disabled}
+            {!hideSubmitCta && (
+                <SubmitButton 
+                    isSubmitting={isSubmitting}
+                    label={props.buttonLabel}
+                    onClick={props.onClickButton}
+                    submitButtonStyle={props.submitButtonStyle}
+                    disabled={disabled}
+                    secondaryLabel={props.secondaryLabel}
+                    onClickSecondary={props.onClickSecondary}
+                    secondaryButtonStyle={props.secondaryButtonStyle}
+                />
+            )}
 
-                secondaryLabel={props.secondaryLabel}
-                onClickSecondary={props.onClickSecondary}
-                secondaryButtonStyle={props.secondaryButtonStyle}
-            />
         </FormComponent>
      )
 };

@@ -18,12 +18,13 @@ const Header = props => {
     const { setShowSidebar } = props
 
     const {
-        text: { type }
+        text: { type },
+        user
     } = useSelector(state => state)
 
     return (
         <Container>
-            {type === 'app' ?
+            {type === 'app' || user.setupAt ?
                 <AppHeader setShowSidebar={setShowSidebar}/> :
                 <HomeHeader />
             }

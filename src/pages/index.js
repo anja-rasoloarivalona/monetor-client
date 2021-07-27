@@ -11,6 +11,7 @@ import Todo from './Todo/Todo'
 import Home from './Home/Home'
 import Messages from './Messages/Messages'
 import Calendar from './Calendar/Calendar'
+import Settings from './Settings/Settings'
 import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import links from '../text/links.json'
@@ -98,6 +99,7 @@ const Routes = props => {
                 <Route path={`/${text.link_app_home}`} component={Home} />
                 <Route path={`/${text.link_messages}`} component={Messages} />
                 <Route path={`/${text.link_calendar}`} component={Calendar} />
+                <Route path={`/${text.link_settings}`} component={Settings} />
                 {/* <Redirect to="/"/>  */}
             </Switch>
         </Container>
