@@ -59,6 +59,10 @@
         "fr": "Catégorie",
         "en": "Category"
     },
+    "change_password": {
+        "fr": "Modifier mot de passe",
+        "en": "Change password"
+    },
     "city": {
         "fr": "Ville",
         "en": "City"
@@ -98,6 +102,10 @@
     "currency": {
         "fr": "Devise",
         "en": "Currency"
+    },
+    "dark": {
+        "fr": "Sombre",
+        "en": "Dark"
     },
     "dark_mode": {
         "fr": "Dark mode",
@@ -235,6 +243,10 @@
         "fr": "Nom",
         "en": "Last name"
     },
+    "light": {
+        "fr": "Clair",
+        "en": "Light"
+    },
     "list": {
         "fr": "List",
         "en": "List"
@@ -338,6 +350,10 @@
     "skip": {
         "fr": "Passer",
         "en": "Skip"
+    },
+    "theme": {
+        "fr": "Thème",
+        "en": "Theme"
     },
     "this_month": {
         "fr": "Ce mois-ci",
