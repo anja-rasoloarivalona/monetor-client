@@ -4,6 +4,7 @@ import { useWindowSize } from '../../hooks'
 import { useSelector, useDispatch } from 'react-redux'
 import Sidebar from './Sidebar'
 import Dashboard from './Dashboard/Dashboard'
+import List from './List/List'
 import { Route } from 'react-router-dom'
 
 const Container = styled.div`
@@ -38,8 +39,9 @@ const Transactions = () => {
         <Container>
             <Sidebar />
             <PageContainer>
-                <Route path="/" component={Dashboard} />
-                <Route path={`/${text.link_dashboard}`} component={Dashboard} />
+                <Route exact path={`/${text.link_transactions}`} component={Dashboard} />
+                <Route path={`/${text.link_transactions}/${text.link_dashboard}`} component={Dashboard} />
+                <Route path={`/${text.link_transactions}/${text.link_list}`} component={List} />
             </PageContainer>
         </Container>
      )
