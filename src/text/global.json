@@ -59,6 +59,10 @@
         "fr": "Catégorie",
         "en": "Category"
     },
+    "city": {
+        "fr": "Ville",
+        "en": "City"
+    },
     "close_formatting_help": {
         "fr": "Fermer mise en forme",
         "en": "Close formatting"
@@ -78,6 +82,10 @@
     "counterparty_placeholder": {
         "fr": "Contrepartie (ex: Netflix, ...)",
         "en": "Counterparty (ex: Netflix, ...)"
+    },
+    "country": {
+        "fr": "Pays",
+        "en": "Country"
     },
     "credit_card": {
         "fr": "Carte de crédit",
@@ -123,6 +131,10 @@
         "fr": "Description",
         "en": "Description"
     },
+    "display": {
+        "fr": "Affichage",
+        "en": "Display"
+    },
     "edit": {
         "fr": "Modifier",
         "en": "Edit"
@@ -130,6 +142,10 @@
     "email": {
         "fr": "Email",
         "en": "Email"
+    },
+    "en": {
+        "fr": "Anglais",
+        "en": "English"
     },
     "expense": {
         "fr": "Dépense",
@@ -143,9 +159,17 @@
         "fr": "Finance",
         "en": "Finance"
     },
+    "first_name": {
+        "fr": "Prénom",
+        "en": "First name"
+    },
     "fixed": {
         "fr": "Fixe",
         "en": "Fixed"
+    },
+    "fr": {
+        "fr": "Français",
+        "en": "French"
     },
     "frequency": {
         "fr": "Fréquence",
@@ -159,6 +183,14 @@
         "fr": "Mise en forme",
         "en": "Formatting help"
     },
+    "general": {
+        "fr": "Général",
+        "en": "General"
+    },
+    "general_account_settings": {
+        "fr": "Paramètres généraux du compte",
+        "en": "General account settings"
+    },
     "groups": {
         "fr": "Groupes",
         "en": "Groups"
@@ -166,6 +198,10 @@
     "home": {
         "fr": "Accueil",
         "en": "Home"
+    },
+    "imperial": {
+        "fr": "Impérial",
+        "en": "Imperial"
     },
     "in_list": {
         "fr": "Dans la liste",
@@ -195,6 +231,10 @@
         "fr": "Date du dernier paiement",
         "en": "Last paiement date"
     },
+    "last_name": {
+        "fr": "Nom",
+        "en": "Last name"
+    },
     "list": {
         "fr": "List",
         "en": "List"
@@ -203,6 +243,10 @@
         "fr": "Se connecter",
         "en": "Login"
     },
+    "login_and_security": {
+        "fr": "Sécurité et accès",
+        "en": "Security and login"
+    },
     "logout": {
         "fr": "Se déconnecter",
         "en": "Logout"
@@ -210,6 +254,10 @@
     "messages": {
         "fr": "Messages",
         "en": "Messages"
+    },
+    "metric": {
+        "fr": "Métrique",
+        "en": "Metric"
     },
     "months": {
         "fr": "mois",
@@ -275,6 +323,10 @@
         "fr": "Enregistrer",
         "en": "Save"
     },
+    "security": {
+        "fr": "Sécurité",
+        "en": "Security"
+    },
     "settings": {
         "fr": "Paramètres",
         "en": "Settings"
@@ -322,6 +374,10 @@
     "type": {
         "fr": "Type",
         "en": "Type"
+    },
+    "unit_type": {
+        "fr": "Type d'unité",
+        "en": "Unit type"
     },
     "username": {
         "fr": "Nom d'utilisateur",

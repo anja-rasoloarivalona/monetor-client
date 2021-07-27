@@ -9,7 +9,8 @@ export {
 export {
     setLocale,
     setCurrency,
-    setSocket
+    setSocket,
+    setUnit
 } from './settings'
 
 export {

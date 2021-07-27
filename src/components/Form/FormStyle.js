@@ -183,6 +183,89 @@ const DateInput = styled(ReactDatePicker)`
     font-size: 1.6rem;
 `
 
+const getSelectStyle = (theme, touched, errors, input) => {
+
+    const unfocusedBorderStyle =  `1px solid ${theme.form.unfocused.border}`
+    const focusedBorderStyle = `1px solid ${theme.form.focused.border}`
+    const errorStyle = `1px solid ${theme.error}`
+
+    const getBorderStyle = (state) => {
+        if(input && input.name){
+            if(touched && errors && touched[input.name] && errors[input.name]){
+                return errorStyle
+            }
+        }
+        if(state.isFocused) return focusedBorderStyle
+        return unfocusedBorderStyle
+    }
+
+    return {
+        control: (provided, state) => {
+            return  {
+                ...provided,
+                color: theme.textLight,
+                boxShadow: "none",
+                height: "4.5rem",
+                border: getBorderStyle(state),
+                backgroundColor: theme.form.unfocused.background,
+                cursor: 'pointer',
+                paddingLeft: "1.2rem",
+                marginTop: "1rem",
+                marginBottom: "3rem",
+                '& svg': {
+                    color: state.isFocused ? theme.form.focused.color : theme.form.unfocused.color,
+                },
+                '&:hover': {
+                    border: state.isFocused ? focusedBorderStyle :  unfocusedBorderStyle,
+                },
+                " > div": {
+                    paddingLeft: 0,
+                    marginRight: "4px",
+                    " > div": {
+                        marginLeft: 0
+                    }
+                },
+            }
+        },
+        singleValue: (provided) => ({
+            ...provided,
+            color: theme.textLight
+        }),
+        placeholder: (provided, state) => ({
+            ...provided,
+            color: state.isFocused ? "transparent" : "transparent",
+            marginLeft: 0,
+        }),
+        menu: (provided) => ({
+            ...provided,
+            background: theme.surface,
+            zIndex: 14
+        }),
+        menuList: (provided) => ({
+            ...provided,
+            paddingTop: 0,
+            paddingBottom: 0,
+            color: theme.text,
+            zIndex: 14,
+            border: theme.type === "dark" ? focusedBorderStyle : "none",
+            borderRadius: ".5rem"
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            height: "4.5rem",
+            display: "flex",
+            alignItems: "center",
+            fontSize: "1.4rem",
+            '&:hover': {
+                backgroundColor: theme.type === "dark" ? theme.textLight : theme.onSurface,
+                color:  theme.type === "dark" ? theme.background : theme.text
+            },
+            backgroundColor: theme.type === "dark" ? theme.background : theme.surface,
+            cursor: 'pointer',
+        })
+      }
+} ; 
+
 
 export {
     Container,
@@ -192,5 +275,6 @@ export {
     Error,
     Unit,
     DateContainer,
-    DateInput
+    DateInput,
+    getSelectStyle
 }

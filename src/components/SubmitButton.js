@@ -6,6 +6,7 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    grid-column: 1 / -1;
 
     button {
         margin: 0 2rem;
