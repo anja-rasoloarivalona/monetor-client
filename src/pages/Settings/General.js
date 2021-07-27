@@ -62,6 +62,12 @@ const General = () => {
 
 
     const onChangeHandler = (id, value) => {
+
+        console.log({
+            id, 
+            value
+        })
+
         switch(id){
             case "locale":
                 return dispatch(actions.setLocale(value))
