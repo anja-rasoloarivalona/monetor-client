@@ -6,7 +6,7 @@ import WeekView from './views/Week/WeekView'
 import moment from 'moment'
 import { useScroll,  isScrolledIntoView, useWindowSize } from '../../hooks'
 import { ScrollBar } from '../../components'
-
+import Test from './views/NewWeek/Week'
 
 const Container = styled.div`
     width: 100%;
@@ -96,31 +96,33 @@ const Calendar = props => {
         }
     }
 
-    return (
-        <Container ref={container}>
-            <Header 
-                viewMode={viewMode}
-                setViewMode={setViewMode}
-                toggleViewModeHandler={toggleViewModeHandler}
-                config={config}
-            />
-            <ViewContainer 
-                type={viewMode.type}
-            >
-                {/* <MonthView 
-                    viewMode={viewMode}
-                    setViewMode={setViewMode}
-                    config={config}
-                /> */}
-                <WeekView 
-                    viewMode={viewMode}
-                    setViewMode={setViewMode}
-                    config={config}
-                />
-            </ViewContainer>
+    return <Test />
 
-        </Container>
-     )
+    // return (
+    //     <Container ref={container}>
+    //         {/* <Header 
+    //             viewMode={viewMode}
+    //             setViewMode={setViewMode}
+    //             toggleViewModeHandler={toggleViewModeHandler}
+    //             config={config}
+    //         />
+    //         <ViewContainer 
+    //             type={viewMode.type}
+    //         >
+    //             {/* <MonthView 
+    //                 viewMode={viewMode}
+    //                 setViewMode={setViewMode}
+    //                 config={config}
+    //             /> */}
+    //             <WeekView 
+    //                 viewMode={viewMode}
+    //                 setViewMode={setViewMode}
+    //                 config={config}
+    //             />
+    //         </ViewContainer> */}
+
+    //     </Container>
+    //  )
 };
 
 export default Calendar;
