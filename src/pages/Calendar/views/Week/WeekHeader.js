@@ -3,7 +3,6 @@ import styled from "styled-components"
 import { days } from "../../data"
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { months } from '../../data'
 
 
 const Container = styled.div`

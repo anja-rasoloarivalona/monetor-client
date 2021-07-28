@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { getHoursDate } from '../../functions'
+import { getHoursDate } from './functions'
 import { useSelector } from 'react-redux'
 
 

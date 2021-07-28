@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { getHoursDate } from '../../../Calendar/functions'
+import { getHoursDate } from '../../../Calendar/views/Month/functions'
 import { useSelector } from 'react-redux'
 
 const Container = styled.div`

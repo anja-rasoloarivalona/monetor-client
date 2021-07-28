@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect, useRef } from "react"
 import styled from "styled-components"
-import { getHoursDate, getInRangeTodoLists } from '../../../Calendar/functions'
+import { getHoursDate, getInRangeTodoLists } from '../../../Calendar/views/Month/functions'
 import { useSelector } from 'react-redux'
 import { useWindowSize } from '../../../../hooks'
 import GridLayout from 'react-grid-layout'
