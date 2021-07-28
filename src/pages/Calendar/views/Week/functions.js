@@ -46,19 +46,6 @@ const getInRangeTodoLists = (todoLists, range) => {
         })
     })
     return data
-    // const _layout = []
-    // data.forEach(item => {
-    //     const date = new Date(item.dueDate)
-    //     _layout.push({
-    //         i: item.id,
-    //         x: 0,
-    //         y: date.getHours(),
-    //         w: 1,
-    //         h: 1,
-    //         item
-    //     })
-    // })
-    // setLayout(_layout)
 }
 
 

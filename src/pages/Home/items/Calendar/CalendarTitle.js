@@ -3,7 +3,6 @@ import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { days } from '../../../Calendar/data'
 import { ScrollBar, AppDate } from '../../../../components'
-import DynamicSlider from "../../../Calendar/views/Week/DynamicSlider"
 import moment from 'moment'
 
 const Container = styled.div`
@@ -107,12 +106,12 @@ const CalendarTitle = props => {
 
     return (
         <Container>
-            <DynamicSlider
+            {/* <DynamicSlider
                 length={data.length}
                 pos={pos}
             >
                 {data.map(date => renderTitle(date.date))}
-            </DynamicSlider>
+            </DynamicSlider> */}
         </Container>
      )
 };

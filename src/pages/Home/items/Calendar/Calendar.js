@@ -7,8 +7,7 @@ import View from './View'
 import { ScrollBar, AppDate } from '../../../../components'
 import { days } from '../../../Calendar/data'
 import moment from 'moment'
-import WeekView from '../../../Calendar/views/Week/WeekView'
-import Dynamic from '../../../Calendar/views/Week/DynamicSlider'
+import WeekView from '../../../Calendar/views/Week/Week'
 import CalendarTitle from "./CalendarTitle"
 
 

@@ -2,11 +2,10 @@ import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import Header from './Header'
 import MonthView from './views/Month/MonthView'
-import WeekView from './views/Week/WeekView'
+import WeekView from './views/Week/Week'
 import moment from 'moment'
 import { useScroll,  isScrolledIntoView, useWindowSize } from '../../hooks'
 import { ScrollBar } from '../../components'
-import Test from './views/NewWeek/Week'
 
 const Container = styled.div`
     width: 100%;
@@ -96,7 +95,7 @@ const Calendar = props => {
         }
     }
 
-    return <Test />
+    return <WeekView />
 
     // return (
     //     <Container ref={container}>
