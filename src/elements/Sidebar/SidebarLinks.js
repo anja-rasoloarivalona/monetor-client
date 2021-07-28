@@ -75,11 +75,11 @@ const SidebarLinks = props => {
             link: text.link_settings,
             icon: "cog"
         },
-        {
-            label: text.profile,
-            link: text.link_profile,
-            icon: faUser
-        },
+        // {
+        //     label: text.profile,
+        //     link: text.link_profile,
+        //     icon: faUser
+        // },
         {
             label: text.invite_members,
             icon: faEnvelope,

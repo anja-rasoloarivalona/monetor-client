@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import styled from "styled-components"
 import {  useSelector, useDispatch } from 'react-redux'
 import { RadioInput } from '../../../components/Form/WithoutValidation'
@@ -8,6 +8,8 @@ import * as actions from '../../../store/actions'
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    background: ${props => props.theme.surface};
+    
 `
 
 const Header = styled.div`
@@ -31,6 +33,7 @@ const HeaderIconContainer = styled.div`
 
     svg {
         font-size: 1.8rem;
+        color: ${props => props.theme.textLight};
     }
 
     &:hover {
@@ -44,12 +47,12 @@ const HeaderIconContainer = styled.div`
             margin: auto;
             width: 3rem;
             height: 3rem;
-            background: ${props => props.theme.textLight};
+            background: ${props => props.theme.background};
             border-radius: 50%;
             z-index: -1;
         };
         svg {
-            color: ${props => props.theme.surface}
+            color: ${props => props.theme.text}
         }
     }
  
@@ -85,7 +88,10 @@ const RadioInputContainer = styled.div`
 
 `
 
-const SettingsPannel = () => {
+const SettingsPannel = props => {
+
+
+    const { setShowSettingsPannel  } = props
 
     const dispatch = useDispatch()
 
@@ -119,10 +125,13 @@ const SettingsPannel = () => {
         // }
     ]
 
+
+    const container = useRef()
+
     return (
-        <Container>
+        <Container ref={props.customRef || container}>
             <Header>
-                <HeaderIconContainer>
+                <HeaderIconContainer onClick={() => setShowSettingsPannel(false)}>
                     <FontAwesomeIcon icon="chevron-left"/>
                 </HeaderIconContainer>
                 <HeaderTitle>

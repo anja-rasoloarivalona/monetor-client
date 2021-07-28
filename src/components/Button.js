@@ -24,7 +24,13 @@ const Button = styled.button`
         text-decoration: none;
     }
 
-
+    ${props => {
+        if(props.square){
+            return {
+                borderRadius: ".2rem"
+            }
+        }
+    }}
 
 
     ${props => {
@@ -38,6 +44,29 @@ const Button = styled.button`
         }
     }}
 
+    
+    ${props => {
+        if(props.transparent){
+            return {
+                background: "transparent",
+                color: props.theme.primary,
+                border: "1px solid transparent",
+            }
+        }
+    }}
+
+    ${props => {
+        if(props.outlined){
+            return {
+                border: `1px solid ${props.theme.primary} !important`,
+                background: "transparent",
+                color: props.theme.primary,
+            }
+        }
+    }}
+
+
+
     ${props => {
         if(props.isDisabled){
             return {
@@ -48,17 +77,7 @@ const Button = styled.button`
             }
         }
     }}
-
-    ${props => {
-        if(props.isOutlined){
-            return {
-                background: "transparent",
-                border: "1px solid transparent",
-                borderColor: "inherit",
-                borderRadius: ".2rem"
-            }
-        }
-    }}
+    
 
     ${props => {
         if(props.small){
@@ -75,14 +94,6 @@ const Button = styled.button`
         }
     }}
 
-    ${props => {
-        if(props.transparent){
-            return {
-                background: "transparent",
-                color: props.theme.primary
-            }
-        }
-    }}
 `;
 
 export {

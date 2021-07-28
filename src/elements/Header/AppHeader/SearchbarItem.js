@@ -177,7 +177,7 @@ const SearchbarItem = props => {
                 </LabelIcon>
                 <LabelInfo >
                     <LabelInfoUsername>
-                        {user.username}
+                        {user.firstname} {user.lastname}
                     </LabelInfoUsername>
                     <LabelInfoUserLocation>
                         {user.city}, {user.country}

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
 import axios from 'axios'
 import { serialize } from 'object-to-formdata'
-
+import ImageCropper from "../../ImageCropper/ImageCropper"
 
 const Container = styled.div`
 
@@ -42,45 +42,42 @@ const UserProfileImage = () => {
 
     const [ show, setShow ] = useState(false)
 
-    const [ file, setFile ] = useState(null)
+    const [ image, setImage ] = useState(null)
+    const [ showCropper, setShowCropper ] = useState(false)
 
     const selectFileHandler = list => {
-        setFile(list[0])
+        setImage(list[0])
+        setShowCropper(true)
     }
 
-    useEffect(() => {
-        if(file){
-            uploadHandler()
-        }
-    },[file])
 
-    const uploadHandler = async () => {
-        try {
-            const formData = serialize({ })
-            formData.append("image", file)
-            const res = await axios({
-                url: "/user/profile/image",
-                method: 'post',
-                data: formData,
-                headers: {
-                    accept: "*",
-                    "content-type": "multipart/form-data"
-                }
-            })
-            console.log({
-                res
-            })
-        } catch(err){
-            console.log({
-                err
-            })
-        }
+    const uploadHandler = async img => {
+        // try {
+        //     const formData = serialize({ })
+        //     formData.append("image", img)
+        //     const res = await axios({
+        //         url: "/user/profile/image",
+        //         method: 'post',
+        //         data: formData,
+        //         headers: {
+        //             accept: "*",
+        //             "content-type": "multipart/form-data"
+        //         }
+        //     })
+        //     console.log({
+        //         res
+        //     })
+        // } catch(err){
+        //     console.log({
+        //         err
+        //     })
+        // }
     }
 
     return (
         <Container>
             <ImageContainer
-                // onClick={() => setShow(prev => prev )}
+                onClick={() => setShow(prev => !prev )}
             >
                 <FontAwesomeIcon icon={faUser}/>
             </ImageContainer>   
@@ -93,6 +90,13 @@ const UserProfileImage = () => {
                         multiple={false}
                     />
                 </Pannel>
+            )}
+            {showCropper && (
+                <ImageCropper 
+                    image={image}
+                    closeHandler={() => setShowCropper(false)}
+                    saveHandler={uploadHandler}
+                />
             )}    
         </Container>
      )
