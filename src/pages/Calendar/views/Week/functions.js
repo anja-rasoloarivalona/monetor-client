@@ -61,8 +61,43 @@ const getHoursDate = type => {
     return res
 }
 
+const addPeriods = (periods, number) => {
+
+    const periodsCopy = periods.map(period => ({ ...period }))
+
+    const factor = number < 0 ? -1 : 1
+    const start = number < 0 ? periods[0].date : periods[periods.length - 1].date
+
+    const initialIndex = periods[0].index.index
+
+    const dates = []
+    for(let i = 1; i < Math.abs(number) + 1; i++){
+        dates.push({
+            ...getPeriod(addDays(start, i * factor))
+        })
+    }
+
+    const sortedDates = dates.sort((a, b) => a.date - b.date)
+
+    const all = [...sortedDates, ...periodsCopy]
+
+    all.forEach((period, pIndex) => {
+        if(!period.index){
+            all[pIndex].index = {
+                index: initialIndex - ( Math.abs(number) - pIndex ),
+                pos: pIndex
+            }
+        } else {
+            all[pIndex].index.pos = pIndex
+        }
+    })
+
+    return all
+}
+
 export {
     addDays,
+    addPeriods,
     getPeriod,
     getInRangeTodoLists,
     getHoursDate

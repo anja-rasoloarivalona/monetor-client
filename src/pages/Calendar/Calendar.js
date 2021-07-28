@@ -15,113 +15,32 @@ const Container = styled.div`
 `
 
 const ViewContainer = styled.div`
-
+    display: grid;
+    grid-template-columns: repeat(2, 100vw);
+    grid-template-rows: max-content;
+    width: 100vw;
+    transform: ${props => props.viewMode === "week" ? 0 : "-100%"};
+    transition: all .3s ease-in;
 `
 
 
 const Calendar = props => {
 
-    const container = useRef()
-
-    const { windowHeight } = useWindowSize()
+    const [ viewMode, setViewMode ] = useState("week")
 
 
-    const config = {
-        sidebar: 200,
-        days: 7,
-        container,
-        hourItem: {
-            height: (windowHeight - 100 - 65 - 20) / 6 
-        },
-        full: true
-    }
-
-
-    const today = new Date()
-    const day = today.getDay()
-    const currentStart = day > 0 ? moment(today).startOf('week').isoWeekday(1).add(1, 'week') :  moment(today).startOf('week').isoWeekday(1)
-
-    const initialViewMode = {
-        type: "week",
-        // current: {
-        //     month: today.getMonth(),
-        //     year: today.getFullYear(),
-        //     period: moment(today).format("MM-YYYY")
-        // },
-        current: {
-            start: currentStart,
-            end: moment(currentStart).add(6, "days"),
-            from: today
-        }
-    }
-
-    const [ viewMode, setViewMode ] = useState(initialViewMode)
-
-    // const toggleViewModeHandler = nextType => {
-    //     const { current } = viewMode
-    //     let range
-    //     switch(nextType){
-    //         case "week":
-    //             range = {
-    //                 start: null,
-    //                 end: null,
-    //                 from: null 
-    //             }
-    //             current.month === today.getMonth() ? range.from = today : range.from = moment(`15-${ current.period}`, "DD-MM-YYYY")   
-    //             range.start = moment(range.from).startOf('week').isoWeekday(1);
-    //             range.end = moment(range.from).endOf('week').isoWeekday(1);
-    //             range.from = new Date(moment(range.start).add(3, 'days')) 
-    //             setViewMode({
-    //                 type: "week",
-    //                 current: range
-    //             })
-    //             break
-    //         case "month":
-    //             range = {
-    //                 month: null,
-    //                 year: null,
-    //                 period: null
-    //             }
-    //              current.from === today ? 
-    //                 range = { ...initialViewMode.current } :
-    //                 range.month =  new Date(current.from).getMonth()
-    //                 range.year = new Date(current.from).getFullYear()
-    //                 range.period = moment(current.from).format("MM-YYYY")
-    //             setViewMode({
-    //                 type: "month",
-    //                 current: range
-    //             })
-    //         default: break
-    //     }
-    // }
-
-    return <WeekView />
-
-    // return (
-    //     <Container ref={container}>
-    //         {/* <Header 
-    //             viewMode={viewMode}
-    //             setViewMode={setViewMode}
-    //             toggleViewModeHandler={toggleViewModeHandler}
-    //             config={config}
-    //         />
-    //         <ViewContainer 
-    //             type={viewMode.type}
-    //         >
-    //             {/* <MonthView 
-    //                 viewMode={viewMode}
-    //                 setViewMode={setViewMode}
-    //                 config={config}
-    //             /> */}
-    //             <WeekView 
-    //                 viewMode={viewMode}
-    //                 setViewMode={setViewMode}
-    //                 config={config}
-    //             />
-    //         </ViewContainer> */}
-
-    //     </Container>
-    //  )
+    return (
+        <Container>
+            <ViewContainer viewMode={viewMode}>
+                <WeekView 
+                    setViewMode={setViewMode}
+                />
+                {/* <MonthView 
+                    setViewMode={setViewMode}
+                /> */}
+            </ViewContainer>
+        </Container>
+    )
 };
 
 export default Calendar;
