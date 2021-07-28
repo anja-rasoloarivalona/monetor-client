@@ -5,12 +5,12 @@
         "xxl": [
             { "w": 9, "h": 6, "x": 18, "y": 0, "i": "weather", "display": true },
             { "w": 7, "h": 7, "x": 8, "y": 0, "i": "appSelector", "display": true },
-            { "w": 7, "h": 10, "x": 0, "y": 0, "i": "calendar", "display": true }
+            { "w": 7, "h": 10, "x": 0, "y": 0, "i": "calendar", "display": false }
         ],
         "xl": [
             { "w": 9, "h": 6, "x": 18, "y": 0, "i": "weather", "display": true },
             { "w": 7, "h": 7, "x": 8, "y": 0, "i": "appSelector", "display": true },
-            { "w": 7, "h": 7, "x": 0, "y": 0, "i": "calendar", "display": true }
+            { "w": 7, "h": 7, "x": 0, "y": 0, "i": "calendar", "display": false }
         ],
         "lg": [
             { "w": 9, "h": 7, "x": 0, "y": 0, "i": "weather", "display": true }
