@@ -59,6 +59,10 @@
         "fr": "Catégorie",
         "en": "Category"
     },
+    "change": {
+        "fr": "Modifier",
+        "en": "Change"
+    },  
     "change_password": {
         "fr": "Modifier mot de passe",
         "en": "Change password"
@@ -327,9 +331,21 @@
         "fr": "Par an",
         "en": "Per year"
     },
+    "preview": {
+        "fr": "Aperçu",
+        "en": "Preview"
+    },
     "profile": {
         "fr": "Profil",
         "en": "Profile"
+    },
+    "rotate_left": {
+        "fr": "Rotation à gauche",
+        "en": "Rotate left"
+    },
+    "rotate_right": {
+        "fr": "Rotation à droite",
+        "en": "Rotate right"
     },
     "save": {
         "fr": "Enregistrer",
@@ -342,6 +358,10 @@
     "settings": {
         "fr": "Paramètres",
         "en": "Settings"
+    },
+    "show_preview": {
+        "fr": "Voir aperçu",
+        "en": "Show preview"
     },
     "signup": {
         "fr": "S'inscrire",

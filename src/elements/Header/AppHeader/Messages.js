@@ -186,7 +186,7 @@ const Messages = () => {
                         </ItemImgContainer>
                         <ItemLabel>
                             <ItemLabelUsername>
-                                {contact.user.username}
+                                {contact.user.firstname}
                             </ItemLabelUsername>
                             {renderLastMessage(contact)}
                         </ItemLabel>

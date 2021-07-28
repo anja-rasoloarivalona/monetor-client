@@ -36,12 +36,21 @@ const Signup = () => {
 
     const inputs = [
         {
-            id: "username",
-            name: "username",
+            id: "firstname",
+            name: "firstname",
             type: "text",
             input_type: "input",
-            label: text.username,
-            placeholder: text.username,
+            label: text.first_name,
+            placeholder: text.first_name,
+            required: true
+        },
+        {
+            id: "last_name",
+            name: "last_name",
+            type: "text",
+            input_type: "input",
+            label: text.lastname,
+            placeholder: text.lastname,
             required: true
         },
         {

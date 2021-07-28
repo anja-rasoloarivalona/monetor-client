@@ -138,7 +138,7 @@ const Sidebar = () => {
                         </ItemImgContainer>
                         <ItemLabel>
                             <ItemLabelUsername>
-                                {contact.user.username}
+                                {contact.user.firstname} {contact.user.lastname} 
                             </ItemLabelUsername>
                             {renderLastMessage(contact)}
                         </ItemLabel>

@@ -110,8 +110,8 @@ const Home = () => {
                     rowHeight={34}
                     width={windowWidth}
                     margin={[15, 15]}
-                    isDraggable={false}
-                    isResizable={false}
+                    isDraggable={true}
+                    isResizable={true}
                 >
                     {layout.filter(i => i.display === true).map(renderItem)}
                 </GridLayout>
