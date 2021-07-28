@@ -16,8 +16,10 @@ import * as actions from "../../../../store/actions"
 import axios from "axios"
 
 const Container = styled.div`
-    display: grid;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
     width: 100vw;
+    display: grid;
     background: ${props => props.theme.surface};
 
     ${props => {
@@ -72,6 +74,15 @@ const Content = styled(ScrollBar)`
 
 
 `
+const Empty = styled.div`
+    width: 100%;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    position: relative;
+    z-index: 2;
+    background: ${props => props.theme.surface};
+    border-bottom: 1px solid ${props => props.theme.form.unfocused.border};
+`
 
 const ContentView = styled.div`
     width: 100%;
@@ -124,7 +135,7 @@ const Week = () => {
         days: 7,
         h: 80,
         sidebar: 200,
-        header: 90,
+        header: 100,
         d: (windowWidth - 200) / 7
     }
 
@@ -136,15 +147,17 @@ const Week = () => {
 
     useEffect(() => {
         const res = []
-        for(let i = config.days * -1; i < config.days * 2; i++){
+        for(let i = config.days * -3; i < config.days * 10; i++){
             res.push({
                 ...getPeriod(addDays(new Date(), i)),
                 index: {
-                    pos: i + config.days,
                     index: i
                 }
             })
         }
+        res.forEach((item, index) => {
+            res[index].index.pos = index
+        })
         const current = res.find(i => i.index.index === 0)
         setPos(current.index.pos)
         setPeriods(res)
@@ -188,11 +201,11 @@ const Week = () => {
             timeout = setTimeout(() => {
                 saveHandler(toBeSaved)
                 setToBeSaved([])
-            },1000)
+            },500)
         }
     },[toBeSaved])
 
-    const stopHandler = data => {
+    const stopHandler = (data, more) => {
         const updated = []
         layout.forEach(item => {
             const updatedData = data.find(i => i.i === item.i)
@@ -200,7 +213,6 @@ const Week = () => {
                 ...item,
                 x: updatedData.x,
                 y: updatedData.y,
-                w: updatedData.w,
                 h: updatedData.h
             })
         })
@@ -239,7 +251,7 @@ const Week = () => {
                 })
             }
         })
-        // dispatch(actions.setTodoLists(updatedTodoLists))
+        dispatch(actions.setTodoLists(updatedTodoLists))
         // try {
         //     const res = await axios({
         //         method: "PUT",
@@ -271,7 +283,9 @@ const Week = () => {
             }}
         >
             <WeekHeader 
+                setPeriods={setPeriods}
                 periods={periods} 
+                pos={pos}
                 setPos={setPos}
             />
             <Content className="content">
@@ -291,6 +305,7 @@ const Week = () => {
                             compactType={null}
                             onDragStop={stopHandler}
                             onResizeStop={stopHandler}
+                            preventCollision={true}
                         >
                             {layout.map(item => (
                                 <GridLayoutItem key={item.i}>

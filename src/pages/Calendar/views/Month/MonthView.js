@@ -10,7 +10,9 @@ import { ScrollBar } from '../../../../components'
 
 
 const Container = styled(ScrollBar)`
-    width: 100%;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    width: 100vw;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: max-content;
@@ -40,13 +42,32 @@ const Container = styled(ScrollBar)`
 
 const MonthView = props => {
 
-    const { viewMode: { current, type } , setViewMode, config } = props
+    const { setViewMode } = props
 
-    const { windowHeight } = useWindowSize()
 
     const {
         settings: { locale }
     } = useSelector(state => state)
+
+
+    const { windowHeight } = useWindowSize()
+
+    const config = {
+        sidebar: 200,
+        days: 7,
+        hourItem: {
+            height: (windowHeight - 100 - 65 - 20) / 6 
+        },
+    }
+
+    const today = new Date()
+    const initial = {
+        month: today.getMonth(),
+        year: today.getFullYear(),
+        period: moment(today).format("MM-YYYY")
+    }
+
+    const [current,  setCurrent ] = useState(initial)
 
     const viewRef = useRef()
     const [ data, setData ] = useState(null)
@@ -129,12 +150,6 @@ const MonthView = props => {
 
     },[isScrollInitialized])
 
-    useEffect(() => {
-        if(type !== "month" && viewRef.current){
-            viewRef.current.removeEventListener('scroll', scrollHandler)
-        }
-    },[type])
-
 
     const shoudDisplay = (el, type) => {
         const elPos = el.offsetTop
@@ -181,7 +196,6 @@ const MonthView = props => {
             ref={viewRef}
             config={config}
             windowHeight={windowHeight}
-            type={type}
         >
             {data && data.map((item, index) => {
             return (
