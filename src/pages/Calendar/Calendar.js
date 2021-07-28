@@ -57,43 +57,43 @@ const Calendar = props => {
 
     const [ viewMode, setViewMode ] = useState(initialViewMode)
 
-    const toggleViewModeHandler = nextType => {
-        const { current } = viewMode
-        let range
-        switch(nextType){
-            case "week":
-                range = {
-                    start: null,
-                    end: null,
-                    from: null 
-                }
-                current.month === today.getMonth() ? range.from = today : range.from = moment(`15-${ current.period}`, "DD-MM-YYYY")   
-                range.start = moment(range.from).startOf('week').isoWeekday(1);
-                range.end = moment(range.from).endOf('week').isoWeekday(1);
-                range.from = new Date(moment(range.start).add(3, 'days')) 
-                setViewMode({
-                    type: "week",
-                    current: range
-                })
-                break
-            case "month":
-                range = {
-                    month: null,
-                    year: null,
-                    period: null
-                }
-                 current.from === today ? 
-                    range = { ...initialViewMode.current } :
-                    range.month =  new Date(current.from).getMonth()
-                    range.year = new Date(current.from).getFullYear()
-                    range.period = moment(current.from).format("MM-YYYY")
-                setViewMode({
-                    type: "month",
-                    current: range
-                })
-            default: break
-        }
-    }
+    // const toggleViewModeHandler = nextType => {
+    //     const { current } = viewMode
+    //     let range
+    //     switch(nextType){
+    //         case "week":
+    //             range = {
+    //                 start: null,
+    //                 end: null,
+    //                 from: null 
+    //             }
+    //             current.month === today.getMonth() ? range.from = today : range.from = moment(`15-${ current.period}`, "DD-MM-YYYY")   
+    //             range.start = moment(range.from).startOf('week').isoWeekday(1);
+    //             range.end = moment(range.from).endOf('week').isoWeekday(1);
+    //             range.from = new Date(moment(range.start).add(3, 'days')) 
+    //             setViewMode({
+    //                 type: "week",
+    //                 current: range
+    //             })
+    //             break
+    //         case "month":
+    //             range = {
+    //                 month: null,
+    //                 year: null,
+    //                 period: null
+    //             }
+    //              current.from === today ? 
+    //                 range = { ...initialViewMode.current } :
+    //                 range.month =  new Date(current.from).getMonth()
+    //                 range.year = new Date(current.from).getFullYear()
+    //                 range.period = moment(current.from).format("MM-YYYY")
+    //             setViewMode({
+    //                 type: "month",
+    //                 current: range
+    //             })
+    //         default: break
+    //     }
+    // }
 
     return <WeekView />
 

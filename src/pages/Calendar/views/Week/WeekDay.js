@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import styled from "styled-components"
-import { days } from "../../data"
 import { useSelector } from 'react-redux'
-import { ScrollBar } from '../../../../components'
-import { getHoursDate } from '../../functions'
-import moment from 'moment'
+import { getHoursDate } from './functions'
 
 
 const Container = styled.div`
