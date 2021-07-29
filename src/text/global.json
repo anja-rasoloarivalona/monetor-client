@@ -391,6 +391,10 @@
         "fr": "Heure",
         "en": "Time"
     },
+    "title": {
+        "fr": "Titre",
+        "en": "Title"
+    },
     "today": {
         "fr": "Aujourd'hui",
         "en": "Today"

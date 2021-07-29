@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes'
 import { setTheme, setUser, setCurrency, setWeather } from './index'
 import axios from 'axios'
 import { getCategories } from './categories'
+import { arrayToObject } from '../../functions'
 
 const key = process.env.REACT_APP_WEATHER_API_KEY
 
@@ -27,18 +28,33 @@ const initApp = () => {
                         })
                     }
                     delete res.data.data.settings
-                    const updatedTodos = []
-                    if(res.data.data.todoLists){
-                        res.data.data.todoLists.forEach(list => {
-                            updatedTodos.push({
-                                ...list,
-                                todos: list.todos ? list.todos.sort((a, b) => a.index - b.index) : []
-                            })
-                        })
-                    }
+
+                    let activeTodoBoardId = null
+                    const updatedBoards = {}
+                    res.data.data.todoBoards.forEach(board => {
+                        if(!activeTodoBoardId){
+                            activeTodoBoardId = board.boardId
+                        }
+                        updatedBoards[board.boardId] = {
+                            ...board,
+                            ...board.todoBoard,
+                            todoLists: board.todoBoard.todoLists ?
+                                arrayToObject(board.todoBoard.todoLists
+                                    .sort((a, b) => a.index - b.index)
+                                    .map(list => {
+                                        return {
+                                            ...list,
+                                            todos: list.todos.sort((a, b) => a.index - b.index)
+                                        }
+                                }), "id")
+                                : {}
+                        }
+                        delete updatedBoards[board.boardId].todoBoard 
+                    })
                     dispatch(setUser({
                         ...res.data.data,
-                        todoLists: updatedTodos
+                        todoBoards: updatedBoards,
+                        activeTodoBoardId
                     }))
                 }
             } catch(err){
