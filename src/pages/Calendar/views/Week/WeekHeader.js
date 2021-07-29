@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button } from '../../../../components'
 import { months } from '../../data'
+import moment from "moment"
 
 const Container = styled.div`
     background: ${props => props.theme.surface};
@@ -75,7 +76,47 @@ const Label = styled.div`
     margin-bottom: 1rem;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
+
+    ${props => {
+        if(props.isHighLighted){
+            return {
+                ".header__slider__date": {
+                    color: props.theme.white,
+                    ":before": {
+                        background: props.theme.primary,
+                    }
+                }
+            }
+        }
+    }}
+`
+
+const LabelDay = styled.div`
+    display: flex;
+    align-items: center;
+    margin-right: .5rem;
+`
+const LabelDate = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 2.5rem;
+
+    :before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom 0;
+        margin: auto;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        z-index: -1;
+    }
 `
 
 const ButtonContainer = styled.div`
@@ -115,6 +156,8 @@ const WeekHeader = props => {
 
 
     const current = periods.find(period => period.index.pos === pos)
+
+    const formattedToday = moment(new Date()).format("DD-MM-YYYY")
 
     return (
         <Container className="header">
@@ -157,8 +200,16 @@ const WeekHeader = props => {
             </Header>
             <Slider  className="header__slider">
                 {periods.map((period, index) => (
-                    <Label key={index}>
-                        {days[locale][period.day].short} {period.date.getDate()}
+                    <Label
+                        key={index}
+                        isHighLighted={formattedToday === period.formatted}
+                    >
+                        <LabelDay>
+                            {days[locale][period.day].short} 
+                        </LabelDay>
+                        <LabelDate className="header__slider__date">
+                            {period.date.getDate()}
+                        </LabelDate>
                     </Label>
                 ))}
             </Slider>

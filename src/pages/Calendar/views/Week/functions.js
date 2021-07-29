@@ -78,8 +78,7 @@ const addPeriods = (periods, number) => {
     }
 
     const sortedDates = dates.sort((a, b) => a.date - b.date)
-
-    const all = [...sortedDates, ...periodsCopy]
+    const all = number < 0 ? [...sortedDates, ...periodsCopy] : [...periodsCopy, ...sortedDates]
 
     all.forEach((period, pIndex) => {
         if(!period.index){
