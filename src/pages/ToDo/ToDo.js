@@ -10,6 +10,7 @@ import { insertInToArray } from '../../functions'
 import { Loader } from '../../components'
 import axios from 'axios'
 import Preview from './CardPreview'
+import Header from './TodoHeader'
 
 const Container = styled.div`
     width: 100%;
@@ -17,13 +18,6 @@ const Container = styled.div`
     padding: 2rem;
     color: ${props => props.theme.text};
 `
-
-const Header = styled.div`
-    font-size: 2rem;
-    color: ${props => props.theme.textLight};
-`
-
-const HeaderTitle = styled.div``
 
 const Content = styled.div`
     width: 100%;
@@ -40,7 +34,10 @@ const ToDo = () => {
 
     const { 
         text: { text },
-        user: { todoLists: initial }
+        user: {
+            activeTodoBoardId,
+            todoBoards
+        }
     } = useSelector(state => state)
 
 
@@ -70,12 +67,12 @@ const ToDo = () => {
     },[])
 
     useEffect(() => {
-        if(initial && !isInitialized){
-            setTodoLists(initial)
-            setLastSavedTodoLists(initial)
+        if(activeTodoBoardId && !isInitialized){
+            setTodoLists(todoBoards[activeTodoBoardId].todoLists)
+            setLastSavedTodoLists(todoBoards[activeTodoBoardId].todoLists)
             setIsInitialized(true)
         }
-    },[initial])
+    },[activeTodoBoardId])
 
     useEffect(() => {
         if(mounted){
@@ -237,10 +234,7 @@ const ToDo = () => {
                 todoListId: toListId
             })
         }
-
-
         // console.log("AFTER MOVING CARD BETWEEN LIST", updatedList)
-
         return updatedList
     }
 
@@ -251,13 +245,8 @@ const ToDo = () => {
             {!isInitialized ?
                 <Loader /> :
                 <>
-                    <Header>
-                        <HeaderTitle>
-                            {text.to_do_title}
-                        </HeaderTitle>
-                    </Header>
 
-                    
+                    <Header />
                      <Content>
                         {Object.keys(todoLists).map(listId => {
                             return (

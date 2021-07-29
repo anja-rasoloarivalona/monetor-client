@@ -9,7 +9,6 @@ const initialState = {
     budgets: null,
     wallets: null,
     transactions: null,
-    todoLists: null,
     checkedToken: false,
     location: null,
 }
@@ -32,7 +31,6 @@ const setUser = (state, action) => {
     return updatedObject(state, {
         ...action.user,
         checkedToken: true,
-        todoLists: arrayToObject(action.user.todoLists, "id"),
     })
 }
 
