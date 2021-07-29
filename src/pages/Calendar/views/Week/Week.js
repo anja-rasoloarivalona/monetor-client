@@ -11,9 +11,10 @@ import GridLayout from 'react-grid-layout'
 import "../../../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../../../node_modules/react-resizable/css/styles.css"
 import TodoItem from './TodoItem'
-import { addDays, getPeriod, getInRangeTodoLists } from './functions'
+import { addDays, getPeriod, getInRangeTodoLists, addPeriods } from './functions'
 import * as actions from "../../../../store/actions"
 import axios from "axios"
+import moment from 'moment'
 
 const Container = styled.div`
     grid-column: 1 / 2;
@@ -23,7 +24,7 @@ const Container = styled.div`
     background: ${props => props.theme.surface};
 
     ${props => {
-        const { config: { sidebar, header, length, d, h, windowWidth, pos }} = props
+        const { config: { sidebar, header, length, d, h, windowWidth, pos,isAddingPeriod }} = props
         return {
             gridTemplateColumns: `${sidebar}px 1fr`,
             gridTemplateRows: `${header}px 1fr`,
@@ -31,7 +32,8 @@ const Container = styled.div`
                 "&__slider": {
                     width: `${d * length}px`,
                     gridTemplateColumns: `repeat(auto-fit, ${d}px)`,
-                    transform: `translateX(${d * pos * -1}px)`
+                    transform: `translateX(${d * pos * -1}px)`,
+                    transition: isAddingPeriod ? "none" : ".3s ease-in"
                 }
             },
             ".content": {
@@ -40,7 +42,9 @@ const Container = styled.div`
                 "&__slider": {
                     width: `${d * length}px`,
                     gridTemplateColumns: `repeat(auto-fit, ${d}px)`,
-                    transform: `translateX(${d * pos * -1}px)`
+                    transform: `translateX(${d * pos * -1}px)`,
+                    transition: isAddingPeriod ? "none" : ".3s ease-in"
+
                 }
             },
             ".sidebar": {
@@ -71,8 +75,6 @@ const Content = styled(ScrollBar)`
     grid-template-rows: max-content;
     grid-column: 1 / 3;
     grid-row: 2 / 3;
-
-
 `
 const Empty = styled.div`
     width: 100%;
@@ -128,8 +130,10 @@ const Week = () => {
     const dispatch = useDispatch()
 
     const { 
-        user: { todoLists }
+        user: { todoBoards, activeTodoBoardId }
     } = useSelector(state => state) 
+
+    const todoLists = todoBoards[activeTodoBoardId].todoLists
 
     const config = {
         days: 7,
@@ -143,11 +147,14 @@ const Week = () => {
     const [ pos, setPos ] = useState(null)
     const [ layout, setLayout ] = useState(null)
     const [ toBeSaved, setToBeSaved ] = useState([])
+    const [ isScrollInitialized, setIsScrollInitialized] = useState(false)
+    const [ isAddingPeriod, setIsAddingPeriod ] = useState(false)
+    const [ isPeriodAdded, setIsPeriodAdded ] = useState(false)
 
 
     useEffect(() => {
         const res = []
-        for(let i = config.days * -3; i < config.days * 10; i++){
+        for(let i = config.days * -2; i < config.days * 5; i++){
             res.push({
                 ...getPeriod(addDays(new Date(), i)),
                 index: {
@@ -193,6 +200,38 @@ const Week = () => {
         }
     },[periods])
 
+    useEffect(() => {
+        if(periods && layout){
+            const formattedToday = moment(new Date()).format("DD-MM-YYYY")
+            const currentId = `${formattedToday} ${new Date().getHours() - 2}h`
+            const el = document.getElementById(currentId)
+            if(el && !isScrollInitialized){
+                el.scrollIntoView("alignToTop")
+                setIsScrollInitialized(true)
+            }
+        }
+    },[periods, layout])
+
+    useEffect(() => {
+        if(pos && isScrollInitialized){
+            if(pos < 10 || pos > periods.length - 10){
+                const prevPeriod = periods.find(period => period.index.pos === pos)
+                const updatedPeriods = [...addPeriods(periods, 20  * (pos < 10 ? -1 : 1  ))]
+                const updatedPos = updatedPeriods.find(period => period.formatted === prevPeriod.formatted).index.pos
+                setIsAddingPeriod(true)
+                setPos(updatedPos)
+                setPeriods(updatedPeriods)
+                setIsPeriodAdded(true)
+            }
+
+        }
+    },[pos])
+
+    useEffect(() => {
+        if(isAddingPeriod && isPeriodAdded){
+            setIsAddingPeriod(false)
+        }
+    },[periods, pos])
 
     let timeout
     useEffect(() => {
@@ -279,7 +318,8 @@ const Week = () => {
                 ...config,
                 length: periods.length,
                 windowWidth,
-                pos
+                pos,
+                isAddingPeriod
             }}
         >
             <WeekHeader 
@@ -306,6 +346,7 @@ const Week = () => {
                             onDragStop={stopHandler}
                             onResizeStop={stopHandler}
                             preventCollision={true}
+                            useCSSTransforms={false}
                         >
                             {layout.map(item => (
                                 <GridLayoutItem key={item.i}>
