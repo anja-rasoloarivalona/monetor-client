@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import WeekHeader from './WeekHeader'
 import WeekDay from "./WeekDay"
 import { useWindowSize } from '../../../../hooks'
-import { ScrollBar } from '../../../../components'
+import { ScrollBar, ScrollDrag } from '../../../../components'
 import GridLayout from 'react-grid-layout'
 import "../../../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../../../node_modules/react-resizable/css/styles.css"
@@ -19,12 +19,13 @@ import moment from 'moment'
 const Container = styled.div`
     grid-column: 1 / 2;
     grid-row: 1 / 2;
-    width: 100vw;
+    width: 100%;
+    height: 100%;
     display: grid;
     background: ${props => props.theme.surface};
 
     ${props => {
-        const { config: { sidebar, header, length, d, h, windowWidth, pos,isAddingPeriod }} = props
+        const { config: { sidebar, header, length, d, h, windowWidth, pos,isAddingPeriod, small }} = props
         return {
             gridTemplateColumns: `${sidebar}px 1fr`,
             gridTemplateRows: `${header}px 1fr`,
@@ -33,7 +34,20 @@ const Container = styled.div`
                     width: `${d * length}px`,
                     gridTemplateColumns: `repeat(auto-fit, ${d}px)`,
                     transform: `translateX(${d * pos * -1}px)`,
-                    transition: isAddingPeriod ? "none" : ".3s ease-in"
+                    transition: isAddingPeriod ? "none" : ".3s ease-in",
+                    height: small ? "4rem" : "initial",
+                    "> div": {
+                        marginBottom: small ? "0rem" : "1rem"
+                    }
+                },
+                "&__header": {
+                    transform: `translateX(-${sidebar}px)`,
+                    padding: small ? "0" : "0 4rem",
+                    width: small ? `${d + sidebar}px` : "100vw",
+                    ":before": {
+                        height: small ? "4rem" : "2.5rem",
+                        width: `${sidebar}px`
+                    }
                 }
             },
             ".content": {
@@ -76,15 +90,7 @@ const Content = styled(ScrollBar)`
     grid-column: 1 / 3;
     grid-row: 2 / 3;
 `
-const Empty = styled.div`
-    width: 100%;
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
-    position: relative;
-    z-index: 2;
-    background: ${props => props.theme.surface};
-    border-bottom: 1px solid ${props => props.theme.form.unfocused.border};
-`
+
 
 const ContentView = styled.div`
     width: 100%;
@@ -102,8 +108,6 @@ const ContentSlider = styled.div`
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 4;
-
     }
 `
 
@@ -113,10 +117,11 @@ const GridLayoutItem = styled.div`
     justify-content: center;
     background: ${props => props.theme.surface};
     padding: .2rem;
-    box-shadow: ${props => props.theme.boxShadow};
+    box-shadow: ${props => props.hideBackground ? "none" : props.theme.boxShadow};
     border-radius: .2rem;
     position: relative;
-    z-index: 3;
+    z-index: 5;
+    transition: box-shadow .3s ease-in;
 
     .react-resizable-handle.react-resizable-handle-se {
         bottom: .2rem !important;
@@ -124,7 +129,7 @@ const GridLayoutItem = styled.div`
     }
 `
 
-const Week = () => {
+const Week = props => {
 
     const { windowWidth } = useWindowSize()
     const dispatch = useDispatch()
@@ -140,7 +145,8 @@ const Week = () => {
         h: 80,
         sidebar: 200,
         header: 100,
-        d: (windowWidth - 200) / 7
+        d: (windowWidth - 200) / 7,
+        ...props.config
     }
 
     const [ periods, setPeriods ] = useState(null)
@@ -152,15 +158,31 @@ const Week = () => {
     const [ isPeriodAdded, setIsPeriodAdded ] = useState(false)
 
 
+    const [isScrolling, setIsScrolling] = useState(false)
+    const [clientX, setClientX] = useState(0)
+    const [scrollX, setScrollX] = useState(0)
+
+
     useEffect(() => {
         const res = []
-        for(let i = config.days * -2; i < config.days * 5; i++){
-            res.push({
-                ...getPeriod(addDays(new Date(), i)),
-                index: {
-                    index: i
-                }
-            })
+        if(config.small){
+            for(let i = 4 * -2; i < 4 * 5; i++){
+                res.push({
+                    ...getPeriod(addDays(new Date(), i)),
+                    index: {
+                        index: i
+                    }
+                })
+            }
+        } else {
+            for(let i = config.days * -2; i < config.days * 5; i++){
+                res.push({
+                    ...getPeriod(addDays(new Date(), i)),
+                    index: {
+                        index: i
+                    }
+                })
+            }
         }
         res.forEach((item, index) => {
             res[index].index.pos = index
@@ -213,10 +235,13 @@ const Week = () => {
     },[periods, layout])
 
     useEffect(() => {
+
+        const check = config.small ? 4 : 10
+
         if(pos && isScrollInitialized){
-            if(pos < 10 || pos > periods.length - 10){
+            if(pos < check || pos > periods.length - check){
                 const prevPeriod = periods.find(period => period.index.pos === pos)
-                const updatedPeriods = [...addPeriods(periods, 20  * (pos < 10 ? -1 : 1  ))]
+                const updatedPeriods = [...addPeriods(periods, 20  * (pos < check ? -1 : 1  ))]
                 const updatedPos = updatedPeriods.find(period => period.formatted === prevPeriod.formatted).index.pos
                 setIsAddingPeriod(true)
                 setPos(updatedPos)
@@ -327,44 +352,61 @@ const Week = () => {
                 periods={periods} 
                 pos={pos}
                 setPos={setPos}
+                small={config.small}
+                setIsAddingPeriod={setIsAddingPeriod}
             />
             <Content className="content">
                 <SideBar />
-                <ContentView className="content__view">
-                    <ContentSlider className="content__slider">
-                        <GridLayout
-                            className="layout"
-                            layout={layout}
-                            cols={periods.length}
-                            rows={48}
-                            rowHeight={config.h / 2}
-                            width={config.d * periods.length}
-                            isDraggable={true}
-                            isResizable={true}
-                            margin={[0, 0]}
-                            compactType={null}
-                            onDragStop={stopHandler}
-                            onResizeStop={stopHandler}
-                            preventCollision={true}
-                            useCSSTransforms={false}
-                        >
-                            {layout.map(item => (
-                                <GridLayoutItem key={item.i}>
-                                    <TodoItem
-                                        item={item} 
-                                        setToBeSaved={setToBeSaved}
-                                    />
-                                </GridLayoutItem>
+                <ScrollDrag
+                    style={{
+                        width: config.small ? `${config.d}px` : `calc(100vw - ${config.sidebar}px)`,
+                        height: "100%",
+                        gridColumn: "2/3",
+                        gridRow: "1/3"
+                    }}
+                >
+                    <ContentView className="content__view">
+                        <ContentSlider className="content__slider">
+                            <GridLayout
+                                className="layout"
+                                layout={layout}
+                                cols={periods.length}
+                                rows={48}
+                                rowHeight={config.h / 2}
+                                width={config.d * periods.length}
+                                isDraggable={true}
+                                isResizable={true}
+                                margin={[0, 0]}
+                                compactType={null}
+                                onDragStop={stopHandler}
+                                onResizeStop={stopHandler}
+                                preventCollision={true}
+                                useCSSTransforms={false}
+                            >
+                                {layout.map(item => {
+        
+                                    return (
+                                        <GridLayoutItem
+                                            key={item.i}
+                                            hideBackground={config.small && item.x !== pos}
+                                        >
+                                            <TodoItem
+                                                item={item} 
+                                                setToBeSaved={setToBeSaved}
+                                            />
+                                        </GridLayoutItem>
+                                    )
+                                })}
+                            </GridLayout>
+                            {periods.map((data, index) => (
+                                <WeekDay 
+                                    key={index}
+                                    data={data}
+                                />
                             ))}
-                        </GridLayout>
-                        {periods.map((data, index) => (
-                            <WeekDay 
-                                key={index}
-                                data={data}
-                            />
-                        ))}
-                    </ContentSlider>
+                        </ContentSlider>
                 </ContentView>
+                </ScrollDrag>
             </Content>
 
         </Container>

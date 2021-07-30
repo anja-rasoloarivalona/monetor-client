@@ -9,6 +9,9 @@ import "../../../node_modules/react-resizable/css/styles.css"
 import Weather from "./items/Weather/Weather"
 import AppSelector from "./items/AppSelector/AppSelector"
 import Calendar from "./items/Calendar/Calendar"
+import Balance from './items/Balance'
+import MonthlyReport from './items/MonthlyReport'
+import LastTransactions from "./items/LastTransactions"
 
 const Container = styled.div`
     width: 100%;
@@ -25,7 +28,6 @@ const GridContainer = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
-
     .layout {
         width: 100%;
     }
@@ -35,6 +37,20 @@ const GridItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    ${props => {
+        if(props.id !== "calendar"){
+            console.log({
+                props
+            })
+            return {
+                padding: "2rem",
+                boxShadow: props.theme.boxShadowLight,
+                borderRadius: "1rem",
+                background: props.theme.surface
+            }
+        }
+    }}
 
     .react-resizable-handle.react-resizable-handle-se {
         bottom: 1rem !important;
@@ -83,7 +99,10 @@ const Home = () => {
     const components = {
         "weather": Weather,
         "appSelector": AppSelector,
-        "calendar": Calendar
+        "calendar": Calendar,
+        "balance": Balance,
+        "monthly_report": MonthlyReport,
+        "last_transactions": LastTransactions
     }
 
 
@@ -94,10 +113,25 @@ const Home = () => {
     const renderItem = item => {
         const Component = item.Component ? item.Component : components[item.i]
         return (
-            <GridItem key={item.i}>
-                <Component />
+            <GridItem
+                key={item.i}
+                id={item.i}
+            >
+                <Component item={item} />
             </GridItem>
         )
+    }
+
+    const stopHandler = updated => {
+        const updatedLayout = []
+        updated.forEach(item => {
+            const prev = layout.find(i => i.i === item.i)
+            updatedLayout.push({
+                ...item,
+                display: prev.display
+            })
+        })
+        setLayout(updatedLayout)
     }
 
     return (
@@ -112,6 +146,8 @@ const Home = () => {
                     margin={[15, 15]}
                     isDraggable={true}
                     isResizable={true}
+                    onDragStop={stopHandler}
+                    onResizeStop={stopHandler}
                 >
                     {layout.filter(i => i.display === true).map(renderItem)}
                 </GridLayout>

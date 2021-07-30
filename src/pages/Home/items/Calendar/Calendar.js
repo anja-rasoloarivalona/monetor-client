@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import Header from "./Header"
@@ -17,44 +17,13 @@ const Container = styled.div`
     overflow: hidden;
     background: ${props => props.theme.surface};
     box-shadow: ${props => props.theme.boxShadowLight};
-`
-
-
-const Content = styled(ScrollBar)`
     display: flex;
-    max-height: 100%;
-    overflow-x: hidden;
-
-    ${props => {
-        if(props.config && props.config.container.current){
-            const min = props.config.container.current.clientHeight - 90
-            const max = props.config.hourItem.height * 24
-            return {
-                maxHeight: `${Math.min(min, max)}px`,
-            }
-        }
-      
-    }}
-
-    ::-webkit-scrollbar {
-        display: none;
-    }
-
-    .sidebar > div > div.item {
-        font-size: 1.1rem;
-        padding: .5rem;
-    }
-
-    .hour {
-        border-right: none;
-    }
-
-
-
-
+    align-items: center;
+    justify-content: center;
 `
 
-const Calendar = () => {
+
+const Calendar = props => {
 
     const container = useRef()
 
@@ -62,53 +31,33 @@ const Calendar = () => {
         settings: { locale }
     } = useSelector(state => state)
 
-    const today = new Date()
 
-    const initial = {
-        nb: 1,
-        from: today,
-        start: moment(today).set('hour', 0).set("minute", 0),
-        end: moment(today).set('hour', 23).set("minute", 59)
-    }
+    const [ isReady, setIsReady ] = useState(false)
 
-
-    const [ current, setCurrent ] = useState(initial)
-
-    const config =  {
-        sidebar: 50,
-        days: 1,
-        container,
-        hourItem: {
-            height: 60
+    useEffect(() => {
+        if(container.current){
+            setIsReady(true)
         }
-    }
+    },[container])
 
-    const navigationHandler = type => {
-        if(type === "next"){
-            setCurrent(prev => ({
-                ...prev,
-                start: moment(new Date(prev.start)).add(config.days, "day"),
-                end: moment(new Date(prev.end)).add(config.days, "day"),
-                from: new Date(moment(new Date(prev.start)).add(config.days, "day")),
-                type
-            }))
-        }
-        if(type === "prev"){
-            setCurrent(prev => ({
-                ...prev,
-                start: moment(new Date(prev.start)).subtract(config.days, "day"),
-                end: moment(new Date(prev.end)).subtract(config.days, "day"),
-                from: new Date(moment(new Date(prev.start)).subtract(config.days, "day")),
-                type
-            }))
-        }
-    }
-
-
+    
 
     return (
         <Container ref={container}>
-            <Header 
+            {isReady && (
+                <WeekView 
+                    config={{
+                        days: 1,
+                        h: 60,
+                        sidebar: 60,
+                        header: 100,
+                        d: container.current.clientWidth - 60,
+                        small: true
+                    }}
+                />
+            )}
+
+            {/* <Header 
                 current={current}
                 setCurrent={setCurrent}
                 navigationHandler={navigationHandler}
@@ -121,8 +70,7 @@ const Calendar = () => {
                     }}
                     config={config} 
                 />
-            </Content>
-
+            </Content> */}
         </Container>
      )
 };

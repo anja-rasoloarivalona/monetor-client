@@ -5,7 +5,11 @@
         "xxl": [
             { "w": 9, "h": 6, "x": 18, "y": 0, "i": "weather", "display": true },
             { "w": 7, "h": 7, "x": 8, "y": 0, "i": "appSelector", "display": true },
-            { "w": 7, "h": 10, "x": 0, "y": 0, "i": "calendar", "display": false }
+            { "w": 7, "h": 10, "x": 0, "y": 0, "i": "calendar", "display": true },
+
+            { "w": 6, "h": 10, "x": 16, "y": 0, "i": "balance", "display": true },
+            { "w": 6, "h": 10, "x": 16, "y": 6, "i": "monthly_report", "display": true },
+            { "w": 6, "h": 10, "x": 16, "y": 12, "i": "last_transactions", "display": true }
         ],
         "xl": [
             { "w": 9, "h": 6, "x": 18, "y": 0, "i": "weather", "display": true },

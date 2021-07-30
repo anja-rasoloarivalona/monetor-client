@@ -18,6 +18,8 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
+    z-index: 4;
+
 `
 
 const HourLayout = styled.div`

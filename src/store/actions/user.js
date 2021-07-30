@@ -125,12 +125,16 @@ const setOnlineContacts = props => {
 }
 
 const toggleDraggableMessage = data => {
-    console.log({
-        data
-    })
     return {
         type: actionTypes.TOGGLE_DRAGGABLE_MESSAGE,
         data
+    }
+}
+
+const setUserBalance = balance => {
+    return {
+        type: actionTypes.SET_USER_BALANCE,
+        balance
     }
 }
 
@@ -144,5 +148,6 @@ export {
     updateTodoLits,
     addTransaction,
     setOnlineContacts,
-    toggleDraggableMessage
+    toggleDraggableMessage,
+    setUserBalance
 }
