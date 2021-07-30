@@ -11,7 +11,6 @@ import { Select } from '../../../../components/Form/WithoutValidation'
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    padding: 1rem;
     display: flex;
     flex-direction: column;
     padding-bottom: 2rem;
@@ -242,7 +241,7 @@ const History = () => {
     return (
         <Container>
             <Header>
-                <Title>Test</Title>
+                <Title>{text.balance_variation}</Title>
                 <Select 
                     options={getSelectOptions()}
                     currentValue={period}

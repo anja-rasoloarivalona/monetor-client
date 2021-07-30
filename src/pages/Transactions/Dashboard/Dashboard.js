@@ -11,7 +11,8 @@ import Expenses from './items/Expenses'
 import Transactions from './items/Transactions'
 import History from "./items/History"
 import Wallet from "./items/Wallet"
-
+import Balance from './items/Balance'
+import MonthlyReport from './items/MonthlyReport'
 
 const GridContainer = styled.div`
     width: 100%;
@@ -30,7 +31,7 @@ const GridItem = styled.div`
     background: ${props => props.theme.surface};
     border-radius: 1.5rem;
     box-shadow: ${props => props.theme.boxShadowLight};
-    padding: 1rem;
+    padding: 2rem;
 
     .react-resizable-handle.react-resizable-handle-se {
         bottom: 1rem !important;
@@ -75,20 +76,20 @@ const Dashboard = () => {
 
             } else {
                 const initialLayout = defaultLayout[config.breakpoint]
-                if(wallets){
-                    wallets.forEach((wallet, index) => {
-                        const yData = (6 * (index + 1)) - 6
-                        initialLayout.push({
-                            w: breakpoints[config.breakpoint].wallet.size,
-                            x: breakpoints[config.breakpoint].wallet.x,
-                            y: yData,
-                            h: 4,
-                            i: `${wallet.id}-wallet`,
-                            display: true,
-                            Component: () => <Wallet wallet={wallet} />
-                        })
-                    })
-                }
+                // if(wallets){
+                //     wallets.forEach((wallet, index) => {
+                //         const yData = (6 * (index + 1)) - 6
+                //         initialLayout.push({
+                //             w: breakpoints[config.breakpoint].wallet.size,
+                //             x: breakpoints[config.breakpoint].wallet.x,
+                //             y: yData,
+                //             h: 4,
+                //             i: `${wallet.id}-wallet`,
+                //             display: true,
+                //             Component: () => <Wallet wallet={wallet} />
+                //         })
+                //     })
+                // }
                 setLayout(initialLayout)
             }
         }
@@ -101,7 +102,9 @@ const Dashboard = () => {
         "overview": Overview,
         "expenses": Expenses,
         "transactions": Transactions,
-        "history": History
+        "history": History,
+        "balance": Balance,
+        "monthly_report": MonthlyReport
     }
 
 
@@ -119,6 +122,12 @@ const Dashboard = () => {
         )
     }
 
+    const stopHandler = layout => {
+        console.log({
+            layout
+        })
+    }
+
     return (
         <GridContainer>
             <GridLayout
@@ -130,6 +139,8 @@ const Dashboard = () => {
                 margin={[15, 15]}
                 isDraggable={true}
                 isResizable={true}
+                onDragStop={stopHandler}
+                onResizeStop={stopHandler}
             >
                 {layout.filter(i => i.display === true).map(renderItem)}
             </GridLayout>

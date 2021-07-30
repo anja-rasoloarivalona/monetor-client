@@ -1,24 +1,24 @@
 import React from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+
 
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    background: red;
 `
 
-const Overview = () => {
-  
-  const {
+const Balance = () => {
 
-  } = useSelector(s => s)
-  
+    const {
+        home: { weather }
+    } = useSelector(state => state)
+
     return (
         <Container>
-          Overview
+            Balance
         </Container>
      )
 };
 
-export default Overview;
+export default Balance;

@@ -47,13 +47,9 @@ const GriContainer = styled.div`
     width: 100%;
     height: 100%;
     z-index: 1;
-    background: blue;
 
     .layout {
-        // min-height: 100%;
-        // max-height: 100%;
         width: 100%;
-        background: red;
     }
 `
 const GridItem = styled.div`

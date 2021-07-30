@@ -1,5 +1,23 @@
-import React, { useRef, useEffect } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import styled from "styled-components"
+import { useSelector } from 'react-redux'
+
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    ${props => {
+        if(props.isFocused){
+            return {
+                ".currency": {
+                    color: props.theme.text
+                }
+            }
+        }
+    }}
+`
+
 
 const Input = styled.input`
     width: 100%;
@@ -24,41 +42,68 @@ const Input = styled.input`
 
 `
 
+const Currency = styled.div`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 1.2rem;
+    margin: auto;
+    color: ${props => props.theme.form.unfocused.border};
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+`
+
 const InputComponent = props => {
 
-    const { value, onChange, onFocus, onBlur, customRef, focusOnMount } = props
+    const { value, onChange, onFocus, onBlur, customRef, focusOnMount, isAmount, type } = props
+
+
+    const {
+        settings: { currency }
+    } = useSelector(s => s)
 
     const input = useRef()
 
+    const [ isFocused, setIsFocused ] = useState(false)
+
     const handleOnFocus = () => {
+        setIsFocused(true)
         if(onFocus){
             onFocus()
         }
     }
 
     const handleOnBlur = () => {
+        setIsFocused(false)
         if(onBlur){
             onBlur()
         }
     }
 
     useEffect(() => {
-        console.log({
-            focusOnMount
-        })
         if(focusOnMount){
             input.current.focus()
         }
     }, [])
 
     return (
-        <Input
-            ref={customRef || input}
-            value={value}
-            onChange={e => onChange(e.target.value)}
-            onFocus={handleOnFocus}
-            onBlur={handleOnBlur}
-        />
+        <Container isFocused={isFocused}>
+            <Input
+                ref={customRef || input}
+                value={value}
+                onChange={e => onChange(e.target.value)}
+                onFocus={handleOnFocus}
+                onBlur={handleOnBlur}
+                type={type}
+            />
+            {isAmount && (
+                <Currency className="currency">
+                    {currency.symbol}
+                </Currency>
+            )}
+        </Container>
+
           
      )
 };

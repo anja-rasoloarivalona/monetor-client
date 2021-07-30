@@ -10,8 +10,6 @@ const Container = styled.div`
     width: 100%;
     background: ${props => props.theme.surface};
     min-height: 10rem;
-    // opacity: .2;
-    // background: blue;
 `
 
 const Top = styled.div`

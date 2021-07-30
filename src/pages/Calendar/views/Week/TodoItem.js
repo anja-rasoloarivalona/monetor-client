@@ -12,6 +12,7 @@ const Container = styled.div`
     padding: 1rem;
     position: relative;
     cursor: pointer;
+    z-index: 5;
 `
 
 const Title = styled.div`

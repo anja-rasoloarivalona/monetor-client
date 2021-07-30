@@ -10,6 +10,7 @@ const Container = styled.div`
 `
 
 const ScrollDrag = props => {
+
     const [isScrolling, setIsScrolling] = useState(false)
     const [clientX, setClientX] = useState(0)
     const [scrollX, setScrollX] = useState(0)
@@ -19,10 +20,17 @@ const ScrollDrag = props => {
     const mouseDown = e => {
         setIsScrolling(true)
         setClientX(e.clientX)
+        if(props.outer){
+            props.setIsScrolling(true)
+            props.setClientX(e.clientX)
+        }
     }
 
     const mouseUp = () => {
         setIsScrolling(false)
+        if(props.outer){
+            props.setIsScrolling(false)
+        }
     }
 
     const mouseMove = e => {
@@ -30,7 +38,18 @@ const ScrollDrag = props => {
             ref.current.scrollLeft = scrollX - e.clientX + clientX;
             setScrollX(prev => prev - e.clientX + clientX);
             setClientX(e.clientX)
+            if(props.outer){
+                props.setScrollX(prev => prev - e.clientX + clientX);
+                props.setClientX(e.clientX)
+            }
 
+        }
+    }
+
+    const mouseLeave = () => {
+        setIsScrolling(false)
+        if(props.outer){
+            props.setIsScrolling(false)
         }
     }
 
@@ -46,7 +65,7 @@ const ScrollDrag = props => {
             onMouseDown={mouseDown}
             onMouseUp={mouseUp}
             onMouseMove={mouseMove}
-            onMouseLeave={() => setIsScrolling(false)}
+            onMouseLeave={mouseLeave}
         >
             {props.children}
         </Container>

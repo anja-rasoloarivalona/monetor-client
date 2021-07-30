@@ -11,10 +11,6 @@ import { Link } from '../../../../components'
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    background: ${props => props.theme.surface};
-    box-shadow: ${props => props.theme.boxShadowLight};
-    padding: 2rem;
-    border-radius: 1rem;
 
 `
 

@@ -23,7 +23,8 @@ export {
     setTodoLists,
     addTransaction,
     setOnlineContacts,
-    toggleDraggableMessage
+    toggleDraggableMessage,
+    setUserBalance,
 } from './user'
 
 export {
