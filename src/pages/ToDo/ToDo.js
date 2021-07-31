@@ -10,7 +10,7 @@ import { insertInToArray } from '../../functions'
 import { Loader } from '../../components'
 import axios from 'axios'
 import Preview from './CardPreview'
-import Header from './TodoHeader'
+import Header from './Header/Header'
 
 const Container = styled.div`
     width: 100%;
@@ -34,6 +34,7 @@ const ToDo = () => {
 
     const { 
         text: { text },
+        settings: { defaultBackground },
         user: {
             activeTodoBoardId,
             todoBoards
@@ -64,6 +65,15 @@ const ToDo = () => {
 
     useEffect(() => {
         setMounted(true)
+        if(todoBoards[activeTodoBoardId].backgroundImage){
+            dispatch(actions.setBackgroundImage(todoBoards[activeTodoBoardId].backgroundImage))
+        }
+        return () => {
+            if(defaultBackground && defaultBackground !== todoBoards[activeTodoBoardId].backgroundImage){
+            dispatch(actions.setBackgroundImage(defaultBackground))
+
+            }
+        }
     },[])
 
     useEffect(() => {

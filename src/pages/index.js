@@ -79,6 +79,10 @@ const Routes = props => {
             } else {
                 const forbiddenPages = [text.link_login, text.link_signup, text.link_setup]
                 const currentPathname = location.pathname.split("/")[1]
+                console.log({
+                    forbiddenPages,
+                    currentPathname
+                })
                 if(forbiddenPages.includes(currentPathname)){
                     props.history.push(`/${text.link_home}`)
                 }

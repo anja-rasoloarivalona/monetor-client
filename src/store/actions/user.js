@@ -138,6 +138,9 @@ const setUserBalance = balance => {
     }
 }
 
+
+
+
 export {
     addBudget,
     addWallet,
@@ -149,5 +152,5 @@ export {
     addTransaction,
     setOnlineContacts,
     toggleDraggableMessage,
-    setUserBalance
+    setUserBalance,
 }

@@ -1,11 +1,9 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Button  } from '../../components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Container = styled.div`
     position: relative;   
-    margin-left: 1rem;
 `
 
 const List = styled.div`
@@ -25,28 +23,37 @@ const ListHeader = styled.div`
 const ButtonContainer = styled.div`
     position: relative;
     z-index: 1;
+    display: flex;
+    align-items: center;
+`
+const Button = styled.div`
+    border-radius: .3rem;
+    color: ${props => props.theme.textLight};
+    font-size: 1.2rem;
+    height: 3.5rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: ${props => props.theme.onSurface};
+    padding: 0 2rem;
+    font-size: 1.4rem;
+    svg {
+        font-size: 1.6rem;
+        margin-left: 1rem;
 
-    button {
-        background: ${props => props.theme.onSurface};
-        color: ${props => props.theme.textLight};
-        svg {
-            margin-right: 1rem;
-        }
     }
-
 `
 
+const DashboardSelector = () => {
 
-const TodoHeaderSettings = () => {
-
-    const [ showPannel, setShowPannel ] = useState(true)
+    const [ showPannel, setShowPannel ] = useState(false)
 
     return (
         <Container>
             <ButtonContainer>
                 <Button square>
-                    <FontAwesomeIcon icon="cog"/>
-                    Settings
+                    Dashboards
+                    <FontAwesomeIcon icon="chevron-down"/>
                 </Button>
             </ButtonContainer>
             {showPannel && (
@@ -54,7 +61,7 @@ const TodoHeaderSettings = () => {
                     <ListHeader>
                         <Button square>
                         <FontAwesomeIcon icon="cog"/>
-                            Settings
+                            Dashboards
                         </Button>    
                     </ListHeader>
                 </List>
@@ -63,4 +70,4 @@ const TodoHeaderSettings = () => {
      )
 };
 
-export default TodoHeaderSettings;
+export default DashboardSelector;

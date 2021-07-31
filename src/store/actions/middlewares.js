@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-import { setTheme, setUser, setCurrency, setWeather } from './index'
+import { setTheme, setUser, setCurrency, setWeather, setBackgroundImage, setDefaultBackgroundImage } from './index'
 import axios from 'axios'
 import { getCategories } from './categories'
 import { arrayToObject } from '../../functions'
@@ -26,6 +26,10 @@ const initApp = () => {
                             type: actionTypes.SET_CHECKED_USER_TOKEN,
                             value: true
                         })
+                    }
+                    if(res.data.data.settings.defaultBackground){
+                        dispatch(setDefaultBackgroundImage(res.data.data.settings.defaultBackground))
+                        dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
                     }
                     delete res.data.data.settings
 

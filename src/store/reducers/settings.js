@@ -5,7 +5,8 @@ const initialState = {
     locale: localStorage.getItem("locale") || "en",
     currency: null,
     socket: null,
-    unitType: localStorage.getItem("unitType") || "imperial"
+    unitType: localStorage.getItem("unitType") || "imperial",
+    defaultBackground: null,
 }
 
 const setCurrency = (state, action) => {
@@ -34,6 +35,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_CURRENCY: return setCurrency(state, action)
         case actionTypes.SET_SOCKET: return updatedObject(state, {socket: action.socket})
         case actionTypes.SET_UNIT_TYPE: return setUnitType(state, action)
+        case actionTypes.SET_DEFAULT_BACKGROUND: return updatedObject(state, {defaultBackground: action.image})
         default: return state
     }
 }

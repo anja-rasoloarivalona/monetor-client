@@ -11,6 +11,7 @@ const initialState = {
     transactions: null,
     checkedToken: false,
     location: null,
+    defaultBackground: null
 }
 
 const clearUser = (state) => {
