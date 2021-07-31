@@ -29,9 +29,17 @@ const setSocket = socket => {
     }
 }
 
+
+const setDefaultBackgroundImage = image => {
+    return {
+        type: actionTypes.SET_DEFAULT_BACKGROUND,
+        image
+    }
+}
 export {
     setCurrency,
     setLocale,
     setSocket,
-    setUnit
+    setUnit,
+    setDefaultBackgroundImage
 }

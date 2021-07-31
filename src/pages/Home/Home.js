@@ -16,9 +16,7 @@ import LastTransactions from "./items/LastTransactions"
 const Container = styled.div`
     width: 100%;
     min-height: calc(100vh - 6.5rem);
-    background: green;
     display: flex;
-    background: ${props => props.theme.background};
     position: relative;
     z-index: 2;
     overflow-x: hidden;

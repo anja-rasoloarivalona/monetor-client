@@ -3,14 +3,16 @@ export {
 } from './text'
 
 export {
-    setTheme
+    setTheme,
+    setBackgroundImage
 } from './theme'
 
 export {
     setLocale,
     setCurrency,
     setSocket,
-    setUnit
+    setUnit,
+    setDefaultBackgroundImage
 } from './settings'
 
 export {

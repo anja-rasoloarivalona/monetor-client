@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
-import {  useOnClickOutside } from '../../hooks'
-import { Button } from '../../components'
-import { Select  } from '../../components/Form/WithoutValidation'
+import {  useOnClickOutside } from '../../../hooks'
+import { Button } from '../../../components'
+import { Select  } from '../../../components/Form/WithoutValidation'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import Settings from './TodoHeaderSettings'
+import Settings from './Settings'
+import InviteMember from './InviteMember'
+import DashboardSelector from './DashboardSelector'
 
 const Container = styled.div`
     padding: 0 1rem;
@@ -29,6 +31,7 @@ const Title = styled.div`
     align-items: center;
     font-size: 2rem;
     font-weight: 600;
+    color: ${props => props.theme.backgroundImage ? "white" : props.theme.text};
 `
 
 const TitleInput = styled.input`
@@ -43,6 +46,7 @@ const TitleInput = styled.input`
     border: none;
     font-family: Roboto;
     background: transparent;
+    color: ${props => props.theme.backgroundImage ? "white" : props.theme.text};
     :focus {
         outline: none;
     }
@@ -66,6 +70,9 @@ const TodoHeader = () => {
     const initialTitle = todoBoards[activeTodoBoardId].title === "title" ? text.title : todoBoards[activeTodoBoardId].title 
     const [ isEditingTitle, setIsEditingTitle ] = useState(false)
     const [ title, setTitle ] = useState(initialTitle)
+
+
+    const [ displayed, setDisplayed ] = useState(null)
 
     useOnClickOutside(inputRef, () => setIsEditingTitle(false))
 
@@ -96,11 +103,15 @@ const TodoHeader = () => {
                 )}
             </TitleContainer>
             <ButtonsContainer>
-                <Button square transparent>
-                    <FontAwesomeIcon icon="users"/>
-                    Invite
-                </Button>
-                <Settings />
+                <InviteMember 
+                    setDisplayed={setDisplayed}
+                    displayed={displayed}
+                />
+                <Settings 
+                    setDisplayed={setDisplayed}
+                    displayed={displayed}
+                />
+                <DashboardSelector />
             </ButtonsContainer>
         </Container>
      )

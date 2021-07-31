@@ -17,7 +17,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: ${props => props.theme.surface};
+    background: ${props => props.theme.backgroundImage && props.pageId !== "transactions" ?  props.theme.transparentSurface :  props.theme.surface };
     box-shadow: ${props => props.theme.boxShadowLight};
     
     ${props => {
@@ -45,6 +45,7 @@ const ToggleMenu = styled(Section)`
     a {
         font-size: 1.8rem;
         margin-left: 1rem;
+        color: ${props => props.theme.background ? props.theme.white : props.theme.text} !important;
     }
 
 `
@@ -62,11 +63,14 @@ const IconContainer = styled.div`
 
     svg {
         font-size: 1.7rem;
-        color: ${props => props.themetextLight};
+        color: ${props => props.theme.background ? props.theme.white : props.themetextLight};
     }
 
     :hover {
         background: ${props => props.theme.background};
+        svg {
+            color: ${props => props.theme.text}
+        }
     }
 `
 
@@ -77,11 +81,11 @@ const AppHeader = props => {
 
     const { 
         user,
-        text: { text }
+        text: { text, page }
     } = useSelector(state => state)
 
     return (
-        <Container>
+        <Container pageId={page ? page.id : null}>
             
             {user.setupAt ?
                 <>

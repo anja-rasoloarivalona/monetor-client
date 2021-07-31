@@ -102,7 +102,8 @@ const ToggleList = styled.div`
 const AppList = props => {
 
     const {
-        text: { text }
+        text: { text },
+        user: { activeTodoBoardId }
     } = useSelector(state => state)
 
     const { setShowList, closeHandler } = props
@@ -112,7 +113,7 @@ const AppList = props => {
         {
             label: text.to_do,
             src: todoImg,
-            link: text.link_todo
+            link: `${text.link_todo}?board=${activeTodoBoardId}`
         },
         {
             label: text.calendar,

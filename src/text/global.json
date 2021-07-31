@@ -31,6 +31,10 @@
         "fr": "Fichiers",
         "en": "Attachments"
     },
+    "background": {
+        "fr": "Fond d'écran",
+        "en": "Background"
+    },
     "balance": {
         "fr": "Balance",
         "en": "Balance"
@@ -418,6 +422,14 @@
     "unit_type": {
         "fr": "Type d'unité",
         "en": "Unit type"
+    },
+    "use_as_default": {
+        "fr": "Utiliser par défaut",
+        "en": "Use as default"
+    },
+    "use_as_default_background_tooltip": {
+        "fr": "L'image sélectionné sera utilisé par défaut pour tous les tableaux de bord ne possédant pas de fond d'écran personnalisé",
+        "en": "The selected image will be used by default for all dashboards that do not have a custom wallpaper"
     },
     "username": {
         "fr": "Nom d'utilisateur",

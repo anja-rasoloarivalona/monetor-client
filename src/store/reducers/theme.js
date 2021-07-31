@@ -7,6 +7,7 @@ const themes = {
         secondary: "#478ab1",
         background: "#f3f3f3",
         surface: "#ffffff",
+        transparentSurface: "rgba(55, 55, 55, .5)",
         onSurface: "#eaeaea",
         text: "rgb(20, 20, 20)",
         textLight: "grey",
@@ -74,6 +75,7 @@ const themes = {
 
 const initialState = {
     type: "dark",
+    backgroundImage: null,
     ...themes.dark
 }
 
@@ -87,7 +89,8 @@ const setTheme = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
-        case actionTypes.SET_THEME: return setTheme(state, action)
+        case actionTypes.SET_THEME: return setTheme(state, action);
+        case actionTypes.SET_BACKGROUND_IMAGE: return updatedObject(state, {backgroundImage: action.image})
         default: return state
     }
 }

@@ -28,6 +28,26 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
+const Background = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  ${props => {
+    if(props.theme.backgroundImage){
+      return {
+        backgroundImage: `url(${props.theme.backgroundImage})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        filter: "brightness(60%)"
+      }
+    }
+  }}
+`
+
 const Container = styled.div`
   background: ${(props) => props.theme.homeBackground};
   min-height: 100vh;
@@ -50,6 +70,7 @@ const Container = styled.div`
       };
     }
   }}
+
 `;
 
 const App = () => {
@@ -141,7 +162,7 @@ const App = () => {
     }
   },[user.id])
 
-  const isTextReady = text.header && text.text;
+  const isTextReady = text.header && text.text && Object.keys(text.header).length > 2 && Object.keys(text.text).length > 2;
   const areDataloaded = isTextReady && user.checkedToken && categories;
   const isAppReady = user.id ? (reduxSocket && areDataloaded) : areDataloaded
 
@@ -149,7 +170,11 @@ const App = () => {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <Container loading={!isAppReady} type={text.type}>
+        <Background />
+        <Container
+          loading={!isAppReady}
+          type={text.type}
+        >
           {isAppReady ? (
             <>
               <Header 

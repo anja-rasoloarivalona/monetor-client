@@ -7,6 +7,14 @@ const setTheme = theme => {
     }
 }
 
+const setBackgroundImage = image => {
+    return {
+        type: actionTypes.SET_BACKGROUND_IMAGE,
+        image
+    }
+}
+
 export {
-    setTheme
+    setTheme,
+    setBackgroundImage
 }

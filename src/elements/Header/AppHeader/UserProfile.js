@@ -10,7 +10,7 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 const Container = styled.div`
   display: flex;
   align-items: center;
-  color: ${(props) => props.theme.textLight};
+  color: ${(props) => props.theme.background ? props.theme.white : props.theme.textLight};
   margin-left: 1rem;
 `;
 
