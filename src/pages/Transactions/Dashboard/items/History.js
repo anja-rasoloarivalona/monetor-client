@@ -17,14 +17,14 @@ const Container = styled.div`
 `
 
 const Header = styled.div`
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
     display: flex;
     justify-content: space-between;
 
     > div:last-child {
-        width: 50%;
-        display: flex;
-        justify-content: flex-end;
+        // width: 50%;
+        // display: flex;
+        // justify-content: flex-end;
     }
 
 `
@@ -33,12 +33,13 @@ const ChartContainer = styled.div`
     position: relative;
     width: 80vw;
     height: 100%;
+    padding-bottom: 1rem;
 `
 
 const FixedYAxis = styled.div`
     position: absolute;
     left: 0rem;
-    top: -.5rem;
+    top: -.8rem;
     margin: auto;
     height: calc(100% - 4.2rem);
     width: 4rem;
@@ -147,20 +148,21 @@ const History = () => {
         data[0].balance = initialBalance
 
 
-        const ctx = canvas.getContext("2d");
-        var gradient = ctx.createLinearGradient(0, 0, 0, 140);
-        gradient.addColorStop(0, theme.gradient(0.5));
-        gradient.addColorStop(0.5, theme.gradient(0.25));
-        gradient.addColorStop(1, theme.gradient(0));
+        // const ctx = canvas.getContext("2d");
+        // var gradient = ctx.createLinearGradient(0, 0, 0, 140);
+        // gradient.addColorStop(0, theme.gradient(0.5));
+        // gradient.addColorStop(0.5, theme.gradient(0.25));
+        // gradient.addColorStop(1, theme.gradient(0));
 
         const chartData = {
             labels: [],
             datasets: [
                 {
                     data: [],
-                    backgroundColor: "gradient",
+                    backgroundColor: "transparent",
                     label: text.balance_variation,
-                    lineTension: 0
+                    lineTension: .4,
+                    borderColor: theme.primary
                     
                 }
             ]
@@ -242,14 +244,14 @@ const History = () => {
         <Container>
             <Header>
                 <Title>{text.balance_variation}</Title>
-                <Select 
+                {/* <Select 
                     options={getSelectOptions()}
                     currentValue={period}
                     onChange={setPeriod}
                     customValueStyle={{
                         padding: "0 1rem"
                     }}
-                />
+                /> */}
             </Header>
             <Body>
                 <ScrollDrag>

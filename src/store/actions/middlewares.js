@@ -27,10 +27,10 @@ const initApp = () => {
                             value: true
                         })
                     }
-                    if(res.data.data.settings.defaultBackground){
-                        dispatch(setDefaultBackgroundImage(res.data.data.settings.defaultBackground))
-                        dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
-                    }
+                    // if(res.data.data.settings.defaultBackground){
+                    //     dispatch(setDefaultBackgroundImage(res.data.data.settings.defaultBackground))
+                    //     dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
+                    // }
                     delete res.data.data.settings
 
                     let activeTodoBoardId = null
@@ -81,8 +81,8 @@ const getUserLocation = () => {
                 settings: { locale }
             } = getState()
 
-            // let currentWeatherData= null
-            let currentWeatherData = localStorage.getItem("weather")
+            let currentWeatherData= null
+            // let currentWeatherData = localStorage.getItem("weather")
             if(!currentWeatherData){
                 const { data: location } = await axios.get('https://ipapi.co/json/')
                 const res = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${location.city.toLowerCase()}&days=2&lang=${locale}`)

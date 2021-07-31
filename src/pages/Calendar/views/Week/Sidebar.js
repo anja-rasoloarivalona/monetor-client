@@ -4,19 +4,10 @@ import { getHoursDate } from './functions'
 import { useSelector } from 'react-redux'
 
 
-const Empty = styled.div`
-    width: 100%;
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
-    position: sticky;
-    z-index: 2;
-    background: ${props => props.theme.surface};
-`
-
 const Container = styled.div`
     width: 100%;
     border-right: 1px solid ${props => props.theme.form.unfocused.border};
-    grid-row: 2 / 3;
+    grid-row: 1 / 3;
     grid-column: 1 / 2;
     position: relative;
     z-index: 2;

@@ -11,23 +11,26 @@ import axios from 'axios'
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 4rem .5rem 4.5rem;
 `
 
 const Header = styled.div`
-    margin-bottom: 1.5rem;
+    grid-column: 1 / -1;
 `
 
 const Content = styled.div`
-position: relative;
-
+    position: relative;
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
 `
 
 const AmountContainer = styled.div`
-    height: 4.5rem;
+    height: 100%;
     display: flex;
     align-items: center;
+    grid-row: 3 / 4;
     width: 80%;
     font-size: 2rem;
     cursor: pointer;

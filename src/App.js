@@ -186,7 +186,7 @@ const App = () => {
               />
               <Draggable />
               <Forms />
-              {/* <AddComponent /> */}
+              <AddComponent />
               <Routes />
             </>
           ) : (

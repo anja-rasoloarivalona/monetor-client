@@ -1,13 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import {  useSelector } from 'react-redux'
 import UserProfile from "./UserProfile"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell, faComment } from '@fortawesome/free-regular-svg-icons'
+import { faBell } from '@fortawesome/free-regular-svg-icons'
 import AppSelector from "./AppSelector"
 import Searchbar from "./Searchbar"
 import Messages from './Messages'
 import { Link } from '../../../components'
+import { IconContainer } from './style'
+import { useScroll } from '../../../hooks'
 
 const Container = styled.div`
     height: 6.5rem;
@@ -17,8 +19,9 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: ${props => props.theme.backgroundImage && props.pageId !== "transactions" ?  props.theme.transparentSurface :  props.theme.surface };
+    background: ${props => props.theme.surface};
     box-shadow: ${props => props.theme.boxShadowLight};
+    transition: background .1s ease-in;
     
     ${props => {
         if(props.showList){
@@ -27,6 +30,28 @@ const Container = styled.div`
                     background: props.theme.background,
                     borderRadius: ".5rem",
                     boxShadow: props.theme.boxShadowLight
+                }
+            }
+        }
+    }}
+
+    ${props => {
+        if(props.isBackgroundDisplayed && props.useTransparentHeader){
+            console.log({
+                props
+            })
+            const pagesIdWihoutBackground = ["transactions"]
+            return {
+                background: !pagesIdWihoutBackground.includes(props.pageId) ? props.theme.transparentSurface : props.theme.surface,
+                ".toggle__menu": {
+                    "a": {
+                        color: `${props.theme.white} !important`
+                    }
+                },
+                ".icon__container": {
+                    "svg": {
+                        color: props.theme.white
+                    }
                 }
             }
         }
@@ -41,39 +66,12 @@ const Section = styled.div`
 const ToggleMenu = styled(Section)`
     width: 30rem;
     height: 100%;
-
     a {
         font-size: 1.8rem;
         margin-left: 1rem;
-        color: ${props => props.theme.background ? props.theme.white : props.theme.text} !important;
-    }
-
-`
-
-
-const IconContainer = styled.div`
-    width: 4rem;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-right: 1rem;
-
-    svg {
-        font-size: 1.7rem;
-        color: ${props => props.theme.background ? props.theme.white : props.themetextLight};
-    }
-
-    :hover {
-        background: ${props => props.theme.background};
-        svg {
-            color: ${props => props.theme.text}
-        }
+        color: ${props =>  props.theme.text} !important;
     }
 `
-
 
 const AppHeader = props => {
 
@@ -81,16 +79,37 @@ const AppHeader = props => {
 
     const { 
         user,
-        text: { text, page }
+        text: { text, page },
+        theme: { backgroundImage }
     } = useSelector(state => state)
 
+    const [ useTransparentHeader, setUseTransparentHeader ] = useState(false)
+
+    const { scrollY } = useScroll()
+
+    useEffect(() => {
+        if(scrollY > 90 && useTransparentHeader){
+            setUseTransparentHeader(false)
+        }
+        if(scrollY < 5 && !useTransparentHeader){
+            setUseTransparentHeader(true)
+
+        }
+    },[scrollY])
+
     return (
-        <Container pageId={page ? page.id : null}>
-            
+        <Container
+            pageId={page ? page.id : null}
+            isBackgroundDisplayed={backgroundImage}
+            useTransparentHeader={useTransparentHeader}
+        >
             {user.setupAt ?
                 <>
-                    <ToggleMenu>
-                        <IconContainer onClick={() => setShowSidebar(true)}>
+                    <ToggleMenu className="toggle__menu">
+                        <IconContainer
+                            onClick={() => setShowSidebar(true)}
+                            className="icon__container"
+                        >
                             <FontAwesomeIcon icon="bars"/>
                         </IconContainer>
                         <Link to={`/${text.link_app_home}`}>
@@ -102,10 +121,12 @@ const AppHeader = props => {
                     </Section>
                     <Section>
                         <Messages />
-                        <IconContainer>
+                        <IconContainer className="icon__container">
                             <FontAwesomeIcon icon={faBell}/>
                         </IconContainer>
-                        <UserProfile />
+                        <UserProfile 
+                            useTransparentHeader={useTransparentHeader}
+                        />
                         <AppSelector />  
                     </Section>
                 </> :

@@ -7,32 +7,17 @@ import { getTimeStamp } from '../../../functions'
 import { useOnClickOutside } from '../../../hooks'
 import { faComment } from '@fortawesome/free-regular-svg-icons'
 import * as actions from '../../../store/actions'
+import { IconContainer } from './style'
 
 const Container = styled.div`
     position: relative;
     margin-right: 1rem;
 `
 
-const IconContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+const CustomIconContainer = styled(IconContainer )`
     position: relative;
     z-index: 2;
-    width: 4rem;
-    height: 4rem;
-    cursor: pointer;
-    border-radius: 50%;
     padding: .7rem;
-
-    svg {
-        fill: ${props => props.themetextLight};
-        font-size: 1.7rem;
-    }
-
-    :hover {
-        background: ${props => props.theme.background};
-    }
 `
 
 const List = styled.ul`
@@ -168,31 +153,34 @@ const Messages = () => {
 
     return (
         <Container ref={container}>
-            <IconContainer onClick={() => setShowList(prev => !prev)}>
+            <CustomIconContainer
+                onClick={() => setShowList(prev => !prev)}
+                className="icon__container"
+            >
                 <FontAwesomeIcon icon={faComment}/>
-            </IconContainer>
+            </CustomIconContainer>
             {showList && (
-            <List>
-                {contacts.map(contact => (
-                    <Item
-                        key={contact.id}
-                        onClick={() => clickHandler(contact.id)}
-                    >
-                        <ItemImgContainer className="icon">
-                            <FontAwesomeIcon icon="user"/>
-                            {contact.isConnected && (
-                                <ItemStatus />
-                            )}
-                        </ItemImgContainer>
-                        <ItemLabel>
-                            <ItemLabelUsername>
-                                {contact.user.firstname}
-                            </ItemLabelUsername>
-                            {renderLastMessage(contact)}
-                        </ItemLabel>
-                    </Item>
-                ))}
-            </List>  
+                <List>
+                    {contacts.map(contact => (
+                        <Item
+                            key={contact.id}
+                            onClick={() => clickHandler(contact.id)}
+                        >
+                            <ItemImgContainer className="icon">
+                                <FontAwesomeIcon icon="user"/>
+                                {contact.isConnected && (
+                                    <ItemStatus />
+                                )}
+                            </ItemImgContainer>
+                            <ItemLabel>
+                                <ItemLabelUsername>
+                                    {contact.user.firstname}
+                                </ItemLabelUsername>
+                                {renderLastMessage(contact)}
+                            </ItemLabel>
+                        </Item>
+                    ))}
+                </List>  
             )}
  
         </Container>
