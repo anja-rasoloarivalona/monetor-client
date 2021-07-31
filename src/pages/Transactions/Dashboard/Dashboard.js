@@ -137,8 +137,8 @@ const Dashboard = () => {
                 rowHeight={34}
                 width={windowWidth - 250}
                 margin={[15, 15]}
-                isDraggable={true}
-                isResizable={true}
+                isDraggable={false}
+                isResizable={false}
                 onDragStop={stopHandler}
                 onResizeStop={stopHandler}
             >

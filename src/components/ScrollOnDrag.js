@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { ScrollHorizontalBar } from './Scrollbar'
 
-const Container = styled.div`
+const Container = styled(ScrollHorizontalBar)`
     width: 100%;
     height: 100%;
     cursor: grab; 

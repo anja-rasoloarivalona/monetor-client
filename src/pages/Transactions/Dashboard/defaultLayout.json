@@ -12,10 +12,12 @@
             { "w": 6, "h": 3, "x": 18, "y": 0, "i": "monthly_report", "display": true }
         ],
         "xl": [
-            { "w": 14, "h": 7, "x": 0, "y": 0, "i": "overview", "display": true },
-            { "w": 14, "h": 7, "x": 0, "y": 7, "i": "expenses", "display": true },
-            { "w": 10, "h": 7, "x": 14, "y": 0, "i": "transactions", "display": true },
-            { "w": 12, "h": 8, "x": 9, "y": 0, "i": "history", "display": true }
+            { "w": 13, "h": 7, "x": 0, "y": 8, "i": "overview", "display": true },
+            { "w": 11, "h": 7, "x": 13, "y": 3, "i": "expenses", "display": true },
+            { "w": 11, "h": 7, "x": 13, "y": 10, "i": "transactions", "display": true },
+            { "w": 13, "h": 8, "x": 0, "y": 0, "i": "history", "display": true },
+            { "w": 5, "h": 3, "x": 13, "y": 0, "i": "balance", "display": true },
+            { "w": 6, "h": 3, "x": 18, "y": 0, "i": "monthly_report", "display": true }
         ],
         "lg": [
             { "w": 14, "h": 7, "x": 0, "y": 0, "i": "overview", "display": true }

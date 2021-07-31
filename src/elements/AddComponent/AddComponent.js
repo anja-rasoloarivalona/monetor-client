@@ -9,7 +9,7 @@ import * as actions from '../../store/actions'
 const Container = styled.div`
     position: fixed;
     bottom: 5rem;
-    right: 5rem;
+    left: 9rem;
     z-index: 9;
 `
 
@@ -46,7 +46,7 @@ const Toggle = styled.div`
 const ToggleContainer = styled.div`
     position: absolute;
     bottom: 8rem;
-    right: 0;
+    left: 0;
     width: 30rem;
     background: ${props => props.theme.surface};
     box-shadow: ${props => props.theme.boxShadow};

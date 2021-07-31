@@ -24,8 +24,7 @@ const ImageContainer = styled.div`
 
     svg {
         font-size: 1.7rem;
-    color: ${props => props.theme.background ? props.theme.text : props.theme.textLight};
-
+        color: ${props => props.theme.background ? props.theme.text : props.theme.textLight};
     }
 `
 

@@ -17,12 +17,13 @@ const Container = styled.div`
 const Header = styled.div`
     margin-bottom: 2rem;
     display: flex;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: flex-start;
 
     > div:last-child {
-        width: 50%;
-        display: flex;
-        justify-content: flex-end;
+        // width: 50%;
+        // display: flex;
+        // justify-content: flex-end;
     }
 `
 
@@ -250,14 +251,14 @@ const Expenses = () => {
         <Container>
             <Header>
                 <Title>{text.expenses}</Title>
-                <Select 
+                {/* <Select 
                     options={getSelectOptions()}
                     currentValue={period}
                     onChange={setPeriod}
                     customValueStyle={{
                         padding: "0 1rem"
                     }}
-                />
+                /> */}
             </Header>
             <Body>
                 <BodySection centered>

@@ -10,8 +10,16 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 const Container = styled.div`
   display: flex;
   align-items: center;
-  color: ${(props) => props.theme.background ? props.theme.white : props.theme.textLight};
+  color: ${props =>props.theme.textLight};
   margin-left: 1rem;
+
+  ${props => {
+    if(props.theme.background && props.useTransparentHeader){
+      return {
+          color: props.theme.white
+      }
+    }
+  }}
 `;
 
 const ImageContainer = styled.div`
@@ -23,16 +31,16 @@ const ImageContainer = styled.div`
   border-radius: 50%;
   overflow: hidden;
   margin-right: 2rem;
-  background: ${(props) => props.theme.background};
+  background: ${props => props.theme.background};
 
   svg {
     font-size: 1.7rem;
-    color: ${(props) => props.themetextLight};
+    color: ${props => props.themetextLight};
   }
 `;
 const UserName = styled.div`
-  margin-right: 1rem;
-  font-size: 1.6rem;
+    margin-right: 1rem;
+    font-size: 1.6rem;
 `;
 
 const ToggleContainer = styled.div`
@@ -62,8 +70,7 @@ const List = styled.div`
   right: 3rem;
   width: 35rem;
   height: max-content;
-  background: ${(props) =>
-    props.theme.type === "dark" ? props.theme.background : props.theme.white};
+  background: ${(props) => props.theme.type === "dark" ? props.theme.background : props.theme.white};
   z-index: 9;
   box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: 1rem;
@@ -162,7 +169,11 @@ const ListItemLabel = styled.div`
   color: ${(props) => props.theme.text};
 `;
 
-const UserProfile = () => {
+const UserProfile = props => {
+
+
+  const { useTransparentHeader } = props
+
   const {
     user,
     text: { text },
@@ -190,7 +201,7 @@ const UserProfile = () => {
   });
 
   return (
-    <Container ref={container}>
+    <Container ref={container} useTransparentHeader={useTransparentHeader}>
       <UserProfileImage />
       <UserName>{user.firstname} {user.lastname}</UserName>
       <ToggleContainer onClick={() => setShowList((prev) => !prev)}>

@@ -9,6 +9,9 @@ import { useSelector } from 'react-redux'
 
 const HeaderSection = styled.div`
     display: flex;
+    align-items: center;
+    background: ${props => props.theme.surface};
+    margin-top: .5rem;
 `
 const HeaderLabel = styled.div`
     font-size: 2rem;
@@ -56,6 +59,14 @@ const ButtonItem = styled.div`
     }
 `
 
+
+
+const TodaySection = styled(HeaderSection)`
+    height: 100%;
+    background: ${props => props.theme.surface};
+    width: 20rem;
+`
+
 const WeekHeaderLarge = props => {
 
 
@@ -69,11 +80,11 @@ const WeekHeaderLarge = props => {
 
     return (
         <>
-            <HeaderSection>
-                    <Button>
-                        {text.today}
-                    </Button>
-                </HeaderSection>
+            <TodaySection>
+                <Button>
+                    {text.today}
+                </Button>
+            </TodaySection>
                 <HeaderSection>
                     <HeaderIcon onClick={() => setPos(prev => prev - 4)}>
                         <FontAwesomeIcon icon="angle-double-left" />
