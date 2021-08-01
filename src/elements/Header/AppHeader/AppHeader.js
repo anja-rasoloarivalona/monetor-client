@@ -37,9 +37,6 @@ const Container = styled.div`
 
     ${props => {
         if(props.isBackgroundDisplayed && props.useTransparentHeader){
-            console.log({
-                props
-            })
             const pagesIdWihoutBackground = ["transactions"]
             return {
                 background: !pagesIdWihoutBackground.includes(props.pageId) ? props.theme.transparentSurface : props.theme.surface,

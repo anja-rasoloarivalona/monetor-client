@@ -1,10 +1,9 @@
 import React, { useState, useRef } from "react"
 import styled from "styled-components"
-import AnimtedDropDown from "./AnimatedDropDown";
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from '../../../components'
-
+import { AnimatedDropdown, CustomDropdown } from '../../../elements'
 
 const Content = styled.div`
     margin-right: 2rem;
@@ -92,21 +91,27 @@ const InviteMember = props => {
 
     const data = [...contacts, ...contacts, ...contacts]
 
-    const dropdownConfig = {
-        id: "invite",
+    const label = {
+        icon: "users",
+        text: text.invite_members,
+        floating: true
+    }
+
+    const config = {
         w: 350,
         h: data.length * 50 + 20 + 60,
-        sectionTitle: {
-            label: text.invite_members,
-            icon: "users"
-        },
-        isDisplayed: props.displayed && props.displayed.includes("invite"),
-        setDisplayed: props.setDisplayed
     }
+
 
     return (
         <Content> 
-            <AnimtedDropDown {...dropdownConfig}>
+            <CustomDropdown
+                label={label}
+                config={config}
+                showList={props.showList}
+                setShowList={props.setShowList}
+                id="invite"
+            >
                 {data.map(contact => {
                     const data = contact.user
                     return (
@@ -131,7 +136,7 @@ const InviteMember = props => {
                         {text.save}
                     </Button>
                 </Cta>
-            </AnimtedDropDown>
+            </CustomDropdown>
         </Content>
     )
 };

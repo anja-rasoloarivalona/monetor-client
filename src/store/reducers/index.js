@@ -9,6 +9,7 @@ import finance from './finance'
 import home from './home'
 import messages from './messages'
 import notifications from './notifications'
+import notes from './notes'
 
 export {
     text,
@@ -21,5 +22,6 @@ export {
     finance,
     home,
     messages,
-    notifications
+    notifications,
+    notes
 }

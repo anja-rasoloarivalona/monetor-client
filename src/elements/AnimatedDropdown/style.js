@@ -28,9 +28,14 @@ const Button = styled.div`
     color: ${props => props.theme.textLight};
     font-size: 1.2rem;
     width: 3.5rem;
+    width: 100%;
     height: 3.5rem;
     position: relative;
     background: ${props => props.theme.onSurface};
+
+
+    display: flex;
+    align-items: center;
 `
 
 const ButtonIcon = styled.div`
@@ -74,6 +79,8 @@ const ListContainer = styled.div`
     overflow: hidden;
     transition:  all .3s ease-in;
     transform-origin: right;
+    transform-origin: left;
+
     border-bottom-right-radius: .8rem;
     border-bottom-left-radius: .8rem;
 `

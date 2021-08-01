@@ -6,6 +6,7 @@ import transactionsImg from '../../../../images/transactions.png'
 import agendaImg from '../../../../images/agenda.png'
 import contactsImg from '../../../../images/contacts.png'
 import messagesImg from '../../../../images/messages.png'
+import notesImg from '../../../../images/notes.png'
 import { Link } from '../../../../components'
 
 const Container = styled.div`
@@ -27,7 +28,21 @@ const List = styled.div`
     width: 100%;
 `
 
-const ListItem = styled(Link)`
+const ListItem = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+
+    :hover {
+        background: ${props => props.theme.background};
+    }
+`
+
+const ListItemLink = styled(Link)`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -40,6 +55,8 @@ const ListItem = styled(Link)`
         background: ${props => props.theme.background};
     }
 `
+
+
 
 const ListItemImgContainer = styled.div`
     width: 7rem;
@@ -90,6 +107,11 @@ const AppSelector = () => {
             src: transactionsImg,
             link: text.link_transactions + "/" + text.link_dashboard
         },
+        {
+            label: text.notes,
+            src: notesImg,
+            onClick: () => console.log("clic")
+        },
     ]
 
     return (
@@ -98,19 +120,23 @@ const AppSelector = () => {
               {text.applications}
           </Header>
           <List>
-            {items.map((item , index) => (
-                <ListItem
-                    key={index}
-                    to={`/${item.link}`}
-                >
-                    <ListItemImgContainer>
-                    <ListItemImg src={item.src}/>
-                    </ListItemImgContainer>
-                    <ListItemLabel>
-                        {item.label}
-                    </ListItemLabel>
-                </ListItem>
-            ))}
+            {items.map((item , index) => {
+                const ListItemContainer = item.onClick ? ListItem : ListItemLink
+                return (
+                    <ListItemContainer
+                        key={index}
+                        to={`/${item.link}`}
+                        onClick={item.onClick ? item.onClick : null}
+                    >
+                        <ListItemImgContainer>
+                        <ListItemImg src={item.src}/>
+                        </ListItemImgContainer>
+                        <ListItemLabel>
+                            {item.label}
+                        </ListItemLabel>
+                    </ListItemContainer>
+                )
+            })}
           </List>
         </Container>
      )

@@ -2,9 +2,6 @@ import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import {  useOnClickOutside } from '../../../hooks'
-import { Button } from '../../../components'
-import { Select  } from '../../../components/Form/WithoutValidation'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Settings from './Settings'
 import InviteMember from './InviteMember'
 import DashboardSelector from './DashboardSelector'
@@ -65,16 +62,17 @@ const TodoHeader = () => {
     } = useSelector(s => s)
 
     const inputRef = useRef()
+    const containerRef = useRef()
 
 
     const initialTitle = todoBoards[activeTodoBoardId].title === "title" ? text.title : todoBoards[activeTodoBoardId].title 
     const [ isEditingTitle, setIsEditingTitle ] = useState(false)
     const [ title, setTitle ] = useState(initialTitle)
 
-
-    const [ displayed, setDisplayed ] = useState(null)
+    const [ showList, setShowList ] = useState(null)
 
     useOnClickOutside(inputRef, () => setIsEditingTitle(false))
+    useOnClickOutside(containerRef, () => setShowList(null))
 
     useEffect(() => {
         if(isEditingTitle && inputRef.current){
@@ -87,9 +85,8 @@ const TodoHeader = () => {
 
     }
 
-
     return (
-        <Container>
+        <Container ref={containerRef}>
             <TitleContainer>
                 <Title onClick={() => setIsEditingTitle(true)}>
                     {title}
@@ -104,12 +101,12 @@ const TodoHeader = () => {
             </TitleContainer>
             <ButtonsContainer>
                 <InviteMember 
-                    setDisplayed={setDisplayed}
-                    displayed={displayed}
+                    showList={showList}
+                    setShowList={setShowList}
                 />
                 <Settings 
-                    setDisplayed={setDisplayed}
-                    displayed={displayed}
+                    showList={showList}
+                    setShowList={setShowList}
                 />
                 <DashboardSelector />
             </ButtonsContainer>
