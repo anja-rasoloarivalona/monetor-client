@@ -4,6 +4,8 @@ import Sidebar from './Sidebar/Sidebar'
 import Forms from './Forms/Forms'
 import AddComponent from './AddComponent/AddComponent'
 import Draggable from './Draggable/Draggable'
+import AnimatedDropdown from './AnimatedDropdown/AnimatedDropDown'
+import CustomDropdown from './CustomDropdown/CustomDropdown'
 
 export {
     Header,
@@ -11,5 +13,7 @@ export {
     Sidebar,
     Forms,
     AddComponent,
-    Draggable
+    Draggable,
+    AnimatedDropdown,
+    CustomDropdown
 }

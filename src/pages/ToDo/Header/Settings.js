@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import AnimtedDropDown from "./AnimatedDropDown";
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BackgroundSelector from './BackgroundSelector'
+import { CustomDropdown } from '../../../elements'
 
 const Container = styled.div`
     margin-right: 2rem;
@@ -37,12 +37,13 @@ const List = styled.div`
 
 const ListItem = styled.div`
     width: 100%;
-    height: 5rem;
+    height: 4.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
     cursor: pointer;
+    border-radius: .5rem;
     :hover {
         background: ${props => props.theme.background};
     }
@@ -59,40 +60,36 @@ const Settings = props => {
         text : { text },
     } = useSelector(s => s)
 
-    const initialConfig = {
-        id: "settings",
-        w: 350,
-        h: 20 + 2 * 50,
-        sectionTitle: {
-            label: text.settings,
-            icon: "cog"
-        }
-    }
-
     const [ currentSection, setCurrentSection ] = useState("main")
-    const [ config, setConfig ] = useState(initialConfig)
-
-    const isDisplayed = props.displayed && props.displayed.includes("settings")
 
     const configs = {
         main: {
-            w: 350,
-            h: 20 + 2 * 50,
-            sectionTitle: {
-                label: text.settings,
-                icon: "cog"
+            config: {
+                w: 350,
+                h: 20 + 2 * 50,
+            },
+            label: {
+                text: text.settings,
+                icon: "cog",
+                floating: true
             }
         },
         background: {
-            w: 350,
-            h: 600,
-            sectionTitle: {
-                label: text.background,
-                icon: "chevron-left",
-                onClick: () => toggleSectionHandler("main")
+            config: {
+                w: 350,
+                h: 600,
+            },
+            label: {
+                text: text.background,
+                icon: "arrow-left",
+                floating: true,
+                onClick: () =>   toggleSectionHandler("main")
             }
         }
     }
+    
+    const [ config, setConfig ] = useState(configs.main)
+
 
     const toggleSectionHandler = view => {
         setConfig(configs[view])
@@ -100,19 +97,20 @@ const Settings = props => {
     }
 
     useEffect(() => {
-        if(!isDisplayed){
+        if(props.showList && props.showList !== "settings"){
             toggleSectionHandler("main")
         }
-    },[isDisplayed])
+    }, [props.showList])
 
 
     return (
         <Container>
-            <AnimtedDropDown
-                {...config}
+            <CustomDropdown
+                label={config.label}
+                config={config.config}
                 id="settings"
-                isDisplayed={isDisplayed}
-                setDisplayed={props.setDisplayed}
+                showList={props.showList}
+                setShowList={props.setShowList}
             >
                 <CurrentView>
                     <CurrentViewSlider currentSection={currentSection}>
@@ -135,7 +133,7 @@ const Settings = props => {
                     </CurrentViewSlider>
                 </CurrentView>
 
-            </AnimtedDropDown>
+            </CustomDropdown>
         </Container>
      )
 };

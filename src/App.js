@@ -168,7 +168,10 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={{
+        ...theme,
+        backgroundImage: null
+      }}>
         <GlobalStyle />
         <Background />
         <Container

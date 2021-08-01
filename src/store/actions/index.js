@@ -49,3 +49,7 @@ export {
     setMessages,
     addMessage
 } from './messages'
+
+export {
+    toggleNotes
+} from './notes'

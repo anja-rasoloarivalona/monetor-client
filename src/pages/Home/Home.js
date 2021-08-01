@@ -6,25 +6,28 @@ import { useSelector } from 'react-redux'
 import GridLayout from 'react-grid-layout'
 import "../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../node_modules/react-resizable/css/styles.css"
+import Header from './Header'
 import Weather from "./items/Weather/Weather"
 import AppSelector from "./items/AppSelector/AppSelector"
 import Calendar from "./items/Calendar/Calendar"
-import Balance from './items/Balance'
-import MonthlyReport from './items/MonthlyReport'
-import LastTransactions from "./items/LastTransactions"
+import Balance from '../Transactions/Dashboard/items/Balance'
+import LastTransactions from '../Transactions/Dashboard/items/Transactions'
+import MonthlyReport from '../Transactions/Dashboard/items/MonthlyReport'
+import {ScrollBar } from '../../components'
 
 const Container = styled.div`
     width: 100%;
-    min-height: calc(100vh - 6.5rem);
     display: flex;
+    flex-direction: column;
     position: relative;
     z-index: 2;
     overflow-x: hidden;
+    height: calc(100vh - 6.5rem);
 `
 
-const GridContainer = styled.div`
-    width: 100%;
-    height: 100%;
+const GridContainer = styled(ScrollBar)`
+    flex: 1;
+    height: calc(100vh - 12.5rem);
     display: flex;
     .layout {
         width: 100%;
@@ -38,9 +41,6 @@ const GridItem = styled.div`
 
     ${props => {
         if(props.id !== "calendar"){
-            console.log({
-                props
-            })
             return {
                 padding: "2rem",
                 boxShadow: props.theme.boxShadowLight,
@@ -69,6 +69,7 @@ const Home = () => {
 
     const [layout, setLayout] = useState(null)
     const [config, setConfig] = useState(null)
+    const [isManagingDashboard, setIsManaginDashboard ] = useState(false)
 
     useEffect(() => {
         Object.keys(breakpoints).forEach(size => {
@@ -121,6 +122,9 @@ const Home = () => {
     }
 
     const stopHandler = updated => {
+        console.log({
+            updated
+        })
         const updatedLayout = []
         updated.forEach(item => {
             const prev = layout.find(i => i.i === item.i)
@@ -134,6 +138,10 @@ const Home = () => {
 
     return (
         <Container>
+            <Header 
+                setIsManaginDashboard={setIsManaginDashboard}
+                isManagingDashboard={isManagingDashboard}
+            />
             <GridContainer>
                 <GridLayout
                     className="layout"
@@ -142,8 +150,8 @@ const Home = () => {
                     rowHeight={34}
                     width={windowWidth}
                     margin={[15, 15]}
-                    isDraggable={true}
-                    isResizable={true}
+                    isDraggable={isManagingDashboard}
+                    isResizable={isManagingDashboard}
                     onDragStop={stopHandler}
                     onResizeStop={stopHandler}
                 >

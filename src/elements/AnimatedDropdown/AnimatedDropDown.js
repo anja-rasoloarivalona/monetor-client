@@ -80,7 +80,6 @@ const CloseIcon = styled.div`
 
 const AnimtedDropDown = props => {
     const { id, sectionTitle, setDisplayed, isDisplayed } = props
-
     return (
         <Container {...props}>
             <ButtonContainer
