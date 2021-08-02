@@ -89,7 +89,7 @@ const FormatHelperButton = styled.div`
 
 const TextEditor = props => {
     
-    const {currentValue,  input, onChange, onFocus, onBlur } = props
+    const {currentValue,  placeholder, onChange, onFocus, onBlur } = props
 
     const {
         text: { text },
@@ -142,7 +142,7 @@ const TextEditor = props => {
                 editorClassName="textinput"
                 editorState={editor}
                 onEditorStateChange={val => setEditor(val)}
-                placeholder={input.placeholder}
+                placeholder={placeholder}
                 locale={locale}
                 onFocus={onFocusHandler}
                 onBlur={onBlurHandler}

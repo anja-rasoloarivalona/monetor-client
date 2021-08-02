@@ -13,6 +13,7 @@ import Calendar from "./items/Calendar/Calendar"
 import Balance from '../Transactions/Dashboard/items/Balance'
 import LastTransactions from '../Transactions/Dashboard/items/Transactions'
 import MonthlyReport from '../Transactions/Dashboard/items/MonthlyReport'
+import Notes from '../../elements/Notes/Notes'
 import {ScrollBar } from '../../components'
 
 const Container = styled.div`
@@ -65,6 +66,7 @@ const Home = () => {
 
     const { 
         home: { dashboard: { breakpoints, layout: userLayout } },
+        notes
     } = useSelector(state => state)
 
     const [layout, setLayout] = useState(null)
@@ -94,6 +96,18 @@ const Home = () => {
         }
     },[config])
 
+    useEffect(() => {
+        if(config && layout){
+            setLayout(prev => {
+                const updated = prev.map(item => ({
+                    ...item,
+                    display: item.i === 'notes' ? !notes.open : item.display
+                }))
+                return updated
+            })
+        }
+    },[notes.open])
+
     
     const components = {
         "weather": Weather,
@@ -101,7 +115,8 @@ const Home = () => {
         "calendar": Calendar,
         "balance": Balance,
         "monthly_report": MonthlyReport,
-        "last_transactions": LastTransactions
+        "last_transactions": LastTransactions,
+        "notes": () => <Notes disabled={true} />
     }
 
 

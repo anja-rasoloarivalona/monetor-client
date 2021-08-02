@@ -96,6 +96,7 @@ const InputComponent = props => {
                 onFocus={handleOnFocus}
                 onBlur={handleOnBlur}
                 type={type}
+                placeholder={props.placeholder || null}
             />
             {isAmount && (
                 <Currency className="currency">
