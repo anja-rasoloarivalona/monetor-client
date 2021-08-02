@@ -51,5 +51,9 @@ export {
 } from './messages'
 
 export {
-    toggleNotes
+    toggleNotes,
+    setNotes,
+    addNote,
+    removeNote,
+    saveNote
 } from './notes'

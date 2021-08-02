@@ -363,6 +363,10 @@
         "fr": "Enregistrer",
         "en": "Save"
     },
+    "search": {
+        "fr": "Recherche",
+        "en": "Search"
+    },
     "security": {
         "fr": "Sécurité",
         "en": "Security"

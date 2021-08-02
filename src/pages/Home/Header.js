@@ -15,7 +15,14 @@ const Container = styled.div`
     justify-content: space-between;
 `
 
-const Section = styled.div``
+const Section = styled.div`
+    display: flex;
+    align-items: center;
+
+    > div {
+        margin-left: 1rem;
+    }
+`
 
 
 const Slider = styled.div`
@@ -134,6 +141,20 @@ const Header = props => {
                                 }}
                             />
                         </Slider>
+                    </CustomDropdown>
+                </SectionItem>
+                <SectionItem>
+                    <CustomDropdown
+                                config={{
+                                    w: 350,
+                                    h: 600,
+                                }}
+                                label={{
+                                    text: text.add.toUpperCase(),
+                                    icon: "plus",
+                                }}
+                        >
+
                     </CustomDropdown>
                 </SectionItem>
             </Section>

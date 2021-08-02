@@ -118,7 +118,7 @@ const DraggableMessage = props => {
     return (
             <Draggable handle=".drag-header" 
                 // onMouseDown={() => setIsMouseDown(true)}
-            // onMouseUp={() => mouseHandler(false)}
+                // onMouseUp={() => mouseHandler(false)}
             >
 
                 {opened ?
@@ -154,9 +154,6 @@ const DraggableMessage = props => {
                         </Avatar>
                     </AvatarContainer>                                 
                 }
-                
-
-
             </Draggable>
      )
 };

@@ -170,7 +170,7 @@ const App = () => {
     <BrowserRouter>
       <ThemeProvider theme={{
         ...theme,
-        backgroundImage: null
+        // backgroundImage: null
       }}>
         <GlobalStyle />
         <Background />
@@ -189,7 +189,7 @@ const App = () => {
               />
               <Draggable />
               <Forms />
-              <AddComponent />
+              {/* <AddComponent /> */}
               <Routes />
             </>
           ) : (

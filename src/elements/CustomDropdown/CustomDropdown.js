@@ -16,7 +16,14 @@ const Container = styled.div`
                 ".list": {
                     top: "100%",
                     borderTopLeftRadius: "0px",
-                    borderTopRightRadius: "0px"
+                    borderTopRightRadius: "0px",
+                    transitionDelay: ".3s",
+                }
+            }
+        } else {
+            return {
+                ".list": {
+                    transitionDelay: "0s",
                 }
             }
         }
@@ -26,30 +33,49 @@ const Container = styled.div`
         const isLabelFloating = props.label.text && props.label.floating
         const { w, h } = props.config
         if(props.showList){
-            return {
-                width: isLabelFloating ? `${w}px` : "initial",
-                ".label": {
-                    boxShadow: props.theme.boxShadow,
-                    width: isLabelFloating ? `${w}px` : "3.5rem",
-                    justifyContent: "flex-start",
-                    padding: "0 1rem",
-                    borderBottomRightRadius: 0,
-                    borderBottomLeftRadius: 0,
-                    "&__text": {
-                        opacity: `${1} !important`,
-                    }
-                },
-                '.list': {
+            if(isLabelFloating){
+                return {
                     width: `${w}px`,
-                    height: `${h}px`,
-                    opacity: 1,
-                    boxShadow: props.theme.boxShadow
-                },
-                ".close": {
-                    width: "max-content",
-                    opacity: 1,
+                    ".label": {
+                        boxShadow: props.theme.boxShadow,
+                        width: isLabelFloating ? `${w}px` : "3.5rem",
+                        justifyContent: "flex-start",
+                        padding: "0 1rem",
+                        borderBottomRightRadius: 0,
+                        borderBottomLeftRadius: 0,
+                        "&__text": {
+                            opacity: `${1} !important`,
+                        }
+                    },
+                    '.list': {
+                        width: `${w}px`,
+                        height: `${h}px`,
+                        opacity: 1,
+                        boxShadow: props.theme.boxShadow
+                    },
+                    ".close": {
+                        width: "max-content",
+                        opacity: 1,
+                    }
+                }
+            } else {
+                return {
+                    width: "initial",
+                    ".label": {
+                        boxShadow: props.theme.boxShadow,
+                        "&__text": {
+                            opacity: `${1} !important`,
+                        }
+                    },
+                    '.list': {
+                        width: `${w}px`,
+                        height: `${h}px`,
+                        opacity: 1,
+                        boxShadow: props.theme.boxShadow
+                    },
                 }
             }
+ 
         }
     }}
 
@@ -87,6 +113,13 @@ const Label = styled.div`
                         width: 'max-content',
                         display: "flex",
                         alignItems: "center",
+                    }
+                }
+            } else {
+                return {
+                    padding: "0 1.5rem",
+                    ".label__icon": {
+                        width: "unset"
                     }
                 }
             }
@@ -131,7 +164,6 @@ const List = styled.div`
     border-radius: .5rem;
     z-index: 1;
     transition: all .3s ease-in;
-    transition-delay: .3s;
     overflow: hidden;
 
     &.hide {
@@ -199,7 +231,7 @@ const CustomDropdown = props => {
                 className={`label ${showListValue ? "show" : "hide"}`}
                 onClick={() => toggleHandler(true)}
             >
-                <LabelIcon onClick={props.label.onClick || null}>
+                <LabelIcon onClick={props.label.onClick || null} className="label__icon">
                     {label.icon ?
                         <FontAwesomeIcon icon={label.icon}/>
                             :

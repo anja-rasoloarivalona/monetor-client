@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-import { setTheme, setUser, setCurrency, setWeather, setBackgroundImage, setDefaultBackgroundImage } from './index'
+import { setTheme, setUser, setCurrency, setWeather, setBackgroundImage, setDefaultBackgroundImage, setNotes } from './index'
 import axios from 'axios'
 import { getCategories } from './categories'
 import { arrayToObject } from '../../functions'
@@ -60,6 +60,7 @@ const initApp = () => {
                         todoBoards: updatedBoards,
                         activeTodoBoardId
                     }))
+                    dispatch(setNotes(res.data.data.notes))
                 }
             } catch(err){
                 console.log({

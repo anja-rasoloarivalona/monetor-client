@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import todoImg from '../../../../images/to_do.png'
 import transactionsImg from '../../../../images/transactions.png'
 import agendaImg from '../../../../images/agenda.png'
@@ -8,6 +8,7 @@ import contactsImg from '../../../../images/contacts.png'
 import messagesImg from '../../../../images/messages.png'
 import notesImg from '../../../../images/notes.png'
 import { Link } from '../../../../components'
+import * as actions from '../../../../store/actions'
 
 const Container = styled.div`
     width: 100%;
@@ -77,6 +78,8 @@ const ListItemLabel = styled.div`
 
 const AppSelector = () => {
 
+    const dispatch = useDispatch()
+
     const {
         text: { text }
     } = useSelector(state => state)
@@ -110,7 +113,7 @@ const AppSelector = () => {
         {
             label: text.notes,
             src: notesImg,
-            onClick: () => console.log("clic")
+            onClick: () => dispatch(actions.toggleNotes(true))
         },
     ]
 

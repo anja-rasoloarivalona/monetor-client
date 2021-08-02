@@ -15,6 +15,7 @@ import Settings from './Settings/Settings'
 import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import links from '../text/links.json'
+import Notes from '../elements/Notes/Notes'
 
 const Container = styled.div`
     min-height: 100vh;
@@ -37,7 +38,8 @@ const Routes = props => {
     const {
         text: { text, page, type: pageType },
         settings: { currency, locale },
-        user
+        user,
+        notes
     } = useSelector(state => state)
 
 
@@ -88,6 +90,7 @@ const Routes = props => {
 
     return (
         <Container>
+            {notes.open && <Notes />}
             <Switch>
                 <Route exact path="/" component={PublicHome} />
                 <Route path={`/${text.link_login}`} component={Login}/>
