@@ -18,13 +18,36 @@ const initialState = {
     transactions: {
         layout: null
     },
-    home: {
+    main: {
         layout: null
     }
 }
 
+
+const setLayouts = (state, action) => {
+    const { layouts } = action
+    const updatedState = {
+        transactions: {
+            layout: {}
+        },
+        main: {
+            layout: {}
+        }
+    }
+     layouts.forEach(item => {
+        if(updatedState[item.layout].layout[item.breakpoint]){
+            updatedState[item.layout].layout[item.breakpoint].push({...item, display: true})
+        } else {
+            updatedState[item.layout].layout[item.breakpoint] = [{...item, display: true}]
+        }
+    })
+    return updatedObject(state, {...updatedState})
+}
+
+
 const reducer = (state = initialState, action) => {
     switch(action.type){
+        case actionTypes.SET_DASHBOARD_LAYOUTS: return setLayouts(state, action)
         default: return state
     }
 }

@@ -4,6 +4,7 @@ import { CustomDropdown } from '../../../elements'
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useOnClickOutside } from '../../../hooks'
+import HeaderAdd from './HeaderAdd'
 import HeaderSettings from './HeaderSettings'
 import HeaderDashboardManager from "./HeaderDashboardManager";
 
@@ -39,11 +40,6 @@ const Header = props => {
 
     const rightSection = useRef()
 
-    const [ showList, setShowList ] = useState(null)
-
-    useOnClickOutside(rightSection, () => setShowList(null))
-
-
     return (
         <Container>
             {isManagingDashboard ?
@@ -58,28 +54,10 @@ const Header = props => {
                     </Section>
                     <Section ref={rightSection}>
                         <SectionItem>
-                            <HeaderSettings 
-                                setIsManaginDashboard={setIsManaginDashboard}
-                                showList={showList}
-                                setShowList={setShowList}
-                            />
+                            <HeaderSettings setIsManaginDashboard={setIsManaginDashboard} />
                         </SectionItem>
                         <SectionItem>
-                            <CustomDropdown
-                                showList={showList}
-                                setShowList={setShowList}
-                                id="add"
-                                config={{
-                                    w: 350,
-                                    h: 600,
-                                }}
-                                label={{
-                                    text: text.add,
-                                    icon: "plus",
-                                }}
-                            >
-
-                            </CustomDropdown>
+                            <HeaderAdd />
                         </SectionItem>
                     </Section>
                 </>
