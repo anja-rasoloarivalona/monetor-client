@@ -207,6 +207,10 @@
         "fr": "Paramètres généraux du compte",
         "en": "General account settings"
     },
+    "get_started_now": {
+        "fr": "S'inscrire",
+        "en": "Get started now"
+    },
     "groups": {
         "fr": "Groupes",
         "en": "Groups"

@@ -10,6 +10,7 @@ import home from './home'
 import messages from './messages'
 import notifications from './notifications'
 import notes from './notes'
+import dashboards from './dashboards'
 
 export {
     text,
@@ -23,5 +24,6 @@ export {
     home,
     messages,
     notifications,
-    notes
+    notes,
+    dashboards
 }

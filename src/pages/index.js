@@ -19,7 +19,7 @@ import Notes from '../elements/Notes/Notes'
 
 const Container = styled.div`
     min-height: 100vh;
-    padding-top: 6.5rem;
+    padding-top: ${props => props.location.pathname === "/" ? '0' : "6.5rem"};
 
     ${props => {
         if(props.isSidebarDisplayed){
@@ -44,7 +44,7 @@ const Routes = props => {
 
 
     useEffect(() => {
-        if(pageType === "app" && !user.id){
+        if(pageType === "app" && !user.id && location.pathname !== "/"){
            props.history.push(`/${text.link_login}`)
         }
     },[text, user, location])
@@ -89,7 +89,7 @@ const Routes = props => {
     },[currency, user, location])
 
     return (
-        <Container>
+        <Container location={location}>
             {notes.open && <Notes />}
             <Switch>
                 <Route exact path="/" component={PublicHome} />

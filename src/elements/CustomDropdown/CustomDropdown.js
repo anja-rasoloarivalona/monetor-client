@@ -143,7 +143,7 @@ const LabelIcon = styled.div`
 
 const LabelText = styled.div`
     font-size: 1.4rem;
-    margin-left: 1rem;
+    margin-left: .8rem;
 
     &.show {
         transition: none;

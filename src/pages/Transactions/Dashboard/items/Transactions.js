@@ -28,14 +28,16 @@ const Body = styled.div`
 
 const List = styled.ul`
   list-style: none;
-    width: 100%;
+  width: 100%;
+  > li:not(:last-child){
+    margin-bottom: 2rem;
+  }
 `;
 
 const ListItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 2rem;
 
   ${(props) => {
     return {

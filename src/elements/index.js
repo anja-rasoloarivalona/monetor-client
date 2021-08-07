@@ -6,6 +6,7 @@ import AddComponent from './AddComponent/AddComponent'
 import Draggable from './Draggable/Draggable'
 import AnimatedDropdown from './AnimatedDropdown/AnimatedDropDown'
 import CustomDropdown from './CustomDropdown/CustomDropdown'
+import DropDown from  './DropDown/DropDown'
 
 export {
     Header,
@@ -15,5 +16,6 @@ export {
     AddComponent,
     Draggable,
     AnimatedDropdown,
-    CustomDropdown
+    CustomDropdown,
+    DropDown
 }
