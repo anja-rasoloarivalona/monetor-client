@@ -307,6 +307,10 @@
         "fr": "Suivant",
         "en": "Next"
     },
+    "note": {
+        "fr": "Note",
+        "en": "Note"
+    },
     "notes": {
         "fr": "Notes",
         "en": "Notes"

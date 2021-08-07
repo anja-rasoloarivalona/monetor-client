@@ -57,3 +57,7 @@ export {
     removeNote,
     saveNote
 } from './notes'
+
+export {
+    setLayouts
+} from './dashboard'

@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-import { setTheme, setUser, setCurrency, setWeather, setBackgroundImage, setDefaultBackgroundImage, setNotes } from './index'
+import { setTheme, setUser, setCurrency, setWeather, setBackgroundImage, setDefaultBackgroundImage, setNotes, setLayouts } from './index'
 import axios from 'axios'
 import { getCategories } from './categories'
 import { arrayToObject } from '../../functions'
@@ -32,7 +32,6 @@ const initApp = () => {
                     //     dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
                     // }
                     delete res.data.data.settings
-
                     let activeTodoBoardId = null
                     const updatedBoards = {}
                     res.data.data.todoBoards.forEach(board => {
@@ -61,6 +60,9 @@ const initApp = () => {
                         activeTodoBoardId
                     }))
                     dispatch(setNotes(res.data.data.notes))
+                    if(res.data.data.layoutItems){
+                        dispatch(setLayouts(res.data.data.layoutItems))
+                    }
                 }
             } catch(err){
                 console.log({

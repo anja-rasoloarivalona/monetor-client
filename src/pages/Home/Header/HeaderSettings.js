@@ -118,8 +118,6 @@ const HeaderSettings = props => {
     const container = useRef()
 
 
-
-
     const configs = {
         main: {
             config: {

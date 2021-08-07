@@ -96,7 +96,7 @@ const Home = () => {
     const {
         dashboards: {
             breakpoints,
-            home: {
+            main: {
                 layout: userLayout
             }
         },
@@ -109,6 +109,7 @@ const Home = () => {
     const [ config, setConfig ] = useState(null)
     const [ isManagingDashboard, setIsManaginDashboard ] = useState(false)
     const [ isSavingDashboardChanges, setIsSavingDashboardboardChanges ] = useState(false)
+    const [ isUserLayout, setIsUserLayout ] = useState(false)
 
     useEffect(() => {
         Object.keys(breakpoints).forEach(size => {
@@ -125,10 +126,12 @@ const Home = () => {
     useEffect(() => {
         if(config){
             if(userLayout && userLayout[config.breakpoint]){
-
+                setLayout(userLayout[config.breakpoint])
+                setIsUserLayout(true)
             } else {
                 const initialLayout = defaultLayout[config.breakpoint]
                 setLayout(initialLayout)
+                setIsUserLayout(false)
             }
         }
     },[config])
@@ -183,16 +186,17 @@ const Home = () => {
     }
 
     const stopHandler = updated => {
-        console.log({
-            updated
-        })
         const updatedLayout = []
         updated.forEach(item => {
             const prev = layout.find(i => i.i === item.i)
             updatedLayout.push({
                 ...item,
-                display: prev.display
+                display: prev.display,
+                id: prev.id
             })
+        })
+        console.log({
+            updatedLayout
         })
         setLayout(updatedLayout)
     }
@@ -205,15 +209,16 @@ const Home = () => {
     const saveDashboardChangesHandler = async () => {
         try {
             setIsSavingDashboardboardChanges(true)
-            const data = {
-                dashboardType: "main",
-                items: layout.map(item => ({
-                    ...item,
-                    name: item.i,
-                    breakpoint: config.breakpoint
-                }))
-            }
-            const res = await axios.post('/dashboard-layout', data)
+            const data = layout.map(item => ({
+                ...item,
+                breakpoint: config.breakpoint,
+                layout: "main"
+            }))
+            const res = await axios({
+                method: isUserLayout ? "PUT" : "POST",
+                url: "/layout-items",
+                data
+            })
             if(res.status === 200){
                 setIsManaginDashboard(false)
                 setIsSavingDashboardboardChanges(false)
