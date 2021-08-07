@@ -3,6 +3,7 @@ import styled from "styled-components"
 import HomeHeader from "./HomeHeader/HomeHeader";
 import AppHeader from "./AppHeader/AppHeader"
 import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 const Container = styled.div`
     position: fixed;
@@ -15,19 +16,22 @@ const Container = styled.div`
 
 const Header = props => {
 
+    const location = useLocation()
+
     const { setShowSidebar } = props
 
     const {
         text: { type },
-        user
     } = useSelector(state => state)
+
+    const useHomeHeader = type === "public" ||  location.pathname === "/"
 
     return (
         <Container>
-            {type === 'app' || user.setupAt ?
-                <AppHeader setShowSidebar={setShowSidebar}/> :
-                <HomeHeader />
-            }
+            {useHomeHeader ?
+                <HomeHeader /> :
+                <AppHeader setShowSidebar={setShowSidebar}/> 
+            }   
         </Container>
      )
 };

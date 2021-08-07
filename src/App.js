@@ -66,7 +66,7 @@ const Container = styled.div`
   ${(props) => {
     if (props.type === "app") {
       return {
-        background: props.theme.background,
+        // background: props.theme.background,
       };
     }
   }}

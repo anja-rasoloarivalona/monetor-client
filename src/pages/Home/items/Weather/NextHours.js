@@ -89,6 +89,14 @@ const NextHours = () => {
     }
 
 
+    const formatTime = date => {
+        if(locale === "en"){
+            const [hour, period ] = moment(date).format('LT').split(" ")
+            return `${hour.split(':')[0]} ${period}`
+        }
+        return `${ parseInt(date.split(" ")[1].split(":")[0])}h`
+    }
+
     const formatForecast = async () => {
         const nextHours = {}
         for(let i = 1; i < 25; i++){
@@ -104,11 +112,13 @@ const NextHours = () => {
         })
 
         await Promise.all(Object.keys(nextHours).map(async period => {
+
             const currentData = rawData.find(item => item.time === period)
             nextHours[period] = {
                 ...currentData,
                 metadata: {
-                    time: locale === "en" ? moment(period).format('LT') : period.split(" ")[1],
+                    // time: locale === "en" ? moment(period).format('LT') : period.split(" ")[1],
+                    time: formatTime(period),
                     icon: await getIcon(currentData.is_day, currentData.condition.code)
                 }
             }
