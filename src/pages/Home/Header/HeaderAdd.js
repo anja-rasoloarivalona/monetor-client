@@ -3,8 +3,9 @@ import styled from "styled-components"
 import { DropDown } from '../../../elements'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useOnClickOutside } from '../../../hooks'
-import { useSelector } from 'react-redux'
-
+import { useSelector, useDispatch } from 'react-redux'
+import * as actions from '../../../store/actions'
+import TodoQuickForm from "../../Todo/TodoForm/TodoQuickForm"
 
 const Container = styled.div`
     position: relative;
@@ -59,8 +60,29 @@ const ListItem = styled.div`
         background: ${props => props.theme.background};
     }
 `
+const Slider = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 35rem);
+    grid-template-rows: max-content;
+    transform: translateX(0%);
+    transition: all .3s ease-in;
+    ${props => {
+        if(props.currentSection === "todo"){
+            return {
+                transform: "translateX(-100%)"
+            }
+        }
+    }}
+`
+
+const SliderItem = styled.div`
+    display: flex;
+    flex-direction: column;
+`
 
 const HeaderAdd = () => {
+
+    const dispatch = useDispatch()
 
     const {
         text: { text }
@@ -68,26 +90,60 @@ const HeaderAdd = () => {
 
     const container = useRef()
 
-    const [ showList, setShowList ] = useState(false)
-
-    useOnClickOutside(container, () => {
-        setShowList(false)
-    })
 
 
-    const config = {
-        w: 350,
-        h: 200,
-        style: {
-            right: 0
+
+    const configs = {
+        main: {
+            config: {
+                w: 350,
+                h: 200,
+                style: {
+                    right: 0
+                }
+            }
+        },
+        todo: {
+            config: {
+                w: 350,
+                h: 350,
+                style: {
+                    right: 0
+                }
+            }
         }
     }
 
+    const [ config, setConfig ] = useState(configs.main)
+    const [ currentSection, setCurrentSection ] = useState("main")
+    const [ showList, setShowList ] = useState(false)
+
+    useOnClickOutside(container, () => {
+        closeHandler()
+    })
+
+    const toggleSectionHandler = view => {
+        setConfig(configs[view])
+        setCurrentSection(view)
+    }
+
+    const closeHandler = () => {
+        setShowList(false)
+        toggleSectionHandler("main")
+    }
+
     const listItems = [
-        {id: "transactions", label: text.transactions},
-        {id: "todo", label: text.to_do},
+        {id: "transactions", label: text.transactions, cta: () => openFormHandler("transactions")},
+        {id: "todo", label: text.to_do, cta: () => toggleSectionHandler("todo")},
         {id: "note", label: text.note},
     ]
+
+    const openFormHandler = id => {
+        dispatch(actions.setForm({
+            opened: id
+        }))
+        setShowList(false)
+    }
 
     return (
         <Container ref={container}>
@@ -99,15 +155,27 @@ const HeaderAdd = () => {
             </Label>
             <DropDown
                 show={showList}
-                config={config}
+                config={config.config}
             >
-                <List>
-                    {listItems.map(item => (
-                        <ListItem key={item.id}>
-                            {item.label}
-                        </ListItem>
-                    ))}
-                </List>
+                <Slider currentSection={currentSection}>
+                    <SliderItem>
+                        <List>
+                            {listItems.map(item => (
+                                <ListItem
+                                    key={item.id}
+                                    onClick={item.cta ? () => item.cta() : null}
+                                >
+                                    {item.label}
+                                </ListItem>
+                            ))}
+                        </List>
+                    </SliderItem>
+                    <SliderItem>
+                        <TodoQuickForm 
+                            closeHandler={() => toggleSectionHandler("main")}
+                        />
+                    </SliderItem>
+                </Slider>
             </DropDown>         
         </Container>
      )

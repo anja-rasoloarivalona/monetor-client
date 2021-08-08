@@ -443,6 +443,10 @@
         "fr": "Type d'unité",
         "en": "Unit type"
     },
+    "unlisted_todo": {
+        "fr": "À faire non listé",
+        "en": "Unlisted todo"
+    },
     "use_as_default": {
         "fr": "Utiliser par défaut",
         "en": "Use as default"

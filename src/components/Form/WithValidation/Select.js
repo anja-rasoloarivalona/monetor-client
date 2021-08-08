@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import ReactSelect, { components } from 'react-select'
@@ -23,14 +23,6 @@ const Select = props => {
         const unfocusedBorderStyle =  `1px solid ${theme.form.unfocused.border}`
         const focusedBorderStyle = `1px solid ${theme.form.focused.border}`
         const errorStyle = `1px solid ${theme.error}`
-    
-        let custom_control = {}
-    
-        // if(customStyle){
-        //      if(customStyle.custom_control){
-        //         custom_control = customStyle.custom_control
-        //      }
-        // }
     
     
         return {
@@ -119,6 +111,13 @@ const Select = props => {
         onChange(input.name, option.value)
     }
 
+    useEffect(() => {
+        if(input.options.length === 1){
+            handleChange(input.options[0])
+        }
+    },[])
+    
+
     return (
         <Container>
             <ReactSelect 
@@ -126,7 +125,7 @@ const Select = props => {
                 onBlur={onBlur ? onBlur : null}
                 options={input.options}
                 placeholder={input.required ? `${input.placeholder} \u002A` : input.placeholder} 
-                isDisabled={input.isDisabled || input.options.length === 0}
+                isDisabled={input.isDisabled || input.options.length < 2}
                 isSearchable={input.isSearchable ? true : false}
                 value={input.options.filter(({value}) => value === currentValue)}
                 styles={getStyle()}

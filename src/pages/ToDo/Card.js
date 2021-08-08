@@ -165,7 +165,7 @@ const Card = props => {
 
     dragRef(drop(ref))
 
-    const showCta = todo.dueDate || todo.description || todo.checkList.length > 0
+    const showCta = todo.dueDate || todo.description || (todo.checkList && todo.checkList.length > 0)
 
 
     const getCompletedCheckList = () => {
