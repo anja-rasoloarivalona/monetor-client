@@ -33,6 +33,7 @@ const GridContainer = styled(ScrollBar)`
     flex: 1;
     height: calc(100vh - 12.5rem);
     display: flex;
+
     .layout {
         width: 100%;
     }
@@ -110,6 +111,7 @@ const Home = () => {
     const [ isManagingDashboard, setIsManaginDashboard ] = useState(false)
     const [ isSavingDashboardChanges, setIsSavingDashboardboardChanges ] = useState(false)
     const [ isUserLayout, setIsUserLayout ] = useState(false)
+    const [ isCalendarReady, setIsCalendarReady ] = useState(false)
 
     useEffect(() => {
         Object.keys(breakpoints).forEach(size => {
@@ -147,7 +149,6 @@ const Home = () => {
             })
         }
     },[notes.open])
-
 
     useEffect(() => {
         if(isManagingDashboard){
@@ -239,7 +240,7 @@ const Home = () => {
                 isManagingDashboard={isManagingDashboard}
                 isSavingDashboardChanges={isSavingDashboardChanges}
             />
-            <GridContainer>
+            <GridContainer className={`${isCalendarReady ? "scroll" : "fixed"}`}>
                 <GridLayout
                     className="layout"
                     layout={layout}

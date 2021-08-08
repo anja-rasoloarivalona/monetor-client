@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import WeekHeader from './WeekHeader'
 import WeekDay from "./WeekDay"
 import { useWindowSize } from '../../../../hooks'
+import { enableScroll, disableScroll } from '../../../../functions'
 import { ScrollBar, ScrollDrag } from '../../../../components'
 import GridLayout from 'react-grid-layout'
 import "../../../../../node_modules/react-grid-layout/css/styles.css"
@@ -15,6 +16,7 @@ import { addDays, getPeriod, getInRangeTodoLists, addPeriods } from './function
 import * as actions from "../../../../store/actions"
 import axios from "axios"
 import moment from 'moment'
+import { isFirefox } from 'react-device-detect'
 
 const Container = styled.div`
     grid-column: 1 / 2;
@@ -228,7 +230,8 @@ const Week = props => {
             const currentId = `${formattedToday} ${new Date().getHours() - 2}h`
             const el = document.getElementById(currentId)
             if(el && !isScrollInitialized){
-                el.scrollIntoView("alignToTop")
+                el.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.scrollTop = el.offsetTop
+                // el.scrollIntoView("alignToTop")
                 setIsScrollInitialized(true)
             }
         }
@@ -357,14 +360,14 @@ const Week = props => {
             />
             <Content className="content">
                 <SideBar />
-                <ScrollDrag
+                {/* <ScrollDrag
                     style={{
                         width: config.small ? `${config.d}px` : `calc(100vw - ${config.sidebar}px)`,
                         height: "100%",
                         gridColumn: "2/3",
                         gridRow: "1/3"
                     }}
-                >
+                > */}
                     <ContentView className="content__view">
                         <ContentSlider className="content__slider">
                             <GridLayout
@@ -406,7 +409,7 @@ const Week = props => {
                             ))}
                         </ContentSlider>
                 </ContentView>
-                </ScrollDrag>
+                {/* </ScrollDrag> */}
             </Content>
 
         </Container>

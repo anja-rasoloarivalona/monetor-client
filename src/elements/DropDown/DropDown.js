@@ -54,9 +54,6 @@ const DropDown = props => {
             className={show ? "show" : "hidden"}
         >
             <Content>
-                {/* <CloseButton>
-                    <FontAwesomeIcon icon="times"/>
-                </CloseButton> */}
                 {props.children}
             </Content>
         </Container>

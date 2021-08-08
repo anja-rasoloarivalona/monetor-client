@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
 import List from './List'
 import AddList from './AddList'
-import EditForm from "./EditForm/EditForm"
+import EditForm from "./TodoForm/TodoForm"
 import * as actions from '../../store/actions'
 import { insertInToArray } from '../../functions'
 import { Loader } from '../../components'

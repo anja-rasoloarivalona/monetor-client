@@ -102,8 +102,10 @@ const Transactions = () => {
       </Header>
       <Body>
         <List>
-          {transactions.slice(0, 5).map((transaction) => {
-
+          {transactions
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .slice(0, 5)
+              .map((transaction) => {
                 const label = transaction.type === "income" ?
                     categories.income.children[transaction.category.id].locale[locale].title :
                     categories.expense[transaction.category.parentId].children[transaction.category.id].locale[locale].title

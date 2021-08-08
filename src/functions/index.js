@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { uuid } from 'uuidv4'
 import moment from 'moment'
+import { isFirefox } from 'react-device-detect'
 
 const IP_KEY = process.env.REACT_APP_IP_KEY
 
@@ -212,7 +213,22 @@ const sortMessages = (messages, locale) => {
     return formattedGroup
 }
 
+
+const disableScroll = () => {
+    document.body.style.overflowY = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.height = '100%'
+}
+
+const enableScroll = () => {
+    document.body.style.overflowY = isFirefox ? 'auto' : 'overlay'
+    document.body.style.position = 'initial'
+    document.body.style.height = 'initial'
+}
+
 export {
+    enableScroll,
+    disableScroll,
     arrayToObject,
     getIpData,
     generateId,
