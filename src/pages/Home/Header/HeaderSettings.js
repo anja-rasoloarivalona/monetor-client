@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
-import BackgroundSelector from '../../Todo/Header/BackgroundSelector'
-import { DropDown } from '../../../elements'
+import { DropDown, BackgroundSelector } from '../../../elements'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useOnClickOutside } from '../../../hooks'
 
@@ -115,9 +114,6 @@ const HeaderSettings = props => {
         text: { text }
     } = useSelector(s => s)
 
-    const container = useRef()
-
-
     const configs = {
         main: {
             config: {
@@ -152,11 +148,10 @@ const HeaderSettings = props => {
     const [ config, setConfig ] = useState(configs.main)
     const [ showList, setShowList ] = useState(false)
 
+    const container = useRef()
 
-    useOnClickOutside(container, () => {
-        setShowList(false)
-        toggleSectionHandler("main")
-    })
+    useOnClickOutside(container, () => closeHandler())
+
 
     useEffect(() => {
         if(!showList){
@@ -171,6 +166,10 @@ const HeaderSettings = props => {
         setCurrentSection(view)
     }
 
+    const closeHandler = () => {
+        setShowList(false)
+        toggleSectionHandler("main")
+    }
 
     const renderHeader = props => {
         const { text, icon, onClick } = props
@@ -192,43 +191,42 @@ const HeaderSettings = props => {
             <IconContainer onClick={() => setShowList(prev => !prev)}>
                 <FontAwesomeIcon icon="cog"/>
             </IconContainer>
-            <DropDown
-                config={config.config}
-                show={showList}
-            >
-                <Slider currentSection={currentSection}>
-                    <SliderItem>
-                        {renderHeader({
-                            text: text.settings,
-                            icon: "cog"
-                        })}
-                        <List>
-                            <ListItem onClick={() => toggleSectionHandler("background")}>
-                                <ListItemLabel>
-                                    {text.background}
-                                </ListItemLabel>
-                                <ListItemIcon>
-                                    <FontAwesomeIcon icon="chevron-right"/>
-                                </ListItemIcon>
-                            </ListItem>
-                            <ListItem onClick={() => setIsManaginDashboard(true)}>{text.manage_card}</ListItem>
-                        </List>
-                    </SliderItem>
-                    <SliderItem>
-                        {renderHeader({
-                            text: text.background, 
-                            icon: "arrow-left",
-                            onClick: () => toggleSectionHandler("main")
-                        })}
-                        <BackgroundSelector 
-                            closeHandler={() => {
-                                toggleSectionHandler("main")
-                                setShowList(null)
-                            }}
-                        />
-                    </SliderItem>
-                </Slider>
-            </DropDown>
+            {showList && (
+                <DropDown
+                    config={config.config}
+                    closeHandler={closeHandler}
+                >
+                    <Slider currentSection={currentSection}>
+                        <SliderItem>
+                            <List>
+                                <ListItem onClick={() => toggleSectionHandler("background")}>
+                                    <ListItemLabel>
+                                        {text.background}
+                                    </ListItemLabel>
+                                    <ListItemIcon>
+                                        <FontAwesomeIcon icon="chevron-right"/>
+                                    </ListItemIcon>
+                                </ListItem>
+                                <ListItem onClick={() => setIsManaginDashboard(true)}>{text.manage_card}</ListItem>
+                            </List>
+                        </SliderItem>
+                        <SliderItem>
+                            {renderHeader({
+                                text: text.background, 
+                                icon: "arrow-left",
+                                onClick: () => toggleSectionHandler("main")
+                            })}
+                            <BackgroundSelector 
+                                closeHandler={() => {
+                                    toggleSectionHandler("main")
+                                    setShowList(null)
+                                }}
+                                element="main"
+                            />
+                        </SliderItem>
+                    </Slider>
+                </DropDown>
+            )}
         </Container>
 
      )

@@ -7,6 +7,7 @@ import Draggable from './Draggable/Draggable'
 import AnimatedDropdown from './AnimatedDropdown/AnimatedDropDown'
 import CustomDropdown from './CustomDropdown/CustomDropdown'
 import DropDown from  './DropDown/DropDown'
+import BackgroundSelector from './BackgroundSelector/BackgroundSelector'
 
 export {
     Header,
@@ -17,5 +18,6 @@ export {
     Draggable,
     AnimatedDropdown,
     CustomDropdown,
-    DropDown
+    DropDown,
+    BackgroundSelector
 }

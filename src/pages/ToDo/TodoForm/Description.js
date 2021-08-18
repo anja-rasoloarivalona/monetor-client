@@ -8,30 +8,29 @@ import { TextEditor } from '../../../components/Form/WithoutValidation'
 import { Button } from '../../../components'
 
 const Container = styled.div`
+    padding-left: 1rem;
 `
 
 const CurrentDescription = styled.div`
     font-size: 1.4rem;
+    margin-top: 1.6rem;
+    padding-left: 1rem;
 `
 
-const TitleContainer  = styled.div`
+const Title  = styled.div`
     height: 3.4rem;
     display: flex;
     align-items: center;
 `
 
+
 const DescriptionInputContainer = styled.div`
-    margin-top: 2rem;
+    margin-top: 1rem;
     position: relative;
-    padding-left: 4rem;
 `
 
 const DescriptionCta = styled.div`
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: 1;
-    padding-left: 4rem;
+    margin-top: 1rem;
 `
 
 const EditButton = styled.div`
@@ -42,23 +41,36 @@ const EditButton = styled.div`
     margin-left: 1rem;
     font-weight: 400;
 `
+const Placeholder = styled.div`
+    font-size: 1.4rem;
+    margin-top: 1.6rem;
+    padding: 1.5rem;
+    width: 100%;
+    background: red;
+    height: 10.7rem;
+    border-radius: .5rem;
+    background: ${props => props.theme.background};
+    cursor: pointer;
+`
 
 const Description = props => {
 
     const { description, setDescription, setIsEditingDescription , isEditingDescription } = props
 
     const {
-        text: { text }
+        text: { text },
+        theme
     } = useSelector(state => state)
 
+    console.log({
+        description
+    })
+
     const [ currentDescription, setCurrentDescription ] = useState(description)
+    const [ focusOnMount, setFocusOnMount ] = useState(description === null)
 
+    const descriptionIsEmpty = description === "<p><br></p>"
 
-    // useEffect(() => {
-    //     if(!description){
-    //         setIsEditingDescription(true)
-    //     }
-    // },[])
 
     const input = useRef()
 
@@ -81,10 +93,9 @@ const Description = props => {
     return (
         <Container>
             <SectionTitle>
-                <TitleContainer>
-                    <FontAwesomeIcon  icon="bars"/>
+                <Title>
                     {text.description}
-                </TitleContainer>
+                </Title>
                 {description && !isEditingDescription && (
                     <EditButton onClick={() => setIsEditingDescription(true)}>
                         {text.edit}
@@ -95,12 +106,13 @@ const Description = props => {
                 {isEditingDescription ? 
                     <>
                         <TextEditor
+                            focusOnMount={focusOnMount}
                             currentValue={currentDescription} 
-                            input={{
-                                placeholder: text.description
-                            }}
+                            placeholder={text.description}
                             onChange={setCurrentDescription}
-                            onFocus={() => setIsEditingDescription(true)}
+                            customStyle={{
+                                border: `1px solid ${theme.form.unfocused.border}`
+                            }}
                         />
                         <DescriptionCta>
                             <Button
@@ -119,7 +131,12 @@ const Description = props => {
                         </DescriptionCta>
                     </>
                     :
+                    description ?
                     <CurrentDescription dangerouslySetInnerHTML={{__html: description}}/>
+                    :
+                    <Placeholder onClick={() => setIsEditingDescription(true)}>
+                        {text.add_a_detailed_description}
+                    </Placeholder>
                 }
             </DescriptionInputContainer>         
         </Container>

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BackgroundSelector from './BackgroundSelector'
-import { CustomDropdown } from '../../../elements'
+import { CustomDropdown, BackgroundSelector } from '../../../elements'
 
 const Container = styled.div`
     margin-right: 2rem;
@@ -128,7 +127,8 @@ const Settings = props => {
                         </ListItem>
                         </List>
                         <BackgroundSelector 
-                            closeHandler={() => props.setDisplayed(null)}
+                            closeHandler={() => props.setShowList(null)}
+                            element="todo"
                         />
                     </CurrentViewSlider>
                 </CurrentView>

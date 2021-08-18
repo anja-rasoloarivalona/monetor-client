@@ -37,9 +37,9 @@ const Routes = props => {
 
     const {
         text: { text, page, type: pageType },
-        settings: { currency, locale },
+        settings: { currency, locale, defaultBackground },
         user,
-        notes
+        notes,
     } = useSelector(state => state)
 
 
@@ -68,6 +68,9 @@ const Routes = props => {
         const pathHasChanged = page && page.locale !== currentPathname
         if(pathHasChanged){
             dispatch(actions.setText(currentPathname))
+        }
+        if(currentPathname === text.link_app_home){
+            dispatch(actions.setBackgroundImage(defaultBackground))
         }
     },[location])
     

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react"
 import styled from "styled-components"
 import { useOnClickOutside } from '../../../hooks'
-import { ListItemInput, ListItemCta,ListItemCtaSection } from './CheckListStyle'
+import { ListItemInput, ListItemCta,ListItemCtaSection,ListItemCheckboxContainer, ListItemCheckbox  } from './CheckListStyle'
 import { Button, AppDate } from '../../../components'
 import { Input } from '../../../components/Form/WithoutValidation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -54,7 +54,7 @@ const DueDateLabel = styled.div`
 
 const CheckListInput = props => {
 
-    const { title, setTitle, text, cancelHandler, submitHandler, currentCheckList, onChangeDueDateHandler, dueDate, customRef, customStyle } = props
+    const { title, setTitle, text, cancelHandler, submitHandler, currentCheckList, onChangeDueDateHandler, dueDate, customRef, customStyle, checkList } = props
 
     const inputRef = useRef()
     const container = useRef()
@@ -103,7 +103,7 @@ const CheckListInput = props => {
             ref={customRef ? customRef : container}
             style={{...customStyle}}
         >
-             <ListItemInput>
+            <ListItemInput checkList={checkList}>
                 {currentCheckList && currentCheckList.dueDate && renderDueDate(true)}
                 <Input 
                     customRef={inputRef}
@@ -112,7 +112,7 @@ const CheckListInput = props => {
                 />
             </ListItemInput>
 
-            <ListItemCta>
+            <ListItemCta  checkList={checkList}>
                 <ListItemCtaSection>
                     <Button
                         small

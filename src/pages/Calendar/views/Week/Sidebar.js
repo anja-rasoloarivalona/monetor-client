@@ -37,7 +37,8 @@ const ListItem = styled.div`
 const ListItemLabel = styled.div`
     padding: 1rem;
     transform: translateY(50%);
-    background :white;
+    // background: ${props => props.theme.backgroundImage ? "none" : props.theme.surface};
+    background: ${props => props.theme.surface};
 
 `
 
@@ -53,8 +54,7 @@ const Sidebar = () => {
                     {getHoursDate(unitType).map((h, index) => (
                         <ListItem key={index} className="sidebar__list__item">
                             <ListItemLabel>
-                            {h}
-
+                                {h}
                             </ListItemLabel>
                         </ListItem>
                     ))}

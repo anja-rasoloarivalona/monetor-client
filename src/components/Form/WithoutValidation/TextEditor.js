@@ -37,6 +37,7 @@ const Container = styled.div`
             width: 100%;
             font-family: Roboto;
             padding: 0 .5rem;
+            border: none;
             background: inherit;
 
             > div:first-child > div:first-child img {
@@ -135,7 +136,6 @@ const NoteInput = props => {
         customStyle,
     } = props
 
-
     const {
         text: { text },
         settings: { locale },
@@ -145,7 +145,7 @@ const NoteInput = props => {
     const editorRef = useRef()
     const emptyInputValue = "<p><br></p>"
 
-    const initialValue = currentValue !== "" && currentValue !== emptyInputValue ?
+    const initialValue = currentValue && currentValue !== emptyInputValue ?
             EditorState.createWithContent(stateFromHTML(currentValue)) : 
             EditorState.createEmpty()
 
@@ -154,13 +154,12 @@ const NoteInput = props => {
     useOnClickOutside(containerRef, () => submitHandler())
 
     useEffect(() => {
-        // editorRef.current.focusEditor()
+        if(props.focusOnMount){
+            editorRef.current.focusEditor()
+        }
     },[])
 
     useEffect(() => {
-        console.log({
-            currentValue
-        })
         if(currentValue === ""){
             const isNotEmpty = stateToHTML(editor.getCurrentContent()) !== emptyInputValue
             if(isNotEmpty){
@@ -187,6 +186,7 @@ const NoteInput = props => {
                 onEditorStateChange={val => onChangeHandler(val)}
                 locale={locale}
                 ref={editorRef}
+                placeholder={props.placeholder || ""}
                 toolbar={{
                     options: [
                         'inline',

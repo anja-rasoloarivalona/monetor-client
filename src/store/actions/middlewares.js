@@ -27,10 +27,10 @@ const initApp = () => {
                             value: true
                         })
                     }
-                    // if(res.data.data.settings.defaultBackground){
-                    //     dispatch(setDefaultBackgroundImage(res.data.data.settings.defaultBackground))
-                    //     dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
-                    // }
+                    if(res.data.data.settings.defaultBackground){
+                        dispatch(setDefaultBackgroundImage(res.data.data.settings.defaultBackground))
+                        dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
+                    }
                     delete res.data.data.settings
                     let activeTodoBoardId = null
                     const updatedBoards = {}

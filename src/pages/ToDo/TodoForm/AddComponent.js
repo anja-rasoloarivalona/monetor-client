@@ -3,13 +3,11 @@ import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AddDueDate from "./DueDateInput"
+import LabelsSelector from "./LabelsSelector"
 import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 const Container = styled.div`
-    width: 20rem;
-    position: absolute;
-    top: 9rem;
-    right: 2rem;
+    width: 100%;
 `
 
 const Title = styled.div`
@@ -30,7 +28,7 @@ const ListItemContent = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    background: ${props => props.theme.background};
+    background: ${props => props.theme.surface};
     padding: 1rem 2rem;
     cursor: pointer;
     border-radius: .3rem;
@@ -47,7 +45,7 @@ const ListItemLabel = styled.div`
 
 const AddComponent = props => {
 
-    const { dueDate, setDueDate, setIsAddingCheckList} = props
+    const { dueDate, setDueDate, setIsAddingCheckList, editedHasItems, editedHasDescription, setIsEditingDescription, setTodoLists, setIsEdited, edited} = props
 
     const {
         text: { text }
@@ -75,9 +73,35 @@ const AddComponent = props => {
             icon: "list-ul",
             action: () => setIsAddingCheckList(true)
         },
-        {id: "labesl", label: text.labels, icon: "tag"},
-        {id: "attachments", label: text.attachments, icon: "paperclip"}
+        {
+            id: "labels",
+            label: text.labels,
+            icon: "tag",
+            Component: (
+                <LabelsSelector 
+                    setTodoLists={setTodoLists}
+                    setIsEdited={setIsEdited}
+                    edited={edited}
+                    closeHandler={() => setCurrentAction(null)}
+                />
+            ),
+            action: () => setCurrentAction("labels")
+        },
+        {
+            id: "attachments",
+            label: text.attachments,
+            icon: "paperclip"
+        }
     ]
+
+    if(!editedHasDescription && editedHasItems){
+        addActions.unshift({
+                id: "description", 
+                label: text.description,
+                icon: "bars",
+                action: () => setIsEditingDescription(true)
+        })
+    }
 
 
     return (

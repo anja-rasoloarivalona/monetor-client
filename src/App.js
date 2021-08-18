@@ -95,7 +95,6 @@ const App = () => {
     dispatch(actions.initApp());
   }, []);
 
-
   useEffect(() => {
     if(user.id && !reduxSocket){
       const connectSocket = () => {
@@ -162,10 +161,13 @@ const App = () => {
     }
   },[user.id])
 
+
+
   const isTextReady = text.header && text.text && Object.keys(text.header).length > 2 && Object.keys(text.text).length > 2;
   const areDataloaded = isTextReady && user.checkedToken && categories;
   const isAppReady = user.id ? (reduxSocket && areDataloaded) : areDataloaded
 
+  
   return (
     <BrowserRouter>
       <ThemeProvider theme={{

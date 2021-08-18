@@ -3,6 +3,10 @@
         "fr": "Ajouter",
         "en": "Add"
     },
+    "add_a_detailed_description": {
+        "fr": "Ajouter une description détaillée ...",
+        "en": "Add a details description ..."
+    },
     "agenda": {
         "fr": "Agenda",
         "en": "Agenda"
@@ -79,6 +83,10 @@
         "fr": "Fermer mise en forme",
         "en": "Close formatting"
     },
+    "color": {
+        "fr": "Couleur",
+        "en": "Color"
+    },
     "complete": {
         "fr": "Complété",
         "en": "Complete"
@@ -98,6 +106,10 @@
     "country": {
         "fr": "Pays",
         "en": "Country"
+    },
+    "create": {
+        "fr": "Créer",
+        "en": "Create"
     },
     "credit_card": {
         "fr": "Carte de crédit",
