@@ -10,7 +10,7 @@ import moment from 'moment'
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    border-right: 1px solid ${props => props.theme.form.unfocused.border};
+    border-right: 1px solid ${props =>  props.theme.form.unfocused.border};
     position: relative;
 `
 
@@ -35,7 +35,7 @@ const HourLayout = styled.div`
 
 const HourLayoutItem = styled.div`
     cursor: pointer;
-    border-bottom: 1px solid ${props => props.theme.form.unfocused.border};
+    border-bottom: 1px solid ${props =>  props.theme.form.unfocused.border};
     position: relative;
 
     :after {

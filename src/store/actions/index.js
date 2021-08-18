@@ -27,6 +27,7 @@ export {
     setOnlineContacts,
     toggleDraggableMessage,
     setUserBalance,
+    setTodoBoardLabels
 } from './user'
 
 export {

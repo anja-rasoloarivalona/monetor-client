@@ -20,7 +20,7 @@ const Content = styled.div`
 
 const Title = styled.div`
     font-size: 1.4rem;
-    color: ${props => props.themetextLight};
+    color: ${props => props.theme.textLight};
     text-transform: uppercase;
 `
 

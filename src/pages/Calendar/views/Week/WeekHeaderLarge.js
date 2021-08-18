@@ -10,8 +10,9 @@ import { useSelector } from 'react-redux'
 const HeaderSection = styled.div`
     display: flex;
     align-items: center;
-    background: ${props => props.theme.surface};
+    background: ${props =>  props.theme.surface};
     margin-top: .5rem;
+    color: ${props => props.theme.text};
 `
 const HeaderLabel = styled.div`
     font-size: 2rem;
@@ -63,7 +64,7 @@ const ButtonItem = styled.div`
 
 const TodaySection = styled(HeaderSection)`
     height: 100%;
-    background: ${props => props.theme.surface};
+    background: ${props => props.theme.backgroundImage ? "none" : props.theme.surface};
     width: 20rem;
 `
 

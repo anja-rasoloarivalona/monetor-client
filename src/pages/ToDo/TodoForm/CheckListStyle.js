@@ -18,6 +18,19 @@ const ListItemCheckboxContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    ${props => {
+        if(props.disabled){
+            return {
+                cursor: "default",
+                " > div": {
+                    border: `none`,
+                    background: props.theme.background,
+                    cursor: "default !important"
+                }
+            }
+        }
+    }}
 `
 
 const ListItemCheckbox = styled.div`
@@ -99,6 +112,14 @@ const ListItemInput = styled.div`
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     position: relative;
+
+    ${props => {
+        if(!props.checkList || props.checkList.length === 0){
+            return {
+                gridColumn: "1 / 3"
+            }
+        }
+    }}
 `
 
 const ListItemCta = styled.div`
@@ -108,6 +129,14 @@ const ListItemCta = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    ${props => {
+        if(!props.checkList || props.checkList.length === 0){
+            return {
+                gridColumn: "1 / 3"
+            }
+        }
+    }}
 `
 
 const ListItemCtaSection = styled.div`

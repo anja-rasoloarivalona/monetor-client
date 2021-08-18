@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside, useKeyboardEvent } from '../../../hooks'
 import { SectionTitle } from './style'
-import { List } from './CheckListStyle'
+import { List} from './CheckListStyle'
 import CheckListInput from "./CheckListInput"
 import CheckListItem from "./CheckListItem"
 import { faCalendarCheck } from '@fortawesome/free-regular-svg-icons'
@@ -12,6 +12,7 @@ import axios from "axios"
 
 const Container = styled.div`
     margin: 3rem 0;
+    padding-left: 1rem;
 `
 
 const Content = styled.div`
@@ -138,9 +139,9 @@ const CheckList = props => {
     return (
         <Container>
             <SectionTitle>
-                <FontAwesomeIcon 
+                {/* <FontAwesomeIcon 
                     icon={faCalendarCheck}
-                />
+                /> */}
                 {text.check_list}
             </SectionTitle>
             <Content>
@@ -183,6 +184,7 @@ const CheckList = props => {
                             cancelHandler={cancelHandler}
                             submitHandler={() => submitHandler("saveButton")}
                             setCheckList={setCheckList}
+                            checkList={checkList}
                             onChangeDueDateHandler={val => onChangeDueDateHandler(val)}
                         />
                 </List>

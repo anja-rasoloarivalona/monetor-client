@@ -14,7 +14,7 @@ const Container = styled.div`
   margin-left: 1rem;
 
   ${props => {
-    if(props.theme.background && props.useTransparentHeader){
+    if((props.theme.backgroundImage && props.useTransparentHeader )|| props.useSecondary){
       return {
           color: props.theme.white
       }
@@ -172,7 +172,7 @@ const ListItemLabel = styled.div`
 const UserProfile = props => {
 
 
-  const { useTransparentHeader } = props
+  const { useTransparentHeader, useSecondary } = props
 
   const {
     user,
@@ -196,12 +196,18 @@ const UserProfile = props => {
   ];
 
   useOnClickOutside(container, () => {
-    setShowList(false);
-    setShowSettingsPannel(false);
-  });
+    if(showList){
+      setShowList(false);
+      setShowSettingsPannel(false);
+    }
+  }, "test");
 
   return (
-    <Container ref={container} useTransparentHeader={useTransparentHeader}>
+    <Container
+      ref={container}
+      useTransparentHeader={useTransparentHeader}
+      useSecondary={useSecondary}
+    >
       <UserProfileImage />
       <UserName>{user.firstname} {user.lastname}</UserName>
       <ToggleContainer onClick={() => setShowList((prev) => !prev)}>

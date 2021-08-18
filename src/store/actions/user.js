@@ -139,7 +139,19 @@ const setUserBalance = balance => {
 }
 
 
+const setTodoBoardLabels = data => {
+    return {
+        type: actionTypes.SET_TODO_BOARD_LABELS,
+        data
+    }
+}
 
+
+const toggleTodoLabel = data => {
+    return async function(dispatch){
+        
+    }
+}
 
 export {
     addBudget,
@@ -153,4 +165,5 @@ export {
     setOnlineContacts,
     toggleDraggableMessage,
     setUserBalance,
+    setTodoBoardLabels
 }

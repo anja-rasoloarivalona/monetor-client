@@ -12,6 +12,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     background: ${props => props.theme.surface};
+    position: relative;
 `
 
 const ViewContainer = styled.div`

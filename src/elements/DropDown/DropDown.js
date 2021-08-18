@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React from "react"
+import React, {useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -11,21 +10,11 @@ const Container = styled.div`
     box-shadow: ${props => props.theme.boxShadow};
     z-index: 4;
 
-
-    &.hidden {
-        transition: none;
-
-    }
-
-    &.show {
-        transition: all .3s ease-in;
-    }
-
     ${props => {
-        const { config : {w, h, style}, show } = props
+        const { config : {w, h, style} } = props
         return {
             width: `${w}px`,
-            height: show ? `${h}px` : 0,
+            height: `${h}px`,
             ...style
         }
     }}
@@ -35,24 +24,13 @@ const Content = styled.div`
     height: max-content;
 `
 
-const CloseButton = styled.div`
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1;
-    font-size: 1.4rem;
-`
 
 const DropDown = props => {
 
-    const { config, show } = props
+    const { config } = props
 
     return (
-        <Container
-            config={config}
-            show={show}
-            className={show ? "show" : "hidden"}
-        >
+        <Container config={config}>
             <Content>
                 {props.children}
             </Content>

@@ -28,13 +28,16 @@ const IconContainer = styled.div`
     padding: .7rem;
 
     svg {
-        // fill: ${props => props.themetextLight};
-        fill: ${(props) => props.theme.background ? props.theme.white : props.theme.themetextLight};
+        fill: ${(props) => props.theme.backgroundImage || props.useSecondary ? props.theme.white : props.theme.themetextLight};
+        transition: fill .1s ease-in;
 
     }
 
     :hover {
         background: ${props => props.theme.background};
+        svg {
+            fill: ${(props) => props.theme.text};
+        }
     }
 `
 
@@ -84,7 +87,10 @@ const ListItemLabel = styled.div`
     font-size: 1.4rem;
 `
 
-const AppSelector = () => {
+const AppSelector = props => {
+
+
+    const { useSecondary } = props
 
     const [ showList, setShowList ] = useState(false)
 
@@ -125,8 +131,8 @@ const AppSelector = () => {
     ]
 
     return (
-        <Container ref={container}>
-          <IconContainer onClick={() => setShowList(prev => !prev)}>
+        <Container ref={container} >
+          <IconContainer onClick={() => setShowList(prev => !prev)} useSecondary={useSecondary}>
               <Grid />
           </IconContainer>
           {showList && (

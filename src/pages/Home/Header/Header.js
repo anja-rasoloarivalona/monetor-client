@@ -1,9 +1,6 @@
 import React, {useEffect, useState, useRef } from "react"
 import styled from "styled-components"
-import { CustomDropdown } from '../../../elements'
 import { useSelector } from 'react-redux'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useOnClickOutside } from '../../../hooks'
 import HeaderAdd from './HeaderAdd'
 import HeaderSettings from './HeaderSettings'
 import HeaderDashboardManager from "./HeaderDashboardManager";
@@ -38,7 +35,6 @@ const Header = props => {
         text : { text },
     } = useSelector(s => s)
 
-    const rightSection = useRef()
 
     return (
         <Container>
@@ -52,7 +48,7 @@ const Header = props => {
                     <Section>
 
                     </Section>
-                    <Section ref={rightSection}>
+                    <Section>
                         <SectionItem>
                             <HeaderSettings setIsManaginDashboard={setIsManaginDashboard} />
                         </SectionItem>

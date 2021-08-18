@@ -5,53 +5,72 @@ import { useSelector } from 'react-redux'
 import { useOnClickOutside } from '../../../hooks'
 
 const Container = styled.div`
-    min-height: 3.5rem;
-    width: 90%;
+    min-height: 4.5rem;
+    width: 100%;
     margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `
 
 const Title = styled.div`
     width: 100%;
-    min-height: 3.5rem;
+    min-height: 4.5rem;
     display: flex;
     align-items: center;
     cursor: ${props => props.isEditingTitle ? "initial" : "cursor"};
     position: relative;
+    margin-right: 1rem;
+    border-radius: .5rem;
+    overflow: hidden;
 
-`
-const TitleIcon = styled.div`
-    min-width: 3rem;
-    display: flex;
-    align-items: flex-start;
-    align-items: center;
-    
-    svg {
-        font-size: 1.8rem;
+    :hover {
+        background: ${props => props.theme.surface};
     }
 `
 
 const TitleLabel = styled.div`
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: bold;
     cursor: pointer;
     border: 1px solid transparent;
     height: 100%;
-    width: 100%;
+    width: max-content;
+    max-width: calc(100% - 3rem);
     display: flex;
     align-items: center;
     padding-left: 1rem;
+    border: 1px solid transparent;
+    :hover {
+        svg {
+            opacity: 1;
+        }
+    }
+`
+
+const TitleLabelIcon = styled.div`
+    width: 3rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    svg {
+        font-size: 2rem;
+        opacity: 0;
+    }
 `
 
 const TitleInput = styled.input`
-    height: 3.5rem;
+    height: 4.5rem;
     width: 100%;
     font-family: inherit;
     border: 1px solid ${props => props.theme.form.unfocused.border};
     background: ${props => props.theme.form.unfocused.background};
-    font-size: 2rem;
+    font-size: 2.5rem;
     padding: 0 1rem;
-    border-radius: .3rem;
     font-weight: bold;
+    border-radius: .5rem;
+
 
     &:focus {
         outline: none;
@@ -59,26 +78,17 @@ const TitleInput = styled.input`
   
 `
 
-const ListName = styled.div`
-    margin-left: 4rem;
-    font-size: 1.3rem;
-    color: ${props => props.themetextLight};
-    margin-top: .5rem;
-`
-
 const Header = props => {
 
-    const { edited, title, setTitle, todoLists, isEditingTitle, setIsEditingTitle } = props
+    const { edited, title, setTitle, isEditingTitle, setIsEditingTitle } = props
 
     const {
-        text: { text }
+        text: { text },
+        user: { todoBoards, activeTodoBoardId }
     } = useSelector(state => state)
 
     const input = useRef()
-
-    useOnClickOutside(input, () => {
-        setIsEditingTitle(false)
-    })
+    const container = useRef()
 
     useEffect(() => {
         if(isEditingTitle){
@@ -86,26 +96,34 @@ const Header = props => {
         }
     },[isEditingTitle])
 
+    
+    const listOptions = []
+    Object.values(todoBoards[activeTodoBoardId].todoLists).forEach(list => {
+        listOptions.push({
+            label: list.title,
+            value: list.id
+        })
+    })
+    
+
     return (
-        <Container>
+        <Container ref={container}>
             <Title isEditingTitle={isEditingTitle}>
-                <TitleIcon>
-                    <FontAwesomeIcon icon="pencil-alt" />
-                </TitleIcon>
-                    {isEditingTitle ?
-                        <TitleInput
-                            ref={input} 
-                            value={title}
-                            onChange={e => setTitle(e.target.value)}
-                        /> :
-                        <TitleLabel onClick={() => setIsEditingTitle(true)}>
-                            {edited.title}
-                        </TitleLabel>
-                    }
+                {isEditingTitle ?
+                    <TitleInput
+                        ref={input} 
+                        value={title}
+                        onChange={e => setTitle(e.target.value)}
+                        onBlur={() => setIsEditingTitle(false)}
+                    /> :
+                    <TitleLabel onClick={() => setIsEditingTitle(true)}>
+                        {edited.title}
+                        <TitleLabelIcon>
+                            <FontAwesomeIcon icon="pencil-alt"/>
+                        </TitleLabelIcon>
+                    </TitleLabel>
+                }
             </Title>
-            <ListName>
-                {text.in_list} {todoLists[edited.todoListId].title}
-            </ListName>
         </Container>
      )
 };

@@ -35,7 +35,7 @@ const Header = styled.div`
         left: 0;
         z-index: 9;
         border-bottom: 1px solid ${props => props.theme.form.unfocused.border};
-        background: ${props => props.theme.surface};
+        background: ${props =>  props.theme.surface};
     }
 `
 
@@ -63,6 +63,7 @@ const Label = styled.div`
             }
         }
     }}
+
 `
 
 const LabelDay = styled.div`

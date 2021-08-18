@@ -33,6 +33,7 @@ const AvatarContainer = styled.div`
     border-radius: 50%;
     width: 6rem;
     height: 6rem;
+    background: ${props => props.theme.surface};
 
     > div {
         width: 6rem;
@@ -73,23 +74,14 @@ const DraggableMessage = props => {
     } = useSelector(state => state)
 
     const [ messageBarHeight, setMessageBarHeight ] = useState(null)
-
     const [ opened, setOpened ] = useState(false)
+    const [ isDragging, setIsDragging] = useState(false)
 
-    const [ clicked, setClicked ] = useState(0)
-
-    const [ isMouseDown, setIsMouseDown ] = useState(false)
-
-
-    
     useEffect(() => {
         console.log({
-            isMouseDown
+            isDragging
         })
-        if(clicked && !isMouseDown){
-            setOpened(true)
-        }
-    },[clicked, isMouseDown])
+    },[isDragging])
 
 
     if(!current){
@@ -109,16 +101,26 @@ const DraggableMessage = props => {
         width: "60rem"
     }
 
-    const mouseHandler = value => {
-        console.log({
-            "CHAFW": value
-        })
+    const dragHandler = e => {
+        const value = e.type === "mousedown"
+        const timeout = value ? 0 : 0.1
+        setTimeout(() => {
+            setIsDragging(value)
+        }, timeout)
     }
 
+    const toggleHandler = () => {
+        if(!isDragging){
+            setOpened(prev => !prev)
+        }
+    }
+
+
     return (
-            <Draggable handle=".drag-header" 
-                // onMouseDown={() => setIsMouseDown(true)}
-                // onMouseUp={() => mouseHandler(false)}
+            <Draggable
+                handle=".drag-header" 
+                onStart={dragHandler}
+                onStop={dragHandler}
             >
 
                 {opened ?
@@ -127,7 +129,7 @@ const DraggableMessage = props => {
                             <Avatar>
                                 <FontAwesomeIcon icon="user" />
                             </Avatar>
-                            <HeaderCta onClick={() => setOpened(false)}/>
+                            <HeaderCta onClick={toggleHandler} />
                         </Header>
                         <Body>
                             <Chat 
@@ -144,10 +146,7 @@ const DraggableMessage = props => {
                     </ResizableBox> :
                     <AvatarContainer
                         className="drag-header"
-                        onClick={() => console.log("CLICKE")}
-                        // onClick={() => setClicked(prev => prev + 1)}
-                        // onMouseDown={() => mouseHandler(true)}
-                        // onMouseUp={() => mouseHandler(false)}
+                        onClick={toggleHandler}
                     >
                         <Avatar>
                             <FontAwesomeIcon icon="user" />

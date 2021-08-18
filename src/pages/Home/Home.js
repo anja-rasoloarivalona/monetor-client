@@ -26,7 +26,7 @@ const Container = styled.div`
     z-index: 2;
     overflow-x: hidden;
     height: calc(100vh - 6.5rem);
-    background: ${props => props.theme.background};
+    background: ${props => props.theme.backgroundImage ? "none" : props.theme.background};
 `
 
 const GridContainer = styled(ScrollBar)`

@@ -88,11 +88,6 @@ const HeaderAdd = () => {
         text: { text }
     } = useSelector(s => s)
 
-    const container = useRef()
-
-
-
-
     const configs = {
         main: {
             config: {
@@ -118,9 +113,11 @@ const HeaderAdd = () => {
     const [ currentSection, setCurrentSection ] = useState("main")
     const [ showList, setShowList ] = useState(false)
 
-    useOnClickOutside(container, () => {
-        closeHandler()
-    })
+
+    const container = useRef()
+
+    useOnClickOutside(container, () => closeHandler())
+
 
     const toggleSectionHandler = view => {
         setConfig(configs[view])
@@ -153,30 +150,32 @@ const HeaderAdd = () => {
                 </IconContainer>
                 {text.add}
             </Label>
-            <DropDown
-                show={showList}
-                config={config.config}
-            >
-                <Slider currentSection={currentSection}>
-                    <SliderItem>
-                        <List>
-                            {listItems.map(item => (
-                                <ListItem
-                                    key={item.id}
-                                    onClick={item.cta ? () => item.cta() : null}
-                                >
-                                    {item.label}
-                                </ListItem>
-                            ))}
-                        </List>
-                    </SliderItem>
-                    <SliderItem>
-                        <TodoQuickForm 
-                            closeHandler={() => toggleSectionHandler("main")}
-                        />
-                    </SliderItem>
-                </Slider>
-            </DropDown>         
+            {showList && (
+                <DropDown
+                    config={config.config}
+                    closeHandler={closeHandler}
+                >
+                    <Slider currentSection={currentSection}>
+                        <SliderItem>
+                            <List>
+                                {listItems.map(item => (
+                                    <ListItem
+                                        key={item.id}
+                                        onClick={item.cta ? () => item.cta() : null}
+                                    >
+                                        {item.label}
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </SliderItem>
+                        <SliderItem>
+                            <TodoQuickForm 
+                                closeHandler={() => toggleSectionHandler("main")}
+                            />
+                        </SliderItem>
+                    </Slider>
+                </DropDown> 
+            )} 
         </Container>
      )
 };

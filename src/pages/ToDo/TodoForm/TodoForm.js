@@ -4,15 +4,17 @@ import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside } from '../../../hooks'
-import AddComponent from "./AddComponent"
 import Description from './Description'
 import CheckList from './CheckList'
 import DueDate from "./DueDate"
 import Header from './Header'
+import Labels from "./Labels"
 import axios from "axios"
 import { usePrevious } from '../../../hooks'
 import * as actions from '../../../store/actions'
 import { isArray } from '../../../functions'
+import Sidebar from "./Sidebar"
+
 
 const Container = styled.div`
     position: fixed;
@@ -24,7 +26,6 @@ const Container = styled.div`
     background: rgba(0,0,0, .3);
     display: flex;
     justify-content: center;
-    overflow-y: scroll;
 `
 const CloseButton = styled.div`
     width: 4rem;
@@ -51,8 +52,8 @@ const CloseButton = styled.div`
 
 const Modal = styled.div`
     max-height: 90vh;
-    min-height: 37rem;
-    height: max-content;
+    height: 80vh;
+    // height: max-content;
     margin-top: 5vh;
     width: 90%;
     max-width: 80rem;
@@ -60,14 +61,13 @@ const Modal = styled.div`
     box-shadow: ${props => props.theme.boxShadow};
     border-radius: .5rem;
     position: relative;
-    padding: 2rem;
-    padding-right: 25rem;
     display: flex;
-    flex-direction: column;
 `
 
-
-
+const Body = styled.div`
+    width: calc(100% - 26rem);
+    padding: 2rem;
+`
 
 const EditForm = props => {
 
@@ -75,19 +75,26 @@ const EditForm = props => {
     
     const { edited, setIsEdited, todoLists, setTodoLists } = props
 
+    const {
+        text: { text },
+    } = useSelector(state => state)
+
+
+
+
+    const editedHasDescription = edited.description && edited.description !== "<p><br></p>"
+    const editedHasItems = (edited.checkList && edited.checkList.length > 0 ) || edited.dueDate
+
+
     const [ isAddingCheckList, setIsAddingCheckList ] = useState(false)
     const [ isEditingTitle, setIsEditingTitle ] = useState(false)
-    const [ isEditingDescription, setIsEditingDescription ] = useState(edited.description ? false : true)
+    const [ isEditingDescription, setIsEditingDescription ] = useState(edited.description ? false : editedHasItems ? false : true)
 
+    const [ list, setList ] = useState(edited.todoListId)
     const [ title, setTitle ] = useState(edited.title)
     const [ description, setDescription ] = useState(edited.description)
     const [ dueDate, setDueDate ] = useState(edited.dueDate)
     const [ checkList, setCheckList ] = useState(edited.checkList || [])
-
-
-    const {
-        text: { text }
-    } = useSelector(state => state)
 
 
     useOnClickOutside(modal, () => {
@@ -222,50 +229,71 @@ const EditForm = props => {
         }
     }
 
+
+
     return (
         <Container>
-            <Modal>
+            <Modal ref={modal}>
                 <CloseButton onClick={() => setIsEdited(null)}>
                     <FontAwesomeIcon icon="times" />
                 </CloseButton>
-
-                <Header
-                    setIsEdited={setIsEdited} 
-                    edited={edited}
-                    title={title}
-                    setTitle={setTitle}
-                    todoLists={todoLists}
-                    isEditingTitle={isEditingTitle}
-                    setIsEditingTitle={setIsEditingTitle}
-                />
-                {edited.dueDate && (
-                    <DueDate
+                <Body>
+                    <Header
+                        setIsEdited={setIsEdited} 
                         edited={edited}
-                        setDueDate={setDueDate}
-                        dueDate={dueDate}
+                        title={title}
+                        setTitle={setTitle}
+                        todoLists={todoLists}
+                        isEditingTitle={isEditingTitle}
+                        setIsEditingTitle={setIsEditingTitle}
                     />
-                )}
+                    {edited.dueDate && (
+                        <DueDate
+                            edited={edited}
+                            setDueDate={setDueDate}
+                            dueDate={dueDate}
+                        />
+                    )}
+                    {edited.todoLabels && edited.todoLabels.length > 0 && (
+                        <Labels
+                            edited={edited}
+                            setTodoLists={setTodoLists}
+                            setIsEdited={setIsEdited} 
+                        />
+                    )}
+                    {(editedHasDescription || isEditingDescription) && (
+                        <Description
+                            isEditingDescription={isEditingDescription}
+                            setIsEditingDescription={setIsEditingDescription} 
+                            description={description}
+                            setDescription={setDescription}
+                        />
+                    )}
 
-                <Description
-                    isEditingDescription={isEditingDescription}
-                    setIsEditingDescription={setIsEditingDescription} 
-                    description={description}
-                    setDescription={setDescription}
-                />
-                <AddComponent
+                    {((checkList && checkList.length > 0) || isAddingCheckList) && (
+                        <CheckList
+                            edited={edited} 
+                            checkList={checkList}
+                            setCheckList={setCheckList}
+                            isAddingCheckList={isAddingCheckList}
+                            setIsAddingCheckList={setIsAddingCheckList}
+                        />
+                    )}
+                </Body>
+                <Sidebar 
+                    list={list}
+                    setList={setList}
                     dueDate={dueDate} 
                     setDueDate={setDueDate}
                     setIsAddingCheckList={setIsAddingCheckList}
+                    editedHasItems={editedHasItems}
+                    editedHasDescription={editedHasDescription}
+                    setIsEditingDescription={setIsEditingDescription}
+                    setTodoLists={setTodoLists}
+                    setIsEdited={setIsEdited}
+                    edited={edited}
                 />
-                {((checkList && checkList.length > 0) || isAddingCheckList) && (
-                    <CheckList
-                        edited={edited} 
-                        checkList={checkList}
-                        setCheckList={setCheckList}
-                        isAddingCheckList={isAddingCheckList}
-                        setIsAddingCheckList={setIsAddingCheckList}
-                    />
-                )}
+             
             </Modal>
         </Container>
      )

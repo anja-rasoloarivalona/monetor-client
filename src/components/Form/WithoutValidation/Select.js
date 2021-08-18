@@ -10,7 +10,7 @@ const Container = styled.div`
     height: 4.5rem;
     position: relative;
     color: ${props => props.theme.text};
-    width: max-content; 
+    width: 100%; 
 
     input {
         position: absolute;
@@ -48,7 +48,7 @@ const Container = styled.div`
 `
 
 const CurrentValue = styled.div`
-    width: max-content;
+    width: 100%;
     height: 4.5rem;
     display: flex;
     align-items: center;
@@ -151,8 +151,9 @@ const Select = props => {
 
     const container = useRef()
     const list = useRef()
+
     useOnClickOutside(container, () => toggleListHandler(false))
-    
+
     const selectHandler = optionValue => {
         onChange(optionValue)
         toggleListHandler(false)

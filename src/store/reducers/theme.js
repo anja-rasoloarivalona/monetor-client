@@ -8,6 +8,7 @@ const themes = {
         background: "#f3f3f3",
         surface: "#ffffff",
         transparentSurface: "rgba(55, 55, 55, .5)",
+        secondarySurface: "#565656",
         onSurface: "#eaeaea",
         text: "rgb(20, 20, 20)",
         textLight: "grey",
@@ -22,6 +23,9 @@ const themes = {
                 color:  "#5f5f5f",
                 border: "#cccccc",
                 background: "#ffffff",
+                withBackgroundImage: {
+                    border: "#616161"
+                }
             },
             focused: {
                 color: "#5f5f5f",
