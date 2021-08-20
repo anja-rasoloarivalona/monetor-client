@@ -9,6 +9,7 @@ import CheckList from './CheckList'
 import DueDate from "./DueDate"
 import Header from './Header'
 import Labels from "./Labels"
+import Attachments from "./Attachments"
 import axios from "axios"
 import { usePrevious } from '../../../hooks'
 import * as actions from '../../../store/actions'
@@ -267,6 +268,12 @@ const EditForm = props => {
                             setIsEditingDescription={setIsEditingDescription} 
                             description={description}
                             setDescription={setDescription}
+                        />
+                    )}
+
+                    {edited.attachments && edited.attachments.length > 0 && (
+                        <Attachments 
+                            edited={edited}
                         />
                     )}
 

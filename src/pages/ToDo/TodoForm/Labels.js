@@ -6,6 +6,7 @@ import LabelsSelector from "./LabelsSelector"
 
 const Container = styled.div`
     padding: 0 2rem;
+    margin-bottom: 2.5rem;
 `
 
 const Title = styled.div`
@@ -63,10 +64,6 @@ const Labels = props => {
     const [ isAdding, setIsAdding ] = useState(false)
 
     const labels = todoBoards[activeTodoBoardId].labels
-
-    console.log({
-        edited
-    })
 
     return (
         <Container>

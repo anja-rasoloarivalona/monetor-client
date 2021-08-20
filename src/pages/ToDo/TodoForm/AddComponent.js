@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AddDueDate from "./DueDateInput"
 import LabelsSelector from "./LabelsSelector"
+import AttachmentsForm from "./AttachmentsForm"
 import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 const Container = styled.div`
@@ -17,6 +18,7 @@ const Title = styled.div`
 
 const List = styled.ul`
     list-style: none;
+    position: relative;
 `
 
 const ListItem = styled.li`
@@ -90,7 +92,19 @@ const AddComponent = props => {
         {
             id: "attachments",
             label: text.attachments,
-            icon: "paperclip"
+            icon: "paperclip",
+            Component: (
+                <AttachmentsForm 
+                    edited={edited}
+                    setTodoLists={setTodoLists}
+                    setIsEdited={setIsEdited}
+                    closeHandler={() => setCurrentAction(null)}
+                />
+            ),
+            action: () => setCurrentAction("attachments"),
+            listItemStyle: {
+                position: "unset"
+            }
         }
     ]
 
@@ -115,6 +129,7 @@ const AddComponent = props => {
                     return (
                         <ListItem
                             key={action.id}
+                            style={action.listItemStyle}
                         >
                             <ListItemContent onClick={() => action.action()}>
                                 <FontAwesomeIcon icon={action.icon}/>

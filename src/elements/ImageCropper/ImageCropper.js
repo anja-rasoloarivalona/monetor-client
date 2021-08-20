@@ -38,6 +38,12 @@ const CropperContainer = styled.div`
     width: 100%;
     background: #333;
     transition: all .3s ease-in;
+
+
+    // .reactEasyCrop_CropAreaGrid {
+    //     width: ${25 * (16 /9)}vh !important;
+    //     height: 25vh !important;
+    // }
 `
 
 const CropperPreview = styled.div`
@@ -54,9 +60,9 @@ const CropperPreview = styled.div`
 `
 
 const CropperPreviewImage = styled.img`
-    width: 30rem;
-    height: 30rem;
-    border-radius: 50%;
+    width: 90%;
+    object-fit: container;
+    // border-radius: 50%;
 `
 
 
@@ -147,7 +153,7 @@ const ImageCropper = props => {
     const [ result, setResult ] = useState(null)
     const [ crop, setCrop ] = useState({ x: 0, y: 0})
     const [ rotation, setRotation ] = useState(0)
-    const [ zoom, setZoom ] = useState(1)
+    const [ zoom, setZoom ] = useState(1.5)
     const [ croppedAreaPixels, setCroppedAreaPixels ] = useState(null)
     const [ isPreviewing, setIsPreviewing ] = useState(false)
 
@@ -231,13 +237,17 @@ const ImageCropper = props => {
                             crop={crop}
                             rotation={rotation}
                             zoom={zoom}
-                            aspect={1}
+                            aspect={props.aspect || 1}
                             onCropChange={setCrop}
                             onRotationChange={setRotation}
                             onCropComplete={onCropComplete}
                             onZoomChange={setZoom}   
-                            cropShape="round"
-                            restrictPosition={false}             
+                            cropShape={props.cropShape || "square"}
+                            restrictPosition={false}   
+                            // initialCroppedAreaPixels={{
+                            //     width: `${25 * (16 /9)}vh`,
+                            //     height: `${25}vh`
+                            // }}          
                         />
                     }
 

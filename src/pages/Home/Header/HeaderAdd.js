@@ -36,9 +36,6 @@ const IconContainer = styled.div`
         font-size: 1.3rem;
         color: ${props => props.theme.textLight};
     }
-
- 
- 
 `
 
 const List = styled.div`

@@ -100,10 +100,10 @@ const TodoHeader = () => {
                 )}
             </TitleContainer>
             <ButtonsContainer>
-                <InviteMember 
+                {/* <InviteMember 
                     showList={showList}
                     setShowList={setShowList}
-                />
+                /> */}
                 <Settings 
                     showList={showList}
                     setShowList={setShowList}

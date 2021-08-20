@@ -133,7 +133,7 @@ const renderAmount = (amount, locale, currency) => {
     }
 }
 
-const getTimeStamp = (_timestamp, locale) => {
+const getTimeStamp = (_timestamp, locale, custom) => {
 
     const weekDays = [
         {fr: "dim", en: "Sun"},
@@ -155,36 +155,38 @@ const getTimeStamp = (_timestamp, locale) => {
     const diffMinutes = moment.duration(today.diff(date)).asMinutes()
     const diffHours = moment.duration(today.diff(date)).asHours()
 
+    const trailingLabel = custom && custom.label ? `${custom.label} ` : ""
+
     if(diffMinutes <= 2){
         if(locale === "fr"){
-            return "Maintenant"
+            return `${trailingLabel}maintenant`
         } else {
-            return "Now"
+            return `${trailingLabel}now`
         }
     }
 
     if(diffMinutes < 60){
         if(locale === "fr"){
-            return `il y a ${parseInt(diffMinutes)}min`
+            return `${trailingLabel}il y a ${parseInt(diffMinutes)}min`
         } else {
-            return `${parseInt(diffMinutes)} min ago`
+            return `${trailingLabel}${parseInt(diffMinutes)} min ago`
         }
     }
 
     if(diffHours < 24){
         if(locale === "fr"){
-            return `il y a ${parseInt(diffHours)}h`
+            return `${trailingLabel}il y a ${parseInt(diffHours)}h`
         } else {
-            return `${parseInt(diffHours)}h ago`
+            return `${trailingLabel}${parseInt(diffHours)}h ago`
         }
     }
 
     if(diffDays < 5){
         const day =  weekDays[date.day()][locale]
-        return day + " " + time
+        return trailingLabel + day + " " + time
     }
     const fulldate = formatDate(timestamp, "dd/mm/yy", locale)
-    return fulldate + " - " + time
+    return trailingLabel + fulldate + " - " + time
 }
 
 
@@ -226,6 +228,16 @@ const enableScroll = () => {
     document.body.style.height = 'initial'
 }
 
+const urlIsValid = str => {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+}
+
 export {
     enableScroll,
     disableScroll,
@@ -237,5 +249,6 @@ export {
     isArray,
     renderAmount,
     getTimeStamp,
-    sortMessages
+    sortMessages,
+    urlIsValid
 }

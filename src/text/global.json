@@ -7,6 +7,10 @@
         "fr": "Ajouter une description détaillée ...",
         "en": "Add a details description ..."
     },
+    "added": {
+        "fr": "Ajouté",
+        "en": "Added"
+    },
     "agenda": {
         "fr": "Agenda",
         "en": "Agenda"
@@ -18,6 +22,14 @@
     "at": {
         "fr": "à",
         "en": "at"
+    },
+    "attach_a_link": {
+        "fr": "Attacher un lien",
+        "en": "Attach a link"
+    },
+    "attach_a_link_placeholder": {
+        "fr": "Coller n'importe quel lien ici...",
+        "en": "Paste any link here..."
     },
     "all": {
         "fr": "Tous",
@@ -46,6 +58,10 @@
     "balance_variation": {
         "fr": "Variation de la balance",
         "en": "Balance variation"
+    },
+    "browse": {
+        "fr": "parcourez",
+        "en": "browse"
     },
     "budget": {
         "fr": "Budget",
@@ -163,6 +179,10 @@
         "fr": "Affichage",
         "en": "Display"
     },
+    "drag_and_drop": {
+        "fr": "Glissez et déposez vos fichiers ou ",
+        "en": "Drag & Drop your files or  "
+    },
     "edit": {
         "fr": "Modifier",
         "en": "Edit"
@@ -270,6 +290,10 @@
     "light": {
         "fr": "Clair",
         "en": "Light"
+    },
+    "link": {
+        "fr": "Lien",
+        "en": "Link"
     },
     "list": {
         "fr": "List",
@@ -458,6 +482,10 @@
     "unlisted_todo": {
         "fr": "À faire non listé",
         "en": "Unlisted todo"
+    },
+    "upload_a_file": {
+        "fr": "Télécharger un fichier",
+        "en": "Upload a file"
     },
     "use_as_default": {
         "fr": "Utiliser par défaut",
