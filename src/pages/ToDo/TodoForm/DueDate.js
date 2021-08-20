@@ -9,7 +9,7 @@ import { useOnClickOutside } from '../../../hooks'
 
 const Container = styled.div`
     margin: 2rem 0;
-    margin-left: 4rem;
+    margin-left: 2rem;
 `
 
 const Content = styled.div`

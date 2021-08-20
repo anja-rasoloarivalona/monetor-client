@@ -19,7 +19,6 @@ const Container = styled.div`
     align-items: center;
     position: relative;
     border-radius: .7rem;
-    background: ${props => props.isOver ? "pink" : props.theme.onSurface};
     min-height: 12.5rem;
 `
 

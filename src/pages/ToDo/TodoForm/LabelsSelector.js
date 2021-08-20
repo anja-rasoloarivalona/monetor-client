@@ -5,61 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useOnClickOutside } from '../../../hooks'
 import LabelsEditor from "./LabelsEditor"
 import axios from 'axios'
+import {SidebarItemContainer,  SidebarHeader, SidebarHeaderTitle, SidebarHeaderIcon } from './style'
 
-const Container = styled.div`
-    position: absolute;
-    top: calc(100% + 1rem);
-    left: 0;
-    z-index: 2;
-    width: 35rem;
-    height: max-content;
-    background: ${props => props.theme.surface};
-    box-shadow: ${props => props.theme.boxShadow};
-    border-radius: .5rem;
-`
-
-const Header = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    justify-content: space-between;
-    height: 4rem;
-    padding: 0 1rem;
-    position: relative;
-`
-
-const HeaderTitle = styled.div`
-    font-size: 1.4rem;
-`
-
-const HeaderIcon = styled.div`
-    width: 3rem;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
-    svg {
-        font-size: 1.4rem;
-    }
-
-    &.back {
-        ${props => {
-            if(!props.editedColor){
-                return {
-                    opacity: 0,
-                    cursor: "default"
-                }
-            }
-        }}
-    }
-`
 
 const List = styled.div`
     padding: 1rem 1rem;
 `
-
 const ListItem = styled.div`
     margin-bottom: .5rem;
     display: flex;
@@ -203,22 +154,22 @@ const LabelsSelector = props => {
 
 
     return (
-        <Container ref={container}>
-            <Header>
-                <HeaderIcon
+        <SidebarItemContainer ref={container}>
+            <SidebarHeader>
+                <SidebarHeaderIcon
                     editedColor={editedColor}
-                    className="back"
+                    className={!editedColor ? "hide" : ""}
                     onClick={editedColor ? () => setEditedColor(false) : null}
                 >
                     <FontAwesomeIcon icon="arrow-left"/>
-                </HeaderIcon>
-                <HeaderTitle>
+                </SidebarHeaderIcon>
+                <SidebarHeaderTitle>
                     {text.labels}
-                </HeaderTitle>
-                <HeaderIcon onClick={closeHandler}>
+                </SidebarHeaderTitle>
+                <SidebarHeaderIcon onClick={closeHandler}>
                     <FontAwesomeIcon icon="times"/>
-                </HeaderIcon>
-            </Header>
+                </SidebarHeaderIcon>
+            </SidebarHeader>
             {editedColor ?
                 <LabelsEditor 
                     colors={colors}
@@ -260,7 +211,7 @@ const LabelsSelector = props => {
                 </CreateContainer>
                 </>
             }
-        </Container>
+        </SidebarItemContainer>
      )
 };
 

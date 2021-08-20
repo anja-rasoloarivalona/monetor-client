@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CustomDropdown, BackgroundSelector } from '../../../elements'
+import { DropDown, BackgroundSelector } from '../../../elements'
 
 const Container = styled.div`
     margin-right: 2rem;
+    position: relative;
 `
 
 const CurrentView = styled.div`
@@ -53,6 +54,31 @@ const ListItemLabel = styled.div`
 `
 
 
+const Label = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    position: relative;
+    height: 3.5rem;
+    border-radius: .4rem;
+    border: 1px solid ${props => props.theme.surface};
+    color: ${props => props.theme.surface};
+
+    :hover {
+        box-shadow: ${props => props.theme.boxShadow};
+    }
+
+    svg {
+        font-size: 1.3rem;
+        color: inherit;
+        margin-left: 1rem;
+    }
+
+`
+
+
 const Settings = props => {
 
     const { 
@@ -60,6 +86,9 @@ const Settings = props => {
     } = useSelector(s => s)
 
     const [ currentSection, setCurrentSection ] = useState("main")
+    const [ showList, setShowList ] = useState(false)
+
+    const container = useRef()
 
     const configs = {
         main: {
@@ -67,23 +96,29 @@ const Settings = props => {
                 w: 350,
                 h: 20 + 2 * 50,
             },
-            label: {
-                text: text.settings,
-                icon: "cog",
-                floating: true
+            style: {
+                right: 0
             }
+            // label: {
+            //     text: text.settings,
+            //     icon: "cog",
+            //     floating: true
+            // }
         },
         background: {
             config: {
                 w: 350,
                 h: 600,
             },
-            label: {
-                text: text.background,
-                icon: "arrow-left",
-                floating: true,
-                onClick: () =>   toggleSectionHandler("main")
+            style: {
+                right: 0
             }
+            // label: {
+            //     text: text.background,
+            //     icon: "arrow-left",
+            //     floating: true,
+            //     onClick: () =>   toggleSectionHandler("main")
+            // }
         }
     }
     
@@ -95,45 +130,53 @@ const Settings = props => {
         setCurrentSection(view)
     }
 
-    useEffect(() => {
-        if(props.showList && props.showList !== "settings"){
-            toggleSectionHandler("main")
-        }
-    }, [props.showList])
+    const closeHandler = () => {
+        setShowList(false)
+        toggleSectionHandler("main")
+    }
+
+    // useEffect(() => {
+    //     if(props.showList && props.showList !== "settings"){
+    //         toggleSectionHandler("main")
+    //     }
+    // }, [props.showList])
 
 
     return (
-        <Container>
-            <CustomDropdown
-                label={config.label}
-                config={config.config}
-                id="settings"
-                showList={props.showList}
-                setShowList={props.setShowList}
-            >
-                <CurrentView>
-                    <CurrentViewSlider currentSection={currentSection}>
-                        <List>
-                            <ListItem>
-                                <ListItemLabel>
-                                    Automation
-                                </ListItemLabel>
-                            </ListItem>
-                            <ListItem onClick={() => toggleSectionHandler("background")}>
-                                <ListItemLabel>
-                                    {text.background}
-                                </ListItemLabel>
-                                <FontAwesomeIcon icon="chevron-right"/>
-                        </ListItem>
-                        </List>
-                        <BackgroundSelector 
-                            closeHandler={() => props.setShowList(null)}
-                            element="todo"
-                        />
-                    </CurrentViewSlider>
-                </CurrentView>
+        <Container ref={container}>
+            <Label onClick={() => setShowList(prev => !prev)}>
+                {text.settings}
+                <FontAwesomeIcon icon="cog"/>
+            </Label>
 
-            </CustomDropdown>
+            {showList && (
+                <DropDown
+                    config={config.config}
+                    closeHandler={closeHandler}
+                >
+                    <CurrentView>
+                        <CurrentViewSlider currentSection={currentSection}>
+                            <List>
+                                <ListItem>
+                                    <ListItemLabel>
+                                        Automation
+                                    </ListItemLabel>
+                                </ListItem>
+                                <ListItem onClick={() => toggleSectionHandler("background")}>
+                                    <ListItemLabel>
+                                        {text.background}
+                                    </ListItemLabel>
+                                    <FontAwesomeIcon icon="chevron-right"/>
+                            </ListItem>
+                            </List>
+                            <BackgroundSelector 
+                                closeHandler={() => props.setShowList(null)}
+                                element="todo"
+                            />
+                        </CurrentViewSlider>
+                    </CurrentView>
+                </DropDown>
+            )}
         </Container>
      )
 };

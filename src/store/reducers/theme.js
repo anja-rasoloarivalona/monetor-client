@@ -7,6 +7,8 @@ const themes = {
         secondary: "#478ab1",
         background: "#f3f3f3",
         surface: "#ffffff",
+        
+
         transparentSurface: "rgba(55, 55, 55, .5)",
         secondarySurface: "#565656",
         onSurface: "#eaeaea",

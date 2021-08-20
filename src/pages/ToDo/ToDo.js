@@ -17,6 +17,7 @@ const Container = styled.div`
     min-height: calc(100vh - 8rem);
     padding: 2rem;
     color: ${props => props.theme.text};
+    background: ${props => props.theme.background};
 `
 
 const Content = styled.div`

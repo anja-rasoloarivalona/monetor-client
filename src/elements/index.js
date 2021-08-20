@@ -8,6 +8,7 @@ import AnimatedDropdown from './AnimatedDropdown/AnimatedDropDown'
 import CustomDropdown from './CustomDropdown/CustomDropdown'
 import DropDown from  './DropDown/DropDown'
 import BackgroundSelector from './BackgroundSelector/BackgroundSelector'
+import ImageCropper from './ImageCropper/ImageCropper'
 
 export {
     Header,
@@ -19,5 +20,6 @@ export {
     AnimatedDropdown,
     CustomDropdown,
     DropDown,
-    BackgroundSelector
+    BackgroundSelector,
+    ImageCropper
 }
