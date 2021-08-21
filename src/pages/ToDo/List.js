@@ -12,7 +12,6 @@ import { generateId } from '../../functions'
 const Container = styled.div`
     width: 30rem;
     height: max-content;
-    background: white;
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -28,7 +27,6 @@ const Header = styled.div`
     width: 100%;
     margin-bottom: 1rem;
     font-weight: 600;
-    padding-left: 1rem;
 `
 
 const AddCard = styled.div`

@@ -75,8 +75,6 @@ const List = styled.div`
   box-shadow: ${(props) => props.theme.boxShadow};
   border-radius: 1rem;
   overflow: hidden;
-  z-index: ${(props) => (props.showList ? 9 : -1)};
-  visibility: ${(props) => (props.showList ? "visible" : "hidden")};
 `;
 
 const ListSlider = styled.div`
@@ -169,8 +167,56 @@ const ListItemLabel = styled.div`
   color: ${(props) => props.theme.text};
 `;
 
-const UserProfile = props => {
 
+const UserProfileList = props => {
+
+  const { showSettingsPannel, options,  setShowSettingsPannel, setShowList, container} = props
+
+  const mainListRef = useRef();
+  const settingsRef = useRef();
+  
+  useOnClickOutside(container, () => {
+      setShowList(false);
+      setShowSettingsPannel(false);
+  });
+
+  return (
+    <List>
+      <ListSlider
+        showSettingsPannel={showSettingsPannel}
+        mainListRef={mainListRef}
+        settingsRef={settingsRef}
+      >
+      <MainList ref={mainListRef}>
+        {options.map((option) => (
+          <ListItem
+            id={option.label}
+            onClick={option.onToggle ? () => option.onToggle() : null}
+          >
+            <ListItemContent>
+              <ListItemIconContainer>
+                <FontAwesomeIcon icon={option.icon} />
+              </ListItemIconContainer>
+              <ListItemLabel className="label">
+                {option.label}
+              </ListItemLabel>
+              {option.onToggle && (
+                <FontAwesomeIcon icon="chevron-right" className="toggle" />
+              )}
+            </ListItemContent>
+          </ListItem>
+        ))}
+      </MainList>
+      <SettingsPannel
+        setShowSettingsPannel={setShowSettingsPannel}
+        customRef={settingsRef}
+      />
+    </ListSlider>
+  </List>
+  )
+}
+
+const UserProfile = props => {
 
   const { useTransparentHeader, useSecondary } = props
 
@@ -179,10 +225,7 @@ const UserProfile = props => {
     text: { text },
   } = useSelector((state) => state);
 
-  const container = useRef();
-  const mainListRef = useRef();
-  const settingsRef = useRef();
-
+  const container = useRef()
   const [showList, setShowList] = useState(false);
   const [showSettingsPannel, setShowSettingsPannel] = useState(false);
 
@@ -195,56 +238,26 @@ const UserProfile = props => {
     { label: text.logout, icon: "power-off" },
   ];
 
-  useOnClickOutside(container, () => {
-    if(showList){
-      setShowList(false);
-      setShowSettingsPannel(false);
-    }
-  }, "test");
-
   return (
     <Container
-      ref={container}
       useTransparentHeader={useTransparentHeader}
       useSecondary={useSecondary}
+      ref={container}
     >
       <UserProfileImage />
       <UserName>{user.firstname} {user.lastname}</UserName>
       <ToggleContainer onClick={() => setShowList((prev) => !prev)}>
         <FontAwesomeIcon icon="chevron-down" />
       </ToggleContainer>
-      <List showList={showList}>
-        <ListSlider
-          showSettingsPannel={showSettingsPannel}
-          mainListRef={mainListRef}
-          settingsRef={settingsRef}
-        >
-          <MainList ref={mainListRef}>
-            {options.map((option) => (
-              <ListItem
-                id={option.label}
-                onClick={option.onToggle ? () => option.onToggle() : null}
-              >
-                <ListItemContent>
-                  <ListItemIconContainer>
-                    <FontAwesomeIcon icon={option.icon} />
-                  </ListItemIconContainer>
-                  <ListItemLabel className="label">
-                    {option.label}
-                  </ListItemLabel>
-                  {option.onToggle && (
-                    <FontAwesomeIcon icon="chevron-right" className="toggle" />
-                  )}
-                </ListItemContent>
-              </ListItem>
-            ))}
-          </MainList>
-          <SettingsPannel
-            setShowSettingsPannel={setShowSettingsPannel}
-            customRef={settingsRef}
-          />
-        </ListSlider>
-      </List>
+      {showList && (
+        <UserProfileList 
+          showSettingsPannel={showSettingsPannel}
+          options={options}
+          setShowSettingsPannel={setShowSettingsPannel}
+          setShowList={setShowList}
+          container={container}
+        />
+      )}
     </Container>
   );
 };

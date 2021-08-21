@@ -1,24 +1,58 @@
 import * as actionTypes from '../actions/actionTypes'
 import { updatedObject } from '../utils'
 
+
+
+
+const dynamicThemes = {
+    light: {
+        withBG: {
+            line: "#FFFFFF",
+            tSurface: function(level){
+                return `rgba(55, 55, 55, ${level})`
+            }
+        },
+        withoutBG: {
+            line: "#525151",
+            tSurface: function(level){
+                return `rgba(255, 255, 255, ${level})`
+            }
+        }
+    },
+    dark: {
+        withBG: {
+            line: "#FFFFFF",
+            tSurface: function(level){
+                return `rgba(55, 55, 55, ${level})`
+            }
+        },
+        withoutBG: {
+            line: "#CCCCCC",
+            tSurface: function(level){
+                return `rgba(255, 255, 255, ${level})`
+            }
+        }
+    }
+}
+
 const themes = {
     light: {
         primary: "#0b529a",
         secondary: "#478ab1",
-        background: "#f3f3f3",
-        surface: "#ffffff",
-        
+        background: "#F9F9F9",
+        surface: "#FFFFFF",
+        onSurface: "#EAEAEA",
 
         transparentSurface: "rgba(55, 55, 55, .5)",
         secondarySurface: "#565656",
-        onSurface: "#eaeaea",
         text: "rgb(20, 20, 20)",
         textLight: "grey",
         error: "red",
         white: "#ffffff",
         green: "green",
         boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
-        boxShadowLight: "0 1px 0 rgb(9 30 66 / 25%)",
+        boxShadowLight: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+        boxShadowExtraLight: "0 1px 0 rgb(9 30 66 / 25%)",
         homeBackground: "#ffffff",
         form: {
             unfocused: {
@@ -87,11 +121,14 @@ const initialState = {
 
 const setTheme = (state, action) => {
     localStorage.setItem("theme", action.theme)
+    const dynamicType = state.backgroundImage ? "withBG" : "withoutBG"
     return updatedObject(state, {
         type: action.theme,
-        ...themes[action.theme]
+        ...themes[action.theme],
+        ...dynamicThemes[action.theme][dynamicType]
     })
 }
+
 
 const reducer = (state = initialState, action) => {
     switch(action.type){

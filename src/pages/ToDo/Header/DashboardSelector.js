@@ -1,40 +1,35 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import styled from "styled-components"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useOnClickOutside } from '../../../hooks'
+import { useSelector } from 'react-redux'
+import { Input } from '../../../components/Form/WithoutValidation'
+import { Button as ButtonComponent, ButtonWithLoader } from '../../../components'
+import axios from 'axios'
 
 const Container = styled.div`
     position: relative;   
 `
-
-const List = styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 10rem;
-    background: ${props => props.theme.surface};
-    z-index: 5;
-`
-
-const ListHeader = styled.div`
-
-`
-
 const ButtonContainer = styled.div`
     position: relative;
     z-index: 1;
     display: flex;
     align-items: center;
+    cursor: pointer;
+
+    :hover {
+        box-shadow: ${props => props.theme.boxShadow};
+    }
 `
 const Button = styled.div`
     border-radius: .3rem;
-    color: ${props => props.theme.textLight};
+    border: 1px solid ${props => props.theme.line};
+    color: ${props => props.theme.line};
     font-size: 1.2rem;
     height: 3.5rem;
     position: relative;
     display: flex;
     align-items: center;
-    background: ${props => props.theme.onSurface};
     padding: 0 2rem;
     font-size: 1.4rem;
     svg {
@@ -44,28 +39,311 @@ const Button = styled.div`
     }
 `
 
+const Header = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+`
+
+const List = styled.div`
+    position: fixed;
+    top: 6.5rem;
+    right: 0;
+    width: 35rem;
+    height: calc(100vh - 6.5rem);
+    background: ${props => props.theme.surface};
+    z-index: 5;
+    transform: translateX(${props => props.showPannel ? 0 : "100%"});
+    transition: all .3s ease-in;
+    box-shadow: ${props => props.theme.boxShadow};
+    padding: 2rem 3rem;
+
+    input {
+        height: 4.5rem;
+        margin-top: 1rem;
+    }
+`
+
+const ListItemComponent = styled.div`
+    width: 100%;
+    height: 14rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+    cursor: pointer;
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    box-shadow: ${props => props.theme.boxShadowLight};
+
+    :hover {
+        box-shadow: ${props => props.theme.boxShadow};
+    }
+`
+
+const ListItemAdd = styled(ListItemComponent)`
+    svg {
+        margin-right: 1rem;
+    }
+`
+
+const ListItem = styled(ListItemComponent)`
+    background: ${props => props.theme.background};
+`
+
+const ListItemTitle = styled.div`
+    font-weight: 600;
+`
+
+const AddContainer = styled.div`
+    margin-top: 3rem;
+`
+
+const InputContainer = styled.div`
+    position: relative;
+`
+
+const Label = styled.label`
+    font-size: 1.4rem;
+`
+
+const TodoList = styled.div`
+    margin-top: 2rem;
+`
+const TodoListAdd = styled.div`
+    width: 100%;
+    height: 4.5rem;
+    margin-top: 1rem;
+    box-shadow: ${props => props.theme.boxShadowLight};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: ${props => props.theme.textLight};
+    cursor: pointer;
+
+    svg {
+        margin-right: 1rem;
+    }
+
+    :hover {
+        color: ${props => props.theme.text};
+    }
+`
+
+const InputRemove = styled.div`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 1rem;
+    margin: auto;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid ${props => props.theme.line};
+    color: ${props => props.theme.line};
+    cursor: pointer;
+
+
+    :hover {
+        color: ${props => props.theme.text};
+        border-color: ${props => props.theme.text};
+    }
+`
+
+const Cta = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 3rem;
+
+    .submit {
+        margin-left: 1rem;
+    }
+`
+const Error = styled.div`
+    margin-top: 1rem;
+    color: ${props => props.theme.error};
+    font-size: 1.4rem;
+`
 const DashboardSelector = () => {
 
     const [ showPannel, setShowPannel ] = useState(false)
 
+    const {
+        text: { text },
+        user: {
+            todoBoards
+        }
+    } = useSelector(s => s)
+
+    const [ isAdding, setIsAdding ] = useState(false)
+    const [ title, setTitle ] = useState("")
+    const [ list, setList ] = useState([text.to_do, text.doing, text.done ])
+    const [ newList, setNewList ] = useState("")
+    const [ isAddingNewList, setIsAddingNewList ] = useState(false)
+    const [ showError, setShowError ] = useState(false)
+    const [ isSubmitting, setIsSubmitting ] = useState(false)
+ 
+
+    const listRef = useRef()
+
+    useOnClickOutside(listRef, () => setShowPannel(false))
+
+    useEffect(() => {
+        if(title !== "" && showError){
+            setShowError(false)
+        }
+    },[title])
+
+    const addList = () => {
+        if(newList !== ""){
+            setList(prev => {
+                const updated = [...prev, newList]
+                return updated
+            })
+            setNewList("")
+            setIsAddingNewList(false)
+        }
+    }
+
+    const removeList = index => {
+        setList(prev => {
+            const updated = prev.filter((item, i) => i !== index )
+            return updated
+        })
+    }
+
+    const submitHandler = async () => {
+        if(title !== ""){
+            setIsSubmitting(true)
+            const payload = {
+                title,
+                todoList: []
+            }
+            list.forEach((item, itemIndex) => {
+                payload.todoList.push({
+                    title: item,
+                    index: itemIndex
+                })
+            })
+            try {
+                const res = await axios.post("/todo/board", payload)
+                console.log({
+                    res
+                })
+            } catch(err){
+                console.log({
+                    err
+                })
+                setIsSubmitting(false)
+            }
+        } else {
+            setShowError(true)
+        }
+    }
+
     return (
         <Container>
-            <ButtonContainer>
+            <ButtonContainer onClick={() => setShowPannel(true)}>
                 <Button square>
                     Dashboards
-                    <FontAwesomeIcon icon="chevron-down"/>
+                    <FontAwesomeIcon icon="stream"/>
                 </Button>
             </ButtonContainer>
-            {showPannel && (
-                <List>
-                    <ListHeader>
-                        <Button square>
-                        <FontAwesomeIcon icon="cog"/>
-                            Dashboards
-                        </Button>    
-                    </ListHeader>
-                </List>
-            )}
+            <List showPannel={showPannel} ref={listRef}>
+                <Header>
+                    <FontAwesomeIcon icon="arrow-left"/>
+                    {isAdding ? text.new_dashboard : text.my_dashboards}
+                    <span></span>
+                </Header>
+                {!isAdding && (
+                    <>
+                        <ListItemAdd onClick={() => setIsAdding(true)}>
+                            <FontAwesomeIcon icon="plus"/>
+                            {text.new_dashboard}
+                        </ListItemAdd>
+                        {Object.values(todoBoards).map(board => (
+                            <ListItem key={board.boardId}>
+                                <ListItemTitle>
+                                    {board.title}
+                                </ListItemTitle>
+                            </ListItem>
+                        ))}
+                    </>
+                )}
+                {isAdding && (
+                     <AddContainer>
+                        <InputContainer>
+                            <Label>
+                                {text.title}
+                            </Label>
+                            <Input 
+                                value={title}
+                                onChange={setTitle}
+                                disabled={isSubmitting}
+                                focusOnMount
+                            />
+                            {showError && <Error>{text.required}</Error>}
+                        </InputContainer>
+                        <TodoList>
+                            <Label>{text.list}</Label>
+                            {list.map((item, index) => (
+                                <InputContainer key={index}>
+                                    <Input 
+                                        value={item}
+                                        disabled={isSubmitting}
+                                        onChange={value => setList(prev => {
+                                            const updated = [...prev]
+                                            updated[index] = value
+                                            return updated
+                                        })}
+                                    />
+                                    <InputRemove onClick={() => removeList(index)}>
+                                        <FontAwesomeIcon icon="minus"/>
+                                    </InputRemove>
+                                </InputContainer>                   
+                            ))}
+                            {!isAddingNewList && !isSubmitting && (
+                                <TodoListAdd onClick={() => setIsAddingNewList(true)} isSubmitting={isSubmitting}>
+                                    <FontAwesomeIcon icon="plus"/>
+                                    {text.add}
+                                </TodoListAdd>
+                            )}
+                            {isAddingNewList && (
+                                <InputContainer>
+                                    <Input 
+                                        value={newList}
+                                        onChange={setNewList}
+                                        onBlur={addList}
+                                        focusOnMount
+                                    />
+                                </InputContainer>
+                            )}
+       
+                        </TodoList>
+                        <Cta>
+                            {!isSubmitting && (
+                                <ButtonComponent transparent>
+                                    {text.cancel}
+                                </ButtonComponent>
+                            )}
+                            <ButtonWithLoader
+                                square
+                                onClick={submitHandler}
+                                isLoading={isSubmitting}
+                            >
+                                {text.save}
+                            </ButtonWithLoader>
+                        </Cta>
+                    </AddContainer>
+                )}
+            </List>
         </Container>
      )
 };

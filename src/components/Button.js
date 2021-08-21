@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { AppLoader  as Loader } from './Loader'
 
 const Button = styled.button`
     padding: 1rem 3rem;
@@ -7,7 +8,7 @@ const Button = styled.button`
     color: ${props => props.theme.white};
     border: none;
     border-radius: 500px;
-    transition: all 0.4s;
+    transition: background .4s, border .4s, color .4s, box-shadow .4s;
     cursor: pointer;
     background: ${props => props.theme.primary};
 
@@ -94,8 +95,53 @@ const Button = styled.button`
         }
     }}
 
+    ${props => {
+        if(props.isLoading){
+            return {
+                position: "relative",
+                zIndex: -1,
+                opacity: 0
+            }
+        }
+    }}
+
 `;
 
+const ButtonContainer = styled.div`
+    position: relative;
+`
+
+const LoaderContainer = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const ButtonWithLoader = props => {
+    return (
+        <ButtonContainer className="submit">
+            <Button {...props}>
+                {props.children}
+            </Button>
+            {props.isLoading && (
+                <LoaderContainer>
+                    <Loader />
+                </LoaderContainer>
+            )}
+        </ButtonContainer>
+    )
+}
+
 export {
-    Button
+    Button,
+    ButtonWithLoader
 };

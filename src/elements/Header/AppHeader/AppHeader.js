@@ -34,7 +34,7 @@ const Container = styled.div`
                 ".title": {
                     background: props.theme.background,
                     borderRadius: ".5rem",
-                    boxShadow: props.theme.boxShadowLight
+                    boxShadow: props.theme.boxShadowExtraLight
                 }
             }
         }
@@ -44,7 +44,7 @@ const Container = styled.div`
         if((props.theme.backgroundImage && props.useTransparentHeader) || props.useSecondary){
             return {
                 background: props.useSecondary ? props.theme.secondarySurface : props.theme.transparentSurface,
-                boxShadow: props.theme.boxShadowLight,
+                boxShadow: props.theme.boxShadowExtraLight,
                 ".toggle__menu": {
                     "a": {
                         color: `${props.theme.white} !important`
@@ -59,7 +59,7 @@ const Container = styled.div`
         } else {
             return {
                 background: props.theme.surface,
-                boxShadow: props.theme.boxShadowLight
+                boxShadow: props.theme.boxShadowExtraLight
             }
         }
     }}
