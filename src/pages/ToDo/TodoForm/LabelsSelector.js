@@ -80,9 +80,9 @@ const LabelsSelector = props => {
     const { setIsEdited , setTodoLists, edited, closeHandler } = props
 
     const {
-        user: {
+        todos: {
             todoBoards,
-            activeTodoBoardId,
+            activeBoardId,
         },
         text: { text }
     } = useSelector (s => s)
@@ -96,7 +96,7 @@ const LabelsSelector = props => {
         closeHandler()
     })
 
-    const currentLabels = todoBoards[activeTodoBoardId].labels
+    const currentLabels = todoBoards[activeBoardId].labels
     const colors = ["green", "gold", "orange", "red", "violet", "pink", "cornFlowerBlue"]
 
     const displayedLabels = []
@@ -116,7 +116,7 @@ const LabelsSelector = props => {
                 const updatedTodo = {
                     ...edited,
                     todoLabels: isAdding ? 
-                        [{boardId: activeTodoBoardId, id: labelId }, ...edited.todoLabels] :
+                        [{boardId: activeBoardId, id: labelId }, ...edited.todoLabels] :
                         edited.todoLabels.filter(label => label.id !== labelId )
                 }
     

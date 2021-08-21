@@ -103,7 +103,7 @@ const AppList = props => {
 
     const {
         text: { text },
-        user: { activeTodoBoardId }
+        todos: { activeBoardId }
     } = useSelector(state => state)
 
     const { setShowList, closeHandler } = props
@@ -113,7 +113,7 @@ const AppList = props => {
         {
             label: text.to_do,
             src: todoImg,
-            link: `${text.link_todo}?board=${activeTodoBoardId}`
+            link: `${text.link_todo}/${activeBoardId}`
         },
         {
             label: text.calendar,

@@ -84,18 +84,18 @@ const toggleDraggableMessage = (state, action) => {
     })
 }
 
-const setTodoBoardLabels = (state, action) => {
-    const { labels, boardId } = action.data
-    return updatedObject(state, {
-        todoBoards: {
-            ...state.todoBoards,
-            [boardId]: {
-                ...state.todoBoards[boardId],
-                labels
-            }
-        }
-    })
-}
+// const setTodoBoardLabels = (state, action) => {
+//     const { labels, boardId } = action.data
+//     return updatedObject(state, {
+//         todoBoards: {
+//             ...state.todoBoards,
+//             [boardId]: {
+//                 ...state.todoBoards[boardId],
+//                 labels
+//             }
+//         }
+//     })
+// }
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
@@ -104,12 +104,14 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_CHECKED_USER_TOKEN: return checkedToken(state, action)
         case actionTypes.ADD_WALLET: return addWallet(state, action)
         case actionTypes.ADD_BUDGET: return addBudget(state, action)
-        case actionTypes.SET_TODO_LISTS: return updatedObject(state, {todoLists: action.todoLists})
         case actionTypes.ADD_TRANSACTION: return addTransaction(state, action)
         case actionTypes.SET_ONLINE_CONTACTS: return setOnlineContacts(state, action)
         case actionTypes.TOGGLE_DRAGGABLE_MESSAGE: return toggleDraggableMessage(state, action)
         case actionTypes.SET_USER_BALANCE: return updatedObject(state, {balance: action.balance})
-        case actionTypes.SET_TODO_BOARD_LABELS: return setTodoBoardLabels(state, action)
+
+        // case actionTypes.SET_TODO_BOARD_LABELS: return setTodoBoardLabels(state, action)
+        // case actionTypes.SET_TODO_LISTS: return updatedObject(state, {todoLists: action.todoLists})
+       
         default: return state
     }
 }

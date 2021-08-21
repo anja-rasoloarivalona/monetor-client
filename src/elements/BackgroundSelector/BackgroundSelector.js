@@ -152,7 +152,7 @@ const BackgroundSelector = props => {
 
     const { 
         text: { text },
-        user: { activeTodoBoardId, todoBoards },
+        todos: { activeBoardId, todoBoards },
         settings: { defaultBackground }
     } = useSelector(s => s)
 
@@ -187,7 +187,7 @@ const BackgroundSelector = props => {
             let url = ""
 
             if(element === "todo"){
-                payload.boardId = activeTodoBoardId
+                payload.boardId = activeBoardId
                 payload.isDefault = isDefault
                 url = "/todo/board/background"
             }
@@ -217,7 +217,7 @@ const BackgroundSelector = props => {
 
     useOnClickOutside(container, () => {
         if(element === "todo"){
-            const background = todoBoards[activeTodoBoardId].backgroundImage
+            const background = todoBoards[activeBoardId].backgroundImage
             toggleHandler(background)
         }
         if(element === "main"){

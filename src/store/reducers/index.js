@@ -11,6 +11,7 @@ import messages from './messages'
 import notifications from './notifications'
 import notes from './notes'
 import dashboards from './dashboards'
+import todos from './todos'
 
 export {
     text,
@@ -25,5 +26,6 @@ export {
     messages,
     notifications,
     notes,
-    dashboards
+    dashboards,
+    todos
 }

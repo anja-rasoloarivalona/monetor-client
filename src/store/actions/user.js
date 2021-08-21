@@ -44,12 +44,8 @@ const setTodoLists = todoLists => {
 
 
 const updateTodoLits = data => {
-    return async function(dispatch, getState){
+    return async function(){
         try {
-
-            const {
-                user: { todoLists }
-            } = getState()
             const { action, item } = data
             const methods = {
                 "add": "post",

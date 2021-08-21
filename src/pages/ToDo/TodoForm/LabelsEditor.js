@@ -109,9 +109,9 @@ const LabelsEditor = props => {
 
     const {
         text: { text },
-        user: {
+        todos: {
             todoBoards,
-            activeTodoBoardId
+            activeBoardId
         }
     } = useSelector(s => s)
 
@@ -133,7 +133,7 @@ const LabelsEditor = props => {
                 type: "label",
                 color: labelColor,
                 title: labelTitle,
-                boardId: activeTodoBoardId
+                boardId: activeBoardId
             }
             if(!isNew){
                 data.id = editedColor.id
@@ -145,7 +145,7 @@ const LabelsEditor = props => {
                 data
             })
             if(res.status === 200){
-                const currentLabels =  todoBoards[activeTodoBoardId].labels
+                const currentLabels =  todoBoards[activeBoardId].labels
                 if(isNew){
                     currentLabels.push(res.data.data)
                 } else {
@@ -154,7 +154,7 @@ const LabelsEditor = props => {
                 }
                 dispatch(actions.setTodoBoardLabels({
                     labels: currentLabels,
-                    boardId: activeTodoBoardId
+                    boardId: activeBoardId
                 }))
                 setIsSubmitting(false)
                 setEditedColor(false)
