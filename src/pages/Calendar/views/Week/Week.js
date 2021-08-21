@@ -318,7 +318,10 @@ const Week = props => {
                 })
             }
         })
-        dispatch(actions.setTodoLists(updatedTodoLists))
+        dispatch(actions.setTodoLists({
+            todoLists: updatedTodoLists,
+            boardId: activeBoardId
+        }))
         // try {
         //     const res = await axios({
         //         method: "PUT",

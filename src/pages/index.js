@@ -8,6 +8,7 @@ import Signup from "./Signup/Signup"
 import Setup from "./Setup/Setup"
 import Transactions from './Transactions/Transactions'
 import Todo from './Todo/Todo'
+import TodoHome from './Todo/TodoHome'
 import Home from './Home/Home'
 import Messages from './Messages/Messages'
 import Calendar from './Calendar/Calendar'
@@ -101,7 +102,7 @@ const Routes = props => {
                 <Route path={`/${text.link_signup}`} component={Signup} />
                 <Route path={`/${text.link_setup}`} component={Setup} />
                 <Route path={`/${text.link_transactions}`} component={Transactions} />
-                <Route exact path={`/${text.link_todo}`} component={Todo} />
+                <Route exact path={`/${text.link_todo}`} component={TodoHome} />
                 <Route path={`/${text.link_todo}/:boardId`} component={Todo} />
                 <Route path={`/${text.link_app_home}`} component={Home} />
                 <Route path={`/${text.link_messages}`} component={Messages} />

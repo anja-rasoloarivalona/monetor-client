@@ -68,60 +68,73 @@ const ToDo = props => {
     let timeout
 
     useEffect(() => {
+        if(!todoBoards){
+            dispatch(actions.getUserTodos(boardIdParams))
+        }
+    }, [])
 
+    useEffect(() => {
+        if(todoBoards){
+            if(boardIdParams){
+                if(activeBoardId && boardIdParams !== activeBoardId){
+                    props.history.push(`/${text.link_todo}/${activeBoardId}`)
+                }
+            }
+        }
+    },[todoBoards])
+
+    useEffect(() => {
         if(todoBoards && activeBoardId){
-            if(!boardIdParams ){
-                props.history.push(`/${text.link_todo}/${activeBoardId}`)
-            } else {
+            if(!mounted){
                 setMounted(true)
                 if(todoBoards[activeBoardId].backgroundImage){
                     dispatch(actions.setBackgroundImage(todoBoards[activeBoardId].backgroundImage))
                 }
             }
-        } else {
-            dispatch(actions.getUserTodos())
         }
 
         return () => {
             if(defaultBackground && defaultBackground !== todoBoards[activeBoardId].backgroundImage){
-            dispatch(actions.setBackgroundImage(defaultBackground))
-
+                dispatch(actions.setBackgroundImage(defaultBackground))
             }
         }
     },[todoBoards, activeBoardId])
 
 
     useEffect(() => {
-        if(activeBoardId && !isInitialized && mounted){
+        if(mounted  && !isInitialized ){
             setTodoLists(todoBoards[activeBoardId].todoLists)
             setLastSavedTodoLists(todoBoards[activeBoardId].todoLists)
             setIsInitialized(true)
         }
-    },[activeBoardId, mounted])
+    },[mounted])
 
     useEffect(() => {
-        // if(mounted){
-        //     dispatch(actions.setTodoLists(todoLists))
-        //     clearTimeout(timeout)
-        //     timeout = setTimeout(() => {
-        //         if(hasUnsavedChanges){
-        //             const hasChanged = []
-        //             Object.keys(todoLists).forEach(todoListId => {
-        //                 todoLists[todoListId].todos.forEach((todo, index) => {
-        //                     if(!lastSavedTodoLists[todoListId].todos[index] || lastSavedTodoLists[todoListId].todos[index].id !== todo.Id){
-        //                         hasChanged.push({
-        //                             ...todo,
-        //                             type: "todo"
-        //                         })
-        //                     }
-        //                 })
-        //             })
-        //             if(hasChanged.length > 0){
-        //                 setToBeSaved(hasChanged)
-        //             }
-        //         }
-        //     }, 1500)
-        // }
+        if(mounted){
+            dispatch(actions.setTodoLists({
+                todoLists,
+                boardId: activeBoardId
+            }))
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+                if(hasUnsavedChanges){
+                    const hasChanged = []
+                    Object.keys(todoLists).forEach(todoListId => {
+                        todoLists[todoListId].todos.forEach((todo, index) => {
+                            if(!lastSavedTodoLists[todoListId].todos[index] || lastSavedTodoLists[todoListId].todos[index].id !== todo.Id){
+                                hasChanged.push({
+                                    ...todo,
+                                    type: "todo"
+                                })
+                            }
+                        })
+                    })
+                    if(hasChanged.length > 0){
+                        setToBeSaved(hasChanged)
+                    }
+                }
+            }, 1500)
+        }
     },[todoLists])
 
     useEffect(() => {
@@ -135,7 +148,6 @@ const ToDo = props => {
         if(!isSaving){
             setIsSaving(true)
             try {
-                
                 const res = await axios({
                     method: "put",
                     url: "/todo/many",

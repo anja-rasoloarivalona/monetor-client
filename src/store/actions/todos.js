@@ -2,19 +2,18 @@ import * as actionTypes from './actionTypes'
 import axios from 'axios'
 import { arrayToObject } from '../../functions'
 
-const getUserTodos = () => {
+const getUserTodos = (boardIdParams) => {
     return async function(dispatch){
         try  {
             const res = await axios.get("/todo/boards")
-            let activeTodoBoardId = null
             const updatedBoards = {}
             res.data.data.forEach(board => {
-                if(!activeTodoBoardId){
-                    activeTodoBoardId = board.boardId
-                }
                 updatedBoards[board.boardId] = {
-                    ...board,
-                    ...board.todoBoard,
+                    boardId: board.boardId,
+                    isAdmin: board.isAdmin,
+                    labels: board.labels,
+                    rule: board.rule,
+                    title: board.todoBoard.title,
                     todoLists: board.todoBoard.todoLists ?
                         arrayToObject(
                             board.todoBoard.todoLists
@@ -29,7 +28,13 @@ const getUserTodos = () => {
                         {}
                 }
             })
-            dispatch(setActiveBoard(activeTodoBoardId))
+            const activeTodoBoardId =
+                boardIdParams && updatedBoards[boardIdParams] ?
+                boardIdParams 
+                    :  Object.keys(updatedBoards).length > 0 ?
+                            updatedBoards[Object.keys(updatedBoards)[0]].boardId 
+                            : null
+            dispatch(setActiveTodoBoard(activeTodoBoardId))
             dispatch(setTodoBoards(updatedBoards))
         } catch(err){
             console.log({
@@ -46,13 +51,52 @@ const setTodoBoards = boards => {
     }
 }
 
-const setActiveBoard = boardId => {
+const setActiveTodoBoard = boardId => {
     return {
         type: actionTypes.SET_ACTIVE_TODO_BOARD,
         boardId
     }
 }
 
+const setTodoBoardLabels = data => {
+    return {
+        type: actionTypes.SET_TODO_BOARD_LABELS,
+        data
+    }
+}
+const updateTodoLits = data => {
+    return async function(){
+        try {
+            const { action, item } = data
+            const methods = {
+                "add": "post",
+                "delete": "delete",
+                "update": "put"
+            }
+            const res = await axios({
+                method: methods[action],
+                url: "/todo",
+                data: item
+            })
+        } catch(err){
+            console.log({
+                err
+            })
+        }
+    }
+}
+
+const setTodoLists = data => {
+    return {
+        type: actionTypes.SET_TODO_LISTS,
+        data
+    }
+}
+
 export {
-    getUserTodos
+    getUserTodos,
+    setTodoBoardLabels,
+    updateTodoLits,
+    setTodoLists,
+    setActiveTodoBoard
 }

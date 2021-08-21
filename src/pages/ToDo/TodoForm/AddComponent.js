@@ -34,6 +34,10 @@ const ListItemContent = styled.div`
     padding: 1rem 2rem;
     cursor: pointer;
     border-radius: .3rem;
+    box-shadow: ${props => props.theme.boxShadowExtraLight};
+    :hover {
+        box-shadow: ${props => props.theme.boxShadowLight};
+    }
 
     svg {
         margin-right: 1rem;
