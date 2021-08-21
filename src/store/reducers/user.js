@@ -84,19 +84,6 @@ const toggleDraggableMessage = (state, action) => {
     })
 }
 
-// const setTodoBoardLabels = (state, action) => {
-//     const { labels, boardId } = action.data
-//     return updatedObject(state, {
-//         todoBoards: {
-//             ...state.todoBoards,
-//             [boardId]: {
-//                 ...state.todoBoards[boardId],
-//                 labels
-//             }
-//         }
-//     })
-// }
-
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SET_USER: return setUser(state, action)
@@ -109,8 +96,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.TOGGLE_DRAGGABLE_MESSAGE: return toggleDraggableMessage(state, action)
         case actionTypes.SET_USER_BALANCE: return updatedObject(state, {balance: action.balance})
 
-        // case actionTypes.SET_TODO_BOARD_LABELS: return setTodoBoardLabels(state, action)
-        // case actionTypes.SET_TODO_LISTS: return updatedObject(state, {todoLists: action.todoLists})
+
        
         default: return state
     }

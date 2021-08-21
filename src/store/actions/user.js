@@ -35,35 +35,6 @@ const addBudget = budget => {
     }
 }
 
-const setTodoLists = todoLists => {
-    return {
-        type: actionTypes.SET_TODO_LISTS,
-        todoLists
-    }
-}
-
-
-const updateTodoLits = data => {
-    return async function(){
-        try {
-            const { action, item } = data
-            const methods = {
-                "add": "post",
-                "delete": "delete",
-                "update": "put"
-            }
-            const res = await axios({
-                method: methods[action],
-                url: "/todo",
-                data: item
-            })
-        } catch(err){
-            console.log({
-                err
-            })
-        }
-    }
-}
 
 const addTransaction = data => {
     return {
@@ -135,19 +106,6 @@ const setUserBalance = balance => {
 }
 
 
-const setTodoBoardLabels = data => {
-    return {
-        type: actionTypes.SET_TODO_BOARD_LABELS,
-        data
-    }
-}
-
-
-const toggleTodoLabel = data => {
-    return async function(dispatch){
-        
-    }
-}
 
 export {
     addBudget,
@@ -155,11 +113,8 @@ export {
     setUser,
     clearUser,
     setCheckedUserToken,
-    setTodoLists,
-    updateTodoLits,
     addTransaction,
     setOnlineContacts,
     toggleDraggableMessage,
-    setUserBalance,
-    setTodoBoardLabels
+    setUserBalance
 }

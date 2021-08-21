@@ -61,7 +61,8 @@ const List = props => {
     const {todoLists, setTodoLists, list, moveHandler, setDraggedCard, draggedCard, setIsEdited } = props
 
     const {
-        text: { text }
+        text: { text },
+        todos: { activeBoardId }
     } = useSelector(state => state)
 
     const [{ isOver }, dropRef] = useDrop({
@@ -121,7 +122,10 @@ const List = props => {
                     }
                     return updatedLists
                 })
-                dispatch(actions.setTodoLists(updatedLists))
+                dispatch(actions.setTodoLists({
+                    todoLists: updatedLists,
+                    boardId: activeBoardId
+                }))
    
             }
 

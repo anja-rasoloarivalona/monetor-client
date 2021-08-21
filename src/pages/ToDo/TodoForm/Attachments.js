@@ -23,6 +23,7 @@ const ListItem = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 1.4rem;
+    box-shadow: ${props => props.theme.boxShadowLight};
 `
 
 const ListItemPreview = styled.div`

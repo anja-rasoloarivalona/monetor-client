@@ -97,67 +97,67 @@ const App = () => {
 
   useEffect(() => {
     if(user.id && !reduxSocket){
-      const connectSocket = () => {
-        const res = io(API_URL, {
-            "transports": ["polling","websocket"],
-            "transportOptions": {
-              "polling": {
-                  "extraHeaders": {
-                      "Authorization": `Bearer ${user.token}`
-                  }
-              }
-            }
-        })
-        return res
-      }
-      const socket = connectSocket()
-      socket.on("connect", () => {
-        const userContacts = []
-        if(user.contacts){
-            user.contacts.forEach(contact => {
-              userContacts.push(contact.user.id)
-            })
-        }
+      // const connectSocket = () => {
+      //   const res = io(API_URL, {
+      //       "transports": ["polling","websocket"],
+      //       "transportOptions": {
+      //         "polling": {
+      //             "extraHeaders": {
+      //                 "Authorization": `Bearer ${user.token}`
+      //             }
+      //         }
+      //       }
+      //   })
+      //   return res
+      // }
+      // const socket = connectSocket()
+      // socket.on("connect", () => {
+      //   const userContacts = []
+      //   if(user.contacts){
+      //       user.contacts.forEach(contact => {
+      //         userContacts.push(contact.user.id)
+      //       })
+      //   }
 
-        socket.emit('join', { userId: user.id, contacts: userContacts })
+      //   socket.emit('join', { userId: user.id, contacts: userContacts })
 
-        socket.on("joined", data => {
-            dispatch(actions.setSocket(socket))
-            dispatch(actions.setOnlineContacts({
-              action: "joined",
-              data
-            }))
-        })
+      //   // socket.on("joined", data => {
+      //   //     dispatch(actions.setSocket(socket))
+      //   //     dispatch(actions.setOnlineContacts({
+      //   //       action: "joined",
+      //   //       data
+      //   //     }))
+      //   // })
 
 
-        socket.on("contact-left", data => {
-          dispatch(actions.setOnlineContacts({
-            action: "contact-left",
-            data
-          }))
-        })
+      //   // socket.on("contact-left", data => {
+      //   //   dispatch(actions.setOnlineContacts({
+      //   //     action: "contact-left",
+      //   //     data
+      //   //   }))
+      //   // })
 
-        socket.on("contact-joined", data => {
-          dispatch(actions.setOnlineContacts({
-            action: "contact-joined",
-            data
-          }))
-        })
+      //   // socket.on("contact-joined", data => {
+      //   //   dispatch(actions.setOnlineContacts({
+      //   //     action: "contact-joined",
+      //   //     data
+      //   //   }))
+      //   // })
 
-        socket.on("new-message", data => {
-          dispatch(actions.addMessage(data))
-        })
+      //   socket.on("new-message", data => {
+      //     dispatch(actions.addMessage(data))
+      //   })
 
-        socket.on('messages', messages => {
-          if(messages){
-            const id = messages[0].associationId
-            dispatch(actions.setMessages({
-              messages: messages.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt )),
-              id
-            }))
-          }
-        })
-      });
+      //   socket.on('messages', messages => {
+      //     if(messages){
+      //       const id = messages[0].associationId
+      //       dispatch(actions.setMessages({
+      //         messages: messages.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt )),
+      //         id
+      //       }))
+      //     }
+      //   })
+      // });
     }
   },[user.id])
 
@@ -165,7 +165,9 @@ const App = () => {
 
   const isTextReady = text.header && text.text && Object.keys(text.header).length > 2 && Object.keys(text.text).length > 2;
   const areDataloaded = isTextReady && user.checkedToken && categories;
-  const isAppReady = user.id ? (reduxSocket && areDataloaded) : areDataloaded
+  // const isAppReady = user.id ? (reduxSocket && areDataloaded) : areDataloaded
+  const isAppReady = user.id ? (areDataloaded) : areDataloaded
+
 
   
   return (

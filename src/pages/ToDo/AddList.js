@@ -89,7 +89,8 @@ const AddList = props => {
     const { todoLists, setTodoLists } = props
 
     const { 
-        text: { text }
+        text: { text },
+        todos: { activeBoardId }
     } = useSelector(state => state)
 
     const [ adding, setAdding ] = useState(false)
@@ -145,7 +146,10 @@ const AddList = props => {
                     delete updatedLists[tempId];
                     
                     setTodoLists(updatedLists)
-                    dispatch(actions.setTodoLists(updatedLists))
+                    dispatch(actions.setTodoLists({
+                        todoLists: updatedLists,
+                        boardId: activeBoardId
+                    }))
                 }
             } catch(err){
                 console.log({
