@@ -63,16 +63,12 @@ const TodoHeader = () => {
 
     const inputRef = useRef()
     const containerRef = useRef()
-
-
     const initialTitle = todoBoards[activeTodoBoardId].title === "title" ? text.title : todoBoards[activeTodoBoardId].title 
     const [ isEditingTitle, setIsEditingTitle ] = useState(false)
     const [ title, setTitle ] = useState(initialTitle)
 
-    const [ showList, setShowList ] = useState(null)
 
     useOnClickOutside(inputRef, () => setIsEditingTitle(false))
-    useOnClickOutside(containerRef, () => setShowList(null))
 
     useEffect(() => {
         if(isEditingTitle && inputRef.current){
@@ -104,10 +100,7 @@ const TodoHeader = () => {
                     showList={showList}
                     setShowList={setShowList}
                 /> */}
-                <Settings 
-                    showList={showList}
-                    setShowList={setShowList}
-                />
+                <Settings />
                 <DashboardSelector />
             </ButtonsContainer>
         </Container>

@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import styled from "styled-components"
 import { useOnClickOutside } from '../../hooks'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button } from '../../components'
+import { Input } from '../../components/Form/WithoutValidation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { generateId } from '../../functions'
 import * as actions from '../../store/actions'
@@ -11,42 +12,50 @@ import axios from "axios"
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    background: ${props => props.theme.onSurface};
     width: 30rem;
     border-radius: .5rem;
     font-size: 1.4rem;
     height: max-content;
+    padding: 0 1rem;
+    background: ${props => props.adding ? props.theme.onSurface : "none"};
+    :hover {
+        background: ${props => props.theme.onSurface};
+    }
+
+    ${props => {
+        if(props.adding){
+            return {
+                background: props.theme.onSurface,
+                borderRadius: ".5rem",
+                boxShadow: props.theme.boxShadow,
+                paddingTop: "1rem"
+            }
+        }
+    }}
 `
 
 const InputContainer = styled.div`
     width: 100%;
     height: 100%;
-    padding: 1rem;
-`
+    padding: 0 1rem;
+    padding-bottom: 1.5rem;
 
-const Input = styled.input`
-    height: 3rem;
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    border: 1px solid ${props => props.theme.form.unfocused.border};
-    background: ${props => props.theme.form.unfocused.background};
-
-
-    &:focus {
-        outline: none;
-        border: 1px solid ${props => props.theme.form.focused.border};
+    input {
+        height: 4.5rem;
+        margin-bottom: 1.5rem;
     }
 `
+
 
 const Cta = styled.div`
     display: flex;
     align-items: center;
 
     button {
-        margin-right: 2rem;
+        margin-right: 1rem;
     }
+
+
 
     svg {
         font-size: 2rem;
@@ -62,10 +71,15 @@ const TextContainer = styled.div`
     svg {
         margin-right: 1rem;
     }
-    padding: 1rem 2rem;
+    padding: 1rem;
     width: 100%;
     height: 100%;
     cursor: pointer;
+`
+
+const Error = styled.div`
+    margin-bottom: 1rem;
+    color: ${props => props.theme.error};
 `
 
 const AddList = props => {
@@ -80,6 +94,7 @@ const AddList = props => {
 
     const [ adding, setAdding ] = useState(false)
     const [ title, setTitle ] = useState("")
+    const [ showError, setShowError ] = useState(false)
 
     const containerRef = useRef()
 
@@ -139,28 +154,48 @@ const AddList = props => {
             }
 
         } else {
-            setAdding(false)
+            setShowError(true)
         }
     }
 
+    const closeHandler = () => {
+        setAdding(false)
+        setTitle("")
+        setShowError(false)
+    }
+
+    useEffect(() => {
+        if(title !== "" && showError){
+            setShowError(false)
+        }
+    },[title])
+
     useOnClickOutside(containerRef, () => addListHandler())
 
+
     return (
-        <Container ref={containerRef} >
-            {!adding && (
-                <TextContainer onClick={() => setAdding(true)}>
-                    <FontAwesomeIcon 
-                        icon="plus"
-                    />
-                    {text.add_a_list}
-                </TextContainer>
-            )}
+        <Container ref={containerRef} adding={adding}>
+            <TextContainer onClick={() => setAdding(true)}>
+                {adding ?
+                    text.list_title_label :
+                    <>
+                        <FontAwesomeIcon icon="plus"/>
+                        {text.add_a_list}
+                    </>
+                }
+            </TextContainer>
             {adding && (
                 <InputContainer>
                     <Input
                         value={title}
-                        onChange={e => setTitle(e.target.value)}
+                        onChange={setTitle}
+                        focusOnMount
                     />
+                    {showError && (
+                        <Error>
+                            {text.required}
+                        </Error>
+                    )}
                     <Cta>
                         <Button
                             small
@@ -168,10 +203,13 @@ const AddList = props => {
                         >
                             {text.add_list}
                         </Button>
-                        <FontAwesomeIcon 
-                            icon="times"
-                            onClick={() => setAdding(false)}
-                        />
+                        <Button
+                            onClick={closeHandler}
+                            small
+                            transparent
+                        >
+                            {text.cancel}
+                        </Button>
                     </Cta>
                 </InputContainer>
             )}

@@ -299,6 +299,10 @@
         "fr": "List",
         "en": "List"
     },
+    "list_title_label": {
+        "fr": "Titre de la liste",
+        "en": "List title"
+    },
     "login": {
         "fr": "Se connecter",
         "en": "Login"
@@ -327,6 +331,10 @@
         "fr": "mois",
         "en": "months"
     },
+    "my_dashboards": {
+        "fr": "Mes tableaux de bords",
+        "en": "My dashboards"
+    },
     "my_wallet": {
         "fr": "Mon portefeuille",
         "en": "My wallet"
@@ -338,6 +346,10 @@
     "network": {
         "fr": "Network",
         "en": "Network"
+    },
+    "new_dashboard": {
+        "fr": "Nouveau tableau de bord",
+        "en": "New dashboard"
     },
     "next": {
         "fr": "Suivant",
@@ -394,6 +406,10 @@
     "profile": {
         "fr": "Profil",
         "en": "Profile"
+    },
+    "required": {
+        "fr": "Requis",
+        "en": "Required"
     },
     "rotate_left": {
         "fr": "Rotation à gauche",

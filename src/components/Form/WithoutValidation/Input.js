@@ -56,7 +56,7 @@ const Currency = styled.div`
 
 const InputComponent = props => {
 
-    const { value, onChange, onFocus, onBlur, customRef, focusOnMount, isAmount, type } = props
+    const { value, onChange, onFocus, onBlur, customRef, focusOnMount, isAmount, type  } = props
 
 
     const {
@@ -97,6 +97,7 @@ const InputComponent = props => {
                 onBlur={handleOnBlur}
                 type={type}
                 placeholder={props.placeholder || null}
+                disabled={props.disabled}
             />
             {isAmount && (
                 <Currency className="currency">

@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DropDown, BackgroundSelector } from '../../../elements'
+import { useOnClickOutside } from '../../../hooks'
 
 const Container = styled.div`
     margin-right: 2rem;
@@ -63,8 +64,8 @@ const Label = styled.div`
     position: relative;
     height: 3.5rem;
     border-radius: .4rem;
-    border: 1px solid ${props => props.theme.surface};
-    color: ${props => props.theme.surface};
+    border: 1px solid ${props => props.theme.line};
+    color: ${props => props.theme.line};
 
     :hover {
         box-shadow: ${props => props.theme.boxShadow};
@@ -79,7 +80,7 @@ const Label = styled.div`
 `
 
 
-const Settings = props => {
+const Settings = () => {
 
     const { 
         text : { text },
@@ -94,11 +95,12 @@ const Settings = props => {
         main: {
             config: {
                 w: 350,
-                h: 20 + 2 * 50,
+                h: 3 * 45 + 20,
+                style: {
+                    right: 0
+                }
             },
-            style: {
-                right: 0
-            }
+      
             // label: {
             //     text: text.settings,
             //     icon: "cog",
@@ -108,17 +110,11 @@ const Settings = props => {
         background: {
             config: {
                 w: 350,
-                h: 600,
-            },
-            style: {
-                right: 0
+                h: 640,
+                style: {
+                    right: 0
+                }
             }
-            // label: {
-            //     text: text.background,
-            //     icon: "arrow-left",
-            //     floating: true,
-            //     onClick: () =>   toggleSectionHandler("main")
-            // }
         }
     }
     
@@ -135,11 +131,17 @@ const Settings = props => {
         toggleSectionHandler("main")
     }
 
-    // useEffect(() => {
-    //     if(props.showList && props.showList !== "settings"){
-    //         toggleSectionHandler("main")
-    //     }
-    // }, [props.showList])
+    useOnClickOutside(container, () => {
+        if(showList){
+            closeHandler()
+        }
+    })
+
+    useEffect(() => {
+        if(showList && showList !== "settings"){
+            toggleSectionHandler("main")
+        }
+    }, [showList])
 
 
     return (
@@ -162,6 +164,11 @@ const Settings = props => {
                                         Automation
                                     </ListItemLabel>
                                 </ListItem>
+                                <ListItem>
+                                <ListItemLabel>
+                                        {text.labels}
+                                    </ListItemLabel>
+                                </ListItem>
                                 <ListItem onClick={() => toggleSectionHandler("background")}>
                                     <ListItemLabel>
                                         {text.background}
@@ -170,8 +177,8 @@ const Settings = props => {
                             </ListItem>
                             </List>
                             <BackgroundSelector 
-                                closeHandler={() => props.setShowList(null)}
                                 element="todo"
+                                closeHandler={force => force ? setShowList(false) : toggleSectionHandler("main")}
                             />
                         </CurrentViewSlider>
                     </CurrentView>

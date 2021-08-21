@@ -62,9 +62,6 @@ const Description = props => {
         theme
     } = useSelector(state => state)
 
-    console.log({
-        description
-    })
 
     const [ currentDescription, setCurrentDescription ] = useState(description)
     const [ focusOnMount, setFocusOnMount ] = useState(description === null)

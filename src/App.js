@@ -34,7 +34,7 @@ const Background = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: -1;
   ${props => {
     if(props.theme.backgroundImage){
       return {

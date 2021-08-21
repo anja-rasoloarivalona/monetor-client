@@ -11,6 +11,23 @@ const Container = styled.div`
     width: 100%;
 `
 
+const Header = styled.div`
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    padding: 0 1rem;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    svg {
+        cursor: pointer;
+    }
+`
+
+
+
 const List = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -189,7 +206,7 @@ const BackgroundSelector = props => {
                     res
                 })
                 setIsSubmitting(false)
-                closeHandler()
+                closeHandler(true)
             } catch(err){
                 console.log({
                     err
@@ -212,6 +229,11 @@ const BackgroundSelector = props => {
 
     return (
         <Container ref={container}>
+            <Header>
+                <FontAwesomeIcon icon="arrow-left" onClick={() => closeHandler(false)}/>
+                {text.background}
+                <span></span>
+            </Header>
             <List>
                 {backgrounds.map(img => (
                     <ImageContainer
