@@ -58,12 +58,15 @@ const Labels = props => {
 
     const {
         text: { text },
-        user: { todoBoards, activeTodoBoardId }
+        todos: {
+            todoBoards,
+            activeBoardId
+        }
     } = useSelector(s => s)
 
     const [ isAdding, setIsAdding ] = useState(false)
 
-    const labels = todoBoards[activeTodoBoardId].labels
+    const labels = todoBoards[activeBoardId].labels
 
     return (
         <Container>

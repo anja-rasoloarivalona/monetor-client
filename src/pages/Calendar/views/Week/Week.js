@@ -137,10 +137,10 @@ const Week = props => {
     const dispatch = useDispatch()
 
     const { 
-        user: { todoBoards, activeTodoBoardId }
+        todos: { todoBoards, activeBoardId }
     } = useSelector(state => state) 
 
-    const todoLists = todoBoards[activeTodoBoardId].todoLists
+    const todoLists = todoBoards[activeBoardId].todoLists
 
     const config = {
         days: 7,

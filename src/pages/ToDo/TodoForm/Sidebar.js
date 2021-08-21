@@ -40,12 +40,12 @@ const Title = styled.div`
 const Sidebar = props => {
     const {
         text: { text },
-        user: { todoBoards, activeTodoBoardId }
+        todos: { todoBoards, activeBoardId }
     } = useSelector(state => state)
 
 
     const listOptions = []
-    Object.values(todoBoards[activeTodoBoardId].todoLists).forEach(list => {
+    Object.values(todoBoards[activeBoardId].todoLists).forEach(list => {
         listOptions.push({
             label: list.title,
             value: list.id

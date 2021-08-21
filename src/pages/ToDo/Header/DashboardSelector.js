@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside } from '../../../hooks'
 import { useSelector } from 'react-redux'
 import { Input } from '../../../components/Form/WithoutValidation'
-import { Button as ButtonComponent, ButtonWithLoader } from '../../../components'
+import { Button as ButtonComponent, ButtonWithLoader, ScrollBar } from '../../../components'
 import axios from 'axios'
+import { withRouter } from 'react-router-dom'
 
 const Container = styled.div`
     position: relative;   
@@ -44,10 +45,15 @@ const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     font-size: 1.5rem;
-    margin-bottom: 2rem;
+    height: 5.6rem;
+    padding: 0 3rem;
+
+    svg {
+        cursor: pointer;
+    }
 `
 
-const List = styled.div`
+const Pannel = styled.div`
     position: fixed;
     top: 6.5rem;
     right: 0;
@@ -58,12 +64,18 @@ const List = styled.div`
     transform: translateX(${props => props.showPannel ? 0 : "100%"});
     transition: all .3s ease-in;
     box-shadow: ${props => props.theme.boxShadow};
-    padding: 2rem 3rem;
 
     input {
         height: 4.5rem;
         margin-top: 1rem;
     }
+`
+
+const List = styled(ScrollBar)`
+    width: 100%;
+    max-height: calc(100% - 5.6rem);
+    padding: 0 3rem;
+    padding-top: 2rem;
 `
 
 const ListItemComponent = styled.div`
@@ -171,15 +183,13 @@ const Error = styled.div`
     color: ${props => props.theme.error};
     font-size: 1.4rem;
 `
-const DashboardSelector = () => {
+const DashboardSelector = props => {
 
     const [ showPannel, setShowPannel ] = useState(false)
 
     const {
         text: { text },
-        user: {
-            todoBoards
-        }
+        todos: {  todoBoards }
     } = useSelector(s => s)
 
     const [ isAdding, setIsAdding ] = useState(false)
@@ -248,6 +258,24 @@ const DashboardSelector = () => {
         }
     }
 
+    const closeHandler = () => {
+        setIsAddingNewList(false)
+        setIsAdding(false)
+        setShowPannel(false)
+    }
+
+    const toggleHandler = () => {
+        if(isAddingNewList){
+            setIsAddingNewList(false)
+        } else {
+            if(isAdding){
+                setIsAdding(false)
+            } else {
+                closeHandler()
+            }
+        }
+    }
+
     return (
         <Container>
             <ButtonContainer onClick={() => setShowPannel(true)}>
@@ -256,26 +284,29 @@ const DashboardSelector = () => {
                     <FontAwesomeIcon icon="stream"/>
                 </Button>
             </ButtonContainer>
-            <List showPannel={showPannel} ref={listRef}>
+            <Pannel showPannel={showPannel} ref={listRef}>
                 <Header>
-                    <FontAwesomeIcon icon="arrow-left"/>
+                    <FontAwesomeIcon icon={isAdding ? "arrow-left" : "arrow-right"} onClick={toggleHandler} />
                     {isAdding ? text.new_dashboard : text.my_dashboards}
                     <span></span>
                 </Header>
                 {!isAdding && (
-                    <>
+                    <List>
                         <ListItemAdd onClick={() => setIsAdding(true)}>
                             <FontAwesomeIcon icon="plus"/>
                             {text.new_dashboard}
                         </ListItemAdd>
                         {Object.values(todoBoards).map(board => (
-                            <ListItem key={board.boardId}>
+                            <ListItem
+                                key={board.boardId}
+                                onClick={() => props.history.push(`/${text.link_todo}/${board.boardId}`)}
+                            >
                                 <ListItemTitle>
                                     {board.title}
                                 </ListItemTitle>
                             </ListItem>
                         ))}
-                    </>
+                    </List>
                 )}
                 {isAdding && (
                      <AddContainer>
@@ -329,7 +360,7 @@ const DashboardSelector = () => {
                         </TodoList>
                         <Cta>
                             {!isSubmitting && (
-                                <ButtonComponent transparent>
+                                <ButtonComponent transparent onClick={toggleHandler}>
                                     {text.cancel}
                                 </ButtonComponent>
                             )}
@@ -343,9 +374,9 @@ const DashboardSelector = () => {
                         </Cta>
                     </AddContainer>
                 )}
-            </List>
+            </Pannel>
         </Container>
      )
 };
 
-export default DashboardSelector;
+export default withRouter(DashboardSelector);

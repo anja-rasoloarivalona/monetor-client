@@ -133,7 +133,7 @@ const BackgroundSelector = props => {
 
     const { 
         text: { text },
-        user: { activeTodoBoardId }
+        todos: { activeBoardId }
     } = useSelector(s => s)
 
 
@@ -167,7 +167,7 @@ const BackgroundSelector = props => {
                 const res = await axios.post("/todo/board/background", {
                     isDefault,
                     imageUrl: selected,
-                    boardId: activeTodoBoardId
+                    boardId: activeBoardId
                 })
                 console.log({res})
                 setIsSubmitting(false)

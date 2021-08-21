@@ -11,6 +11,7 @@ import { Loader } from '../../components'
 import axios from 'axios'
 import Preview from './CardPreview'
 import Header from './Header/Header'
+import {  useParams  } from 'react-router-dom'
 
 const Container = styled.div`
     width: 100%;
@@ -29,16 +30,18 @@ const Content = styled.div`
     }
 `
 
-const ToDo = () => {
+const ToDo = props => {
 
     const dispatch = useDispatch()
+
+    const { boardId: boardIdParams } = useParams()
 
     const { 
         text: { text },
         settings: { defaultBackground },
-        user: {
-            activeTodoBoardId,
-            todoBoards
+        todos: { 
+            todoBoards,
+            activeBoardId
         }
     } = useSelector(state => state)
 
@@ -65,51 +68,60 @@ const ToDo = () => {
     let timeout
 
     useEffect(() => {
-        setMounted(true)
-        if(todoBoards[activeTodoBoardId].backgroundImage){
-            dispatch(actions.setBackgroundImage(todoBoards[activeTodoBoardId].backgroundImage))
+
+        if(todoBoards && activeBoardId){
+            if(!boardIdParams ){
+                props.history.push(`/${text.link_todo}/${activeBoardId}`)
+            } else {
+                setMounted(true)
+                if(todoBoards[activeBoardId].backgroundImage){
+                    dispatch(actions.setBackgroundImage(todoBoards[activeBoardId].backgroundImage))
+                }
+            }
+        } else {
+            dispatch(actions.getUserTodos())
         }
+
         return () => {
-            if(defaultBackground && defaultBackground !== todoBoards[activeTodoBoardId].backgroundImage){
+            if(defaultBackground && defaultBackground !== todoBoards[activeBoardId].backgroundImage){
             dispatch(actions.setBackgroundImage(defaultBackground))
 
             }
         }
-    },[])
+    },[todoBoards, activeBoardId])
+
 
     useEffect(() => {
-        if(activeTodoBoardId && !isInitialized){
-            setTodoLists(todoBoards[activeTodoBoardId].todoLists)
-            setLastSavedTodoLists(todoBoards[activeTodoBoardId].todoLists)
+        if(activeBoardId && !isInitialized && mounted){
+            setTodoLists(todoBoards[activeBoardId].todoLists)
+            setLastSavedTodoLists(todoBoards[activeBoardId].todoLists)
             setIsInitialized(true)
         }
-    },[activeTodoBoardId])
+    },[activeBoardId, mounted])
 
     useEffect(() => {
-        if(mounted){
-
-            dispatch(actions.setTodoLists(todoLists))
-
-            clearTimeout(timeout)
-            timeout = setTimeout(() => {
-                if(hasUnsavedChanges){
-                    const hasChanged = []
-                    Object.keys(todoLists).forEach(todoListId => {
-                        todoLists[todoListId].todos.forEach((todo, index) => {
-                            if(!lastSavedTodoLists[todoListId].todos[index] || lastSavedTodoLists[todoListId].todos[index].id !== todo.Id){
-                                hasChanged.push({
-                                    ...todo,
-                                    type: "todo"
-                                })
-                            }
-                        })
-                    })
-                    if(hasChanged.length > 0){
-                        setToBeSaved(hasChanged)
-                    }
-                }
-            }, 1500)
-        }
+        // if(mounted){
+        //     dispatch(actions.setTodoLists(todoLists))
+        //     clearTimeout(timeout)
+        //     timeout = setTimeout(() => {
+        //         if(hasUnsavedChanges){
+        //             const hasChanged = []
+        //             Object.keys(todoLists).forEach(todoListId => {
+        //                 todoLists[todoListId].todos.forEach((todo, index) => {
+        //                     if(!lastSavedTodoLists[todoListId].todos[index] || lastSavedTodoLists[todoListId].todos[index].id !== todo.Id){
+        //                         hasChanged.push({
+        //                             ...todo,
+        //                             type: "todo"
+        //                         })
+        //                     }
+        //                 })
+        //             })
+        //             if(hasChanged.length > 0){
+        //                 setToBeSaved(hasChanged)
+        //             }
+        //         }
+        //     }, 1500)
+        // }
     },[todoLists])
 
     useEffect(() => {
@@ -211,13 +223,11 @@ const ToDo = () => {
     }
 
     const moveCardBetweenList = (movedItem, hoveredItem, toListId) => {
-
         // console.log("MOVING CARD BETWEEN LIST", {
         //     movedItem,
         //     hoveredItem,
         //     toListId
         // })
-
         const updatedList = {...todoLists}
         if(movedItem){
             const movedItemListId = movedItem.todoListId

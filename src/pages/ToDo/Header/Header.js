@@ -58,12 +58,15 @@ const TodoHeader = () => {
 
     const {
         text: { text },
-        user: { todoBoards, activeTodoBoardId }
+        todos: {
+            todoBoards,
+            activeBoardId
+        },
     } = useSelector(s => s)
 
     const inputRef = useRef()
     const containerRef = useRef()
-    const initialTitle = todoBoards[activeTodoBoardId].title === "title" ? text.title : todoBoards[activeTodoBoardId].title 
+    const initialTitle = todoBoards[activeBoardId].title === "title" ? text.title : todoBoards[activeBoardId].title 
     const [ isEditingTitle, setIsEditingTitle ] = useState(false)
     const [ title, setTitle ] = useState(initialTitle)
 

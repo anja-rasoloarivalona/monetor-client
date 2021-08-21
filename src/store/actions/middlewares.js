@@ -32,33 +32,36 @@ const initApp = () => {
                         dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
                     }
                     delete res.data.data.settings
-                    let activeTodoBoardId = null
-                    const updatedBoards = {}
-                    res.data.data.todoBoards.forEach(board => {
-                        if(!activeTodoBoardId){
-                            activeTodoBoardId = board.boardId
-                        }
-                        updatedBoards[board.boardId] = {
-                            ...board,
-                            ...board.todoBoard,
-                            todoLists: board.todoBoard.todoLists ?
-                                arrayToObject(board.todoBoard.todoLists
-                                    .sort((a, b) => a.index - b.index)
-                                    .map(list => {
-                                        return {
-                                            ...list,
-                                            todos: list.todos.sort((a, b) => a.index - b.index)
-                                        }
-                                }), "id")
-                                : {}
-                        }
-                        delete updatedBoards[board.boardId].todoBoard 
-                    })
-                    dispatch(setUser({
-                        ...res.data.data,
-                        todoBoards: updatedBoards,
-                        activeTodoBoardId
-                    }))
+
+                    // let activeTodoBoardId = null
+                    // const updatedBoards = {}
+                    // res.data.data.todoBoards.forEach(board => {
+                    //     if(!activeTodoBoardId){
+                    //         activeTodoBoardId = board.boardId
+                    //     }
+                    //     updatedBoards[board.boardId] = {
+                    //         ...board,
+                    //         ...board.todoBoard,
+                    //         todoLists: board.todoBoard.todoLists ?
+                    //             arrayToObject(board.todoBoard.todoLists
+                    //                 .sort((a, b) => a.index - b.index)
+                    //                 .map(list => {
+                    //                     return {
+                    //                         ...list,
+                    //                         todos: list.todos.sort((a, b) => a.index - b.index)
+                    //                     }
+                    //             }), "id")
+                    //             : {}
+                    //     }
+                    //     delete updatedBoards[board.boardId].todoBoard 
+                    // })
+                    // dispatch(setUser({
+                    //     ...res.data.data,
+                    //     todoBoards: updatedBoards,
+                    //     activeTodoBoardId
+                    // }))
+
+                    dispatch(setUser(res.data.data))
                     dispatch(setNotes(res.data.data.notes))
                     if(res.data.data.layoutItems){
                         dispatch(setLayouts(res.data.data.layoutItems))
