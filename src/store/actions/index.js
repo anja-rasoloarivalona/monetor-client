@@ -69,5 +69,6 @@ export {
     setTodoBoardLabels,
     updateTodoLits,
     setTodoLists,
-    setActiveTodoBoard
+    setActiveTodoBoard,
+    setTodoBoard
 } from './todos'

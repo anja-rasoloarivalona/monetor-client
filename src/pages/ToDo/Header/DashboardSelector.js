@@ -16,16 +16,10 @@ const ButtonContainer = styled.div`
     z-index: 1;
     display: flex;
     align-items: center;
-    cursor: pointer;
-
-    :hover {
-        box-shadow: ${props => props.theme.boxShadow};
-    }
+    cursor: pointer; 
 `
+
 const Button = styled.div`
-    border-radius: .3rem;
-    border: 1px solid ${props => props.theme.line};
-    color: ${props => props.theme.line};
     font-size: 1.2rem;
     height: 3.5rem;
     position: relative;
@@ -33,10 +27,19 @@ const Button = styled.div`
     align-items: center;
     padding: 0 2rem;
     font-size: 1.4rem;
+    border: 1px solid ${props => props.theme.dynamicTextLight};
+    border-radius: .3rem;
+    color: ${props => props.theme.dynamicTextLight};
+
     svg {
         font-size: 1.6rem;
         margin-left: 1rem;
-
+    };
+    :hover {
+        box-shadow: ${props => props.theme.boxShadow};
+        color: ${props => props.theme.text};
+        background: ${props => props.theme.surface};
+        border-color: ${props => props.theme.surface};
     }
 `
 

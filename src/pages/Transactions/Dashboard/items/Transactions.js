@@ -95,6 +95,7 @@ const Transactions = () => {
     settings: { locale },
   } = useSelector((state) => state);
 
+
   return (
     <Container>
       <Header>

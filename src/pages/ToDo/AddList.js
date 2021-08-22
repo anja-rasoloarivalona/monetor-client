@@ -28,7 +28,10 @@ const Container = styled.div`
                 background: props.theme.onSurface,
                 borderRadius: ".5rem",
                 boxShadow: props.theme.boxShadow,
-                paddingTop: "1rem"
+                paddingTop: "1rem",
+                ".text": {
+                    color: props.theme.text
+                }
             }
         }
     }}
@@ -55,8 +58,6 @@ const Cta = styled.div`
         margin-right: 1rem;
     }
 
-
-
     svg {
         font-size: 2rem;
         cursor: pointer;
@@ -75,6 +76,11 @@ const TextContainer = styled.div`
     width: 100%;
     height: 100%;
     cursor: pointer;
+    color: ${props => props.theme.backgroundImage ? props.theme.offWhite : props.theme.text};
+
+    :hover {
+        color: ${props => props.theme.text};
+    }
 `
 
 const Error = styled.div`
@@ -179,7 +185,7 @@ const AddList = props => {
 
     return (
         <Container ref={containerRef} adding={adding}>
-            <TextContainer onClick={() => setAdding(true)}>
+            <TextContainer onClick={() => setAdding(true)} className="text">
                 {adding ?
                     text.list_title_label :
                     <>

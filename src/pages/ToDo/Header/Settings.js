@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DropDown, BackgroundSelector } from '../../../elements'
-import { useOnClickOutside } from '../../../hooks'
+import { useOnClickOutside, useWindowSize } from '../../../hooks'
 
 const Container = styled.div`
     margin-right: 2rem;
@@ -13,21 +13,27 @@ const Container = styled.div`
 const CurrentView = styled.div`
     width: 35rem;
     overflow-x: hidden;
+    transition: all .3s ease-in;
+    transform-origin: left;
+
+    ${props => {
+        if(props.currentSection === "background"){
+            return {
+                width: "52.5rem",
+                ".current__view__slider": {
+                    transform: "translateX(-35rem)"
+                }
+            }
+        }
+    }};
 `
 
 const CurrentViewSlider = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 35rem);
+    grid-template-columns: 35rem 52.5rem;
     grid-templete-rows: max-content;
     transform: translateX(0);
     transition: all .3s ease-in;
-    ${props => {
-        if(props.currentSection === "background"){
-            return {
-                transform: "translateX(-100%)"
-            }
-        }
-    }}
 `
 
 const List = styled.div`
@@ -54,6 +60,14 @@ const ListItemLabel = styled.div`
     font-size: 1.4rem;
 `
 
+const activeLabelStyle = (theme) => {
+    return {
+        boxShadow: theme.boxShadow,
+        color: theme.text,
+        background: theme.surface,
+        borderColor: theme.surface
+    }
+}
 
 const Label = styled.div`
     display: flex;
@@ -64,12 +78,17 @@ const Label = styled.div`
     position: relative;
     height: 3.5rem;
     border-radius: .4rem;
-    border: 1px solid ${props => props.theme.line};
-    color: ${props => props.theme.line};
-
+    border: 1px solid ${props => props.theme.dynamicTextLight};
+    color: ${props => props.theme.dynamicTextLight};
     :hover {
-        box-shadow: ${props => props.theme.boxShadow};
-    }
+        ${props => activeLabelStyle(props.theme)}
+    };
+
+    ${props => {
+        if(props.active){
+            return activeLabelStyle(props.theme)
+        }
+    }}
 
     svg {
         font-size: 1.3rem;
@@ -100,17 +119,11 @@ const Settings = () => {
                     right: 0
                 }
             },
-      
-            // label: {
-            //     text: text.settings,
-            //     icon: "cog",
-            //     floating: true
-            // }
         },
         background: {
             config: {
-                w: 350,
-                h: 640,
+                w: 525,
+                h: 680,
                 style: {
                     right: 0
                 }
@@ -118,6 +131,7 @@ const Settings = () => {
         }
     }
     
+    // const [ configs, setConfigs] = useState(initialConfigs)
     const [ config, setConfig ] = useState(configs.main)
 
 
@@ -146,7 +160,10 @@ const Settings = () => {
 
     return (
         <Container ref={container}>
-            <Label onClick={() => setShowList(prev => !prev)}>
+            <Label
+                onClick={() => setShowList(prev => !prev)}
+                active={showList}
+            >
                 {text.settings}
                 <FontAwesomeIcon icon="cog"/>
             </Label>
@@ -156,8 +173,8 @@ const Settings = () => {
                     config={config.config}
                     closeHandler={closeHandler}
                 >
-                    <CurrentView>
-                        <CurrentViewSlider currentSection={currentSection}>
+                    <CurrentView currentSection={currentSection}>
+                        <CurrentViewSlider className="current__view__slider">
                             <List>
                                 <ListItem>
                                     <ListItemLabel>
@@ -179,6 +196,8 @@ const Settings = () => {
                             <BackgroundSelector 
                                 element="todo"
                                 closeHandler={force => force ? setShowList(false) : toggleSectionHandler("main")}
+                                setConfig={setConfig}
+                                config={configs.background.config}
                             />
                         </CurrentViewSlider>
                     </CurrentView>

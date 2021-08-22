@@ -27,13 +27,14 @@ const Header = styled.div`
     width: 100%;
     margin-bottom: 1rem;
     font-weight: 600;
+    color: ${props => props.theme.dynamicText};
 `
 
 const AddCard = styled.div`
     text-align: start;
     width: 100%;
     font-size: 1.3rem;
-    color: ${props => props.themetextLight};
+    color: ${props => props.theme.dynamicTextLight};
     margin-top: .8rem;
     cursor: pointer;
     :hover {

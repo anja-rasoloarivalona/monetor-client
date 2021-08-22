@@ -34,7 +34,7 @@ const Background = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1;
+  z-index: 1;
   ${props => {
     if(props.theme.backgroundImage){
       return {
@@ -49,9 +49,11 @@ const Background = styled.div`
 `
 
 const Container = styled.div`
-  background: ${(props) => props.theme.homeBackground};
+  background: ${(props) => props.theme.backgroundImage ? "none" : props.theme.homeBackground};
   min-height: 100vh;
   color: ${props => props.theme.text};
+  position: relative;
+  z-index: 2;
 
   ${(props) => {
     if (props.loading) {

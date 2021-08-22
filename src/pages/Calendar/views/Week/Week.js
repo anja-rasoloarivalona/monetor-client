@@ -140,7 +140,7 @@ const Week = props => {
         todos: { todoBoards, activeBoardId }
     } = useSelector(state => state) 
 
-    const todoLists = todoBoards[activeBoardId].todoLists
+    const todoLists = todoBoards &&  activeBoardId ? todoBoards[activeBoardId].todoLists : null
 
     const config = {
         days: 7,
@@ -166,33 +166,37 @@ const Week = props => {
 
 
     useEffect(() => {
-        const res = []
-        if(config.small){
-            for(let i = 4 * -2; i < 4 * 5; i++){
-                res.push({
-                    ...getPeriod(addDays(new Date(), i)),
-                    index: {
-                        index: i
-                    }
-                })
-            }
+        if(!todoBoards){
+            dispatch(actions.getUserTodos())
         } else {
-            for(let i = config.days * -2; i < config.days * 5; i++){
-                res.push({
-                    ...getPeriod(addDays(new Date(), i)),
-                    index: {
-                        index: i
-                    }
-                })
+            const res = []
+            if(config.small){
+                for(let i = 4 * -2; i < 4 * 5; i++){
+                    res.push({
+                        ...getPeriod(addDays(new Date(), i)),
+                        index: {
+                            index: i
+                        }
+                    })
+                }
+            } else {
+                for(let i = config.days * -2; i < config.days * 5; i++){
+                    res.push({
+                        ...getPeriod(addDays(new Date(), i)),
+                        index: {
+                            index: i
+                        }
+                    })
+                }
             }
+            res.forEach((item, index) => {
+                res[index].index.pos = index
+            })
+            const current = res.find(i => i.index.index === 0)
+            setPos(current.index.pos)
+            setPeriods(res)
         }
-        res.forEach((item, index) => {
-            res[index].index.pos = index
-        })
-        const current = res.find(i => i.index.index === 0)
-        setPos(current.index.pos)
-        setPeriods(res)
-    },[])
+    },[todoBoards])
 
     useEffect(() => {
         if(periods){

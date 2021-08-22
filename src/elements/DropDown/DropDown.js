@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef } from "react"
 import styled from "styled-components"
+import { useWindowSize } from '../../hooks'
 
 const Container = styled.div`
     overflow: hidden;
@@ -9,12 +10,13 @@ const Container = styled.div`
     border-radius: .5rem;
     box-shadow: ${props => props.theme.boxShadow};
     z-index: 4;
+    transition: width .3s ease-in, height .3s ease-in;
 
     ${props => {
-        const { config : {w, h, style} } = props
+        const { config : {w, h, style}, windowHeight } = props
         return {
             width: `${w}px`,
-            height: `${h}px`,
+            height: `${Math.min(windowHeight*.8, h)}px`,
             ...style
         }
     }}
@@ -29,8 +31,10 @@ const DropDown = props => {
 
     const { config } = props
 
+    const { windowHeight } = useWindowSize()
+
     return (
-        <Container config={config}>
+        <Container config={config} windowHeight={windowHeight}>
             <Content>
                 {props.children}
             </Content>
