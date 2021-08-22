@@ -32,7 +32,7 @@ const ForgotPassword = styled.div`
     transform: translateY(-3rem);
 `
 
-const Login = () => {
+const Login = props => {
 
     const dispatch = useDispatch()
     const location = useLocation()
@@ -102,6 +102,7 @@ const Login = () => {
             delete resData.settings
             dispatch(actions.setUser(resData))
             dispatch(actions.setCurrency(user.settings))
+            props.history.push(`/${text.link_app_home}`)
         } catch(err){
             console.log({
                 err

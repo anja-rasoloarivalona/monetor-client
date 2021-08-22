@@ -7,13 +7,21 @@ import { updatedObject } from '../utils'
 const dynamicThemes = {
     light: {
         withBG: {
-            line: "#FFFFFF",
+            line: "#e8e6e6",
+            text: "#141414",
+            dynamicText: "#ffffff",
+            textLight: "#e8e6e6",
+            dynamicTextLight: " #cccccc",
             tSurface: function(level){
                 return `rgba(55, 55, 55, ${level})`
             }
         },
         withoutBG: {
-            line: "#525151",
+            line: "#afafaf",
+            text: "#141414",
+            dynamicText: "#141414",
+            textLight: "#cccccc",
+            dynamicTextLight: "#969696",
             tSurface: function(level){
                 return `rgba(255, 255, 255, ${level})`
             }
@@ -43,12 +51,11 @@ const themes = {
         surface: "#FFFFFF",
         onSurface: "#EAEAEA",
 
+        white: "#ffffff",
+        offWhite: "#e8e6e6",
         transparentSurface: "rgba(55, 55, 55, .5)",
         secondarySurface: "#565656",
-        text: "rgb(20, 20, 20)",
-        textLight: "grey",
         error: "red",
-        white: "#ffffff",
         green: "green",
         boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
         boxShadowLight: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
@@ -122,6 +129,13 @@ const initialState = {
 const setTheme = (state, action) => {
     localStorage.setItem("theme", action.theme)
     const dynamicType = state.backgroundImage ? "withBG" : "withoutBG"
+
+    console.log({
+        state,
+        dynamicType
+    })
+
+
     return updatedObject(state, {
         type: action.theme,
         ...themes[action.theme],
@@ -129,11 +143,25 @@ const setTheme = (state, action) => {
     })
 }
 
+const setBackgroundImage = (state, action) => {
+    if(action.image){
+        return updatedObject(state, {
+            backgroundImage: action.image,
+            ...dynamicThemes[state.type].withBG
+        })
+    } else {
+        return updatedObject(state, {
+            backgroundImage: null,
+            ...dynamicThemes[state.type].withoutBG
+        })
+    }
+}
+
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SET_THEME: return setTheme(state, action);
-        case actionTypes.SET_BACKGROUND_IMAGE: return updatedObject(state, {backgroundImage: action.image})
+        case actionTypes.SET_BACKGROUND_IMAGE: return setBackgroundImage(state, action)
         default: return state
     }
 }

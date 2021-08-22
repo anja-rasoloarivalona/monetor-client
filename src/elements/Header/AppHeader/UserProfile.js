@@ -10,16 +10,8 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 const Container = styled.div`
   display: flex;
   align-items: center;
-  color: ${props =>props.theme.textLight};
+  color: ${props =>props.theme.dynamicText};
   margin-left: 1rem;
-
-  ${props => {
-    if((props.theme.backgroundImage && props.useTransparentHeader )|| props.useSecondary){
-      return {
-          color: props.theme.white
-      }
-    }
-  }}
 `;
 
 const ImageContainer = styled.div`
@@ -35,7 +27,7 @@ const ImageContainer = styled.div`
 
   svg {
     font-size: 1.7rem;
-    color: ${props => props.themetextLight};
+    color: ${props => props.dynamicText};
   }
 `;
 const UserName = styled.div`
@@ -57,10 +49,10 @@ const ToggleContainer = styled.div`
   }
 
   &:hover {
-    background: ${(props) => props.theme.background};
-    svg {
-      color: ${(props) => props.theme.textLight};
-    }
+      background: ${(props) => props.theme.background};
+      svg {
+        color: ${props => props.theme.text};
+      }
   }
 `;
 

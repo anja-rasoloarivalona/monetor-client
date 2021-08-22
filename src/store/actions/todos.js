@@ -14,6 +14,7 @@ const getUserTodos = (boardIdParams) => {
                     labels: board.labels,
                     rule: board.rule,
                     title: board.todoBoard.title,
+                    backgroundImage: board.backgroundImage,
                     todoLists: board.todoBoard.todoLists ?
                         arrayToObject(
                             board.todoBoard.todoLists
@@ -93,10 +94,18 @@ const setTodoLists = data => {
     }
 }
 
+const setTodoBoard = board => {
+    return {
+        type: actionTypes.SET_TODO_BOARD,
+        board
+    }
+}
+
 export {
     getUserTodos,
     setTodoBoardLabels,
     updateTodoLits,
     setTodoLists,
-    setActiveTodoBoard
+    setActiveTodoBoard,
+    setTodoBoard
 }

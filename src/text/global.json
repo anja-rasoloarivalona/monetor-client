@@ -355,6 +355,10 @@
         "fr": "Suivant",
         "en": "Next"
     },
+    "none": {
+        "fr": "Aucun",
+        "en": "None"
+    },
     "note": {
         "fr": "Note",
         "en": "Note"
@@ -402,6 +406,10 @@
     "preview": {
         "fr": "Aperçu",
         "en": "Preview"
+    },
+    "processing_file": {
+        "fr": "Téléchargement en cours...",
+        "en": "Processing file..."
     },
     "profile": {
         "fr": "Profil",

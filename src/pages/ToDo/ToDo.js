@@ -15,10 +15,10 @@ import {  useParams  } from 'react-router-dom'
 
 const Container = styled.div`
     width: 100%;
-    min-height: calc(100vh - 8rem);
+    min-height: calc(100vh - 6.5rem);
     padding: 2rem;
     color: ${props => props.theme.text};
-    background: ${props => props.theme.background};
+    background: ${props => props.theme.backgroundImage ? 'none' : props.theme.background};
 `
 
 const Content = styled.div`
@@ -94,8 +94,10 @@ const ToDo = props => {
         }
 
         return () => {
-            if(defaultBackground && defaultBackground !== todoBoards[activeBoardId].backgroundImage){
-                dispatch(actions.setBackgroundImage(defaultBackground))
+            if(todoBoards && activeBoardId){
+                if(defaultBackground && defaultBackground !== todoBoards[activeBoardId].backgroundImage){
+                    dispatch(actions.setBackgroundImage(defaultBackground))
+                }
             }
         }
     },[todoBoards, activeBoardId])

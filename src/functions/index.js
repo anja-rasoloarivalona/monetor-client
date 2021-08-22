@@ -2,6 +2,7 @@ import axios from 'axios'
 import { uuid } from 'uuidv4'
 import moment from 'moment'
 import { isFirefox } from 'react-device-detect'
+import imageCompression from 'browser-image-compression';
 
 const IP_KEY = process.env.REACT_APP_IP_KEY
 
@@ -238,6 +239,21 @@ const urlIsValid = str => {
     return !!pattern.test(str);
 }
 
+const compressImageFile = async file => {
+    const options = {
+        maxSizeMb: 2
+    }
+    try {
+        console.log('compressedFile instanceof Blob', file instanceof Blob); // true
+        const compressedFile = await imageCompression(file, options);
+        console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+        return compressedFile
+      } catch (error) {
+        console.log(error);
+        return error
+      }
+}
+
 export {
     enableScroll,
     disableScroll,
@@ -250,5 +266,6 @@ export {
     renderAmount,
     getTimeStamp,
     sortMessages,
-    urlIsValid
+    urlIsValid,
+    compressImageFile
 }
