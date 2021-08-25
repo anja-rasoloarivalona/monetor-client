@@ -85,7 +85,8 @@ const App = () => {
       text, 
       user,
       categories,
-      settings: { socket: reduxSocket } 
+      settings: { socket: reduxSocket },
+      notes: { toSynchronise } 
   } = useSelector((state) => state);
 
   const [ showSidebar, setShowSidebar ] = useState(false)
@@ -162,6 +163,31 @@ const App = () => {
       // });
     }
   },[user.id])
+
+  useEffect(() => {
+    if(user && user.id){
+
+        const synchoniseHandler = () => {
+          const { add, update, delete: toBeDeleted, updatedAt} = toSynchronise
+          const hasChanges = [...Object.values(add), ...Object.values(update), ...toBeDeleted]
+          console.log({
+            hasChanges
+          })
+          if(hasChanges.length > 0){
+            // axios.post("/note/synchronise", {
+            //   add: Object.values(add),
+            //   update: Object.values(update),
+            //   delete: toBeDeleted,
+            //   updatedAt
+            // })  
+          }
+        }
+        window.addEventListener("beforeunload", synchoniseHandler);
+        return () => {
+          window.removeEventListener("beforeunload", synchoniseHandler);
+        };
+    }
+  },[toSynchronise, user])
 
 
 

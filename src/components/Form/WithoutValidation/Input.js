@@ -25,7 +25,7 @@ const Input = styled.input`
     padding-left: 1.2rem;
     background: ${props => props.theme.form.unfocused.background};
     border: 1px solid ${props => props.theme.form.unfocused.border};
-    color: ${props => props.theme.textLight};
+    color: ${props => props.theme.text};
     font-family: Roboto;
     border-radius: .3rem;
 
@@ -63,14 +63,16 @@ const InputComponent = props => {
         settings: { currency }
     } = useSelector(s => s)
 
-    const input = useRef()
+    const localInputRef = useRef()
+
+    const inputRef = customRef || localInputRef
 
     const [ isFocused, setIsFocused ] = useState(false)
 
-    const handleOnFocus = () => {
+    const handleOnFocus = e => {
         setIsFocused(true)
         if(onFocus){
-            onFocus()
+            onFocus(e)
         }
     }
 
@@ -83,14 +85,14 @@ const InputComponent = props => {
 
     useEffect(() => {
         if(focusOnMount){
-            input.current.focus()
+            inputRef.current.focus()
         }
     }, [])
 
     return (
         <Container isFocused={isFocused}>
             <Input
-                ref={customRef || input}
+                ref={inputRef}
                 value={value}
                 onChange={e => onChange(e.target.value)}
                 onFocus={handleOnFocus}

@@ -11,7 +11,7 @@ const dynamicThemes = {
             text: "#141414",
             dynamicText: "#ffffff",
             textLight: "#e8e6e6",
-            dynamicTextLight: " #cccccc",
+            dynamicTextLight: "#cccccc",
             tSurface: function(level){
                 return `rgba(55, 55, 55, ${level})`
             }
@@ -20,7 +20,7 @@ const dynamicThemes = {
             line: "#afafaf",
             text: "#141414",
             dynamicText: "#141414",
-            textLight: "#cccccc",
+            textLight: "#969696",
             dynamicTextLight: "#969696",
             tSurface: function(level){
                 return `rgba(255, 255, 255, ${level})`
@@ -54,7 +54,7 @@ const themes = {
         white: "#ffffff",
         offWhite: "#e8e6e6",
         transparentSurface: "rgba(55, 55, 55, .5)",
-        secondarySurface: "#565656",
+        secondarySurface: "#c3c3c3",
         error: "red",
         green: "green",
         boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",

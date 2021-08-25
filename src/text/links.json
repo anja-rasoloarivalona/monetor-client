@@ -91,6 +91,12 @@
         "page": "signup",
         "type": "public"
     },
+    "link_notes": {
+        "fr": "notes",
+        "en": "notes",
+        "page": "notes",
+        "type": "app"
+    },
     "link_todo": {
         "fr": "à-faire",
         "en": "todo",

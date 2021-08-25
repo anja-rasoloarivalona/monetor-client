@@ -134,6 +134,9 @@ const NoteInput = props => {
         submitHandler,
         config,
         customStyle,
+        customRef,
+        focusEnd,
+        inputId
     } = props
 
     const {
@@ -142,7 +145,9 @@ const NoteInput = props => {
     } = useSelector(state => state)
 
     const containerRef = useRef()
-    const editorRef = useRef()
+    const localEditorRef = useRef()
+    const editorRef = customRef || localEditorRef
+
     const emptyInputValue = "<p><br></p>"
 
     const initialValue = currentValue && currentValue !== emptyInputValue ?
@@ -150,8 +155,18 @@ const NoteInput = props => {
             EditorState.createEmpty()
 
     const [ editor, setEditor ] = useState(initialValue)
+    const [ currentInputId, setCurrentInputId ] = useState(inputId)
 
-    useOnClickOutside(containerRef, () => submitHandler())
+    const moveFocusToEnd = editorState => {
+        editorState = EditorState.moveSelectionToEnd(editorState);
+        return EditorState.forceSelection(editorState, editorState.getSelection());
+    }
+
+    useOnClickOutside(containerRef, ()  =>{
+        if(submitHandler){
+            submitHandler()
+        }
+    })
 
     useEffect(() => {
         if(props.focusOnMount){
@@ -160,20 +175,36 @@ const NoteInput = props => {
     },[])
 
     useEffect(() => {
+        if(inputId){
+            if(inputId !== currentInputId){
+                setEditor(EditorState.createWithContent(stateFromHTML(currentValue)))
+                setCurrentInputId(inputId)
+            }
+        }
+    },[inputId])
+
+
+    useEffect(() => {
         if(currentValue === ""){
             const isNotEmpty = stateToHTML(editor.getCurrentContent()) !== emptyInputValue
             if(isNotEmpty){
                 setEditor(EditorState.createEmpty())
             }
         }
+        
     },[currentValue])
+
+    useEffect(() => {
+        if(focusEnd){
+            moveFocusToEnd(editor)
+        }
+    },[focusEnd])
 
     const onChangeHandler = val => {
         setEditor(val)
         const content = stateToHTML(val.getCurrentContent())
         onChange(content)
     }
-
 
     return (
         <Container
@@ -186,6 +217,8 @@ const NoteInput = props => {
                 onEditorStateChange={val => onChangeHandler(val)}
                 locale={locale}
                 ref={editorRef}
+                onFocus={props.onFocus}
+                onBlur={props.onBlur}
                 placeholder={props.placeholder || ""}
                 toolbar={{
                     options: [
@@ -200,7 +233,7 @@ const NoteInput = props => {
                     },
                 }}  
             />
-            {config && config.showSaveButton && (
+            {config && config.showSaveButton && submitHandler && (
                 <SaveButton onClick={submitHandler}>
                     {text.save}
                 </SaveButton>

@@ -351,6 +351,14 @@
         "fr": "Nouveau tableau de bord",
         "en": "New dashboard"
     },
+    "new_folder": {
+        "fr": "Nouveau dossier",
+        "en": "New folder"
+    },
+    "new_note": {
+        "fr": "Nouvelle note",
+        "en": "New note"
+    },
     "next": {
         "fr": "Suivant",
         "en": "Next"
@@ -366,6 +374,10 @@
     "notes": {
         "fr": "Notes",
         "en": "Notes"
+    },
+    "no_notes": {
+        "fr": "Aucune note",
+        "en": "No note"
     },
     "on": {
         "fr": "Activer",

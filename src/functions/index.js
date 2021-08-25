@@ -89,12 +89,24 @@ const formatDate = (date, format, language, monthText) => {
     for (let i = 0; i < formatArray.length; i++) {
         switch (formatArray[i]) {
             case 'hh':
-                format = format.replace('hh', `${parsedDate.getHours()}`);
+                if(language === "en"){
+                    const hour = parsedDate.getHours()
+                    const displayedHour = hour > 12 ? hour % 12 : hour
+                    format = format.replace('hh', displayedHour)
+                } else {
+                    format = format.replace('hh', `${parsedDate.getHours()}`);
+                }
                 break;
             case 'min':
                 let minutes = parsedDate.getMinutes();
                 minutes = minutes < 10 ? ('0' + minutes) : minutes;
-                format = format.replace('min', `${minutes}`);
+                if(language === "en"){
+                    const hour = parsedDate.getHours()
+                    const hourType = hour > 12 ? "PM" : "AM"
+                    format = format.replace('min', `${minutes} ${hourType}`);
+                } else {
+                    format = format.replace('min', `${minutes}`);
+                }
                 break;
             case 'sec':
                 let seconds = parsedDate.getSeconds();

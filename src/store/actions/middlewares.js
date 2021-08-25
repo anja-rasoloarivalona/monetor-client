@@ -62,7 +62,7 @@ const initApp = () => {
                     // }))
 
                     dispatch(setUser(res.data.data))
-                    dispatch(setNotes(res.data.data.notes))
+                    // dispatch(setNotes(res.data.data.notes))
                     if(res.data.data.layoutItems){
                         dispatch(setLayouts(res.data.data.layoutItems))
                     }
