@@ -10,12 +10,13 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 10vh;
+`
+const ImageContainer = styled.div`
+    width: 50%;
 `
 
 const FormContainer = styled.div`
-    width: 90%;
-    max-width: 40rem;
+    width: 50%;
 `
 
 const Title = styled.h1`
@@ -112,6 +113,9 @@ const Login = props => {
 
     return (
         <Container>
+            <ImageContainer>
+                Basc
+            </ImageContainer>
             <FormContainer>
                 <Title>
                     {forgotPassword ? text.forgot_password : text.title}

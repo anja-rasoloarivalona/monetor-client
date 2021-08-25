@@ -53,9 +53,14 @@ export {
 } from './messages'
 
 export {
+    getUserNotes,
     toggleNotes,
     setNotes,
     addNote,
+    addNoteFolder,
+    editNoteFolder,
+    deleteNoteFolder,
+    editNote,
     removeNote,
     saveNote
 } from './notes'

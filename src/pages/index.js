@@ -13,10 +13,11 @@ import Home from './Home/Home'
 import Messages from './Messages/Messages'
 import Calendar from './Calendar/Calendar'
 import Settings from './Settings/Settings'
+import Notes from './Notes/Notes'
 import * as actions from '../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import links from '../text/links.json'
-import Notes from '../elements/Notes/Notes'
+import NotesElement from '../elements/Notes/Notes'
 
 const Container = styled.div`
     min-height: 100vh;
@@ -94,7 +95,7 @@ const Routes = props => {
 
     return (
         <Container location={location}>
-            {notes.open && <Notes />}
+            {notes.open && <NotesElement />}
             <Switch>
                 <Route exact path="/" component={PublicHome} />
                 <Route path={`/${text.link_login}`} component={Login}/>
@@ -107,6 +108,7 @@ const Routes = props => {
                 <Route path={`/${text.link_app_home}`} component={Home} />
                 <Route path={`/${text.link_messages}`} component={Messages} />
                 <Route path={`/${text.link_calendar}`} component={Calendar} />
+                <Route path={`/${text.link_notes}/:folder?/:noteId?`} component={Notes} />
                 <Route path={`/${text.link_settings}`} component={Settings} />
                 {/* <Redirect to="/"/>  */}
             </Switch>
