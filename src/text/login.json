@@ -14,5 +14,13 @@
     "title": {
         "fr": "Se connecter",
         "en": "Login"
-    } 
+    },
+    "img_text_a": {
+        "fr": "Transformez vos idées",
+        "en": "Turn your ideas"
+    },
+    "img_text_b": {
+        "fr": "en réalité",
+        "en": "into reality"
+    }
 }

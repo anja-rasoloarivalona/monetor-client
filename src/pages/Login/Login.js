@@ -5,32 +5,92 @@ import { Form, Link } from '../../components'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import * as actions from '../../store/actions'
+import { ReactComponent as LoginSvg } from '../../icons/login.svg'
 
 const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    padding-left: 45%;
 `
 const ImageContainer = styled.div`
-    width: 50%;
+    width: 45vw;
+    height: 100%;
+    background: ${props => props.theme.primary};
+    background: ${props => props.theme.primaryGradient};
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 9rem;
+
+    svg {
+        width: 45rem;
+    }
+`
+
+const ImageTextContainer = styled.div``
+
+const ImageText = styled.div`
+    font-size: 3.5rem;
+    font-weight: 500;
+    color: ${props => props.theme.white};
+    line-height: 1.4;
+    text-align: center;
 `
 
 const FormContainer = styled.div`
     width: 50%;
+    padding-top: 10%;
+    max-width: 40rem;
+
+    button {
+        width: 100%;
+        margin: 0;
+        height: 4.5rem;
+        border-radius: 1.6rem;
+    }
+
+    input {
+        border-radius: 1.6rem;
+        :focus {
+            border-color: ${props => props.theme.primary}
+        }
+    }
 `
 
 const Title = styled.h1`
     color: ${props => props.theme.text};
     margin-bottom: 4rem;
-    text-transform: uppercase;
-    font-size: 3rem;
-    text-align: center;
+    font-size: 3.2rem;
 `
 const ForgotPassword = styled.div`
-    color: ${props => props.theme.text};
     font-size: 1.4rem;
     text-align: end;
     transform: translateY(-3rem);
+    a {
+        color: ${props => props.theme.primary} !important;
+        font-weight: 700;
+        :hover {
+            text-decoration: underline;
+        }
+    }
+`
+
+const Cta = styled.div`
+    margin-top: 3rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    a {
+        color: ${props => props.theme.primary} !important;
+        font-weight: 700;
+        :hover {
+            text-decoration: underline;
+        }
+    }
 `
 
 const Login = props => {
@@ -48,8 +108,8 @@ const Login = props => {
             name: "email",
             type: "email",
             input_type: "input",
-            label: text.email,
-            placeholder: text.email,
+            label: "email",
+            placeholder: "email",
             required: true
         },
         {
@@ -57,8 +117,8 @@ const Login = props => {
             name: "password",
             type: "password",
             input_type: "input",
-            label: text.password,
-            placeholder: text.password,
+            label: "password",
+            placeholder: "password",
             required: true
         },
     ]
@@ -114,7 +174,11 @@ const Login = props => {
     return (
         <Container>
             <ImageContainer>
-                Basc
+                <LoginSvg />
+                <ImageTextContainer>
+                    <ImageText>{text.img_text_a}</ImageText>
+                    <ImageText>{text.img_text_b}.</ImageText>
+                </ImageTextContainer>
             </ImageContainer>
             <FormContainer>
                 <Title>
@@ -127,11 +191,20 @@ const Login = props => {
                 >
                     <ForgotPassword>
                         <Link to={forgotPassword ? `/${text.link_login}` : `/${text.link_forgot_password}`}>
-                            {forgotPassword ? text.back : text.forgot_password}
+                            {forgotPassword ? text.back : text.forgot_password}?
                         </Link>
                     </ForgotPassword>
                 </ Form>
+                <Cta>
+                    <span>{text.not_registered_yet}&nbsp;</span>
+                    <span>
+                        <Link to={`/${text.link_signup}`}>
+                            {text.create_account}
+                        </Link>
+                    </span>
+                </Cta>
             </FormContainer>
+
         </Container>
      )
 };

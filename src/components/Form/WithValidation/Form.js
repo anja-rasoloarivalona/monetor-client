@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import * as Yup from 'yup'
 import { useSelector } from 'react-redux'
 import { withFormik, Form as FormComponent } from 'formik'
@@ -13,11 +13,14 @@ const Form = props => {
 
     formProps = props
 
-    const { inputs, errors, touched, handleChange, values, handleBlur, setFieldValue, isSubmitting, getValues, getErrors, formStyle, disabled, getTouched, hideSubmitCta } = props
+    const { inputs: formInputs, errors, touched, handleChange, values, handleBlur, setFieldValue, isSubmitting, getValues, getErrors, formStyle, disabled, getTouched, hideSubmitCta } = props
 
     const { windowWidth } =  useWindowSize()
 
+    const [ inputs, setInputs ] = useState(null)
+
     const {
+        text: { text },
         settings: { locale }
     } = useSelector(state => state)
 
@@ -35,6 +38,18 @@ const Form = props => {
     }
 
     errorText = _errorText[locale]
+
+    useEffect(() => {
+        const displayedInputs = []
+        formInputs.forEach(input => {
+            displayedInputs.push({
+                ...input,
+                label: text[input.label],
+                placeholder: text[input.placeholder]
+            })
+        })
+        setInputs(displayedInputs)
+    },[formInputs, text])
 
 
     useEffect(() => {
@@ -76,6 +91,10 @@ const Form = props => {
     }
 
     const currentFormStyle = formStyle &&  windowWidth > 500 ? { ...formStyles[formStyle] } : { ...formStyles["flex"] }
+
+    if(!inputs){
+        return null
+    }
 
     return (
         <FormComponent style={currentFormStyle}>
