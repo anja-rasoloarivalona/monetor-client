@@ -46,6 +46,7 @@ const dynamicThemes = {
 const themes = {
     light: {
         primary: "#0b529a",
+        primaryGradient: "linear-gradient(202deg, rgba(9,66,123,1) 36%, rgba(11,82,154,1) 100%)",
         secondary: "#478ab1",
         background: "#F9F9F9",
         surface: "#FFFFFF",
@@ -86,6 +87,7 @@ const themes = {
     },
     dark: {
         primary: "#0b529a",
+        primaryGradient: "linear-gradient(202deg, rgba(9,66,123,1) 36%, rgba(11,82,154,1) 100%)",
         secondary: "#478ab1",
         background: "#181818",
         surface: "#212121",

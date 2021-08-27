@@ -1,4 +1,12 @@
 {
+    "accept_terms_and_conditions_a": {
+        "fr": "J'accepte les",
+        "en": "I accept the"
+    },
+    "accept_terms_and_conditions_b": {
+        "fr": "terms and conditions",
+        "en": "terms and conditions"
+    },
     "add": {
         "fr": "Ajouter",
         "en": "Add"
@@ -14,6 +22,10 @@
     "agenda": {
         "fr": "Agenda",
         "en": "Agenda"
+    },
+    "already_have_an_account": {
+        "fr": "Avez-vous déjà un compte ?",
+        "en": "Already have an account?"
     },
     "amount": {
         "fr": "Montant",
@@ -126,6 +138,10 @@
     "create": {
         "fr": "Créer",
         "en": "Create"
+    },
+    "create_account": {
+        "fr": "Créer un compte",
+        "en": "Create account"
     },
     "credit_card": {
         "fr": "Carte de crédit",
@@ -366,6 +382,10 @@
     "none": {
         "fr": "Aucun",
         "en": "None"
+    },
+    "not_registered_yet": {
+        "fr": "Pas encore insrcrit ?",
+        "en": "Not registered yet?"
     },
     "note": {
         "fr": "Note",

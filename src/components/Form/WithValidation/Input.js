@@ -10,6 +10,7 @@ const Input = props => {
         <Container
             key={input.id}
             style={{...input.containerStyle}}
+            errors={Object.keys(errors).length}
         >
             <Field 
                 name={input.name}
@@ -23,7 +24,7 @@ const Input = props => {
             {touched[input.name] && errors[input.name] && (
                 <Error>{errors[input.name]}</Error>
             )}
-            <Label htmlFor={input.id} style={{...input.labelStyle}}>
+            <Label htmlFor={input.id} style={{...input.labelStyle}} >
                 {input.label} {input.required &&  `\u002A`} 
             </Label>
             {input.unit && <Unit id="unit">{input.unit}</Unit>}

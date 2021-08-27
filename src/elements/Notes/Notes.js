@@ -56,10 +56,14 @@ const Notes = props => {
 
 
     useEffect(() => {
-        if(notes.length === 0){
+        if(notes && notes.length === 0){
             setIsAdding(true)
         }
     },[])
+
+
+    return null
+
 
     if(disabled){
         if(!open){

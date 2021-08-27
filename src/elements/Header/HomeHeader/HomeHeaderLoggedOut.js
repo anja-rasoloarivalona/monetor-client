@@ -1,7 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from '../../../components'
+import logoLight from '../../../images/logos/logo-light.png'
+import * as actions from '../../../store/actions'
 
 const Container = styled.div`
     height: 8rem;
@@ -93,33 +95,75 @@ const Text = styled.div`
     background: red;
 `
 
+const LogoContainer = styled.div`
+    height: 8rem;
+    display: flex;
+    align-items: center;
+`
+
+const Logo = styled.img`
+    cursor: pointer;
+    width: 18rem;
+    object-fit: contain;
+`
+
+const Language = styled.div`
+    font-size: 1.4rem;
+    height: 8rem;
+    padding-top: 2.5rem;
+    cursor: pointer;
+    :hover {
+        color: ${props => props.theme.primary};
+        text-decoration: underline;
+    }
+`
+
 const HomeHeaderLoggedOut = () => {
 
+    const dispatch = useDispatch()
+
     const {
-        text: { text }
+        text: { text, page },
+        settings: { locale }
     } = useSelector(state => state)
+
+    const toggleLocale = () => {
+        const nextLocale = locale === "fr" ? "en" : "fr"
+        dispatch(actions.setLocale(nextLocale))
+    }
 
     return (
         <Container>
             <Section>
-
+                <Link to="/">
+                    <LogoContainer>
+                        <Logo src={logoLight}/>
+                    </LogoContainer>
+                </Link>
             </Section>
             <Section>
-                <Link to={text.link_login}>
-                    <LoginButton>
-                        {text.login}
-                    </LoginButton>
-                </Link>
-                <Link to={text.link_signup}>
-                    <GetStartedButton>
-                        {text.get_started_now}
-                        <GetStartedButtonAnimation>
-                            <GetStartedButtonAnimationInner>
+                {page.id !== "login" && page.id !== "signup" && (
+                    <>
+                        <Link to={text.link_login}>
+                            <LoginButton>
+                                {text.login}
+                            </LoginButton>
+                        </Link>
+                        <Link to={text.link_signup}>
+                            <GetStartedButton>
                                 {text.get_started_now}
-                            </GetStartedButtonAnimationInner>
-                        </GetStartedButtonAnimation>
-                    </GetStartedButton>
-                </Link>
+                                <GetStartedButtonAnimation>
+                                    <GetStartedButtonAnimationInner>
+                                        {text.get_started_now}
+                                    </GetStartedButtonAnimationInner>
+                                </GetStartedButtonAnimation>
+                            </GetStartedButton>
+                        </Link>
+                    </>
+                )}
+                <Language onClick={toggleLocale}>
+                    {locale === "en" ?  "Français" : "Anglais"}
+                </Language>
             </Section>
         </Container>
      )

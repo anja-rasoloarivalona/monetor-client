@@ -34,6 +34,7 @@ const Notes = () => {
     },[notesFolder])
 
 
+
     // useEffect(() => {
     //     if(opened.noteId && opened.noteId !== current.id){
     //         const currentNote = notesFolder[opened.folderId].notes.find(note => note.id === opened.noteId )
