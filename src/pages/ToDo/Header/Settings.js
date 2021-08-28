@@ -65,21 +65,20 @@ const activeLabelStyle = (theme) => {
         boxShadow: theme.boxShadow,
         color: theme.text,
         background: theme.surface,
-        borderColor: theme.surface
     }
 }
 
 const Label = styled.div`
     display: flex;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
     font-size: 1.4rem;
     cursor: pointer;
     position: relative;
     height: 3.5rem;
-    border-radius: .4rem;
-    border: 1px solid ${props => props.theme.dynamicTextLight};
-    color: ${props => props.theme.dynamicTextLight};
+    border-radius: 1rem;
+    color: ${props => props.theme.dynamicText};
+    background: ${props => props.theme.onSurface};
     :hover {
         ${props => activeLabelStyle(props.theme)}
     };
@@ -93,7 +92,7 @@ const Label = styled.div`
     svg {
         font-size: 1.3rem;
         color: inherit;
-        margin-left: 1rem;
+        margin-right: 1rem;
     }
 
 `
@@ -164,8 +163,8 @@ const Settings = () => {
                 onClick={() => setShowList(prev => !prev)}
                 active={showList}
             >
-                {text.settings}
                 <FontAwesomeIcon icon="cog"/>
+                {text.settings}
             </Label>
 
             {showList && (

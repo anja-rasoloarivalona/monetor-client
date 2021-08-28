@@ -33,10 +33,14 @@ const Header = styled.div`
 const AddCard = styled.div`
     text-align: start;
     width: 100%;
+    padding: 1rem 0;
     font-size: 1.3rem;
     color: ${props => props.theme.dynamicTextLight};
-    margin-top: .8rem;
     cursor: pointer;
+    background: ${({theme}) => theme.surface};
+    display: flex;
+    justify-content: center;
+    box-shadow: ${({theme}) => theme.boxShadowLight};
     :hover {
         color: ${props => props.theme.text}
     }
@@ -157,9 +161,6 @@ const List = props => {
                     setIsEdited={setIsEdited}
                 />
             ))}
-            {isListEmpty && !isAddingCard && (
-                <Placholder />
-            )}
             {isAddingCard && (
                 <CardInput
                     addCardHandler={addCardHandler} 
@@ -170,12 +171,7 @@ const List = props => {
                 onClick={onClickAddCardHandler}
                 isListEmpty={isListEmpty}
             >
-                {isListEmpty && (
-                    <FontAwesomeIcon
-                        icon="plus" 
-                    />
-                )}
-                {text.add_card}...
+                <FontAwesomeIcon icon="plus" />
             </AddCard>
         </Container>
     )
