@@ -27,10 +27,6 @@ const Container = styled.div`
     justify-content: space-between;
     background: transparent;
     transition: background .1s ease-in;
-    svg {
-        width: 2rem;
-        height: 2rem;
-    }
 
     
     ${props => {
@@ -64,7 +60,7 @@ const Container = styled.div`
         } else {
             return {
                 background: props.theme.surface,
-                boxShadow: props.theme.boxShadowExtraLight
+                boxShadow: props.theme.boxShadowLight
             }
         }
     }}
@@ -74,7 +70,6 @@ const Section = styled.div`
     align-items: center;
 `
 const ToggleMenu = styled(Section)`
-    width: 30rem;
     height: 100%;
     a {
         font-size: 1.8rem;
@@ -89,44 +84,51 @@ const AppList = styled.div`
 `
 
 const App = styled.div`
-    margin: 0 2rem;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     overflow: hidden;
-
-    svg {
-        margin-right: 1rem;
-        fill: ${props => props.theme.textLight};
-    }
-
-    
+    margin-right: 3rem;
     a {
         display: flex;
         align-items: center;
-        padding: 1.3rem 1.8rem;
         text-decoration: none !important;
-        color: ${props => props.theme.textLight} !important;
-
-        :hover {
-            // background: ${props => props.theme.background};
-            // color: ${props => props.theme.primary} !important;
-            // svg {
-            //     fill: ${props => props.theme.primary} !important;
-            // }
-        }
-        
-        &.active {
-            color: ${props => props.theme.primary} !important;
-            // background: ${props => props.theme.primaryLight};
+        color: ${props => props.theme.text} !important;
+        font-weight: 500;
+        padding: 1rem 2rem;
+        .icon {
             svg {
-                fill: ${props => props.theme.primary} !important;
+                fill: ${props => props.theme.text} !important;
+            }
+        }
+        &:hover {
+            background: ${props => props.theme.background};
+        }
+        &.active {
+            background: ${props => props.theme.text};
+            color:  ${props => props.theme.surface} !important;
+            .icon {
+                svg {
+                    fill: ${props => props.theme.surface} !important;
+                }
             }
         }
     }
 `
 
+const AppIconContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    border-radius: 50%;
+
+    svg {
+        width: 1.7rem;
+        height: 1.7rem;
+    }
+`
+
 const AppLabel = styled.div`
-    font-size: 1.6rem;
-    font-weight: 500;
+    font-size: 1.5rem;
 `
 
 const AppHeader = props => {
@@ -185,42 +187,39 @@ const AppHeader = props => {
         >
             {user.setupAt ?
                 <>
-                    <ToggleMenu className="toggle__menu">
-                        <IconContainer
-                            onClick={() => setShowSidebar(true)}
-                            className="icon__container"
-                        >
-                            <FontAwesomeIcon icon="bars"/>
-                        </IconContainer>
-                        {/* <LogoContainer>
-                            <Logo src={logo}/>
-                        </LogoContainer> */}
-                        {/* <Link to={`/${text.link_app_home}`}>
-                            {text.home}
-                        </Link> */}
-                    </ToggleMenu>
                     <Section>
+                        {/* <ToggleMenu className="toggle__menu">
+                            <IconContainer
+                                onClick={() => setShowSidebar(true)}
+                                className="icon__container"
+                            >
+                                <FontAwesomeIcon icon="bars"/>
+                            </IconContainer>
+                        </ToggleMenu> */}
                         <AppList>
                             {links.map((link, index) => (
                                     <App key={index} >
                                         <NavLink to={`/${link.path}`}>
-                                            <AppIcon id={link.icon} className="icon"/>
+                                            <AppIconContainer className="icon">
+                                                <AppIcon id={link.icon}/>
+                                            </AppIconContainer>
                                             <AppLabel>{link.label}</AppLabel>
                                         </NavLink>
                                     </App>
                             ))}
                         </AppList>
+                    </Section>
+
+                    <Section>
+                     
                         
 
                         {/* <Searchbar /> */}
                     </Section>
                     <Section>
-                        {/* <Messages />
+                        <Messages />
                         <IconContainer className="icon__container">
                             <FontAwesomeIcon icon={faBell}/>
-                        </IconContainer> */}
-                        <IconContainer>
-                            <AppIcon id="bell" />
                         </IconContainer>
                         <UserProfile 
                             useTransparentHeader={useTransparentHeader}

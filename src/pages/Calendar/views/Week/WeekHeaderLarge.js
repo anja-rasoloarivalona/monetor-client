@@ -82,9 +82,9 @@ const WeekHeaderLarge = props => {
     return (
         <>
             <TodaySection>
-                <Button>
+                {/* <Button transparent>
                     {text.today}
-                </Button>
+                </Button> */}
             </TodaySection>
                 <HeaderSection>
                     <HeaderIcon onClick={() => setPos(prev => prev - 4)}>

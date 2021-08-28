@@ -27,9 +27,9 @@ const Button = styled.div`
     align-items: center;
     padding: 0 2rem;
     font-size: 1.4rem;
-    border: 1px solid ${props => props.theme.dynamicTextLight};
-    border-radius: .3rem;
-    color: ${props => props.theme.dynamicTextLight};
+    border-radius: 1rem;
+    color: ${props => props.theme.dynamicText};
+    background: ${props => props.theme.onSurface};
 
     svg {
         font-size: 1.6rem;
