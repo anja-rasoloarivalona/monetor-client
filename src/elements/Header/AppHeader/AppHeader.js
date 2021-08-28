@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
+import { NavLink } from 'react-router-dom'
 import {  useSelector } from 'react-redux'
 import UserProfile from "./UserProfile"
+import AppIcon from '../../../icons'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-regular-svg-icons'
 import AppSelector from "./AppSelector"
@@ -11,6 +14,8 @@ import { Link } from '../../../components'
 import { IconContainer } from './style'
 import { useScroll } from '../../../hooks'
 import { useLocation } from 'react-router-dom'
+import logo from '../../../images/logos/logo-primary.png'
+import { ReactComponent as Text} from '../../../icons/test.svg'
 
 const Container = styled.div`
     height: 6.5rem;
@@ -22,11 +27,11 @@ const Container = styled.div`
     justify-content: space-between;
     background: transparent;
     transition: background .1s ease-in;
-
-    * {
-        transition: color .1s ease-in;
-
+    svg {
+        width: 2rem;
+        height: 2rem;
     }
+
     
     ${props => {
         if(props.showList){
@@ -41,9 +46,9 @@ const Container = styled.div`
     }}
 
     ${props => {
-        if((props.theme.backgroundImage && props.useTransparentHeader) || props.useSecondary){
+        if((props.theme.backgroundImage && props.useTransparentHeader)){
             return {
-                background: props.useSecondary ? props.theme.secondarySurface : props.theme.transparentSurface,
+                background: props.theme.transparentSurface,
                 boxShadow: props.theme.boxShadowExtraLight,
                 ".toggle__menu": {
                     "a": {
@@ -64,12 +69,10 @@ const Container = styled.div`
         }
     }}
 `
-
 const Section = styled.div`
     display: flex;
     align-items: center;
 `
-
 const ToggleMenu = styled(Section)`
     width: 30rem;
     height: 100%;
@@ -78,6 +81,52 @@ const ToggleMenu = styled(Section)`
         margin-left: 1rem;
         color: ${props =>  props.theme.text} !important;
     }
+`
+
+const AppList = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const App = styled.div`
+    margin: 0 2rem;
+    border-radius: 1.5rem;
+    overflow: hidden;
+
+    svg {
+        margin-right: 1rem;
+        fill: ${props => props.theme.textLight};
+    }
+
+    
+    a {
+        display: flex;
+        align-items: center;
+        padding: 1.3rem 1.8rem;
+        text-decoration: none !important;
+        color: ${props => props.theme.textLight} !important;
+
+        :hover {
+            // background: ${props => props.theme.background};
+            // color: ${props => props.theme.primary} !important;
+            // svg {
+            //     fill: ${props => props.theme.primary} !important;
+            // }
+        }
+        
+        &.active {
+            color: ${props => props.theme.primary} !important;
+            // background: ${props => props.theme.primaryLight};
+            svg {
+                fill: ${props => props.theme.primary} !important;
+            }
+        }
+    }
+`
+
+const AppLabel = styled.div`
+    font-size: 1.6rem;
+    font-weight: 500;
 `
 
 const AppHeader = props => {
@@ -119,6 +168,15 @@ const AppHeader = props => {
         }
     },[location])
 
+
+    const links = [
+        {label: text.home, icon: "home", path: text.link_app_home},
+        {label: text.to_do, icon: "todo", path: text.link_todo + "/AF620495C2F748BCB7193E4337EEHG7P"},
+        {label: text.calendar, icon: "calendar", path: text.link_calendar},
+        {label: text.transactions, icon: "transactions", path: text.link_transactions },
+        {label: text.notes, icon: "notes", path: text.link_notes}
+    ]
+
     return (
         <Container
             pageId={page ? page.id : null}
@@ -134,25 +192,41 @@ const AppHeader = props => {
                         >
                             <FontAwesomeIcon icon="bars"/>
                         </IconContainer>
-                        <Link to={`/${text.link_app_home}`}>
+                        {/* <LogoContainer>
+                            <Logo src={logo}/>
+                        </LogoContainer> */}
+                        {/* <Link to={`/${text.link_app_home}`}>
                             {text.home}
-                        </Link>
+                        </Link> */}
                     </ToggleMenu>
                     <Section>
-                        <Searchbar />
+                        <AppList>
+                            {links.map((link, index) => (
+                                    <App key={index} >
+                                        <NavLink to={`/${link.path}`}>
+                                            <AppIcon id={link.icon} className="icon"/>
+                                            <AppLabel>{link.label}</AppLabel>
+                                        </NavLink>
+                                    </App>
+                            ))}
+                        </AppList>
+                        
+
+                        {/* <Searchbar /> */}
                     </Section>
                     <Section>
-                        <Messages />
+                        {/* <Messages />
                         <IconContainer className="icon__container">
                             <FontAwesomeIcon icon={faBell}/>
+                        </IconContainer> */}
+                        <IconContainer>
+                            <AppIcon id="bell" />
                         </IconContainer>
                         <UserProfile 
                             useTransparentHeader={useTransparentHeader}
                             useSecondary={useSecondary}
                         />
-                        <AppSelector 
-                            useSecondary={useSecondary}
-                        />  
+                        {/* <AppSelector useSecondary={useSecondary}/>   */}
                     </Section>
                 </> :
                 <>
