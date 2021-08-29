@@ -11,7 +11,17 @@ const Container = styled.div`
     grid-column: 1 / 2;
     position: relative;
     z-index: 2;
-    background: ${props => props.theme.surface};
+    background: ${props => props.theme.onSurface};
+    &:before {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: red;
+        z-index: 1;
+        content: "";
+    }
 `
 
 const List = styled.div`
@@ -37,8 +47,8 @@ const ListItem = styled.div`
 const ListItemLabel = styled.div`
     padding: 1rem;
     transform: translateY(50%);
-    // background: ${props => props.theme.backgroundImage ? "none" : props.theme.surface};
-    background: ${props => props.theme.surface};
+    background: ${props => props.theme.onSurface};
+
 
 `
 

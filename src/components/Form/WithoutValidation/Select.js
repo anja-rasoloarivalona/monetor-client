@@ -55,7 +55,7 @@ const CurrentValue = styled.div`
     justify-content: space-between;
     cursor: pointer;
     font-size: 1.4rem;
-    color: ${props => props.theme.textLight};
+    color: ${props => props.theme.text};
     border: 1px solid ${props => props.theme.form.unfocused.border};
     border-radius: .5rem;
     background: ${props => props.theme.surface};

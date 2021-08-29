@@ -10,9 +10,7 @@ const Container = styled.div`
     height: 100%;
     background: ${props => props.theme.suface};
     padding: 1rem;
-    position: relative;
     cursor: pointer;
-    z-index: 5;
 `
 
 const Title = styled.div`
@@ -50,9 +48,10 @@ const Delete = styled.div`
 
 const TodoItem = props => {
 
-    const { item, setToBeSaved  } = props
+    const { item, setToBeSaved, periods  } = props
 
     const [ data, setData ] = useState(null)
+    const [ periodsCount, setPeriodsCount ] = useState(periods.length)
 
     const {
         settings: { unitType }
@@ -74,20 +73,25 @@ const TodoItem = props => {
 
     useEffect(() => {
         if(data){
-            if(itemHasChanged()){
-                const diffDays = item.x - data.x
-                const date = addDays(item.period.range.start, diffDays)
-                const hour = item.y / 2
-                const min = item.h * 30
-                const startDate = new Date(moment(date).set("hour",  hour).set("minute", (hour % 1) * 60 )) 
-                const endDate = new Date(moment(date).set("hour",  hour).set("minute", min + ((hour % 1) * 60))) 
-                const updatedItem = {
-                    ...item,
-                    startDate,
-                    dueDate: endDate
+            if(periodsCount ===  periods.length){
+                if(itemHasChanged()){
+                    const diffDays = item.x - data.x
+                    const date = addDays(item.period.range.start, diffDays)
+                    const hour = item.y / 2
+                    const min = item.h * 30
+                    const startDate = new Date(moment(date).set("hour",  hour).set("minute", (hour % 1) * 60 )) 
+                    const endDate = new Date(moment(date).set("hour",  hour).set("minute", min + ((hour % 1) * 60))) 
+                    const updatedItem = {
+                        ...item,
+                        startDate,
+                        dueDate: endDate
+                    }
+                    setData(updatedItem)
+                    setToBeSaved(prev => ([...prev, updatedItem]))
                 }
-                setData(updatedItem)
-                setToBeSaved(prev => ([...prev, updatedItem]))
+            } else {
+                setData(item)
+                setPeriodsCount(periods.length)
             }
         } else {
             setData(item)

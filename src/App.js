@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
-import { Header, Sidebar, Forms, AddComponent, Draggable } from "./elements";
+import { Header, Sidebar, Forms, Draggable } from "./elements";
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./pages";
@@ -25,6 +25,16 @@ const GlobalStyle = createGlobalStyle`
         &::-webkit-scrollbar {
             display: none !important;
         }
+    }
+    .MuiPickersToolbar-toolbar, .MuiPickersClock-pin, .MuiPickersClockPointer-pointer, .MuiPickersClockPointer-noPoint {
+      background: ${({theme}) => theme.primary} !important;
+    }
+    .MuiPickersClockPointer-thumb {
+      border: 14px solid ${({theme}) => theme.primary} !important;
+    }
+    .MuiButton-label {
+      font-size: 1.3rem !important;
+      color: ${({theme}) => theme.primary};
     }
 `;
 
@@ -77,8 +87,6 @@ const Container = styled.div`
 
 const App = () => {
   
-  const API_URL = process.env.REACT_APP_API_URL
-
   const dispatch = useDispatch();
   const {
       theme,

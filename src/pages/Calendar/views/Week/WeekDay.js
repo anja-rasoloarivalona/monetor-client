@@ -11,15 +11,12 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     border-right: 1px solid ${props =>  props.theme.form.unfocused.border};
-    position: relative;
 `
 
 const Content = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    z-index: 4;
-
 `
 
 const HourLayout = styled.div`
@@ -30,7 +27,6 @@ const HourLayout = styled.div`
     left: 0;
     width: 100%;
     height: max-content;
-    z-index: 2;
 `
 
 const HourLayoutItem = styled.div`
@@ -53,7 +49,7 @@ const HourLayoutItem = styled.div`
     };
 
     ${props => {
-        const { isHighLighted, current, index} = props
+        const { isHighLighted, current, index } = props
         if(isHighLighted && current.h === index){ 
             return {
                 ":after": {
@@ -72,7 +68,7 @@ const InputContainer = styled.div`
     width: 100%;
     height: 200%;
     min-height: 19rem;
-    z-index: 4;
+    z-index: 99;
     background: ${props => props.theme.background};
     box-shadow: ${props => props.theme.boxShadow};
     display: flex;
@@ -157,6 +153,7 @@ const WeekDay = props => {
                         <HourLayoutItem
                             key={index}
                             className="item"
+                            isAdding={h === isAdding}
                             onClick={() => toggleHandler(h)}
                             isHighLighted={isHighLighted}
                             h={h}

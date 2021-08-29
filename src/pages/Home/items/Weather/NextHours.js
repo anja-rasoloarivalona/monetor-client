@@ -119,7 +119,7 @@ const NextHours = () => {
                 metadata: {
                     // time: locale === "en" ? moment(period).format('LT') : period.split(" ")[1],
                     time: formatTime(period),
-                    icon: await getIcon(currentData.is_day, currentData.condition.code)
+                    icon: await getIcon(currentData?.is_day, currentData?.condition.code)
                 }
             }
         }))

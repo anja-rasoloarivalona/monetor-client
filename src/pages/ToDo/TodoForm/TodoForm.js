@@ -81,8 +81,6 @@ const EditForm = props => {
     } = useSelector(state => state)
 
 
-
-
     const editedHasDescription = edited.description && edited.description !== "<p><br></p>"
     const editedHasItems = (edited.checkList && edited.checkList.length > 0 ) || edited.dueDate
 
@@ -90,16 +88,21 @@ const EditForm = props => {
     const [ isAddingCheckList, setIsAddingCheckList ] = useState(false)
     const [ isEditingTitle, setIsEditingTitle ] = useState(false)
     const [ isEditingDescription, setIsEditingDescription ] = useState(edited.description ? false : editedHasItems ? false : true)
+    const [ isEditingDate, setIsEditingDate ] = useState(false)
 
     const [ list, setList ] = useState(edited.todoListId)
     const [ title, setTitle ] = useState(edited.title)
     const [ description, setDescription ] = useState(edited.description)
     const [ dueDate, setDueDate ] = useState(edited.dueDate)
+    const [ startDate, setStartDate ] = useState(edited.startDate)
     const [ checkList, setCheckList ] = useState(edited.checkList || [])
 
 
     useOnClickOutside(modal, () => {
-        setIsEdited(null)
+        if(!isEditingDate){
+            console.log("COMFCWAPOMFWQ")
+            setIsEdited(null)
+        }
     })
 
     // useEffect(() => {
@@ -251,8 +254,12 @@ const EditForm = props => {
                     {edited.dueDate && (
                         <DueDate
                             edited={edited}
-                            setDueDate={setDueDate}
                             dueDate={dueDate}
+                            setDueDate={setDueDate}
+                            startDate={startDate}
+                            setStartDate={setStartDate}
+                            isEditingDate={isEditingDate}
+                            setIsEditingDate={setIsEditingDate}
                         />
                     )}
                     {edited.todoLabels && edited.todoLabels.length > 0 && (
@@ -299,6 +306,7 @@ const EditForm = props => {
                     setTodoLists={setTodoLists}
                     setIsEdited={setIsEdited}
                     edited={edited}
+                    setIsEditingDate={setIsEditingDate}
                 />
              
             </Modal>

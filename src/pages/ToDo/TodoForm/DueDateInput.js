@@ -84,6 +84,8 @@ const ValueSection = styled.div`
         margin-right: 0px;
     }
 
+
+
     ${props => {
         if(props.clickable){
             return {
@@ -136,6 +138,10 @@ const CalendarContainer = styled.div`
         display: flex;
         justify-content: space-evenly;
     }
+
+    .react-datepicker__day--selected {
+        background: ${({theme}) => theme.primary};
+    }
 `
 
 const CtaContainer = styled.div`
@@ -148,7 +154,7 @@ const AddDueDate = props => {
 
 
 
-    const { dueDate, setDueDate, closeHandler, customRef } = props
+    const { dueDate, setDueDate, closeHandler, customRef, formTitle, isSelectingTime,setIsSelectingTime, minDate, maxDate } = props
 
     const {
         text: { text },
@@ -164,13 +170,6 @@ const AddDueDate = props => {
     const [ tempDate, setTempDate ] = useState(initalValue)
     const [ formattedTempDate, setFormattedDate ] = useState(formatDate(initalValue, format, locale))
     const [ dateInputIsFocused, setDateInputIsFocused ] = useState(false)
-    const [ isSelectingTime, setIsSelectingTime ] = useState(false)
-
-    useOnClickOutside(container, () => {
-        if(!isSelectingTime){
-            closeHandler()
-        }
-    })
 
     const isValidDate = (d) => {
         return d instanceof Date && !isNaN(d);
@@ -178,7 +177,7 @@ const AddDueDate = props => {
 
     const changeDateHandler = value => {
         setTempDate(value)
-        setFormattedDate(formatDate(value, format, locale))   
+        setFormattedDate(formatDate(value, format, locale)) 
         setIsSelectingTime(false)
     }
 
@@ -196,10 +195,6 @@ const AddDueDate = props => {
     useEffect(() => {
         const el = document.getElementById("time-picker")
         el.disabled = true
-
-
-        // const test = document.getElementsByClassName("react-datepicker__navigation--next")[0]
-        // test.click()
     },[])
 
     useEffect(() => {
@@ -218,7 +213,7 @@ const AddDueDate = props => {
     return (
         <Container ref={customRef || container}>
             <Header>
-                {text.change_due_date}
+                {formTitle}
                 <FontAwesomeIcon 
                     icon="times"
                     onClick={() => closeHandler()}
@@ -251,6 +246,7 @@ const AddDueDate = props => {
                             id="time-picker"
                             value={tempDate}
                             onChange={val => changeDateHandler(val, "time-picker")}
+                            onClose={() => setIsSelectingTime(false)}
                             KeyboardButtonProps={{
                                 'aria-label': 'change time',
                             }}
@@ -264,7 +260,8 @@ const AddDueDate = props => {
                 <AppDate 
                     input={{
                         label: "",
-                        minDate: new Date()
+                        minDate: minDate ? Math.max(new Date(minDate), new Date()) : new Date(),
+                        maxDate: maxDate ? new Date(maxDate) : null,
                     }}
                     currentValue={tempDate}
                     onChange={changeDateHandler}

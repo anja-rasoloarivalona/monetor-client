@@ -84,7 +84,7 @@ const AppList = styled.div`
 `
 
 const App = styled.div`
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     overflow: hidden;
     margin-right: 3rem;
     a {
@@ -100,10 +100,10 @@ const App = styled.div`
             }
         }
         &:hover {
-            background: ${props => props.theme.background};
+            background: ${props => props.theme.onSurface};
         }
         &.active {
-            background: ${props => props.theme.text};
+            background: ${props => props.theme.primary};
             color:  ${props => props.theme.surface} !important;
             .icon {
                 svg {
