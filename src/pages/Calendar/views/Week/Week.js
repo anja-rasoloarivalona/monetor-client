@@ -17,119 +17,8 @@ import * as actions from "../../../../store/actions"
 import axios from "axios"
 import moment from 'moment'
 import { isFirefox } from 'react-device-detect'
+import { Container, Content, ContentView, ContentSlider, GridLayoutItem  } from './style'
 
-const Container = styled.div`
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    background: ${props => props.theme.surface};
-
-    ${props => {
-        const { config: { sidebar, header, length, d, h, windowWidth, pos,isAddingPeriod, small }} = props
-        return {
-            gridTemplateColumns: `${sidebar}px 1fr`,
-            gridTemplateRows: `${header}px 1fr`,
-            ".header": {
-                "&__slider": {
-                    width: `${d * length}px`,
-                    gridTemplateColumns: `repeat(auto-fit, ${d}px)`,
-                    transform: `translateX(${d * pos * -1}px)`,
-                    transition: isAddingPeriod ? "none" : ".3s ease-in",
-                    height: small ? "4rem" : "initial",
-                    "> div": {
-                        marginBottom: small ? "0rem" : "1rem"
-                    }
-                },
-                "&__header": {
-                    transform: `translateX(-${sidebar}px)`,
-                    padding: small ? "0" : "0 4rem",
-                    width: small ? `${d + sidebar}px` : "100vw",
-                    ":before": {
-                        height: small ? "4rem" : "2.5rem",
-                        width: `${sidebar}px`
-                    }
-                }
-            },
-            ".content": {
-                gridTemplateColumns: `${sidebar}px 1fr`,
-                maxHeight: `calc(100vh - 6.5rem - ${header}px)`,
-                "&__slider": {
-                    width: `${d * length}px`,
-                    gridTemplateColumns: `repeat(auto-fit, ${d}px)`,
-                    transform: `translateX(${d * pos * -1}px)`,
-                    transition: isAddingPeriod ? "none" : ".3s ease-in"
-
-                }
-            },
-            ".sidebar": {
-                "&__list": {
-                    "&__item": {
-                        height: `${h}px`
-                    }
-                }
-            },
-            ".weekday": {
-                width: `${d}px`,
-                "&__content": {
-                    height: `${h * 24}px`,
-                    "&__item": {
-                        height: `${h}px`
-                    }
-                }
-            },
-            ".item": {
-                height: `${h}px`
-            }
-        }
-    }}
-`
-
-const Content = styled(ScrollBar)`
-    display: grid;
-    grid-template-rows: max-content;
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
-`
-
-
-const ContentView = styled.div`
-    width: 100%;
-    height: 100%;
-    grid-column: 2 / 3;
-    grid-row: 1 / 3;
-`
-
-const ContentSlider = styled.div`
-    display: grid;
-    transition: all .3s ease-in;
-    position: relative;
-
-    .layout {
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-`
-
-const GridLayoutItem = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: ${props => props.theme.surface};
-    padding: .2rem;
-    box-shadow: ${props => props.hideBackground ? "none" : props.theme.boxShadow};
-    border-radius: .2rem;
-    position: relative;
-    z-index: 5;
-    transition: box-shadow .3s ease-in;
-
-    .react-resizable-handle.react-resizable-handle-se {
-        bottom: .2rem !important;
-        right: .2rem !important;
-    }
-`
 
 const Week = props => {
 
@@ -145,9 +34,9 @@ const Week = props => {
     const config = {
         days: 7,
         h: 80,
-        sidebar: 200,
+        sidebar: 80,
         header: 100,
-        d: (windowWidth - 200) / 7,
+        d: (windowWidth - 80) / 7,
         ...props.config
     }
 
@@ -169,32 +58,34 @@ const Week = props => {
         if(!todoBoards){
             dispatch(actions.getUserTodos())
         } else {
-            const res = []
-            if(config.small){
-                for(let i = 4 * -2; i < 4 * 5; i++){
-                    res.push({
-                        ...getPeriod(addDays(new Date(), i)),
-                        index: {
-                            index: i
-                        }
-                    })
+            if(!isScrollInitialized){
+                const res = []
+                if(config.small){
+                    for(let i = 4 * -2; i < 4 * 5; i++){
+                        res.push({
+                            ...getPeriod(addDays(new Date(), i)),
+                            index: {
+                                index: i
+                            }
+                        })
+                    }
+                } else {
+                    for(let i = config.days * -2; i < config.days * 5; i++){
+                        res.push({
+                            ...getPeriod(addDays(new Date(), i)),
+                            index: {
+                                index: i
+                            }
+                        })
+                    }
                 }
-            } else {
-                for(let i = config.days * -2; i < config.days * 5; i++){
-                    res.push({
-                        ...getPeriod(addDays(new Date(), i)),
-                        index: {
-                            index: i
-                        }
-                    })
-                }
+                res.forEach((item, index) => {
+                    res[index].index.pos = index
+                })
+                const current = res.find(i => i.index.index === 0)
+                setPos(current.index.pos)
+                setPeriods(res)
             }
-            res.forEach((item, index) => {
-                res[index].index.pos = index
-            })
-            const current = res.find(i => i.index.index === 0)
-            setPos(current.index.pos)
-            setPeriods(res)
         }
     },[todoBoards])
 
@@ -213,7 +104,7 @@ const Week = props => {
                             w: 1,
                             h,
                             x: period.index.pos,
-                            y: (new Date(item.dueDate).getHours() * 2) - h,
+                            y: (new Date(item.dueDate).getHours() * 2),
                             i: item.id,
                         }
                         _layout.push({
@@ -235,16 +126,13 @@ const Week = props => {
             const el = document.getElementById(currentId)
             if(el && !isScrollInitialized){
                 el.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.scrollTop = el.offsetTop
-                // el.scrollIntoView("alignToTop")
                 setIsScrollInitialized(true)
             }
         }
     },[periods, layout])
 
     useEffect(() => {
-
         const check = config.small ? 4 : 10
-
         if(pos && isScrollInitialized){
             if(pos < check || pos > periods.length - check){
                 const prevPeriod = periods.find(period => period.index.pos === pos)
@@ -296,8 +184,6 @@ const Week = props => {
         data.forEach(item => {
             if(item.type === "todo"){
                 const todoIndex = updatedTodoLists[item.todoListId].todos.findIndex(todo => todo.id === item.id)
-                console.log("fonf", updatedTodoLists[item.todoListId].todos[todoIndex])
-
                 updatedTodoLists[item.todoListId].todos[todoIndex] = {
                     ...updatedTodoLists[item.todoListId].todos[todoIndex],
                     startDate: item.startDate,
@@ -326,6 +212,9 @@ const Week = props => {
             todoLists: updatedTodoLists,
             boardId: activeBoardId
         }))
+        console.log({
+            payload
+        })
         // try {
         //     const res = await axios({
         //         method: "PUT",
@@ -367,14 +256,6 @@ const Week = props => {
             />
             <Content className="content">
                 <SideBar />
-                {/* <ScrollDrag
-                    style={{
-                        width: config.small ? `${config.d}px` : `calc(100vw - ${config.sidebar}px)`,
-                        height: "100%",
-                        gridColumn: "2/3",
-                        gridRow: "1/3"
-                    }}
-                > */}
                     <ContentView className="content__view">
                         <ContentSlider className="content__slider">
                             <GridLayout
@@ -394,7 +275,6 @@ const Week = props => {
                                 useCSSTransforms={false}
                             >
                                 {layout.map(item => {
-        
                                     return (
                                         <GridLayoutItem
                                             key={item.i}
@@ -403,20 +283,17 @@ const Week = props => {
                                             <TodoItem
                                                 item={item} 
                                                 setToBeSaved={setToBeSaved}
+                                                periods={periods}
                                             />
                                         </GridLayoutItem>
                                     )
                                 })}
                             </GridLayout>
                             {periods.map((data, index) => (
-                                <WeekDay 
-                                    key={index}
-                                    data={data}
-                                />
+                                <WeekDay key={index} data={data}/>
                             ))}
                         </ContentSlider>
                 </ContentView>
-                {/* </ScrollDrag> */}
             </Content>
 
         </Container>

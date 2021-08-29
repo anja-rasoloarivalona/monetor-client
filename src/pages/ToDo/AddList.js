@@ -12,12 +12,15 @@ import axios from "axios"
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    width: 30rem;
+    width: 35rem;
     border-radius: .5rem;
     font-size: 1.4rem;
     height: max-content;
     padding: 0 1rem;
+    transform: translateX(${props => `${350 * props.length}`}px);
+    margin-top: .8rem;
     background: ${props => props.adding ? props.theme.onSurface : "none"};
+
     :hover {
         background: ${props => props.theme.onSurface};
     }
@@ -111,6 +114,7 @@ const AddList = props => {
             try {
                 const tempId = generateId()
                 const tempList = {
+                    boardId: activeBoardId,
                     title,
                     id: tempId,
                     todos: [],
@@ -184,7 +188,7 @@ const AddList = props => {
 
 
     return (
-        <Container ref={containerRef} adding={adding}>
+        <Container ref={containerRef} adding={adding} length={Object.keys(todoLists).length}> 
             <TextContainer onClick={() => setAdding(true)} className="text">
                 {adding ?
                     text.list_title_label :

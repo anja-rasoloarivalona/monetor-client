@@ -19,6 +19,10 @@
         "fr": "Modifier l'échéance",
         "en": "Change due date"
     },
+    "change_start_date": {
+        "fr": "Modifier la date de début",
+        "en": "Change start date"
+    },
     "check_list": {
         "fr": "Liste de contrôle",
         "en": "Check list"
@@ -34,6 +38,10 @@
     "due_date": {
         "fr": "Date d'échéance",
         "en": "Due date"
+    },
+    "start_date": {
+        "fr": "Date de début",
+        "en": "Start date"
     },
     "to_do": {
         "fr": "À faire",

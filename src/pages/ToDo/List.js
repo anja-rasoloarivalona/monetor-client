@@ -25,7 +25,6 @@ const Header = styled.div`
     font-size: 1.4rem;
     text-align: start;
     width: 100%;
-    margin-bottom: 1rem;
     font-weight: 600;
     color: ${props => props.theme.dynamicText};
 `
@@ -52,10 +51,6 @@ const AddCard = styled.div`
     padding-left: ${props => props.isListEmpty ? "2rem" : "0rem"}
 `
 
-const Placholder = styled.div`
-    height: 4rem;
-    width: 100%;
-`
 
 const List = props => {
 

@@ -1,10 +1,9 @@
 import React, { useRef, useEffect } from "react"
 import styled from "styled-components"
-import { useDrag, useDrop } from "react-dnd";
-import { getEmptyImage } from "react-dnd-html5-backend";
 import { AppDate } from '../../components'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from '@fortawesome/free-regular-svg-icons'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
     height: 100%;
@@ -13,11 +12,11 @@ const Container = styled.div`
     flex-direction: column;
     margin-bottom: 1rem;
     background: white;
-    opacity: ${props => props.isDragging ? 0 : 1};
     padding:  1rem;
-    box-shadow: ${props => props.theme.boxShadowLight};
     border-radius: .3rem;
     cursor: pointer;
+    background: ${({theme}) => theme.surface};
+    box-shadow: ${({theme}) => theme.boxShadowLight};
 `
 
 const Title = styled.div`
@@ -25,6 +24,8 @@ const Title = styled.div`
     flex: 1;
     line-height: 1.4;
     width: 100%;
+    display: flex;
+    align-items: center;
 `
 
 const Cta = styled.div`
@@ -79,94 +80,35 @@ const CtaCheckListLabel = styled.div`
 
 `
 
+const Labels = styled.div`
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+`
+const Label = styled.div`
+    background: ${({color}) => color};
+    width: max-content;
+    height: 2rem;
+    padding: 0 1rem;
+    color: ${({theme}) => theme.white};
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+`
 
 
 const Card = props => {
 
-    const {todo, moveHandler,setDraggedCard,  draggedCard, setIsEdited } = props
+    const {todo, setIsEdited } = props
 
-
-    const ref = useRef(null);
-
-    const [{ handlerId }, drop] = useDrop({
-        accept: "card",
-        collect(monitor) {
-            return {
-                handlerId: monitor.getHandlerId(),
-            };
-        },
-        hover(item, monitor) {
-            if (!ref.current) {
-                return;
-            }
-            const dragIndex = item.index;
-            const hoverIndex = todo.index;
-            const isSameItem = item.id === todo.id
-            // Don't replace items with themselves
-            if (isSameItem) {
-                return;
-            }
-            // Determine rectangle on screen
-            const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            // Get vertical middle
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            // Determine mouse position
-            const clientOffset = monitor.getClientOffset();
-            // Get pixels to the top
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-            // Only perform the move when the mouse has crossed half of the items height
-            // When dragging downwards, only move when the cursor is below 50%
-            // When dragging upwards, only move when the cursor is above 50%
-                 
-            // Dragging downwards
-            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-                return;
-            }
-            // Dragging upwards
-            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-                return;
-            }
-
-            // Time to actually perform the action
-            moveHandler({
-                movedItem: item,
-                hoveredItem: todo
-            })
-            // moveHandler(dragIndex, hoverIndex);
-            // Note: we're mutating the monitor item here!
-            // Generally it's better to avoid mutations,
-            // but it's good here for the sake of performance
-            // to avoid expensive index searches.
-            // item.index = hoverIndex;
-        },
-    });
-
-    const [{ isDragging }, dragRef, preview ] = useDrag({
-        type: "card",
-        item: () => {
-            return todo
-        },
-        collect: (monitor) => ({
-          isDragging: monitor.isDragging()
-        }),
-        end: () => setDraggedCard(null),
-    });
-
-    useEffect(() => {
-        preview(getEmptyImage(), { captureDraggingState: true })
-      }, [])
-
-    useEffect(() => {
-        if(isDragging){
-            setDraggedCard(todo)
+    const { 
+        todos: {
+            todoBoards
         }
-    },[isDragging])
-
-
-    dragRef(drop(ref))
+    } = useSelector(state => state)
 
     const showCta = todo.dueDate || todo.description || (todo.checkList && todo.checkList.length > 0)
-
 
     const getCompletedCheckList = () => {
         let completed = 0
@@ -181,11 +123,21 @@ const Card = props => {
     return (
         <Container
             id={todo.id}
-            ref={ref}
-            data-handler-id={handlerId}
-            isDragging={isDragging || (draggedCard && draggedCard.id === todo.id)}
             onClick={() => setIsEdited(todo)}
         >
+            {todo.todoLabels && todo.todoLabels.length > 0 && (
+                <Labels>
+                    {todo.todoLabels.map((label, labelIndex) => {
+                        const labelData = todoBoards[label.boardId].labels.find(l => l.id === label.id)
+                        return (
+                            <Label key={labelIndex} color={labelData.color}>
+                                {labelData.title}
+                            </Label>
+                        )
+                    })}
+                </Labels>
+            )}
+        
             <Title>
                 {todo.title}
             </Title>

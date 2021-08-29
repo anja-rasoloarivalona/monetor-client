@@ -2,23 +2,24 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
-import List from './List'
-import AddList from './AddList'
-import EditForm from "./TodoForm/TodoForm"
 import * as actions from '../../store/actions'
-import { insertInToArray } from '../../functions'
+import Header from './Header/Header'
+import TodoLayout from './TodoLayout'
+import EditForm from "./TodoForm/TodoForm"
 import { Loader } from '../../components'
 import axios from 'axios'
-import Preview from './CardPreview'
-import Header from './Header/Header'
 import {  useParams  } from 'react-router-dom'
 
 const Container = styled.div`
     width: 100%;
-    min-height: calc(100vh - 6.5rem);
+    height: calc(100vh - 6.5rem);
     padding: 2rem;
     color: ${props => props.theme.text};
     background: ${props => props.theme.backgroundImage ? 'none' : props.theme.background};
+
+    .layout {
+        width: 100%;
+    }
 `
 
 const Content = styled.div`
@@ -33,7 +34,6 @@ const Content = styled.div`
 const ToDo = props => {
 
     const dispatch = useDispatch()
-
     const { boardId: boardIdParams } = useParams()
 
     const { 
@@ -45,24 +45,11 @@ const ToDo = props => {
         }
     } = useSelector(state => state)
 
-
-    const updateIndexes = arr => {
-        const data = [...arr]
-        data.forEach((i, index) => {
-            data[index].index = index
-        })
-        return data
-    }
-
     const [ mounted, setMounted ] = useState(false)
     const [ isInitialized, setIsInitialized ] = useState(false)
     const [ todoLists, setTodoLists ] = useState(null)
     const [ lastSavedTodoLists, setLastSavedTodoLists] = useState(null)
-    const [ draggedCard, setDraggedCard ] = useState(null)
-    const [ hasUnsavedChanges, setHasUnsavedChanges ] = useState(false)
     const [ toBeSaved, setToBeSaved ] = useState(null)
-
-
     const [ isSaving, setIsSaving ] = useState(false)
     const [ edited, setIsEdited ] = useState(null)
     let timeout
@@ -92,7 +79,6 @@ const ToDo = props => {
                 }
             }
         }
-
         return () => {
             if(todoBoards && activeBoardId){
                 if(defaultBackground && defaultBackground !== todoBoards[activeBoardId].backgroundImage){
@@ -105,8 +91,15 @@ const ToDo = props => {
 
     useEffect(() => {
         if(mounted  && !isInitialized ){
-            setTodoLists(todoBoards[activeBoardId].todoLists)
-            setLastSavedTodoLists(todoBoards[activeBoardId].todoLists)
+            setTodoLists({...todoBoards[activeBoardId].todoLists})
+            const deepCopy = {}
+            Object.values(todoBoards[activeBoardId].todoLists).forEach(list => {
+                deepCopy[list.id] = {
+                    ...list,
+                    todos: list.todos.map(todo => ({ ...todo }))
+                }
+            })
+            setLastSavedTodoLists(deepCopy)
             setIsInitialized(true)
         }
     },[mounted])
@@ -119,29 +112,30 @@ const ToDo = props => {
             }))
             clearTimeout(timeout)
             timeout = setTimeout(() => {
-                if(hasUnsavedChanges){
-                    const hasChanged = []
-                    Object.keys(todoLists).forEach(todoListId => {
-                        todoLists[todoListId].todos.forEach((todo, index) => {
-                            if(!lastSavedTodoLists[todoListId].todos[index] || lastSavedTodoLists[todoListId].todos[index].id !== todo.Id){
-                                hasChanged.push({
-                                    ...todo,
-                                    type: "todo"
-                                })
-                            }
-                        })
+                const hasChanged = []
+                Object.keys(todoLists).forEach(todoListId => {
+                    todoLists[todoListId].todos.forEach((todo, index) => {
+                        if(!lastSavedTodoLists[todoListId].todos[index] || lastSavedTodoLists[todoListId].todos[index].id !== todo.id){
+                            hasChanged.push({
+                                ...todo,
+                                type: "todo"
+                            })
+                        }
                     })
-                    if(hasChanged.length > 0){
-                        setToBeSaved(hasChanged)
-                    }
+                })
+                if(hasChanged.length > 0){
+                    setToBeSaved(hasChanged)
                 }
-            }, 1500)
+            }, 1000)
         }
     },[todoLists])
 
     useEffect(() => {
         if(toBeSaved){
             saveHandler(toBeSaved)
+            console.log({
+                toBeSaved
+            })
         }
     },[toBeSaved])
 
@@ -157,7 +151,6 @@ const ToDo = props => {
                 })
                 if(res.status === 200){
                     setIsSaving(false)
-                    setHasUnsavedChanges(false)
                     setToBeSaved(null)
                 }
             } catch(err){
@@ -166,143 +159,22 @@ const ToDo = props => {
                 })
             }
         }
-        
-
-    }
-
-    const moveHandler = data => {
-
-        const { movedItem, hoveredItem, toListId } = data
-
-        if(toListId){
-            // console.log("ABOUT TO MOVE TO LIST")
-            if(!hoveredItem){
-                // console.log("NO HOVEREDITEM")
-                const movedItemIsAlreadyInsideList = todoLists[toListId].todos.findIndex(t => t.id === draggedCard.id) > -1
-                if(!movedItemIsAlreadyInsideList){
-                    const updatedList = moveCardBetweenList(draggedCard, null, toListId)
-                    setTodoLists(updatedList)
-                    setDraggedCard(prev => ({
-                        ...prev,
-                        todoListId: toListId
-                    }))
-                    setHasUnsavedChanges(true)
-                }
-            }
-        } else {
-            if(draggedCard && hoveredItem){
-                const isMovingInSameList = draggedCard.todoListId === hoveredItem.todoListId
-                if(isMovingInSameList){
-                    const updatedList = todoLists[draggedCard.todoListId]
-                    const updatedContent = updatedList.todos
-                    const aux = updatedContent[hoveredItem.index]
-                    updatedContent[hoveredItem.index] = updatedContent[draggedCard.index]
-                    updatedContent[draggedCard.index] = aux
-                    
-                    const res = {
-                        ...todoLists,
-                        [updatedList.id]: {
-                            ...todoLists[updatedList.id],
-                            todos: updateIndexes(updatedContent) 
-                        }
-                    }
-                    // console.log("ABOUT TO MOVE IN SAME LIST", {
-                    //     draggedCard,
-                    //     hoveredItem,
-                    //     todoLists,
-                    //     updatedList: res
-                    // })
-                    setTodoLists(res)
-                    setHasUnsavedChanges(true)
-                } else {
-                    const movedItemIsAlreadyInsideList = todoLists[hoveredItem.todoListId].todos.findIndex(i => i.id === draggedCard.id) > -1
-                    if(!movedItemIsAlreadyInsideList){
-                        const updatedList = moveCardBetweenList(draggedCard, hoveredItem)
-                        // console.log("ABOUT TO MOVE OUTSIDE", {
-                        //     draggedCard,
-                        //     hoveredItem,
-                        //     todoLists,
-                        //     updatedList
-                        // })
-                        setTodoLists(updatedList)
-                        setHasUnsavedChanges(true)
-                        setDraggedCard(prev => ({
-                            ...prev,
-                            todoListId: hoveredItem.todoListId
-                        }))
-                    }
-                }
-            }
-        }
-    }
-
-    const moveCardBetweenList = (movedItem, hoveredItem, toListId) => {
-        // console.log("MOVING CARD BETWEEN LIST", {
-        //     movedItem,
-        //     hoveredItem,
-        //     toListId
-        // })
-        const updatedList = {...todoLists}
-        if(movedItem){
-            const movedItemListId = movedItem.todoListId
-            updatedList[movedItemListId] = {
-                ...updatedList[movedItemListId],
-                todos: updatedList[movedItemListId].todos.filter(i => i.id !== movedItem.id)
-            }
-            updatedList[movedItemListId].todos.forEach((todo, index) => {
-                updatedList[movedItemListId].todos[index].index = index
-            })
-        }
-
-        if(!toListId && hoveredItem){
-            const hoveredItemListId = hoveredItem.todoListId
-            updatedList[hoveredItemListId] = {
-                ...updatedList[hoveredItemListId],
-                todos: insertInToArray(updatedList[hoveredItemListId].todos, hoveredItem.index, {
-                    ...movedItem,
-                    todoListId: hoveredItem.todoListId
-                })
-            }
-        } else {
-            updatedList[toListId].todos.push({
-                ...movedItem,
-                todoListId: toListId
-            })
-        }
-        // console.log("AFTER MOVING CARD BETWEEN LIST", updatedList)
-        return updatedList
     }
 
 
     return (
         <Container>
-
             {!isInitialized ?
                 <Loader /> :
                 <>
-
                     <Header />
                      <Content>
-                        {Object.keys(todoLists).map(listId => {
-                            return (
-                                <List 
-                                    key={listId}
-                                    list={todoLists[listId]}
-                                    moveHandler={moveHandler}
-                                    setDraggedCard={setDraggedCard}
-                                    draggedCard={draggedCard}
-                                    todoLists={todoLists}
-                                    setTodoLists={setTodoLists}
-                                    setIsEdited={setIsEdited}
-                                />
-                            )
-                        })}
-                        <AddList
+                        <TodoLayout 
+                            todoLists={Object.values(todoLists)}
                             setTodoLists={setTodoLists}
-                            todoLists={todoLists}
+                            setIsEdited={setIsEdited}
                         />
                     </Content>
-
                     {edited && (
                         <EditForm 
                             edited={edited}
@@ -313,7 +185,6 @@ const ToDo = props => {
                     )}
                 </>
             }
-            <Preview />
         </Container>
      )
 };

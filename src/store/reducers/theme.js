@@ -10,7 +10,7 @@ const dynamicThemes = {
             line: "#e8e6e6",
             text: "#141414",
             dynamicText: "#ffffff",
-            textLight: "#e8e6e6",
+            textLight: "#7d7d7d",
             dynamicTextLight: "#cccccc",
             tSurface: function(level){
                 return `rgba(55, 55, 55, ${level})`
@@ -45,7 +45,7 @@ const dynamicThemes = {
 
 const themes = {
     light: {
-        primary: "#0b529a",
+        primary: "#2d2d2d",
         primaryLight: "#e7eef5",
         primaryGradient: "linear-gradient(202deg, rgba(9,66,123,1) 36%, rgba(11,82,154,1) 100%)",
         secondary: "#478ab1",
@@ -130,19 +130,13 @@ const initialState = {
 }
 
 const setTheme = (state, action) => {
-    localStorage.setItem("theme", action.theme)
+    const theme = ["light", "dark"].includes(action.theme) ? action.theme : "light"
+    localStorage.setItem("theme", theme)
     const dynamicType = state.backgroundImage ? "withBG" : "withoutBG"
-
-    console.log({
-        state,
-        dynamicType
-    })
-
-
     return updatedObject(state, {
-        type: action.theme,
-        ...themes[action.theme],
-        ...dynamicThemes[action.theme][dynamicType]
+        type: theme,
+        ...themes[theme],
+        ...dynamicThemes[theme][dynamicType]
     })
 }
 

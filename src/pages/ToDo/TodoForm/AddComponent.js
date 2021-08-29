@@ -51,7 +51,7 @@ const ListItemLabel = styled.div`
 
 const AddComponent = props => {
 
-    const { dueDate, setDueDate, setIsAddingCheckList, editedHasItems, editedHasDescription, setIsEditingDescription, setTodoLists, setIsEdited, edited} = props
+    const { dueDate, setDueDate, setIsAddingCheckList, editedHasItems, editedHasDescription, setIsEditingDescription, setTodoLists, setIsEdited, edited, setIsAddingDueDate} = props
 
     const {
         text: { text }
@@ -68,10 +68,16 @@ const AddComponent = props => {
                 <AddDueDate 
                     dueDate={dueDate}
                     setDueDate={setDueDate}
-                    closeHandler={() => setCurrentAction(null)}
+                    closeHandler={() => {
+                        setCurrentAction(null)
+                        setIsAddingDueDate(false)
+                    }}
                 />
             ),
-            action: () => setCurrentAction("due-date")
+            action: () => {
+                setIsAddingDueDate(true)
+                setCurrentAction("due-date")
+            }
         },
         {
             id: "chech-list",

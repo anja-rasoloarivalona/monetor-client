@@ -13,6 +13,7 @@ const HeaderSection = styled.div`
     background: ${props =>  props.theme.surface};
     margin-top: .5rem;
     color: ${props => props.theme.text};
+    min-width: 20rem;
 `
 const HeaderLabel = styled.div`
     font-size: 2rem;
@@ -81,11 +82,14 @@ const WeekHeaderLarge = props => {
 
     return (
         <>
-            <TodaySection>
-                {/* <Button transparent>
+            {/* <TodaySection>
+                <Button transparent>
                     {text.today}
-                </Button> */}
-            </TodaySection>
+                </Button>
+            </TodaySection> */}
+                <HeaderSection>
+
+                </HeaderSection>
                 <HeaderSection>
                     <HeaderIcon onClick={() => setPos(prev => prev - 4)}>
                         <FontAwesomeIcon icon="angle-double-left" />

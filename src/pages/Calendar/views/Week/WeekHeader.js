@@ -15,7 +15,10 @@ const Container = styled.div`
     grid-row: 1 / 2;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid ${props => props.theme.form.unfocused.border};
+
+    .header__slider {
+        border-bottom: 1px solid ${({theme}) => theme.form.unfocused.border};
+    }
 `
 
 
@@ -26,17 +29,6 @@ const Header = styled.div`
     flex: 1;
     position: relative;
     z-index: 9;
-
-    
-    :before {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 9;
-        border-bottom: 1px solid ${props => props.theme.form.unfocused.border};
-        background: ${props =>  props.theme.surface};
-    }
 `
 
 const Slider = styled.div`

@@ -5,16 +5,12 @@ import { useOnClickOutside, useKeyboardEvent } from '../../hooks'
 const Container = styled.div`
     height: 100%;
     width: 100%;
-    min-height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
     background: white;
     font-size: 1.4rem;
-    padding: 1rem;
-    box-shadow: ${props => props.theme.boxShadowLight};
-    border-radius: .3rem;
+    padding: 0 1rem;
 `
 
 const Input = styled.input`
@@ -31,7 +27,7 @@ const Input = styled.input`
 
 const CardInput = props => {
 
-    const { addCardHandler, setIsAddingCard } = props
+    const {submitCardHandler, setIsAddingCard } = props
 
     const [title, setTitle] = useState("")
 
@@ -45,7 +41,7 @@ const CardInput = props => {
         if(title === ""){
              setIsAddingCard(false)
         } else {
-             addCardHandler(title)
+            submitCardHandler(title)
             setTitle("")
         }
     }
