@@ -14,9 +14,11 @@ const Slider = styled(ScrollHorizontalBar)`
     height: max-content;
     padding-bottom: 3rem;
     cursor: pointer;
+    overflow-x: scroll;
+
 
     ::-webkit-scrollbar {
-        display: none;
+        // display: none;
     }
 
     ::-webkit-scrollbar-thumb {
@@ -51,7 +53,7 @@ const ItemIconContainer = styled.div`
 `
 
 const ItemIcon = styled.img`
-    width: 3.5rem;
+    width: 4rem;
     object-fit: contain;
 `
 

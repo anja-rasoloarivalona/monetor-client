@@ -283,21 +283,21 @@ const DashboardSelector = props => {
         <Container>
             <ButtonContainer onClick={() => setShowPannel(true)}>
                 <Button square>
-                    Dashboards
+                    {text.my_projects}
                     <FontAwesomeIcon icon="stream"/>
                 </Button>
             </ButtonContainer>
             <Pannel showPannel={showPannel} ref={listRef}>
                 <Header>
-                    <FontAwesomeIcon icon={isAdding ? "arrow-left" : "arrow-right"} onClick={toggleHandler} />
-                    {isAdding ? text.new_dashboard : text.my_dashboards}
+                    <FontAwesomeIcon icon={isAdding ? "arrow-left" : "times"} onClick={toggleHandler} />
+                    {isAdding ? text.new_project : text.my_projects}
                     <span></span>
                 </Header>
                 {!isAdding && (
                     <List>
                         <ListItemAdd onClick={() => setIsAdding(true)}>
                             <FontAwesomeIcon icon="plus"/>
-                            {text.new_dashboard}
+                            {text.new_project}
                         </ListItemAdd>
                         {Object.values(todoBoards).map(board => (
                             <ListItem

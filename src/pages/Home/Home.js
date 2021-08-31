@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { layout as defaultLayout } from './defaultLayout.json'
 import { useWindowSize } from '../../hooks'
@@ -8,7 +8,12 @@ import GridLayout from 'react-grid-layout'
 import "../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../node_modules/react-resizable/css/styles.css"
 import Header from './Header/Header'
-import Weather from "./items/Weather/Weather"
+import WeatherDashboardItem from "./items/Weather/WeatherDashboardItem"
+import WeatherFullView from './items/Weather/Weather'
+import RecentNotes from './items/RecentNotes/RecentNotes'
+import TodayTasks from './items/TodayTasks/TodayTasks'
+
+
 import AppSelector from "./items/AppSelector/AppSelector"
 import Calendar from "./items/Calendar/Calendar"
 import Balance from '../Transactions/Dashboard/items/Balance'
@@ -22,7 +27,6 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    position: relative;
     z-index: 2;
     overflow-x: hidden;
     height: calc(100vh - 6.5rem);
@@ -33,7 +37,10 @@ const GridContainer = styled(ScrollBar)`
     flex: 1;
     height: calc(100vh - 12.5rem);
     display: flex;
-
+    
+    &::-webkit-scrollbar {
+        display: none;
+    }
     .layout {
         width: 100%;
     }
@@ -43,7 +50,6 @@ const GridItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
 
     ${props => {
         if(props.id !== "calendar"){
@@ -53,6 +59,14 @@ const GridItem = styled.div`
                 borderRadius: "1rem",
                 background: props.theme.surface
             }
+        } 
+    }}
+
+    ${props => {
+        if(props.id === "weather" || props.id === "today_tasks"){
+            return {
+                padding: "0rem"
+            }
         }
     }}
 
@@ -60,6 +74,14 @@ const GridItem = styled.div`
         if(props.id === "notes"){
             return {
                 padding: "1rem"
+            }
+        }
+    }}
+
+    ${props => {
+        if(props.isViewingWeather && props.id !== "weather"){
+            return {
+                opacity: 0
             }
         }
     }}
@@ -94,6 +116,8 @@ const Home = () => {
 
     const { windowWidth } = useWindowSize()
 
+    const weatherRef = useRef()
+
     const {
         dashboards: {
             breakpoints,
@@ -111,7 +135,7 @@ const Home = () => {
     const [ isManagingDashboard, setIsManaginDashboard ] = useState(false)
     const [ isSavingDashboardChanges, setIsSavingDashboardboardChanges ] = useState(false)
     const [ isUserLayout, setIsUserLayout ] = useState(false)
-    const [ isCalendarReady, setIsCalendarReady ] = useState(false)
+    const [ isViewingWeather, setIsViewingWeather ] = useState(false)
 
     useEffect(() => {
         Object.keys(breakpoints).forEach(size => {
@@ -158,12 +182,22 @@ const Home = () => {
 
     
     const components = {
-        "weather": Weather,
+        "weather": ()  => (
+            <WeatherDashboardItem
+                setIsViewingWeather={setIsViewingWeather}
+                isViewingWeather={isViewingWeather}
+                isManagingDashboard={isManagingDashboard}
+                customRef={weatherRef} 
+            />
+        ),
         "appSelector": AppSelector,
         "calendar": Calendar,
         "balance": Balance,
         "monthly_report": MonthlyReport,
         "last_transactions": LastTransactions,
+        "today_tasks": TodayTasks,
+        "recent_notes": RecentNotes,
+
         "notes": () => <Notes disabled={true} />
     }
 
@@ -179,6 +213,7 @@ const Home = () => {
                 key={item.i}
                 id={item.i}
                 isManagingDashboard={isManagingDashboard}
+                isViewingWeather={isViewingWeather}
             >
                 {isManagingDashboard && <GridItemLayer />}
                 <Component item={item} />
@@ -240,7 +275,13 @@ const Home = () => {
                 isManagingDashboard={isManagingDashboard}
                 isSavingDashboardChanges={isSavingDashboardChanges}
             />
-            <GridContainer className={`${isCalendarReady ? "scroll" : "fixed"}`}>
+            <WeatherFullView 
+                isViewingWeather={isViewingWeather}
+                setIsViewingWeather={setIsViewingWeather}
+                weatherRef={weatherRef}
+                isManagingDashboard={isManagingDashboard}
+            />
+            <GridContainer>
                 <GridLayout
                     className="layout"
                     layout={layout}
