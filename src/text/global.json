@@ -351,6 +351,10 @@
         "fr": "Mes tableaux de bords",
         "en": "My dashboards"
     },
+    "my_projects": {
+        "fr": "Mes projets",
+        "en": "My projects"
+    },
     "my_wallet": {
         "fr": "Mon portefeuille",
         "en": "My wallet"
@@ -374,6 +378,10 @@
     "new_note": {
         "fr": "Nouvelle note",
         "en": "New note"
+    },
+    "new_project": {
+        "fr": "Nouveau projet",
+        "en": "New project"
     },
     "next": {
         "fr": "Suivant",
@@ -514,6 +522,10 @@
     "today": {
         "fr": "Aujourd'hui",
         "en": "Today"
+    },
+    "today_tasks": {
+        "fr": "À faire aujourd'hui",
+        "en": "Today's tasks"
     },
     "to_do": {
         "fr": "À faire",

@@ -11,31 +11,43 @@ const Container = styled.div`
     position: relative;
 `
 
-const Label = styled.div`
-    display: flex;
-    align-items: center;
-    background: ${props => props.theme.onSurface};
-    padding-right: 1.5rem;
-    font-size: 1.4rem;
-    cursor: pointer;
 
-    :hover {
-        box-shadow: ${props => props.theme.boxShadow};
+const activeStyle = (theme) => {
+    return {
+        boxShadow: theme.boxShadow,
+        color: theme.text,
+        background: theme.surface,
     }
+}
 
-`
 
 const IconContainer = styled.div`
-    width: 3.5rem;
-    height: 3.5rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 0 1.5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    position: relative;
+    height: 3.5rem;
+    border-radius: 1rem;
+    color: ${props => props.theme.dynamicText};
+    background: ${props => props.theme.onSurface};
+    :hover {
+        ${props => activeStyle(props.theme)}
+    };
+
+    ${props => {
+        if(props.active){
+            return activeStyle(props.theme)
+        }
+    }}
 
     svg {
         font-size: 1.3rem;
-        color: ${props => props.theme.textLight};
+        color: inherit;
+        margin-right: 1rem;
     }
+
 `
 
 const List = styled.div`
@@ -141,12 +153,10 @@ const HeaderAdd = () => {
 
     return (
         <Container ref={container}>
-            <Label onClick={() => setShowList(prev => !prev)}>
-                <IconContainer>
-                    <FontAwesomeIcon icon="plus"/>
-                </IconContainer>
+            <IconContainer onClick={() => setShowList(prev => !prev)}>
+                <FontAwesomeIcon icon="plus"/>
                 {text.add}
-            </Label>
+            </IconContainer>
             {showList && (
                 <DropDown
                     config={config.config}

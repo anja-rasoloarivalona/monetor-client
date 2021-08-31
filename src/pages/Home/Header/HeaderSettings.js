@@ -9,25 +9,42 @@ const Container = styled.div`
     position: relative;
 `
 
+const activeStyle = (theme) => {
+    return {
+        boxShadow: theme.boxShadow,
+        color: theme.text,
+        background: theme.surface,
+    }
+}
+
+
 const IconContainer = styled.div`
-    width: 3.5rem;
-    height: 3.5rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 0 1.5rem;
+    font-size: 1.4rem;
     cursor: pointer;
+    position: relative;
+    height: 3.5rem;
+    border-radius: 1rem;
+    color: ${props => props.theme.dynamicText};
     background: ${props => props.theme.onSurface};
+    :hover {
+        ${props => activeStyle(props.theme)}
+    };
+
+    ${props => {
+        if(props.active){
+            return activeStyle(props.theme)
+        }
+    }}
 
     svg {
         font-size: 1.3rem;
-        color: ${props => props.theme.textLight};
+        color: inherit;
+        margin-right: 1rem;
     }
 
-    :hover {
-        box-shadow: ${props => props.theme.boxShadow};
-    }
-
- 
 `
 
 const Slider = styled.div`
@@ -106,6 +123,8 @@ const ListItemIcon = styled.div`
 
 `
 
+
+
 const HeaderSettings = props => {
 
     const { setIsManaginDashboard } = props
@@ -122,10 +141,6 @@ const HeaderSettings = props => {
                 style: {
                     right: 0
                 }
-            },
-            title: {
-                text: text.settings,
-                icon: "cog",
             }
         },
         background: {
@@ -135,11 +150,6 @@ const HeaderSettings = props => {
                 style: {
                     right: 0
                 }
-            },
-            title: {
-                text: text.background,
-                icon: "arrow-left",
-                onClick: () =>   toggleSectionHandler("main")
             }
         }
     }
@@ -171,25 +181,12 @@ const HeaderSettings = props => {
         toggleSectionHandler("main")
     }
 
-    const renderHeader = props => {
-        const { text, icon, onClick } = props
-        return (
-            <Header>
-                <HeaderTitle>
-                    <HeaderIcon onClick={onClick || null}>
-                        <FontAwesomeIcon icon={icon} />
-                    </HeaderIcon>
-                    {text}
-                </HeaderTitle>
-            </Header>
-        )
-    }
-
-
+    
     return (
         <Container ref={container}>
             <IconContainer onClick={() => setShowList(prev => !prev)}>
                 <FontAwesomeIcon icon="cog"/>
+                {text.settings}
             </IconContainer>
             {showList && (
                 <DropDown
@@ -211,17 +208,11 @@ const HeaderSettings = props => {
                             </List>
                         </SliderItem>
                         <SliderItem>
-                            {renderHeader({
-                                text: text.background, 
-                                icon: "arrow-left",
-                                onClick: () => toggleSectionHandler("main")
-                            })}
                             <BackgroundSelector 
-                                closeHandler={() => {
-                                    toggleSectionHandler("main")
-                                    setShowList(null)
-                                }}
+                                closeHandler={force => force ? setShowList(false) : toggleSectionHandler("main")}
                                 element="main"
+                                config={configs.background.config}
+                                setConfig={setConfig}
                             />
                         </SliderItem>
                     </Slider>
