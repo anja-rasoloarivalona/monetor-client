@@ -2,6 +2,7 @@ import Input from './Input'
 import Select from './Select'
 import Category from '../Custom/Category'
 import Date from './Date'
+import Password from './Password'
 
 export const renderInput = props => {
     const inputType = props.input.input_type;
@@ -16,6 +17,8 @@ export const renderInput = props => {
             return <Date {...props}/>
         case "category":
             return <Category {...props} />
+        case "password":
+            return <Password {...props} />
         default: return
     }
 }

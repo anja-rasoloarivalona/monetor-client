@@ -11,13 +11,13 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-left: 45%;
+    padding-left: 45vw;
 `
 const ImageContainer = styled.div`
     width: 45vw;
     height: 100%;
-    background: ${props => props.theme.primary};
-    background: ${props => props.theme.primaryGradient};
+    box-shadow: ${props => props.theme.boxShadowLight};
+    background: ${props => props.theme.background};
     height: 100vh;
     position: absolute;
     top: 0;
@@ -26,6 +26,8 @@ const ImageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding-top: 9rem;
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
 
     svg {
         width: 45rem;

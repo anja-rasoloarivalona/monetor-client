@@ -9,10 +9,9 @@ import { ReactComponent as LoginSvg } from '../../icons/signup.svg'
 import { Link } from 'react-router-dom'
 
 const Container = styled.div`
-    width: 100%;
     display: flex;
     justify-content: center;
-    padding-left: 45%;
+    padding-left: 45vw;
 
     a {
         color: ${props => props.theme.primary} !important;
@@ -26,8 +25,8 @@ const Container = styled.div`
 const ImageContainer = styled.div`
     width: 45vw;
     height: 100%;
-    background: ${props => props.theme.primary};
-    background: ${props => props.theme.primaryGradient};
+    box-shadow: ${props => props.theme.boxShadowLight};
+    background: ${props => props.theme.background};
     height: 100vh;
     position: absolute;
     top: 0;
@@ -36,10 +35,13 @@ const ImageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding-top: 4rem;
+    border-top-right-radius: 3rem;
+    border-bottom-right-radius: 3rem;
 
     svg {
-        width: 45rem;
-    }
+        width: 50rem;
+    };
+
 `
 
 
@@ -110,8 +112,8 @@ const Signup = () => {
             required: true
         },
         {
-            id: "last_name",
-            name: "last_name",
+            id: "lastname",
+            name: "lastname",
             type: "text",
             input_type: "input",
             label: "last_name",
@@ -134,10 +136,11 @@ const Signup = () => {
             id: "password",
             name: "password",
             type: "password",
-            input_type: "input",
+            input_type: "password",
             label: "password",
             placeholder: "password",
             required: true,
+            bottomPosition: 1600,
             containerStyle: {
                 gridColumn: "1/-1",
                 marginBottom: "1rem"
@@ -162,13 +165,13 @@ const Signup = () => {
             const location = await getUserlocation()
             const res = await axios.post("/signup", {
                 ...data,
-                ipAddress: location.ip,
                 city: location.city,
-                country: location.country_name,
-                province: location.region_code,
-                postalCode: location.postal,
+                region: location.region,
+                country: location.country,
                 lat: location.latitude,
-                lng: location.longitude
+                lng: location.longitude,
+                regionCode: location.region_code,
+                countryCode: location.country_code
             })
             if(res.status === 201){
                 dispatch(actions.setUser(res.data.data))

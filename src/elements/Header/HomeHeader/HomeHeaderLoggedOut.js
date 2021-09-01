@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from '../../../components'
-import logoLight from '../../../images/logos/logo-light.png'
+import logo from '../../../images/logos/logo-dark.png'
 import * as actions from '../../../store/actions'
 
 const Container = styled.div`
@@ -137,7 +137,7 @@ const HomeHeaderLoggedOut = () => {
             <Section>
                 <Link to="/">
                     <LogoContainer>
-                        <Logo src={logoLight}/>
+                        <Logo src={logo}/>
                     </LogoContainer>
                 </Link>
             </Section>

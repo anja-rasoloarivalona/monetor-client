@@ -79,16 +79,10 @@ const Routes = props => {
 
     useEffect(() => {
         if(user && user.token){
-            if(!user.setupAt){
-                if(location.pathname !== `/${text.link_setup}`){
-                    props.history.push(`/${text.link_setup}`)
-                }
-            } else {
-                const forbiddenPages = [text.link_login, text.link_signup, text.link_setup]
-                const currentPathname = location.pathname.split("/")[1]
-                if(forbiddenPages.includes(currentPathname)){
-                    props.history.push(`/${text.link_home}`)
-                }
+            const forbiddenPages = [text.link_login, text.link_signup, text.link_setup]
+            const currentPathname = location.pathname.split("/")[1]
+            if(forbiddenPages.includes(currentPathname)){
+                props.history.push(`/${text.link_home}`)
             }
         }
     },[currency, user, location])

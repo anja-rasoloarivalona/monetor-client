@@ -21,18 +21,19 @@ const initApp = () => {
                 if(res.status === 200){
                     if(res.data.data.settings){
                         dispatch(setCurrency(JSON.parse(res.data.data.settings.currency)))
-                    } else {
-                        dispatch({
-                            type: actionTypes.SET_CHECKED_USER_TOKEN,
-                            value: true
-                        })
+                        if(res.data.data.settings.defaultBackground){
+                            dispatch(setDefaultBackgroundImage(res.data.data.settings.defaultBackground))
+                            dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
+                        }
+                        delete res.data.data.settings
                     }
-                    if(res.data.data.settings.defaultBackground){
-                        dispatch(setDefaultBackgroundImage(res.data.data.settings.defaultBackground))
-                        dispatch(setBackgroundImage(res.data.data.settings.defaultBackground))
-                    }
-                    delete res.data.data.settings
-
+                    // else {
+                    //     dispatch({
+                    //         type: actionTypes.SET_CHECKED_USER_TOKEN,
+                    //         value: true
+                    //     })
+                    // }
+                    
                     // let activeTodoBoardId = null
                     // const updatedBoards = {}
                     // res.data.data.todoBoards.forEach(board => {
@@ -91,12 +92,7 @@ const getUserLocation = () => {
             // let currentWeatherData = localStorage.getItem("weather")
             if(!currentWeatherData){
                 const ressponse = await axios.get('https://ipapi.co/json/')
-                console.log({
-                    ressponse
-                })
                 const { data: location } = ressponse
-
-                
                 const res = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${location.city.toLowerCase()}&days=2&lang=${locale}`)
                 currentWeatherData = res.data
                 localStorage.setItem("weather", JSON.stringify(currentWeatherData))
