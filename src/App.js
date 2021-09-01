@@ -203,8 +203,6 @@ const App = () => {
   const areDataloaded = isTextReady && user.checkedToken && categories;
   // const isAppReady = user.id ? (reduxSocket && areDataloaded) : areDataloaded
   const isAppReady = user.id ? (areDataloaded) : areDataloaded
-
-
   
   return (
     <BrowserRouter>
