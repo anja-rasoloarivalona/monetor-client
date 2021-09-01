@@ -185,8 +185,7 @@ const AppHeader = props => {
             useTransparentHeader={useTransparentHeader}
             useSecondary={useSecondary}
         >
-            {user.setupAt ?
-                <>
+
                     <Section>
                         {/* <ToggleMenu className="toggle__menu">
                             <IconContainer
@@ -209,11 +208,7 @@ const AppHeader = props => {
                             ))}
                         </AppList>
                     </Section>
-
                     <Section>
-                     
-                        
-
                         {/* <Searchbar /> */}
                     </Section>
                     <Section>
@@ -227,17 +222,6 @@ const AppHeader = props => {
                         />
                         {/* <AppSelector useSecondary={useSecondary}/>   */}
                     </Section>
-                </> :
-                <>
-                    <Section>
-
-                    </Section>
-                    <Section>
-                        <UserProfile />
-                    </Section>
-                </>
-           
-            }
         </Container>
      )
 };
