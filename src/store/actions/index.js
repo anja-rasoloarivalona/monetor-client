@@ -25,14 +25,14 @@ export {
     setOnlineContacts,
     toggleDraggableMessage,
     setUserBalance,
-
     // setTodoBoardLabels,
     // updateTodoLits,
     // setTodoLists,
 } from './user'
 
 export {
-    initApp
+    initApp,
+    logoutUser
 } from './middlewares'
 
 export { 

@@ -1,11 +1,13 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useOnClickOutside } from "../../../hooks";
 import SettingsPannel from "./SettingsPannel";
 import UserProfileImage from "./UserProfileImage";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
+import * as actions from '../../../store/actions'
+import { withRouter } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -163,7 +165,6 @@ const ListItemLabel = styled.div`
 const UserProfileList = props => {
 
   const { showSettingsPannel, options,  setShowSettingsPannel, setShowList, container} = props
-
   const mainListRef = useRef();
   const settingsRef = useRef();
   
@@ -183,7 +184,7 @@ const UserProfileList = props => {
         {options.map((option) => (
           <ListItem
             id={option.label}
-            onClick={option.onToggle ? () => option.onToggle() : null}
+            onClick={option.onClick ? () => option.onClick() : null}
           >
             <ListItemContent>
               <ListItemIconContainer>
@@ -210,6 +211,7 @@ const UserProfileList = props => {
 
 const UserProfile = props => {
 
+  const dispatch = useDispatch()
   const { useTransparentHeader, useSecondary } = props
 
   const {
@@ -221,13 +223,22 @@ const UserProfile = props => {
   const [showList, setShowList] = useState(false);
   const [showSettingsPannel, setShowSettingsPannel] = useState(false);
 
+  const logoutHandler = () => {
+    dispatch(actions.logoutUser())
+    props.history.push(`/${text.link_login}`);
+  }
+
   const options = [
     {
       label: text.settings,
       icon: "cog",
-      onToggle: () => setShowSettingsPannel(true),
+      onClick: () => setShowSettingsPannel(true),
     },
-    { label: text.logout, icon: "power-off" },
+    {
+      label: text.logout,
+      icon: "power-off",
+      onClick: () => logoutHandler()
+    },
   ];
 
   return (
@@ -254,4 +265,4 @@ const UserProfile = props => {
   );
 };
 
-export default UserProfile;
+export default withRouter(UserProfile);

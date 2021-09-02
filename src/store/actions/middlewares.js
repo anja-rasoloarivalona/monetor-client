@@ -120,5 +120,6 @@ const logoutUser = () => {
 
 
 export {
-    initApp
+    initApp,
+    logoutUser
 }
