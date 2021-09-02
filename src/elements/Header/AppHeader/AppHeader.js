@@ -173,7 +173,7 @@ const AppHeader = props => {
 
     const links = [
         {label: text.home, icon: "home", path: text.link_app_home},
-        {label: text.to_do, icon: "todo", path: text.link_todo + "/AF620495C2F748BCB7193E4337EEHG7P"},
+        {label: text.to_do, icon: "todo", path: text.link_todo},
         {label: text.calendar, icon: "calendar", path: text.link_calendar},
         {label: text.transactions, icon: "transactions", path: text.link_transactions },
         {label: text.notes, icon: "notes", path: text.link_notes}

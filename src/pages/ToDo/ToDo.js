@@ -52,6 +52,7 @@ const ToDo = props => {
     const [ toBeSaved, setToBeSaved ] = useState(null)
     const [ isSaving, setIsSaving ] = useState(false)
     const [ edited, setIsEdited ] = useState(null)
+    
     let timeout
 
     useEffect(() => {
@@ -161,6 +162,9 @@ const ToDo = props => {
         }
     }
 
+    console.log({
+        todoBoards
+    })
 
     return (
         <Container>

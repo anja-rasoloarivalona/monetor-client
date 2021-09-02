@@ -278,7 +278,7 @@ const InputContainer = styled.div`
 `
 const BackgroundSelector = props => {
 
-    const { closeHandler, element, config, setConfig } = props
+    const { closeHandler, element, config, setConfig, onChange, hideHeader } = props
 
 
     const dispatch = useDispatch()
@@ -371,7 +371,7 @@ const BackgroundSelector = props => {
 
     useOnClickOutside(container, () => {
         if(!isSubmitting){
-            if(element === "todo"){
+            if(element === "todo" && todoBoards && activeBoardId){
                 const background = todoBoards[activeBoardId].backgroundImage
                 if(background !== theme.backgroundImage){
                     toggleHandler(background)
@@ -397,31 +397,33 @@ const BackgroundSelector = props => {
     },[url])
 
     useEffect(() => {
-        let height = config.h
-        const heights = {
-            list: 680,
-            computer: 570,
-            url: {
-                valid: 680,
-                invalid: 370
+        if(config){
+            let height = config.h
+            const heights = {
+                list: 680,
+                computer: 570,
+                url: {
+                    valid: 680,
+                    invalid: 370
+                }
             }
-        }
-        if(selectedOption !== "url"){
-            height = heights[selected]
-        } else {
-            if(urlIsValid(url) && !invalidUrl){
-                height =  heights.url.valid
+            if(selectedOption !== "url"){
+                height = heights[selected]
             } else {
-                height = heights.url.invalid
+                if(urlIsValid(url) && !invalidUrl){
+                    height =  heights.url.valid
+                } else {
+                    height = heights.url.invalid
+                }
             }
+            setConfig(prev => ({
+                ...prev,
+                config: {
+                    ...prev.config,
+                    h: height
+                }
+            }))
         }
-        setConfig(prev => ({
-            ...prev,
-            config: {
-                ...prev.config,
-                h: height
-            }
-        }))
     },[url, selected, selectedOption])
 
 
@@ -470,26 +472,34 @@ const BackgroundSelector = props => {
         }
     }
 
+    useEffect(() => {
+        if(onChange){
+            onChange(selected)
+        }
+    },[selected])
 
     return (
         <Container
             ref={container}
             config={config}
+            className="background-selector"
         >
-            <Header>
-                <FontAwesomeIcon icon="arrow-left" onClick={() => closeHandler(false)}/>
-                <HeaderTitle>{text.background}</HeaderTitle>
-                <Cta>
-                    <ButtonWithLoader
-                        square outlined medium
-                        onClick={() => saveHandler(activeBoardId)}
-                        isDisabled={!canSubmit()}
-                        isLoading={isSubmitting}
-                    >
-                        {text.save}
-                    </ButtonWithLoader>
-                </Cta>
-            </Header>
+            {!hideHeader && (
+                <Header className="header">
+                    <FontAwesomeIcon icon="arrow-left" onClick={() => closeHandler(false)}/>
+                    <HeaderTitle>{text.background}</HeaderTitle>
+                        <Cta>
+                            <ButtonWithLoader
+                                square outlined medium
+                                onClick={() => onChange ? null : saveHandler(activeBoardId)}
+                                isDisabled={!canSubmit()}
+                                isLoading={isSubmitting}
+                            >
+                                {text.save}
+                            </ButtonWithLoader>
+                        </Cta>
+                </Header>
+            )}
             <Content className="content">
                 <Options>
                     <Option
