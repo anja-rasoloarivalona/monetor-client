@@ -10,10 +10,10 @@ const Container = styled.div`
 const Weather = props => {
     const { customRef, setIsViewingWeather,isViewingWeather, isManagingDashboard } = props
     const {
-        home: { weather }
+        home: { weather,currentCity }
     } = useSelector(state => state)
 
-    if(!weather){
+    if(!weather || !currentCity){
         return null
     }
 

@@ -91,7 +91,7 @@ const View = props => {
     const { isViewingWeather,  setIsViewingWeather, weatherRef, isManagingDashboard } = props
 
     const {
-        home: { weather },
+        home: { weather, currentCity },
         user: { locations }
     } = useSelector(state => state)
 
@@ -117,7 +117,7 @@ const View = props => {
         }
     },[weatherRef, isViewingWeather])
 
-    if(!pos || !weather || isManagingDashboard){
+    if(!pos || !weather || isManagingDashboard || !currentCity){
         return null
     }
 
