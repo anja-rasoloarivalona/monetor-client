@@ -30,9 +30,10 @@ const ListItemValue = styled.div``
 const MainSummary = () => {
 
     const {
-        home: { weather: { location, forecast }}
+        home: { weather, currentCity }
     } = useSelector(state => state)
-
+    
+    const { forecast} = weather[currentCity].weather
 
     const getCurrentData = () => {
         const currentDate = moment().format("YYYY-MM-DD")

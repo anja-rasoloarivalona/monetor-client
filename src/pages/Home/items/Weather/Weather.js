@@ -5,7 +5,8 @@ import Main from './components/Main'
 import MainSummary from './components/MainSummary'
 import Searchbar from './components/Searchbar'
 import NextHours from './NextHours'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import * as actions from '../../../../store/actions'
 
 const Container = styled.div`
     background: ${({theme}) => theme.surface};
@@ -14,7 +15,9 @@ const Container = styled.div`
     height: 80vh;
     position: fixed;
     top: 14rem;
-    left: 1.5rem;
+    left: 0;
+    right: 0;
+    margin: auto;
     transition: all .3s ease-in;
     border-radius: 2rem;
     z-index: 9;
@@ -85,21 +88,34 @@ const CloseButton = styled.div`
 `
 
 const View = props => {
-
+    const dispatch = useDispatch()
     const { isViewingWeather,  setIsViewingWeather, weatherRef, isManagingDashboard } = props
 
     const {
-        home: { weather }
+        home: { weather },
+        user: { locations }
     } = useSelector(state => state)
 
     const [ pos, setPos ] = useState(null)
+
+    useEffect(() => {
+        if(!locations){
+            dispatch(actions.getUserCurrentLocation())
+            dispatch(actions.getUserLocations())
+        }
+    },[])
+
+    useEffect(() => {
+        if(locations && !weather){
+            dispatch(actions.initWeatherData())
+        }
+    },[locations])
 
     useEffect(() => {
         if(weatherRef.current){
             const originPos = weatherRef.current.getBoundingClientRect()
             setPos(originPos)
         }
-
     },[weatherRef, isViewingWeather])
 
     if(!pos || !weather || isManagingDashboard){

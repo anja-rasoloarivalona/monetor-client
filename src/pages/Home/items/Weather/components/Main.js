@@ -112,9 +112,10 @@ const Main = props => {
     const { isViewingWeather, setIsViewingWeather } = props
 
     const {
-        home: { weather: { location, forecast }}
+        home: { weather, currentCity }
     } = useSelector(state => state)
 
+    const { location, forecast} = weather[currentCity].weather
     const currentDate = moment().format("YYYY-MM-DD")
     const currentTime = new Date().getHours()
     const currentData = forecast.forecastday.find(day => day.date === currentDate).hour[currentTime]

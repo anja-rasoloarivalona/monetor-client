@@ -32,16 +32,16 @@ const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY
 
 const Searchbar = () => {
 
-
     const {
         settings: { locale },
-        home: { weather: { location } }
+        home: { weather, currentCity }
     } = useSelector(state => state)
+
+    const { location } = weather[currentCity].weather
 
     const formatLocation = ({ name, region }) => {
         return `${name}, ${region}`
     }
-
 
     const [ city, setCity ] = useState(formatLocation(location))
     const [ isFocused, setIsFocused ] = useState(false)
