@@ -15,9 +15,8 @@ const Container = styled.div`
     height: 80vh;
     position: fixed;
     top: 14rem;
-    left: 0;
+    left: 1.5rem;
     right: 0;
-    margin: auto;
     transition: all .3s ease-in;
     border-radius: 2rem;
     z-index: 9;

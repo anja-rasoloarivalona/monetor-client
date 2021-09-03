@@ -47,7 +47,7 @@ const getWeather = (city, isCurrent) => {
             settings: { locale}
         } = getState()
         try {
-            const res = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city.toLowerCase()}&days=2&lang=${locale}`)
+            const res = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city.toLowerCase()}&days=3&lang=${locale}`)
             if(res.status === 200){
                 dispatch(setWeather({
                     city,

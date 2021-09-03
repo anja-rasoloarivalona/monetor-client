@@ -119,6 +119,7 @@ const Main = props => {
     const currentDate = moment().format("YYYY-MM-DD")
     const currentTime = new Date().getHours()
     const currentData = forecast.forecastday.find(day => day.date === currentDate).hour[currentTime]
+
     
     return (
         <Container className="main">

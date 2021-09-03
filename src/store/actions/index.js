@@ -47,6 +47,7 @@ export {
 
 export {
     setWeather,
+    getWeather,
     initWeatherData
 } from './home'
 

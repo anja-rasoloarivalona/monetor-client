@@ -10,8 +10,6 @@ const initApp = () => {
     return async function(dispatch){
         const token = localStorage.getItem("token")
         const theme = localStorage.getItem("theme")
-
-        dispatch(getUserLocation())
         dispatch(getCategories())
         dispatch(setTheme(theme))
       
