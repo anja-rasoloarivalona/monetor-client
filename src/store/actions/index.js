@@ -25,6 +25,8 @@ export {
     setOnlineContacts,
     toggleDraggableMessage,
     setUserBalance,
+    getUserCurrentLocation,
+    getUserLocations
     // setTodoBoardLabels,
     // updateTodoLits,
     // setTodoLists,
@@ -44,7 +46,8 @@ export {
 } from './finance'
 
 export {
-    setWeather
+    setWeather,
+    initWeatherData
 } from './home'
 
 export {

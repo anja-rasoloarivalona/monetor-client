@@ -49,7 +49,6 @@ const setOnlineContacts = props => {
         const {
             user: { contacts }
         } = getState()
-
         const { action, data } = props
         const updatedContacts = []
         switch(action){
@@ -106,6 +105,55 @@ const setUserBalance = balance => {
 }
 
 
+const getUserCurrentLocation = () => {
+    return async function(dispatch){
+        const locations = {}
+        try {
+            const ressponse = await axios.get('https://ipapi.co/json/')
+            const { data } = ressponse
+            locations.current = {
+                id: data.ip,
+                city: data.city,
+                region: data.region,
+                country: data.country,
+                lat: data.latitude,
+                lng: data.longitude,
+                regionCode: data.region_code,
+                countryCode: data.country_code
+            }
+        } catch(err){
+            console.log({ err })
+            locations.current = null
+        }
+        dispatch({
+            type: actionTypes.SET_USER_LOCATIONS,
+            locations
+        })
+    }
+}
+
+const getUserLocations = () => {
+    return async function(dispatch){
+        const locations = {}
+        try {
+            const res = await axios.get("/location")
+            if(res.status === 200){
+                res.data.data.forEach(location => {
+                    locations[location.city] = location
+                })
+            }
+        } catch(err){
+            console.log({ err })
+        }
+        dispatch({
+            type: actionTypes.SET_USER_LOCATIONS,
+            locations
+        })
+    }
+}
+
+
+
 
 export {
     addBudget,
@@ -116,5 +164,7 @@ export {
     addTransaction,
     setOnlineContacts,
     toggleDraggableMessage,
-    setUserBalance
+    setUserBalance,
+    getUserLocations,
+    getUserCurrentLocation
 }

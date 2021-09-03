@@ -10,7 +10,7 @@ const initialState = {
     wallets: null,
     transactions: null,
     checkedToken: false,
-    location: null,
+    locations: null,
     defaultBackground: null
 }
 
@@ -69,7 +69,6 @@ const setOnlineContacts = (state, action) => {
 }
 
 const toggleDraggableMessage = (state, action) => {
-
     const { open, id  } = action.data
     const updatedContacts = []
     state.contacts.forEach(contact => {
@@ -78,9 +77,17 @@ const toggleDraggableMessage = (state, action) => {
             isDragOpened: id === contact.id ? open : contact.isDragOpened
         })
     })
-
     return updatedObject(state, {
         contacts: updatedContacts
+    })
+}
+
+const setUserLocations = (state, action) => {
+    return updatedObject(state, {
+        locations:
+            state.locations ?
+            {...state.locations, ...action.locations} :
+            {...action.locations}
     })
 }
 
@@ -95,9 +102,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_ONLINE_CONTACTS: return setOnlineContacts(state, action)
         case actionTypes.TOGGLE_DRAGGABLE_MESSAGE: return toggleDraggableMessage(state, action)
         case actionTypes.SET_USER_BALANCE: return updatedObject(state, {balance: action.balance})
-
-
-       
+        case actionTypes.SET_USER_LOCATIONS: return setUserLocations(state, action)
         default: return state
     }
 }
