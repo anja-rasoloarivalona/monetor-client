@@ -135,10 +135,17 @@ const Searchbar = () => {
     }
 
     const selectCityHandler = async cityData => {
-        const dateTime = await getCityDateTime(cityData.id)
+
+        const { dateTime, metadata }  = await getCityDateTime(cityData.id)
         const currentDate = moment(dateTime).format("YYYY-MM-DD")
         const currentTime = dateTime.getHours()
-        dispatch(actions.getWeather(cityData.city, true, { date: currentDate, time: currentTime, fullDate: dateTime }))
+
+        dispatch(actions.getWeather(cityData.city, true, {
+            date: currentDate,
+            time: currentTime,
+            fullDate: dateTime,
+            metadata 
+        }))
         setResults(null)
         setIsFocused(false)
         setCity(formatLocation(cityData))
@@ -150,10 +157,16 @@ const Searchbar = () => {
             const date = res.data
             const cityUtcDiff = date.substr(date.length - 6)
             const op = cityUtcDiff[0]
-            const h = parseInt(cityUtcDiff.split(":")[0].substring(1)) 
-            const dh = op === "+" ? h : h * -1
-            const offSet = new Date().getTimezoneOffset() / 60
-            return new Date(new Date().setHours(new Date().getHours() + (dh + offSet))) 
+            const hour = parseInt(cityUtcDiff.split(":")[0].substring(1)) 
+            const diffHour = op === "+" ? hour : hour * -1
+            const offSetHour = new Date().getTimezoneOffset() / 60
+            return {
+                dateTime: new Date(new Date().setHours(new Date().getHours() + (diffHour + offSetHour))),
+                metadata: {
+                    diffHour,
+                    offSetHour
+                }
+            }
         } catch(err){
             console.log({ err })
         }

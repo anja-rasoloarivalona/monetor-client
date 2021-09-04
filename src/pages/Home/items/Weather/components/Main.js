@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { icons as iconsCode } from '../icons'
 import moment from 'moment'
 import AppIcon from '../../../../../icons'
+import WeatherIcon from '../../../../../icons/WeatherIcon'
 import { days } from '../../../../../assets/dateLocale'
 import { formatDate } from '../../../../../functions'
 
@@ -139,7 +140,16 @@ const Main = props => {
             })
         } else {
             const currentCityData = weather[currentCity]
-            setCityDateTime(currentCityData.dateTime)
+            const { diffHour, offSetHour } = currentCityData.dateTime.metadata
+            const dateTime =  new Date(new Date().setHours(new Date().getHours() + (diffHour + offSetHour)))
+            const currentTime = dateTime.getHours()
+            const currentDate = moment(dateTime).format("YYYY-MM-DD")
+            setCityDateTime({
+                ...currentCityData.dateTime,
+                time: currentTime,
+                date: currentDate,
+                fullDate: dateTime
+            })
         }
     },[currentLocation, currentCity])
 
@@ -183,7 +193,7 @@ const Main = props => {
                 </Cta>
             }
             <Summary>
-                <AppIcon id={iconsCode[data.condition.code]}/>
+                <WeatherIcon data={data}/>
                 {data.condition.text}
             </Summary>
             <Temp>

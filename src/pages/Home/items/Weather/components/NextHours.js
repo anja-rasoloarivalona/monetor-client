@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
-import { icons as iconsCode } from './icons'
 import moment from 'moment'
-import { ScrollHorizontalBar  } from '../../../../components'
+import { ScrollHorizontalBar  } from '../../../../../components'
+import WeatherIcon from '../../../../../icons/WeatherIcon'
 
 const Container = styled.div`
     margin-top: 3rem;
@@ -15,7 +15,7 @@ const Slider = styled(ScrollHorizontalBar)`
     padding-bottom: 3rem;
     cursor: pointer;
     overflow-x: scroll;
-
+    display: flex;
 
     ::-webkit-scrollbar {
         // display: none;
@@ -32,9 +32,6 @@ const Slider = styled(ScrollHorizontalBar)`
     }
 `
 
-const SliderContent = styled.div`
-    display: flex;
-`
 
 const Item = styled.div`
     display: flex;
@@ -50,12 +47,13 @@ const ItemIconContainer = styled.div`
     align-items: center;
     justify-content: center;
     margin: 1rem 0;
+
+    svg {
+        width: 3rem;
+        height: 3rem;
+    }
 `
 
-const ItemIcon = styled.img`
-    width: 4rem;
-    object-fit: contain;
-`
 
 const ItemValue = styled.div`
     display: flex;
@@ -64,31 +62,26 @@ const ItemValue = styled.div`
 
 const ItemValueText = styled.div``
 
-const ItemValueUnit = styled.div``
 
-const NextHours = () => {
+const NextHours = props => {
+
+    const { cityDateTime } = props
 
     const {
         settings: { locale },
-        home: { weather: { location, current, forecast }}
+        home: { weather, currentCity }
     } = useSelector(state => state)
 
 
     const [data, setData] = useState(null)
 
     useEffect(() => {
-        if(forecast){
-            formatForecast()
+        if(weather && currentCity && cityDateTime){
+            const forecast = weather[currentCity].weather.forecast
+            formatForecast(forecast, cityDateTime)
         }
-    },[forecast])
 
-
-    const getIcon = async (is_day, code) => {
-        const iconType = is_day ? "day" : "night"
-        const iconName = iconsCode[code] || "clear"
-        const currentIcon = await import(`../../../../icons/weather/${iconType}/${iconName}.png`)
-        return currentIcon
-    }
+    },[weather, currentCity, cityDateTime])
 
 
     const formatTime = date => {
@@ -99,10 +92,11 @@ const NextHours = () => {
         return `${ parseInt(date.split(" ")[1].split(":")[0])}h`
     }
 
-    const formatForecast = async () => {
+    const formatForecast = async (forecast, cityDateTime) => {
+
         const nextHours = {}
-        for(let i = 1; i < 25; i++){
-            const now = moment()
+        for(let i = 1; i < ( 72 - cityDateTime.time ); i++){
+            const now = moment(cityDateTime.fullDate)
             const next = now.add(i, 'hours').startOf('hour').format('YYYY-MM-DD HH:mm')
             nextHours[next] = {}
         }
@@ -114,18 +108,15 @@ const NextHours = () => {
         })
 
         await Promise.all(Object.keys(nextHours).map(async period => {
-
             const currentData = rawData.find(item => item.time === period)
             nextHours[period] = {
                 ...currentData,
                 metadata: {
                     // time: locale === "en" ? moment(period).format('LT') : period.split(" ")[1],
                     time: formatTime(period),
-                    icon: await getIcon(currentData?.is_day, currentData?.condition.code)
                 }
             }
         }))
-
         setData(nextHours)
     }
 
@@ -136,29 +127,24 @@ const NextHours = () => {
     return (
         <Container>
             <Slider>
-                <SliderContent>
-                    {Object.keys(data).map(hour => {
-                        const currentData = data[hour]
-                        return (
-                            <Item key={hour}>
-                                <ItemHour>
-                                    {currentData.metadata.time}
-                                </ItemHour>
-                                <ItemIconContainer>
-                                    <ItemIcon src={currentData.metadata.icon.default} />
-                                </ItemIconContainer>
-                                <ItemValue>
-                                    <ItemValueText>
-                                        {currentData.temp_c}
-                                    </ItemValueText>
-                                    <ItemValueUnit>
-                                        &#8451;
-                                    </ItemValueUnit>
-                                </ItemValue>
-                            </Item>
-                        )
-                    })}
-                </SliderContent>
+                {Object.keys(data).map(hour => {
+                    const currentData = data[hour]
+                    return (
+                        <Item key={hour}>
+                            <ItemHour>
+                                {currentData.metadata.time}
+                            </ItemHour>
+                            <ItemIconContainer>
+                                <WeatherIcon data={currentData} />
+                            </ItemIconContainer>
+                            <ItemValue>
+                                <ItemValueText>
+                                    {currentData.temp_c}&#176;
+                                </ItemValueText>
+                            </ItemValue>
+                        </Item>
+                    )
+                })}
             </Slider>
         </Container>
      )
