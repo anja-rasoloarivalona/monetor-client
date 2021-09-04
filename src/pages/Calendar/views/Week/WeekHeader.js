@@ -1,10 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import { days } from "../../data"
+import { days } from '../../../../assets/dateLocale'
 import { useSelector } from 'react-redux'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Button } from '../../../../components'
-import { months } from '../../data'
 import moment from "moment"
 import WeekHeaderLarge from './WeekHeaderLarge'
 import WeekHeaderSmall from './WeekHeaderSmall'
