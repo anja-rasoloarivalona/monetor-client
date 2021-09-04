@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Unit from './Unit'
 import { useSelector } from 'react-redux'
@@ -112,14 +112,29 @@ const Main = props => {
     const { isViewingWeather, setIsViewingWeather } = props
 
     const {
-        home: { weather, currentCity }
+        home: { weather, currentCity },
+        user: { locations: { current: currentLocation } }
     } = useSelector(state => state)
 
-    const { location, forecast} = weather[currentCity].weather
-    const currentDate = moment().format("YYYY-MM-DD")
-    const currentTime = new Date().getHours()
-    const currentData = forecast.forecastday.find(day => day.date === currentDate).hour[currentTime]
+    const [ data, setData ] = useState(null)
 
+    useEffect(() => {
+        if(currentLocation.city.toLowerCase() === currentCity){
+            const { forecast } = weather[currentCity].weather
+            const currentDate = moment().format("YYYY-MM-DD")
+            const currentTime = new Date().getHours()
+            const currentData = forecast.forecastday.find(day => day.date === currentDate).hour[currentTime]
+            setData(currentData)
+        }
+    },[currentLocation, currentCity])
+
+
+
+    if(!data){
+        return null
+    }
+
+    const location = weather[currentCity].weather.location
     
     return (
         <Container className="main">
@@ -138,17 +153,17 @@ const Main = props => {
             )}
 
             <Summary>
-                <AppIcon id={iconsCode[currentData.condition.code]}/>
-                {currentData.condition.text}
+                <AppIcon id={iconsCode[data.condition.code]}/>
+                {data.condition.text}
             </Summary>
             <Temp>
-                <Unit>{currentData.temp_c}</Unit>
+                <Unit>{data.temp_c}</Unit>
             </Temp>
             {!isViewingWeather && (
                 <Feels>
                     <FeelsLabel>Feels like</FeelsLabel>
                     <FeelsValue>
-                        <Unit>{currentData.feelslike_c}</Unit>
+                        <Unit>{data.feelslike_c}</Unit>
                     </FeelsValue>
                 </Feels>
             )}
