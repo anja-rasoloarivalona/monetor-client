@@ -9,13 +9,12 @@ import "../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../node_modules/react-resizable/css/styles.css"
 import Header from './Header/Header'
 import WeatherDashboardItem from "./items/Weather/WeatherDashboardItem"
-import WeatherFullView from './items/Weather/Weather'
+import Weather from './items/Weather/Weather'
 import RecentNotes from './items/RecentNotes/RecentNotes'
 import TodayTasks from './items/TodayTasks/TodayTasks'
 
 
 import AppSelector from "./items/AppSelector/AppSelector"
-import Calendar from "./items/Calendar/Calendar"
 import Balance from '../Transactions/Dashboard/items/Balance'
 import LastTransactions from '../Transactions/Dashboard/items/Transactions'
 import MonthlyReport from '../Transactions/Dashboard/items/MonthlyReport'
@@ -191,13 +190,11 @@ const Home = () => {
             />
         ),
         "appSelector": AppSelector,
-        "calendar": Calendar,
         "balance": Balance,
         "monthly_report": MonthlyReport,
         "last_transactions": LastTransactions,
         "today_tasks": TodayTasks,
         "recent_notes": RecentNotes,
-
         "notes": () => <Notes disabled={true} />
     }
 
@@ -275,7 +272,7 @@ const Home = () => {
                 isManagingDashboard={isManagingDashboard}
                 isSavingDashboardChanges={isSavingDashboardChanges}
             />
-            <WeatherFullView 
+            <Weather 
                 isViewingWeather={isViewingWeather}
                 setIsViewingWeather={setIsViewingWeather}
                 weatherRef={weatherRef}

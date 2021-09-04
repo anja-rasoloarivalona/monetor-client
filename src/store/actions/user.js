@@ -139,7 +139,7 @@ const getUserLocations = () => {
             const res = await axios.get("/location")
             if(res.status === 200){
                 res.data.data.forEach(location => {
-                    locations[location.city] = location
+                    locations[location.city.toLowerCase()] = location
                 })
             }
         } catch(err){

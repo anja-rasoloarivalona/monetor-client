@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { Input } from '../../../../../components/Form/WithoutValidation'
 import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../../../../store/actions'
+import moment from 'moment'
 
 const Container = styled.div`
     max-width: 50rem;
@@ -99,7 +100,6 @@ const Searchbar = () => {
         const getCities = async () => {
             try {
                 const res = await fetch(`http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix=${city}&hateoasMode=false&limit=10&offset=0&sort=-population&types=city`).then(res => res.json())        
-                console.log(res.data)
                 setResults(res.data)
             } catch(err){
                 console.log({ err })
@@ -129,8 +129,27 @@ const Searchbar = () => {
         setIsFocused(false)
     }
 
-    const selectCityHandler = city => {
-        dispatch(actions.getWeather(city, true))
+    const selectCityHandler = async cityData => {
+        const dateTime = await getCityDateTime(cityData.id)
+        const currentDate = moment(dateTime).format("YYYY-MM-DD")
+        const currentTime = dateTime.getHours()
+        dispatch(actions.getWeather(city, true, { date: currentDate, time: currentTime, fullDate: dateTime }))
+        setResults(null)
+    }
+
+    const getCityDateTime = async cityId => {
+        try {
+            const res = await fetch(`http://geodb-free-service.wirefreethought.com/v1/geo/cities/${cityId}/dateTime`).then(res => res.json())   
+            const date = res.data
+            const cityUtcDiff = date.substr(date.length - 6)
+            const op = cityUtcDiff[0]
+            const h = parseInt(cityUtcDiff.split(":")[0].substring(1)) 
+            const dh = op === "+" ? h : h * -1
+            const offSet = new Date().getTimezoneOffset() / 60
+            return new Date(new Date().setHours(new Date().getHours() + (dh + offSet))) 
+        } catch(err){
+            console.log({ err })
+        }
     }
 
 
@@ -153,7 +172,7 @@ const Searchbar = () => {
                     {results.map((result, index) => (
                         <ListItem
                             key={index}
-                            onClick={() => selectCityHandler(result.city.toLowerCase())}
+                            onClick={() => selectCityHandler(result)}
                         >
                             <ListItemIcon>
                                 <FontAwesomeIcon icon="map-marker-alt"/>

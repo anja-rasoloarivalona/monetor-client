@@ -96,7 +96,8 @@ const View = props => {
     } = useSelector(state => state)
 
     const [ pos, setPos ] = useState(null)
-
+    const [ cityDateTime, setCityDateTime ] = useState(null)
+ 
     useEffect(() => {
         if(!locations){
             dispatch(actions.getUserCurrentLocation())
@@ -105,7 +106,7 @@ const View = props => {
     },[])
 
     useEffect(() => {
-        if(locations && !weather){
+        if(locations && locations.current && !weather){
             dispatch(actions.initWeatherData())
         }
     },[locations])
@@ -130,6 +131,8 @@ const View = props => {
                 <Main 
                     isViewingWeather={isViewingWeather}
                     setIsViewingWeather={setIsViewingWeather}
+                    cityDateTime={cityDateTime}
+                    setCityDateTime={setCityDateTime}
                 />
                 <MainSummary />
             </MainContainer>

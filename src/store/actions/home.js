@@ -41,7 +41,7 @@ const initWeatherData = () => {
     }
 }
 
-const getWeather = (city, isCurrent) => {
+const getWeather = (city, isCurrent, dateTime) => {
     return async function(dispatch, getState){
         const {
             settings: { locale}
@@ -52,7 +52,8 @@ const getWeather = (city, isCurrent) => {
                 dispatch(setWeather({
                     city,
                     data: res.data,
-                    isCurrent
+                    isCurrent,
+                    dateTime
                 }))
             }
         } catch(err){

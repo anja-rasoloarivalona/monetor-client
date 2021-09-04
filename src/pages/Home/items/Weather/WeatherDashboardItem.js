@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import Main from './components/Main'
 import { useSelector } from 'react-redux'
@@ -13,6 +13,9 @@ const Weather = props => {
         home: { weather,currentCity }
     } = useSelector(state => state)
 
+    const [ cityDateTime, setCityDateTime ] = useState(null)
+
+
     if(!weather || !currentCity){
         return null
     }
@@ -23,6 +26,8 @@ const Weather = props => {
                 isViewingWeather={isViewingWeather}
                 setIsViewingWeather={setIsViewingWeather}
                 isManagingDashboard={isManagingDashboard}
+                cityDateTime={cityDateTime}
+                setCityDateTime={setCityDateTime}
             />
         </Container>
      )
