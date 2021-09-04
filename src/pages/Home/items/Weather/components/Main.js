@@ -6,13 +6,15 @@ import { useSelector } from 'react-redux'
 import { icons as iconsCode } from '../icons'
 import moment from 'moment'
 import AppIcon from '../../../../../icons'
+import { days } from '../../../../../assets/dateLocale'
+import { formatDate } from '../../../../../functions'
 
 const Container = styled.div`
     width: 100%;
     height: 100%;
     padding: 1rem 2rem;
     display: grid;
-    grid-template-columns: 2fr 1fr max-content;
+    grid-template-columns: 1fr max-content;
     grid-template-rows: max-content 1fr max-content;
 `
 
@@ -26,6 +28,7 @@ const Day = styled.div`
     font-size: 1.7rem;
     font-weight: 600;
     margin-bottom: .5rem;
+    text-transform: capitalize;
 `
 
 const Location = styled.div`
@@ -48,7 +51,7 @@ const LocationLabel = styled.div`
 `
 
 const Cta = styled.div`
-    grid-column: 3 / 4;
+    grid-column: 2 / 3;
     grid-row: 1 / 2;
     display: flex;
     justify-content: flex-end;
@@ -87,7 +90,7 @@ const Temp = styled.div`
 `
 
 const Feels = styled.div`
-    grid-column: 3 / 4;
+    grid-column: 2 / 3;
     grid-row: 3 / 4;
     display: flex;
     flex-direction: column;
@@ -105,13 +108,19 @@ const FeelsValue = styled.div`
     font-weight: bold;
     font-size: 1.6rem;
 `
-
+const Time = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    font-size: 1.4rem;
+`
 
 const Main = props => {
 
-    const { isViewingWeather, setIsViewingWeather } = props
+    const { isViewingWeather, setIsViewingWeather, cityDateTime, setCityDateTime } = props
 
     const {
+        settings: { locale },
         home: { weather, currentCity },
         user: { locations: { current: currentLocation } }
     } = useSelector(state => state)
@@ -119,39 +128,60 @@ const Main = props => {
     const [ data, setData ] = useState(null)
 
     useEffect(() => {
+        // Used only if the user selected his current city location
         if(currentLocation.city.toLowerCase() === currentCity){
-            const { forecast } = weather[currentCity].weather
             const currentDate = moment().format("YYYY-MM-DD")
             const currentTime = new Date().getHours()
-            const currentData = forecast.forecastday.find(day => day.date === currentDate).hour[currentTime]
-            setData(currentData)
+            setCityDateTime({
+                date: currentDate,
+                time: currentTime,
+                fullDate: new Date()
+            })
+        } else {
+            const currentCityData = weather[currentCity]
+            setCityDateTime(currentCityData.dateTime)
         }
     },[currentLocation, currentCity])
 
-
+    useEffect(() => {
+        if(cityDateTime){
+            const {date, time } =  cityDateTime
+            const { forecast } = weather[currentCity].weather
+            const currentData = forecast.forecastday.find(day => day.date === date).hour[time]
+            setData(currentData)
+        }
+    },[cityDateTime])
 
     if(!data){
         return null
     }
 
-    const location = weather[currentCity].weather.location
+    const d = cityDateTime.fullDate.getDay()
+    const day = d > 0 ? d - 1 : 6
+
+    const renderLocation = () => {
+        const location = weather[currentCity].weather.location
+        if(location.name !== location.region){
+            return `${location.name}, ${location.region}`
+        }
+        return `${location.name}, ${location.country}`
+    }
     
     return (
         <Container className="main">
             <Header>
-                <Day>Tuesday</Day>
+                <Day>{days[locale][day].long}</Day>
                 <Location>
                     <FontAwesomeIcon icon="map-marker-alt"/>
-                    <LocationLabel>{location.name}, {location.region}</LocationLabel>
+                    <LocationLabel>{renderLocation()}</LocationLabel>
                 </Location>
             </Header>
-
-            {!isViewingWeather && (
+            {isViewingWeather ?
+                <Time>{formatDate(cityDateTime.fullDate, "hh:min", locale)}</Time> :
                 <Cta onClick={() => setIsViewingWeather(true)}>
                     <AppIcon id="expand"/>
                 </Cta>
-            )}
-
+            }
             <Summary>
                 <AppIcon id={iconsCode[data.condition.code]}/>
                 {data.condition.text}

@@ -86,8 +86,11 @@ const Searchbar = () => {
 
     const { location } = weather[currentCity].weather
 
-    const formatLocation = ({ name, region }) => {
-        return `${name}, ${region}`
+    const formatLocation = ({ name, region, country }) => {
+        if(name !== region){
+            return `${name}, ${region}`
+        }
+        return `${name}, ${country}`
     }
 
     const [ city, setCity ] = useState(formatLocation(location))
@@ -106,16 +109,18 @@ const Searchbar = () => {
             }
         }
         let timeout
-        if(city && city !== formatLocation(location)){
-            timeout = setTimeout(() => {
-                getCities()
-            },500)
-        } else {
-            setResults(null)
+        if(isFocused){
+            if(city && city !== formatLocation(location)){
+                timeout = setTimeout(() => {
+                    getCities()
+                },500)
+            } else {
+                setResults(null)
+            }
         }
         return () => clearTimeout(timeout)
 
-    },[city, location ])
+    },[ city, location ])
 
 
     const focusHandler = e => {
@@ -133,8 +138,10 @@ const Searchbar = () => {
         const dateTime = await getCityDateTime(cityData.id)
         const currentDate = moment(dateTime).format("YYYY-MM-DD")
         const currentTime = dateTime.getHours()
-        dispatch(actions.getWeather(city, true, { date: currentDate, time: currentTime, fullDate: dateTime }))
+        dispatch(actions.getWeather(cityData.city, true, { date: currentDate, time: currentTime, fullDate: dateTime }))
         setResults(null)
+        setIsFocused(false)
+        setCity(formatLocation(cityData))
     }
 
     const getCityDateTime = async cityId => {
