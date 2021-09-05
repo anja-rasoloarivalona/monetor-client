@@ -6,7 +6,12 @@ import { ScrollHorizontalBar  } from '../../../../../components'
 import WeatherIcon from '../../../../../icons/WeatherIcon'
 
 const Container = styled.div`
-    margin-top: 3rem;
+`
+
+const Title = styled.div`
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
 `
 
 const Slider = styled(ScrollHorizontalBar)`
@@ -126,6 +131,7 @@ const NextHours = props => {
 
     return (
         <Container>
+            <Title>Hourly previsions</Title>
             <Slider>
                 {Object.keys(data).map(hour => {
                     const currentData = data[hour]

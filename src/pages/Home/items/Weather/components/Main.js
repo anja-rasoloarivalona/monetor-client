@@ -166,8 +166,7 @@ const Main = props => {
         return null
     }
 
-    const d = cityDateTime.fullDate.getDay()
-    const day = d > 0 ? d - 1 : 6
+    const day = cityDateTime.fullDate.getDay() > 0 ? cityDateTime.fullDate.getDay() - 1 : 6
 
     const renderLocation = () => {
         const location = weather[currentCity].weather.location

@@ -4,7 +4,8 @@ import styled from "styled-components"
 import Main from './components/Main'
 import MainSummary from './components/MainSummary'
 import Searchbar from './components/Searchbar'
-import NextHours from './NextHours'
+import NextHours from './components/NextHours'
+import NextDays from "./components/NextDays"
 import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../../../store/actions'
 
@@ -18,12 +19,12 @@ const Container = styled.div`
     left: 1.5rem;
     right: 0;
     transition: all .3s ease-in;
-    border-radius: 2rem;
+    border-radius: 1rem;
     z-index: 9;
     display: grid;
-    grid-template-columns: ${({ originPos }) =>  `${originPos.width}px 1fr`};
-    grid-template-rows: ${({ originPos }) =>  `${originPos.height}px 1fr`};
     overflow: hidden;
+    grid-template-columns: ${({ originPos }) =>  `${originPos.width}px calc(100% - ${originPos.width}px)`};
+    grid-template-rows: ${({ originPos }) =>  `${originPos.height}px 1fr`};
 
     .main-container {
         width: ${({originPos}) => `${originPos.width}px`};
@@ -59,15 +60,11 @@ const Container = styled.div`
 const MainContainer = styled.div`
     grid-column: 1 / 2;
     grid-row: 1 / -1;
-    border-radius: 2rem;
-    background: ${({theme}) => theme.primary};
+    border-radius: 1rem;
     transition: all .3s ease-in;
+    background: ${({theme}) => theme.surface};
     box-shadow: ${({theme}) => theme.boxShadow};
     padding: 1rem 0;
-
-    * {
-        color: ${({theme}) => theme.white};
-    }
 `
 
 const Body = styled.div`
@@ -76,6 +73,8 @@ const Body = styled.div`
     grid-row: 1 / -1;
     grid-column: 2 / 3;
     padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
 `
 
 const CloseButton = styled.div`
@@ -138,7 +137,8 @@ const View = props => {
             </MainContainer>
             <Body>
                 <Searchbar />
-                {/* <NextHours /> */}
+                <NextDays />
+                <NextHours cityDateTime={cityDateTime}/>
             </Body>
 
             <CloseButton onClick={() => setIsViewingWeather(false)}>
