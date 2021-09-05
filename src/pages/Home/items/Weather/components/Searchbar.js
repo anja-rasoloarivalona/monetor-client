@@ -84,13 +84,13 @@ const Searchbar = () => {
         home: { weather, currentCity }
     } = useSelector(state => state)
 
-    const { location } = weather[currentCity].weather
+    const { location } = weather[currentCity]
 
-    const formatLocation = ({ name, region, country }) => {
-        if(name !== region){
-            return `${name}, ${region}`
+    const formatLocation = ({ city, region, country }) => {
+        if(city !== region){
+            return `${city}, ${region}`
         }
-        return `${name}, ${country}`
+        return `${city}, ${country}`
     }
 
     const [ city, setCity ] = useState(formatLocation(location))
@@ -140,7 +140,21 @@ const Searchbar = () => {
         const currentDate = moment(dateTime).format("YYYY-MM-DD")
         const currentTime = dateTime.getHours()
 
-        dispatch(actions.getWeather(cityData.city, true, {
+ 
+
+        const payload = {
+            ...cityData,
+            lat: cityData.latitude,
+            lng: cityData.longitude,
+        }
+
+        console.log({
+            payload,
+            currentDate,
+            currentTime
+        })
+
+        dispatch(actions.getWeather(payload, true, {
             date: currentDate,
             time: currentTime,
             fullDate: dateTime,

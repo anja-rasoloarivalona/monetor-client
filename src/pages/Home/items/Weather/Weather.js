@@ -96,6 +96,7 @@ const View = props => {
 
     const [ pos, setPos ] = useState(null)
     const [ cityDateTime, setCityDateTime ] = useState(null)
+    // const [ hasInitializedWeather, setHasInitializedWeather ] = useState(false)
  
     useEffect(() => {
         if(!locations){
@@ -133,12 +134,12 @@ const View = props => {
                     cityDateTime={cityDateTime}
                     setCityDateTime={setCityDateTime}
                 />
-                <MainSummary />
+                <MainSummary cityDateTime={cityDateTime} />
             </MainContainer>
             <Body>
                 <Searchbar />
-                <NextDays />
                 <NextHours cityDateTime={cityDateTime}/>
+                <NextDays />
             </Body>
 
             <CloseButton onClick={() => setIsViewingWeather(false)}>

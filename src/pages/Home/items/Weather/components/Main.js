@@ -3,12 +3,11 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Unit from './Unit'
 import { useSelector } from 'react-redux'
-import { icons as iconsCode } from '../icons'
 import moment from 'moment'
 import AppIcon from '../../../../../icons'
 import WeatherIcon from '../../../../../icons/WeatherIcon'
 import { days } from '../../../../../assets/dateLocale'
-import { formatDate } from '../../../../../functions'
+import { formatDate, capitalizeFirstLetter } from '../../../../../functions'
 
 const Container = styled.div`
     width: 100%;
@@ -155,12 +154,14 @@ const Main = props => {
 
     useEffect(() => {
         if(cityDateTime){
-            const {date, time } =  cityDateTime
-            const { forecast } = weather[currentCity].weather
-            const currentData = forecast.forecastday.find(day => day.date === date).hour[time]
+            const { fullDate } =  cityDateTime
+            const currentDateTime = moment(new Date(moment(fullDate).set("minute", 0).set("second", 0))).format("YYYY-MM-DD HH:mm")  
+            const hours = weather[currentCity].weather.hourly
+            const currentData = hours.find(h => h.dateTime.string === currentDateTime)
             setData(currentData)
         }
     },[cityDateTime])
+
 
     if(!data){
         return null
@@ -169,13 +170,14 @@ const Main = props => {
     const day = cityDateTime.fullDate.getDay() > 0 ? cityDateTime.fullDate.getDay() - 1 : 6
 
     const renderLocation = () => {
-        const location = weather[currentCity].weather.location
-        if(location.name !== location.region){
-            return `${location.name}, ${location.region}`
+        const location = weather[currentCity].location
+        if(location.city !== location.region){
+            return `${location.city}, ${location.region}`
         }
-        return `${location.name}, ${location.country}`
+        return `${location.city}, ${location.country}`
     }
-    
+
+
     return (
         <Container className="main">
             <Header>
@@ -192,17 +194,17 @@ const Main = props => {
                 </Cta>
             }
             <Summary>
-                <WeatherIcon data={data}/>
-                {data.condition.text}
+                <WeatherIcon data={data.weather[0]}/>
+                {capitalizeFirstLetter(data.weather[0].description)}
             </Summary>
             <Temp>
-                <Unit>{data.temp_c}</Unit>
+                <Unit>{Math.round(data.temp)}</Unit>
             </Temp>
             {!isViewingWeather && (
                 <Feels>
                     <FeelsLabel>Feels like</FeelsLabel>
                     <FeelsValue>
-                        <Unit>{data.feelslike_c}</Unit>
+                        <Unit>{Math.round(data.feels_like)}</Unit>
                     </FeelsValue>
                 </Feels>
             )}

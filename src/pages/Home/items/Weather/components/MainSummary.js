@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import moment from 'moment'
 import { useSelector } from 'react-redux'
+import { formatDate } from '../../../../../functions'
 
 const Container = styled.div``
 
@@ -27,58 +28,76 @@ const ListItemLabel = styled.div`
 
 const ListItemValue = styled.div``
 
-const MainSummary = () => {
+const MainSummary = props => {
+
+    const { cityDateTime } = props
 
     const {
+        settings: { locale },
         home: { weather, currentCity }
     } = useSelector(state => state)
-    
-    const { forecast} = weather[currentCity].weather
+
+    const [ currentData, setCurrentData ] = useState(null)
+    const [ dayData, setDayData ] = useState(null)
+
+    useEffect(() => {
+        if(cityDateTime){
+            const { fullDate } =  cityDateTime
+            const currentDateTime = moment(new Date(moment(fullDate).set("minute", 0).set("second", 0))).format("YYYY-MM-DD HH:mm")  
+            const hours = weather[currentCity].weather.hourly
+            const currentData = hours.find(h => h.dateTime.string === currentDateTime)
+            setCurrentData(currentData)
+            setDayData( weather[currentCity].weather.daily[0])
+        }
+    },[cityDateTime])
 
     const getCurrentData = () => {
-        const currentDate = moment().format("YYYY-MM-DD")
-        const currentTime = new Date().getHours()
-        const currentData = forecast.forecastday.find(day => day.date === currentDate).hour[currentTime]
         const data = [
-            { label: "Feels like", value: `${currentData.feelslike_c}`, degree: true},
-            { label: "P.O.P", value: `${currentData.chance_of_rain}%`},
-            { label: "Humidity", value: `${currentData.humidity}%`},
-            { label: "Wind", value: `${currentData.wind_kph}km/h`},
-            { label: "Gust wind", value: `${currentData.gust_kph}km/h`},
+            { label: "Feels like", value: currentData.feels_like, type: "degree"},
+            { label: "P.O.P", value: currentData.pop * 100, unit: "%"},
+            { label: "Humidity", value: currentData.humidity, unit: "%"},
+            { label: "Wind", value: currentData.wind_speed, unit: "km/h"},
+            { label: "Gust wind", value: currentData.wind_gust, unit: "km/h"},
         ]
         return data
     }
 
     const getDayData = () => {
-        const currentData = forecast.forecastday[0]
         const data = [
-            { label: "Min temp", value: `${currentData.day.mintemp_c}`, degree: true},
-            { label: "Max temp", value: `${currentData.day.maxtemp_c}`, degree: true},
-            { label: "Sunrise", value: `${currentData.astro.sunrise}`},
-            { label: "Sunset", value: `${currentData.astro.sunset}`},
+            { label: "Min temp", value: dayData.temp.min, type: "degree"},
+            { label: "Max temp", value: dayData.temp.max, type: "degree"},
+            { label: "Sunrise", value: `${formatDate(dayData.sunrise * 1000, "hh:min", locale)}`, type: "date"},
+            { label: "Sunset", value: `${formatDate(dayData.sunset * 1000, "hh:min", locale)}`, type: "date"} ,
         ]
         return data
     }
 
 
     const renderListItem = (item, index) => {
+        const renderListItemValue = () => {
+            if(item.type === "degree"){
+                return <>{Math.round(item.value)}&#176;</>
+            }
+            if(item.type === "date"){
+                return item.value
+            }
+            return <>{Math.round(item.value)}{item.unit && item.unit}</>
+        }
         return (
             <ListItem key={index}>
                 <ListItemLabel>
                     {item.label}
                 </ListItemLabel>
                 <ListItemValue>
-                    {item.degree ? <>{item.value}&#176;</> : item.value }
+                    {renderListItemValue()}
                 </ListItemValue>
             </ListItem>
         )
     }
 
-
-    console.log({
-        forecast
-    })
-
+    if(!currentData || !dayData){
+        return null
+    }
 
 
     return (
