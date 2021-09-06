@@ -46,10 +46,6 @@ const PasswordValidation = styled.div`
     }
 
     ${props => {
-        console.log({
-            windowWidth: props.windowWidth,
-            bottomPosition: props.bottomPosition
-        })
         if(props.windowWidth <= props.bottomPosition){
             return {
                 top: "7rem",

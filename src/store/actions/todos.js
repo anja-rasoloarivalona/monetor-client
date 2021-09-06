@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes'
 import axios from 'axios'
 import { arrayToObject } from '../../functions'
+import * as actions from './index'
 
 const getUserTodos = (boardIdParams) => {
     return async function(dispatch){
@@ -65,7 +66,8 @@ const setTodoBoardLabels = data => {
         data
     }
 }
-const updateTodoLits = data => {
+
+const updateTodoLists = data => {
     return async function(){
         try {
             const { action, item } = data
@@ -101,11 +103,38 @@ const setTodoBoard = board => {
     }
 }
 
+const saveTodo = data => {
+    return async function(dispatch, getState){
+        const { boardId, todoListId  } = data
+        dispatch(actions.setUploadActivity(true))
+        const { todos: { todoBoards }} = getState()
+        const updatedTodoLists = {...todoBoards[boardId].todoLists[todoListId]}
+        updatedTodoLists.todos.push(data)
+        dispatch(setTodoLists({
+            todoLists: {
+                ...todoBoards[boardId].todoLists,
+                [todoListId]: updatedTodoLists
+            },
+            boardId
+        }))
+        try {
+            const res = await axios.post("/todo", data)
+            dispatch(actions.setUploadActivity(false))
+        } catch(err){
+            console.log({ err })
+            dispatch(actions.setUploadActivity(false))
+
+        }
+    }
+}
+
+
 export {
     getUserTodos,
     setTodoBoardLabels,
-    updateTodoLits,
+    updateTodoLists,
     setTodoLists,
     setActiveTodoBoard,
-    setTodoBoard
+    setTodoBoard,
+    saveTodo
 }

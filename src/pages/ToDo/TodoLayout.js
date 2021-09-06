@@ -88,6 +88,7 @@ const TodoLayout = props => {
         }
     }
 
+
     const submitCardHandler = (title, todoListId ) => {
         const tempId = generateId()
         const tempTodo = {
@@ -105,7 +106,6 @@ const TodoLayout = props => {
                 todos: [...prev[todoListId].todos, tempTodo]
             }
         }))
-        setIsAddingCard(false)
     }
 
     const onClickCardHandler = item => {

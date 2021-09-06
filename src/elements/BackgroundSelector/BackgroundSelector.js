@@ -350,9 +350,6 @@ const BackgroundSelector = props => {
                     method: "post",
                     url
                 })
-                console.log({
-                    res: res.data.data
-                })
                 const updatedBoard = {
                     ...todoBoards[boardId],
                     backgroundImage: res.data.data

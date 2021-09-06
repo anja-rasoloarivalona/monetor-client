@@ -54,18 +54,12 @@ const Form = props => {
 
     useEffect(() => {
         if(getValues){
-            console.log({
-                values
-            })
             getValues(values)
         }
     },[values])
 
 
     useEffect(() => {
-        console.log({
-            errors
-        })
         if(getErrors){
             getErrors(errors)
         }

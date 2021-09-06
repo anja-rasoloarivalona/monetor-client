@@ -26,7 +26,8 @@ export {
     toggleDraggableMessage,
     setUserBalance,
     getUserCurrentLocation,
-    getUserLocations
+    getUserLocations,
+    setUploadActivity
     // setTodoBoardLabels,
     // updateTodoLits,
     // setTodoLists,
@@ -76,8 +77,9 @@ export {
 export {
     getUserTodos,
     setTodoBoardLabels,
-    updateTodoLits,
+    updateTodoLists,
     setTodoLists,
     setActiveTodoBoard,
-    setTodoBoard
+    setTodoBoard,
+    saveTodo
 } from './todos'

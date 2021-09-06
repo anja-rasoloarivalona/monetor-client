@@ -100,7 +100,6 @@ const EditForm = props => {
 
     useOnClickOutside(modal, () => {
         if(!isEditingDate){
-            console.log("COMFCWAPOMFWQ")
             setIsEdited(null)
         }
     })
@@ -162,9 +161,6 @@ const EditForm = props => {
                         isNew = true
                     } else {
                         if(item.hasChanged){
-                            console.log({
-                                payload
-                            })
                             payload = payload ? [...payload, item] :  [ item ]
                         }
                     }

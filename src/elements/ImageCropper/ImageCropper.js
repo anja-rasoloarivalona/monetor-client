@@ -167,16 +167,8 @@ const ImageCropper = props => {
             setOrigin(image)
         } else {
             let reader = new FileReader();
-
-            console.log({
-                image
-            })
-
             reader.onload = function(e){
                 image.src = e.target.result 
-                console.log({
-                    image
-                })
                 setOrigin(image)
             }
             reader.readAsDataURL(image)

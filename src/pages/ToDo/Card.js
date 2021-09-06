@@ -16,7 +16,7 @@ const Container = styled.div`
     border-radius: .3rem;
     cursor: pointer;
     background: ${({theme}) => theme.surface};
-    box-shadow: ${({theme}) => theme.boxShadowLight};
+    box-shadow: ${({theme}) => theme.boxShadowExtraLight};
 `
 
 const Title = styled.div`

@@ -77,13 +77,6 @@ const DraggableMessage = props => {
     const [ opened, setOpened ] = useState(false)
     const [ isDragging, setIsDragging] = useState(false)
 
-    useEffect(() => {
-        console.log({
-            isDragging
-        })
-    },[isDragging])
-
-
     if(!current){
         return null
     }

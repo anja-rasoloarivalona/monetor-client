@@ -112,11 +112,7 @@ const Sidebar = props => {
     } = useSelector(state => state)
 
     const { currentStep, steps } = props
-
-    console.log({
-        steps
-    })
-
+    
     const currentIndex = steps.findIndex(step => step.id === currentStep )
 
 

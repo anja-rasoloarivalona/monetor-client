@@ -11,7 +11,8 @@ const initialState = {
     transactions: null,
     checkedToken: false,
     locations: null,
-    defaultBackground: null
+    defaultBackground: null,
+    uploadIsOnGoing: false
 }
 
 const clearUser = (state) => {
@@ -103,6 +104,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.TOGGLE_DRAGGABLE_MESSAGE: return toggleDraggableMessage(state, action)
         case actionTypes.SET_USER_BALANCE: return updatedObject(state, {balance: action.balance})
         case actionTypes.SET_USER_LOCATIONS: return setUserLocations(state, action)
+        case actionTypes.SET_UPLOAD_ACTIVITY: return updatedObject(state, { uploadIsOnGoing: action.value })
         default: return state
     }
 }

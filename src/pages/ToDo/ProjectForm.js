@@ -186,9 +186,6 @@ const ProjectForm = props => {
             })
             try {
                 const res = await axios.post("/todo/board", payload)
-                console.log({
-                    res
-                })
             } catch(err){
                 console.log({
                     err

@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React from "react"
 import styled from "styled-components"
+import { Loader } from '../../components'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
     width: 100%;
@@ -35,7 +37,16 @@ const Button = styled.div`
     }
 `
 
+const LoaderContainer = styled.div`
+    margin-left: 2rem;
+`
+
 const Header = () => {
+
+    const {
+        user: { uploadIsOnGoing }
+    } = useSelector(state => state)
+
     return (
         <Container>
             <Section>
@@ -51,6 +62,11 @@ const Header = () => {
                 <Button>
                     <FontAwesomeIcon icon="filter"/>
                 </Button>
+                {uploadIsOnGoing && (
+                    <LoaderContainer>
+                        <Loader />
+                    </LoaderContainer>
+                )}
             </Section>
         </Container>
      )

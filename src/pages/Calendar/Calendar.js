@@ -8,6 +8,7 @@ import { ScrollBar } from '../../components'
 
 const Container = styled.div`
     width: 100%;
+    height: calc(100vh - 6.5rem);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -19,7 +20,7 @@ const ViewContainer = styled.div`
     display: grid;
     width: calc(100vw - 2rem);
     transform: ${props => props.viewMode === "week" ? 0 : "-100%"};
-    background: ${props => props.theme.surface};
+    background: ${props => props.theme.background};
     border-top-left-radius: 3rem;
     border-top-right-radius: 3rem;
     overflow: hidden;

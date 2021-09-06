@@ -174,13 +174,9 @@ const App = () => {
 
   useEffect(() => {
     if(user && user.id){
-
         const synchoniseHandler = () => {
           const { add, update, delete: toBeDeleted, updatedAt} = toSynchronise
           const hasChanges = [...Object.values(add), ...Object.values(update), ...toBeDeleted]
-          console.log({
-            hasChanges
-          })
           if(hasChanges.length > 0){
             // axios.post("/note/synchronise", {
             //   add: Object.values(add),

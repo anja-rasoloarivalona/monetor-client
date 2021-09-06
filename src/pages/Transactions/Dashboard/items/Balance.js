@@ -71,9 +71,6 @@ const Balance = () => {
             dispatch(actions.setUserBalance(formattedValue))
             try {
                 const res = await axios.put("/user/balance", {balance: formattedValue})
-                console.log({
-                    res
-                })
             } catch(err){
                 console.log(err)
             }

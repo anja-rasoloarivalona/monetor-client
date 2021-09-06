@@ -162,10 +162,6 @@ const ToDo = props => {
         }
     }
 
-    console.log({
-        todoBoards
-    })
-
     return (
         <Container>
             {!isInitialized ?

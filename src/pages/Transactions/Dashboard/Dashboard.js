@@ -123,9 +123,9 @@ const Dashboard = () => {
     }
 
     const stopHandler = layout => {
-        console.log({
-            layout
-        })
+        // console.log({
+        //     layout
+        // })
     }
 
     return (

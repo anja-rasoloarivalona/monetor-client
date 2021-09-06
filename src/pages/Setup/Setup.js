@@ -132,9 +132,6 @@ const Setup = () => {
                 budgets
             }
             const res = await axios.post("/setup/init", data)
-            console.log({
-                res
-            })
         } catch(err){
             console.log({
                 err

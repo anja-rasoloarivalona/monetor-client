@@ -11,6 +11,7 @@ import { useOnClickOutside } from '../../../hooks'
 
 const Container = styled.div`
     width: 100%;
+    flex: 1;
     min-height: 5rem;
     background: ${props => props.theme.surface};
     border-radius: .5rem;
@@ -24,6 +25,7 @@ const Container = styled.div`
     .rdw-editor-wrapper {
         position: relative;
         width: 100%;
+        height: 100%;
         padding-bottom: 3.5rem;
 
         .rdw-editor-toolbar {
@@ -136,7 +138,8 @@ const NoteInput = props => {
         customStyle,
         customRef,
         focusEnd,
-        inputId
+        inputId,
+        isSmall
     } = props
 
     const {
@@ -206,6 +209,30 @@ const NoteInput = props => {
         onChange(content)
     }
 
+    const toolBarConfig = {
+        default: {
+            options: [
+                'inline',
+                'list',
+                'link',
+                'emoji',
+            ],
+            inline: {
+                inline: { inDropdown: true },
+                options: ['bold', 'italic', 'underline']
+            },
+        },
+        small: {
+            options: ["inline", "list"],
+            inline: {
+                options:  ['bold', 'italic']
+            },
+            list: {
+                options: ['unordered'],
+            }
+        }
+    }
+
     return (
         <Container
             ref={containerRef}
@@ -220,18 +247,7 @@ const NoteInput = props => {
                 onFocus={props.onFocus}
                 onBlur={props.onBlur}
                 placeholder={props.placeholder || ""}
-                toolbar={{
-                    options: [
-                        'inline',
-                        'list',
-                        'link',
-                        'emoji',
-                    ],
-                    inline: {
-                        inline: { inDropdown: true },
-                        options: ['bold', 'italic', 'underline']
-                    },
-                }}  
+                toolbar={isSmall ? toolBarConfig.small : toolBarConfig.default}  
             />
             {config && config.showSaveButton && submitHandler && (
                 <SaveButton onClick={submitHandler}>

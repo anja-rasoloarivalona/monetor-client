@@ -128,10 +128,6 @@ const Main = props => {
     const [ data, setData ] = useState(null)
 
     useEffect(() => {
-        console.log({
-            currentLocation,
-            currentCity
-        })
         if(currentLocation && currentCity){
         // Used only if the user selected his current city location
             if(currentLocation.city.toLowerCase() === currentCity){

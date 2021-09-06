@@ -179,9 +179,6 @@ const Attachments = props => {
                         ownerId: edited.id
                     }
                 })
-                console.log({
-                    res
-                })
                 setIsSubmitting(false)
             } catch(err){
                 console.log({

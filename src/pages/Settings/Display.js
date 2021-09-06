@@ -45,9 +45,6 @@ const Display = () => {
 
     const selectTheme = theme => {
         dispatch(actions.setTheme(theme))
-        console.log({
-            theme
-        })
     }
 
     return (

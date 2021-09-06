@@ -152,7 +152,12 @@ const getUserLocations = () => {
     }
 }
 
-
+const setUploadActivity = value => {
+    return {
+        type: actionTypes.SET_UPLOAD_ACTIVITY,
+        value
+    }
+}
 
 
 export {
@@ -166,5 +171,6 @@ export {
     toggleDraggableMessage,
     setUserBalance,
     getUserLocations,
-    getUserCurrentLocation
+    getUserCurrentLocation,
+    setUploadActivity
 }

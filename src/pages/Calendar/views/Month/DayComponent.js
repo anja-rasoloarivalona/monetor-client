@@ -45,14 +45,6 @@ const DayComponent = props => {
 
     const ref = useRef()
 
-    if(item.id === "01-01-2021"){
-        const test = new Date(item.date).getDate()
-        console.log({
-            test,
-            isScrollInitialized
-        })
-    }
-
     return (
         <Container
             id={item.id}

@@ -173,18 +173,12 @@ const Budget = props => {
                     const currentInput = initialInputs.find(input => input.id === inputId)
                     updatedInputs.push(currentInput)  
                 })
-                console.log({
-                    updatedInputs
-                })
                 setInputs(updatedInputs)
             }
         }
     },[values])
 
     const addBugetHandler = data => {
-        console.log({
-            data
-        })
         const budget = {
             ...data,
             id: data.category.id 

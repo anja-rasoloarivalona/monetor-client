@@ -232,9 +232,6 @@ const Home = () => {
                 id: prev.id
             })
         })
-        console.log({
-            updatedLayout
-        })
         setLayout(updatedLayout)
     }
 

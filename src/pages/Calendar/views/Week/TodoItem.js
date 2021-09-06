@@ -71,10 +71,15 @@ const TodoItem = props => {
 
     const hoursData = getHoursDate(unitType)
 
+
     useEffect(() => {
         if(data){
             if(periodsCount ===  periods.length){
                 if(itemHasChanged()){
+                    console.log("LOOOOOOL", {
+                        item,
+                        data
+                    })
                     const diffDays = item.x - data.x
                     const date = addDays(item.period.range.start, diffDays)
                     const hour = item.y / 2
@@ -87,6 +92,9 @@ const TodoItem = props => {
                         dueDate: endDate
                     }
                     setData(updatedItem)
+                    console.log({
+                        updatedItem
+                    })
                     setToBeSaved(prev => ([...prev, updatedItem]))
                 }
             } else {

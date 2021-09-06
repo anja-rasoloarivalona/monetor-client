@@ -2,23 +2,20 @@ import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { getHoursDate } from './functions'
-import { Button } from '../../../../components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside } from "../../../../hooks"
 import moment from 'moment'
+import WeekDayInput from "./WeekDayInput"
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     border-right: 1px solid ${props =>  props.theme.form.unfocused.border};
 `
-
 const Content = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
 `
-
 const HourLayout = styled.div`
     display: flex;
     flex-direction: column;
@@ -28,12 +25,10 @@ const HourLayout = styled.div`
     width: 100%;
     height: max-content;
 `
-
 const HourLayoutItem = styled.div`
     cursor: pointer;
     border-bottom: 1px solid ${props =>  props.theme.form.unfocused.border};
     position: relative;
-
     :after {
         content: "";
         position: absolute;
@@ -47,7 +42,6 @@ const HourLayoutItem = styled.div`
     :hover {
         background: ${props => props.theme.background};
     };
-
     ${props => {
         const { isHighLighted, current, index } = props
         if(isHighLighted && current.h === index){ 
@@ -61,71 +55,25 @@ const HourLayoutItem = styled.div`
     }}
 `
 
-const InputContainer = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 200%;
-    min-height: 19rem;
-    z-index: 99;
-    background: ${props => props.theme.background};
-    box-shadow: ${props => props.theme.boxShadow};
-    display: flex;
-    flex-direction: column;
-`
-
-const Input = styled.textarea`
-    padding: 1rem;
-    flex: 1;
-    background: transparent;
-    resize: none;
-    border: none;
-    line-height: 1.4;
-    :focus {
-        outline: none;
-    }
-`
-
-const InputCta = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: .5rem;
-
-    button {
-        font-size: 1.2rem !important;
-        padding: .6rem 2rem;
-    }
-`
-const CloseIcon = styled(FontAwesomeIcon)`
-    position: absolute;
-    top: .5rem;
-    right: .5rem;
-    z-index: 2;
-`
-
 const WeekDay = props => {
 
     const { 
-        data: { formatted, range, day, date }, 
+        data: { formatted, date }, 
     } = props
+
 
     const containerRef = useRef()
     const inputRef = useRef()
 
     const { 
-        settings: { locale,unitType },
-        text: { text }
+        settings: { unitType },
     } = useSelector(state => state) 
 
     
     const [ isAdding, setIsAdding ] = useState(false)
-    const [ title, setTitle ] = useState("")
 
     useOnClickOutside(containerRef, () => {
         setIsAdding(false)
-        setTitle("")
     })
 
     const toggleHandler = value => {
@@ -149,42 +97,32 @@ const WeekDay = props => {
         <Container className="weekday" ref={containerRef}>
             <Content className="weekday__content">
                 <HourLayout>
-                    {getHoursDate(unitType).map((h, index) => (
-                        <HourLayoutItem
-                            key={index}
-                            className="item"
-                            isAdding={h === isAdding}
-                            onClick={() => toggleHandler(h)}
-                            isHighLighted={isHighLighted}
-                            h={h}
-                            index={index}
-                            current={{
-                                h: new Date().getHours(),
-                                m: new Date().getMinutes()
-                            }}
-                            id={`${formatted} ${index}h`}
-                        >
-                            {isAdding === h && (
-                                <InputContainer>
-                                    <CloseIcon icon="times"/>
-                                    <Input 
-                                        value={title}
-                                        onChange={e => setTitle(e.target.value)}
-                                        ref={inputRef}
+                    {getHoursDate(unitType).map((h, index) => {
+                        return (
+                            <HourLayoutItem
+                                key={index}
+                                className="item"
+                                isAdding={h === isAdding}
+                                onClick={() => toggleHandler(h)}
+                                isHighLighted={isHighLighted}
+                                h={h}
+                                index={index}
+                                current={{
+                                    h: new Date().getHours(),
+                                    m: new Date().getMinutes()
+                                }}
+                                id={`${formatted} ${index}h`}
+                            >
+                                {isAdding === h && (
+                                    <WeekDayInput
+                                        date={date}
+                                        hour={index}
+                                        closeHandler={() => setIsAdding(false)}
                                     />
-                                    <InputCta>
-                                        <Button square small transparent>
-                                            {text.cancel}
-                                        </Button>
-                                        <Button square small>
-                                            {text.add}
-                                        </Button>
-
-                                    </InputCta>
-                                </InputContainer>
-                            )}
-                        </HourLayoutItem>
-                    ))}
+                                )}
+                            </HourLayoutItem>
+                        )
+                    })}
                 </HourLayout>
             </Content>
         </Container>

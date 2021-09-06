@@ -98,16 +98,35 @@ const Week = props => {
                     if(inRange.length > 0){
                         inRange.forEach(item => {
                             let h = 1
+                            let y = new Date(item.dueDate).getHours() * 2
+
                             if(item.startDate){
-                                h = (Math.abs(new Date(item.dueDate) - new Date(item.startDate)) / 36e5 ) * 2  ;   
+                                h = (Math.abs(new Date(item.dueDate) - new Date(item.startDate)) / 36e5 ) * 2  ;
+                                const tempY = new Date(item.startDate).getHours() * 2
+                                const tempH = new Date(item.startDate).getMinutes()
+                                y = tempH >= 30 ? tempY + 1 : tempY
                             }
+
                             const itemLayout = {
                                 w: 1,
                                 h,
                                 x: period.index.pos,
-                                y: (new Date(item.dueDate).getHours() * 2),
+                                y,
                                 i: item.id,
                             }
+                            
+                            // if(item.id === "B788CBFB4BD64490ABF3038D1226D021"){
+                            //     console.log({
+                            //         item: {
+                            //             ...item,
+                            //             startDate: new Date(item.startDate),
+                            //             dueDate: new Date(item.dueDate),
+                            //             itemLayout,
+                            //             test: new Date(item.dueDate).getHours()
+                            //         }
+                            //     })
+                            // }
+
                             _layout.push({
                                 ...item,
                                 period,
@@ -122,12 +141,7 @@ const Week = props => {
     },[periods, todoLists])
 
     useEffect(() => {
-
         if(periods && layout){
-            console.log({
-                layout
-            })
-            
             const formattedToday = moment(new Date()).format("DD-MM-YYYY")
             const currentId = `${formattedToday} ${new Date().getHours() - 2}h`
             const el = document.getElementById(currentId)
@@ -219,9 +233,9 @@ const Week = props => {
             todoLists: updatedTodoLists,
             boardId: activeBoardId
         }))
-        console.log({
-            payload
-        })
+        // console.log({
+        //     payload
+        // })
         // try {
         //     const res = await axios({
         //         method: "PUT",
@@ -238,6 +252,7 @@ const Week = props => {
         // }
 
     }
+
 
     if(!periods || !layout){
         return null
@@ -297,7 +312,9 @@ const Week = props => {
                                 })}
                             </GridLayout>
                             {periods.map((data, index) => (
-                                <WeekDay key={index} data={data}/>
+                                <WeekDay
+                                    key={index} data={data}
+                                />
                             ))}
                         </ContentSlider>
                 </ContentView>

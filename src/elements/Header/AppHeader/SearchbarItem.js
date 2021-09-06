@@ -154,9 +154,6 @@ const SearchbarItem = props => {
                 toId: user.id
             })
             if(res.status === 200){
-                console.log({
-                    res
-                })
                 setIsSubmitting(false)
             }
         } catch(err){

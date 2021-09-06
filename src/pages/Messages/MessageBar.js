@@ -123,9 +123,6 @@ const MessageBar = props => {
                 updatedAt: new Date(),
                 createdAt: new Date()
             }
-            console.log({
-                newMessage
-            })
             dispatch(actions.addMessage(newMessage))
             socket.emit('send-message', newMessage)
             setMessage("")

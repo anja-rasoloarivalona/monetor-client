@@ -118,14 +118,7 @@ const LabelsSelector = props => {
                     todoLabels: isAdding ? 
                         [{boardId: activeBoardId, id: labelId }, ...edited.todoLabels] :
                         edited.todoLabels.filter(label => label.id !== labelId )
-                }
-    
-                console.log({
-                    updatedTodo,
-                    labelId,
-                    isAdding
-                })
-    
+                }   
                 setTodoLists(prev => {
                     const listId = edited.todoListId
                     const tempIndex = prev[listId].todos.findIndex(i => i.id === edited.id)

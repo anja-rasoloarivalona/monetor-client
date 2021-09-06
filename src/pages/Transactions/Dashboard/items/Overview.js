@@ -127,11 +127,6 @@ const Overview = () => {
       Object.keys(months)
             .sort((a, b) => new Date(moment(a, "MM-YYYY") - new Date(moment(b, "MM-YYYY")) ))
             .forEach(period => {
-
-                console.log({
-                  period
-                })
-
                 chartData.labels.push(period)
                 chartData.datasets[0].data.push(months[period].expense)
                 chartData.datasets[1].data.push(months[period].income)
