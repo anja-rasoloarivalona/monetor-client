@@ -58,6 +58,11 @@ const getHoursDate = type => {
             }
         })
     }
+    if(type === "metric"){
+        for(let i = 1; i < 25; i++){
+            res.push(`${i}h`)
+        }
+    }
     return res
 }
 

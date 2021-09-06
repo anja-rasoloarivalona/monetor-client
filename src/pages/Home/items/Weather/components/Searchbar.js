@@ -135,25 +135,14 @@ const Searchbar = () => {
     }
 
     const selectCityHandler = async cityData => {
-
         const { dateTime, metadata }  = await getCityDateTime(cityData.id)
         const currentDate = moment(dateTime).format("YYYY-MM-DD")
         const currentTime = dateTime.getHours()
-
- 
-
         const payload = {
             ...cityData,
             lat: cityData.latitude,
             lng: cityData.longitude,
         }
-
-        console.log({
-            payload,
-            currentDate,
-            currentTime
-        })
-
         dispatch(actions.getWeather(payload, true, {
             date: currentDate,
             time: currentTime,

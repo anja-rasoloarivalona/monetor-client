@@ -4,17 +4,13 @@ import { NavLink } from 'react-router-dom'
 import {  useSelector } from 'react-redux'
 import UserProfile from "./UserProfile"
 import AppIcon from '../../../icons'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-regular-svg-icons'
-import AppSelector from "./AppSelector"
-import Searchbar from "./Searchbar"
 import Messages from './Messages'
 import { Link } from '../../../components'
 import { IconContainer } from './style'
 import { useScroll } from '../../../hooks'
 import { useLocation } from 'react-router-dom'
-import logo from '../../../images/logos/logo-primary.png'
 import { ReactComponent as Text} from '../../../icons/test.svg'
 
 const Container = styled.div`
@@ -69,14 +65,7 @@ const Section = styled.div`
     display: flex;
     align-items: center;
 `
-const ToggleMenu = styled(Section)`
-    height: 100%;
-    a {
-        font-size: 1.8rem;
-        margin-left: 1rem;
-        color: ${props =>  props.theme.text} !important;
-    }
-`
+
 
 const AppList = styled.div`
     display: flex;
@@ -131,6 +120,10 @@ const AppLabel = styled.div`
     font-size: 1.5rem;
 `
 
+const Toggle = styled(IconContainer)`
+    margin-right: 2rem;
+`
+
 const AppHeader = props => {
 
     const { setShowSidebar } = props
@@ -172,8 +165,8 @@ const AppHeader = props => {
 
 
     const links = [
-        {label: text.home, icon: "home", path: text.link_app_home},
-        {label: text.to_do, icon: "todo", path: text.link_todo},
+        {label: text.dashboard, icon: "dashboard", path: text.link_dashboard},
+        {label: text.projects, icon: "todo", path: text.link_projects},
         {label: text.calendar, icon: "calendar", path: text.link_calendar},
         {label: text.transactions, icon: "transactions", path: text.link_transactions },
         {label: text.notes, icon: "notes", path: text.link_notes}
@@ -185,16 +178,13 @@ const AppHeader = props => {
             useTransparentHeader={useTransparentHeader}
             useSecondary={useSecondary}
         >
-
                     <Section>
-                        {/* <ToggleMenu className="toggle__menu">
-                            <IconContainer
-                                onClick={() => setShowSidebar(true)}
-                                className="icon__container"
-                            >
-                                <FontAwesomeIcon icon="bars"/>
-                            </IconContainer>
-                        </ToggleMenu> */}
+                        <Toggle
+                            onClick={() => setShowSidebar(true)}
+                            className="icon__container"
+                        >
+                            <AppIcon icon="bars"/>
+                        </Toggle>
                         <AppList>
                             {links.map((link, index) => (
                                     <App key={index} >

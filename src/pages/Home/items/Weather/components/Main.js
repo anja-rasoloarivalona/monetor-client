@@ -128,27 +128,33 @@ const Main = props => {
     const [ data, setData ] = useState(null)
 
     useEffect(() => {
+        console.log({
+            currentLocation,
+            currentCity
+        })
+        if(currentLocation && currentCity){
         // Used only if the user selected his current city location
-        if(currentLocation.city.toLowerCase() === currentCity){
-            const currentDate = moment().format("YYYY-MM-DD")
-            const currentTime = new Date().getHours()
-            setCityDateTime({
-                date: currentDate,
-                time: currentTime,
-                fullDate: new Date()
-            })
-        } else {
-            const currentCityData = weather[currentCity]
-            const { diffHour, offSetHour } = currentCityData.dateTime.metadata
-            const dateTime =  new Date(new Date().setHours(new Date().getHours() + (diffHour + offSetHour)))
-            const currentTime = dateTime.getHours()
-            const currentDate = moment(dateTime).format("YYYY-MM-DD")
-            setCityDateTime({
-                ...currentCityData.dateTime,
-                time: currentTime,
-                date: currentDate,
-                fullDate: dateTime
-            })
+            if(currentLocation.city.toLowerCase() === currentCity){
+                const currentDate = moment().format("YYYY-MM-DD")
+                const currentTime = new Date().getHours()
+                setCityDateTime({
+                    date: currentDate,
+                    time: currentTime,
+                    fullDate: new Date()
+                })
+            } else {
+                const currentCityData = weather[currentCity]
+                const { diffHour, offSetHour } = currentCityData.dateTime.metadata
+                const dateTime =  new Date(new Date().setHours(new Date().getHours() + (diffHour + offSetHour)))
+                const currentTime = dateTime.getHours()
+                const currentDate = moment(dateTime).format("YYYY-MM-DD")
+                setCityDateTime({
+                    ...currentCityData.dateTime,
+                    time: currentTime,
+                    date: currentDate,
+                    fullDate: dateTime
+                })
+            }
         }
     },[currentLocation, currentCity])
 

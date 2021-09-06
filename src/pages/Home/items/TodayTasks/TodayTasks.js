@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
 import moment from "moment"
 import * as actions from '../../../../store/actions'
+import AppIcon from '../../../../icons'
 
 const Container = styled.div`
     width: 100%;
@@ -14,7 +15,7 @@ const Container = styled.div`
 const Header = styled.div`
     font-size: 1.6rem;
     font-weight: 600;
-    margin-bottom: 1.2rem;
+    margin-bottom: 2rem;
 `
 
 const List = styled.div`
@@ -23,12 +24,27 @@ const List = styled.div`
 const ListItem = styled.div`
     padding: 1rem;
     font-size: 1.4rem;
-    // box-shadow: ${({theme}) => theme.boxShadowLight};
+    cursor: pointer;
     margin-bottom: 1rem;
     background: ${props => props.theme.background};
     border: 1px solid ${props => props.theme.line};
     border-radius: .5rem;
 `
+
+const Add = styled(ListItem)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    :hover {
+        background: ${props => props.theme.background};
+    }
+    svg {
+        width: 2rem;
+        height: 2rem;
+    }
+`
+
 
 const TodayTasks = () => {
 
@@ -85,6 +101,9 @@ const TodayTasks = () => {
         <Container>
             <Header>{text.today_tasks}</Header>
             <List>
+                <Add>
+                    <AppIcon id="plus"/>
+                </Add>
                 {data.map(item => (
                     <ListItem key={item.id}>
                         {item.title}

@@ -82,7 +82,7 @@ const Routes = props => {
             const forbiddenPages = [text.link_login, text.link_signup, text.link_setup]
             const currentPathname = location.pathname.split("/")[1]
             if(forbiddenPages.includes(currentPathname)){
-                props.history.push(`/${text.link_home}`)
+                props.history.push(`/${text.link_dashboard}`)
             }
         }
     },[currency, user, location])
@@ -97,9 +97,9 @@ const Routes = props => {
                 <Route path={`/${text.link_signup}`} component={Signup} />
                 <Route path={`/${text.link_setup}`} component={Setup} />
                 <Route path={`/${text.link_transactions}`} component={Transactions} />
-                <Route exact path={`/${text.link_todo}`} component={TodoHome} />
-                <Route path={`/${text.link_todo}/:boardId`} component={Todo} />
-                <Route path={`/${text.link_app_home}`} component={Home} />
+                <Route exact path={`/${text.link_projects}`} component={TodoHome} />
+                <Route path={`/${text.link_projects}/:boardId`} component={Todo} />
+                <Route path={`/${text.link_dashboard}`} component={Home} />
                 <Route path={`/${text.link_messages}`} component={Messages} />
                 <Route path={`/${text.link_calendar}`} component={Calendar} />
                 <Route path={`/${text.link_notes}/:folder?/:noteId?`} component={Notes} />

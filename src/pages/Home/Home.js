@@ -12,7 +12,8 @@ import WeatherDashboardItem from "./items/Weather/WeatherDashboardItem"
 import Weather from './items/Weather/Weather'
 import RecentNotes from './items/RecentNotes/RecentNotes'
 import TodayTasks from './items/TodayTasks/TodayTasks'
-
+import Projects from './items/Projects/Projects'
+import ComingSoon from './items/ComingSoon/ComingSoon'
 
 import AppSelector from "./items/AppSelector/AppSelector"
 import Balance from '../Transactions/Dashboard/items/Balance'
@@ -189,13 +190,16 @@ const Home = () => {
                 customRef={weatherRef} 
             />
         ),
+        "today_tasks": TodayTasks,
+        "recent_notes": RecentNotes,
+        "notes": () => <Notes disabled={true} />,
+        "projects": Projects,
+        "coming_soon": ComingSoon,
         "appSelector": AppSelector,
         "balance": Balance,
         "monthly_report": MonthlyReport,
         "last_transactions": LastTransactions,
-        "today_tasks": TodayTasks,
-        "recent_notes": RecentNotes,
-        "notes": () => <Notes disabled={true} />
+
     }
 
 

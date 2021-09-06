@@ -14,7 +14,11 @@ const icons = {
     1240: "light-rain",
     1243: "rain",
     1246: "rain",
-    1273: "thunder"
+    1273: "thunder",
+    1153: "light-drizzle",
+    1150: "light-drizzle",
+    1030: "mist"
+
 }
 
 export {

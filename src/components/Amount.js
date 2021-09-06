@@ -20,13 +20,13 @@ const Amount = props => {
     if(locale === "fr"){
         return (
             <Container>
-                {addSpaces(value.toFixed(2))}{currency.symbol}
+                {addSpaces(value.toFixed(2))}{currency?.symbol}
             </Container>
         )
     } else {
         return (
             <Container>
-                {currency.symbol}{addSpaces(value.toFixed(2))} 
+                {currency?.symbol}{addSpaces(value.toFixed(2))} 
             </Container>
         )
     }

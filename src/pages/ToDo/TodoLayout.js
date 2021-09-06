@@ -23,6 +23,7 @@ const Container = styled.div`
     }
 `
 const LayoutItem = styled.div`
+    padding-right: 2rem;
 `
 
 const TitleContainer = styled.div`
@@ -54,13 +55,19 @@ const AddCard = styled.div`
     font-size: 1.3rem;
     color: ${({ theme }) => theme.dynamicTextLight};
     cursor: pointer;
-    background: ${({theme}) => theme.surface};
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: ${({theme}) => theme.boxShadowLight};
-    :hover {
-        color: ${props => props.theme.text}
+    border: 1px solid ${props => props.theme.line};
+    background: ${({theme}) => theme.background};
+
+    &:hover {
+        color: ${props => props.theme.text};
+        background: ${({theme}) => theme.surface};
+        // box-shadow: ${({theme}) => theme.boxShadowLight};
+        // border-color: ${({theme}) => theme.surface};
+
+
     }
     svg {
         margin-right: 1rem;
@@ -236,7 +243,7 @@ const TodoLayout = props => {
                 layout={layout}
                 rowHeight={20}
                 cols={todoLists.length}
-                width={todoLists.length * 350}
+                width={todoLists.length * 360}
                 margin={[15, 15]}
                 onDrag={() => setIsDragging(true)}
                 onDragStop={stopDragHandler}

@@ -15,6 +15,10 @@
         "fr": "Ajouter une description détaillée ...",
         "en": "Add a details description ..."
     },
+    "add_a_list": {
+        "fr": "Ajouter une liste",
+        "en": "Add list"
+    },
     "added": {
         "fr": "Ajouté",
         "en": "Added"
@@ -106,6 +110,10 @@
     "city": {
         "fr": "Ville",
         "en": "City"
+    },
+    "city_placeholder": {
+        "fr": "Entrez le nom d'une ville",
+        "en": "Enter a city name"
     },
     "close_formatting_help": {
         "fr": "Fermer mise en forme",
@@ -454,6 +462,10 @@
     "profile": {
         "fr": "Profil",
         "en": "Profile"
+    },
+    "projects": {
+        "fr": "Projets",
+        "en": "Projects"
     },
     "required": {
         "fr": "Requis",

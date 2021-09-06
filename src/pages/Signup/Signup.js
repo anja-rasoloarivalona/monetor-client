@@ -87,17 +87,13 @@ const TacInput = styled.input`
 const TacLabel = styled.div``
 
 
-const Signup = () => {
+const Signup = props => {
 
     const dispatch = useDispatch()
-
     const [ hasAccepted, setHasAccepted ] = useState(false)
 
-    console.log({
-        hasAccepted
-    })
-
-    const { 
+    const {
+        settings: { locale }, 
         text: { text }
     } = useSelector(state => state)
 
@@ -171,7 +167,8 @@ const Signup = () => {
                 lat: location.latitude,
                 lng: location.longitude,
                 regionCode: location.region_code,
-                countryCode: location.country_code
+                countryCode: location.country_code,
+                locale
             })
             if(res.status === 201){
                 dispatch(actions.setUser(res.data.data))

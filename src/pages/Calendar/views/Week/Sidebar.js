@@ -57,6 +57,10 @@ const Sidebar = () => {
         settings: { unitType }
     } = useSelector(state => state)
 
+    console.log({
+        data: getHoursDate(unitType)
+    })
+
     return (
         <>
             <Container className="sidebar">

@@ -8,7 +8,7 @@ import setup from './setup.json'
 import todo from './to-do.json'
 import transactions from './transactions.json'
 
-const lexique = { login, signup, home, setup, todo, transactions}
+const lexique = { login, signup, home, setup, projects: todo, transactions}
 
 const getText = (locale, page) => {
     const text = {

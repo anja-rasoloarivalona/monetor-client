@@ -92,35 +92,42 @@ const Week = props => {
     useEffect(() => {
         if(periods){
             const _layout = []
-            periods.forEach(period => {
-                const inRange = getInRangeTodoLists(todoLists, period.range)
-                if(inRange.length > 0){
-                    inRange.forEach(item => {
-                        let h = 1
-                        if(item.startDate){
-                            h = (Math.abs(new Date(item.dueDate) - new Date(item.startDate)) / 36e5 ) * 2  ;   
-                        }
-                        const itemLayout = {
-                            w: 1,
-                            h,
-                            x: period.index.pos,
-                            y: (new Date(item.dueDate).getHours() * 2),
-                            i: item.id,
-                        }
-                        _layout.push({
-                            ...item,
-                            period,
-                            ...itemLayout
+            if(todoLists){
+                periods.forEach(period => {
+                    const inRange = getInRangeTodoLists(todoLists, period.range)
+                    if(inRange.length > 0){
+                        inRange.forEach(item => {
+                            let h = 1
+                            if(item.startDate){
+                                h = (Math.abs(new Date(item.dueDate) - new Date(item.startDate)) / 36e5 ) * 2  ;   
+                            }
+                            const itemLayout = {
+                                w: 1,
+                                h,
+                                x: period.index.pos,
+                                y: (new Date(item.dueDate).getHours() * 2),
+                                i: item.id,
+                            }
+                            _layout.push({
+                                ...item,
+                                period,
+                                ...itemLayout
+                            })
                         })
-                    })
-                }
-            })
+                    }
+                })
+            }
             setLayout(_layout)
         }
-    },[periods])
+    },[periods, todoLists])
 
     useEffect(() => {
+
         if(periods && layout){
+            console.log({
+                layout
+            })
+            
             const formattedToday = moment(new Date()).format("DD-MM-YYYY")
             const currentId = `${formattedToday} ${new Date().getHours() - 2}h`
             const el = document.getElementById(currentId)

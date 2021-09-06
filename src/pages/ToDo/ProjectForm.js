@@ -124,10 +124,11 @@ const SelectBackground = styled.div`
 
 const SelectBackgroundCta = styled.div``
 
-const ProjectForm = () => {
+const ProjectForm = props => {
+
+    const { closeHandler } = props
 
     const listRef = useRef()
-
 
     const {
         text: { text },
@@ -263,7 +264,7 @@ const ProjectForm = () => {
                 </SelectBackground>
          
                 <Cta>
-                    <Button transparent>
+                    <Button transparent onClick={closeHandler}>
                         {text.cancel}
                     </Button>
                     <ButtonWithLoader

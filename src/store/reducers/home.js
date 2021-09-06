@@ -9,13 +9,14 @@ const initialState = {
 
 
 const setWeather = (state, action) => {
-    const { city, data, isCurrent, dateTime } = action.cityData
+    const { city, data, isCurrent, dateTime, location } = action.cityData
     const updatedWeather = state.weather ? {...state.weather} : {}
     updatedWeather[city.toLowerCase()] = {
         lastUpdate: new Date(),
         weather: data,
         isCurrent,
-        dateTime
+        dateTime,
+        location
     }
     // localStorage.setItem("weather", JSON.stringify(updatedWeather))
     return updatedObject(state, {

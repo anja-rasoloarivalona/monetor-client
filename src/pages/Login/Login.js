@@ -165,7 +165,7 @@ const Login = props => {
             delete resData.settings
             dispatch(actions.setUser(resData))
             dispatch(actions.setCurrency(user.settings))
-            props.history.push(`/${text.link_app_home}`)
+            props.history.push(`/${text.link_dashboard}`)
         } catch(err){
             console.log({
                 err

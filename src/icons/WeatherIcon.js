@@ -3,6 +3,62 @@ import styled from "styled-components"
 import sprite from './weatherSprite.svg'
 
 const codes = {
+    200: "light-thunder",
+    201: "rain-thunder",
+    202: "rain-thunder",
+    210: "light-thunder",
+    211: "light-thunder",
+    212: "light-thunder",
+    221: "light-thunder",
+    230: "rain-thunder",
+    231: "rain-thunder",
+    232: "rain-thunder",
+    300: "light-rain",
+    301: "light-rain",
+    302: "light-rain",
+    310: "light-rain",
+    311: "light-rain",
+    312: "rain",
+    313: "rain",
+    314: "heavy-rain",
+    321: "rain",
+    500: "light-rain",
+    501: "rain",
+    502: "heavy-rain",
+    503: "torrential-rain",
+    504: "torrential-rain",
+    511: "rain",
+    520: "light-rain",
+    521: "rain",
+    522: "heavy-rain",
+    531: "heavy-rain",
+    600: "light-snow",
+    601: "snow",
+    602: "heavy-snow",
+    611: "light-sleet",
+    612: "light-sleet",
+    613: "light-sleet",
+    615: "light-snow",
+    616: "snow",
+    620: "light-snow",
+    621: "snow",
+    622: "heavy-snow",
+    701: "mist",
+    711: "mist",
+    721: "mist",
+    731: "mist",
+    741: "mist",
+    751: "mist",
+    761: "mist",
+    762: "mist",
+    771: "mist",
+    781: "mist",
+    800: "clear",
+    801: "partly-cloudy",
+    802: "partly-cloudy",
+    803: "cloudy",
+    804: "cloudy",
+    
     1000: "clear",
     1003: "partly-cloudy",
     1006: "cloudy",
@@ -24,6 +80,7 @@ const codes = {
     1180: "light-rain",
     1183: "light-rain",
     1186: "rain",
+    1189: "rain",
     1192: "heavy-rain",
     1195: "heavy-rain",
     1198: "light-rain",
@@ -55,9 +112,9 @@ const codes = {
 const Container = styled.svg``
 
 const WeatherIcon = props => {
-    const { data: { condition, is_day } } = props
-    const type = is_day ? "day" : "night"
-    const id = codes[condition.code]
+    const { data:{ id: code , icon} } = props
+    const type = icon[2] === "d" ? "day" : "night"
+    const id = codes[code]
     return (
         <Container className={`#${type}-${id}`}>
              <use href={sprite + `#${type}-${id}`}/>          

@@ -17,7 +17,7 @@ const Container = styled.div`
     font-size: 1.4rem;
     height: max-content;
     padding: 0 1rem;
-    transform: translateX(${props => `${350 * props.length}`}px);
+    transform: translateX(${props => `${360 * props.length}`}px);
     margin-top: .8rem;
     background: ${props => props.adding ? props.theme.onSurface : "none"};
 

@@ -4,19 +4,25 @@
         ],
         "xxl": [
             { "w": 8, "h": 6, "x": 7, "y": 0, "i": "weather", "display": true },
-            { "w": 7, "h": 17, "x": 0, "y": 0, "i": "calendar", "display": true },
-            { "w": 4, "h": 3, "x": 15, "y": 0, "i": "balance", "display": true },
-            { "w": 5, "h": 3, "x": 19, "y": 0, "i": "monthly_report", "display": true },
-            { "w": 8, "h": 11, "x": 7, "y": 6, "i": "notes", "display": true },
-            { "w": 9, "h": 7, "x": 15, "y": 3, "i": "last_transactions", "display": true }
+            { "w": 6, "h": 6, "x": 0, "y": 6, "i": "recent_notes", "display": true },
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "today_tasks", "display": true },
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "projects", "display": true },
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "coming_soon", "display": true }
+
         ],
         "xl": [
             { "w": 6, "h": 6, "x": 0, "y": 0, "i": "weather", "display": true },
             { "w": 6, "h": 6, "x": 0, "y": 6, "i": "recent_notes", "display": true },
-            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "today_tasks", "display": true }
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "today_tasks", "display": true },
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "projects", "display": true },
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "coming_soon", "display": true }
         ],
         "lg": [
-            { "w": 6, "h": 6, "x": 0, "y": 0, "i": "weather", "display": true }
+            { "w": 8, "h": 6, "x": 7, "y": 0, "i": "weather", "display": true },
+            { "w": 6, "h": 6, "x": 0, "y": 6, "i": "recent_notes", "display": true },
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "today_tasks", "display": true },
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "projects", "display": true },
+            { "w": 6, "h": 12, "x": 6, "y": 0, "i": "coming_soon", "display": true }
         ],
         "md": [
         ],

@@ -5,7 +5,7 @@ const initialState = {
     locale: localStorage.getItem("locale") || "en",
     currency: null,
     socket: null,
-    unitType: localStorage.getItem("unitType") || "imperial",
+    unitType: localStorage.getItem("unitType") || "metric",
     defaultBackground: null,
 }
 

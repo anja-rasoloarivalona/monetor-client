@@ -266,7 +266,16 @@ const compressImageFile = async file => {
       }
 }
 
+
+const capitalizeFirstLetter = text => {
+    const data = text.split(" ")
+    let firstWord = data[0].charAt(0).toUpperCase() + data[0].substring(1); 
+    data[0] = firstWord
+    return data.join(" ")
+}
+
 export {
+    capitalizeFirstLetter,
     enableScroll,
     disableScroll,
     arrayToObject,

@@ -108,5 +108,11 @@
         "en": "profile",
         "page": "profile",
         "type": "app"
+    },
+    "link_projects": {
+        "fr": "projets",
+        "en": "projects",
+        "page": "projects",
+        "type": "app"
     }
 }

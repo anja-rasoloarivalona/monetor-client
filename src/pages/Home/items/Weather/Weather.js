@@ -99,7 +99,7 @@ const View = props => {
     // const [ hasInitializedWeather, setHasInitializedWeather ] = useState(false)
  
     useEffect(() => {
-        if(!locations){
+        if(!locations || (locations && !locations.current)){
             dispatch(actions.getUserCurrentLocation())
             dispatch(actions.getUserLocations())
         }
