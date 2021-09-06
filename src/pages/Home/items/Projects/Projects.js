@@ -4,11 +4,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import AppIcon from '../../../../icons'
 import { withRouter } from 'react-router-dom'
 import * as actions from '../../../../store/actions'
+import { HeaderCta, HeaderCtaItem,HeaderLabel } from '../style'
 
 const Container = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 1rem;
+    padding: 2rem;
+    background: ${({ theme }) => theme.secondarySurface};
+    position: relative;
+
 `
 const Header = styled.div`
     font-size: 1.6rem;
@@ -23,8 +28,8 @@ const ListItem = styled.div`
     font-size: 1.4rem;
     cursor: pointer;
     margin-bottom: 1rem;
-    background: ${props => props.theme.background};
-    border: 1px solid ${props => props.theme.line};
+    background: ${({ theme }) => theme.surface};
+    box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
     border-radius: .5rem;
 `
 
@@ -60,12 +65,17 @@ const Projects = props => {
     return (
         <Container>
             <Header>
-                {text.my_projects}
+                <HeaderLabel>{text.my_projects}</HeaderLabel>
+                <HeaderCta>
+                    <HeaderCtaItem onClick={() => props.history.push(`/${text.link_projects}?add=true`)}>
+                        <AppIcon id="plus"/>
+                    </HeaderCtaItem>
+                    <HeaderCtaItem className="small">
+                        <AppIcon id="ellipsis-h"/>
+                    </HeaderCtaItem>
+                </HeaderCta>
             </Header>
             <List>
-                <Add onClick={() => props.history.push(`/${text.link_projects}?add=true`)}>
-                    <AppIcon id="plus"/>
-                </Add>
                 {todoBoards && Object.values(todoBoards).map(board => (
                     <ListItem key={board.boardId} onClick={() => selectProjectHandler(board.boardId)}>
                         {board.title}

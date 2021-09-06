@@ -141,7 +141,6 @@ const View = props => {
                 <NextHours cityDateTime={cityDateTime}/>
                 <NextDays />
             </Body>
-
             <CloseButton onClick={() => setIsViewingWeather(false)}>
                 <FontAwesomeIcon icon="times-circle"/>
             </CloseButton>

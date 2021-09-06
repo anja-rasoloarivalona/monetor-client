@@ -55,7 +55,7 @@ const GridItem = styled.div`
         if(props.id !== "calendar"){
             return {
                 padding: "2rem",
-                boxShadow: props.theme.boxShadowLight,
+                boxShadow: props.theme.boxShadowExtraLight,
                 borderRadius: "1rem",
                 background: props.theme.surface
             }
@@ -63,7 +63,7 @@ const GridItem = styled.div`
     }}
 
     ${props => {
-        if(props.id === "weather" || props.id === "today_tasks"){
+        if(props.id === "weather" || props.id === "today_tasks" || props.id === "projects"){
             return {
                 padding: "0rem"
             }

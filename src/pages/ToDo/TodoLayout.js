@@ -6,6 +6,7 @@ import "../../../node_modules/react-resizable/css/styles.css"
 import Card from './Card'
 import CardInput from './CardInput'
 import AddList from './AddList'
+import TodoBackgroundList from "./TodoBackgroundList"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { generateId, arrayToObject } from '../../functions'
 
@@ -14,16 +15,18 @@ const Container = styled.div`
     flex: 1;
     height: calc(100vh - 13.8rem);
     display: flex;
+    position: relative;
 
     .layout {
         width: 0px !important;
+        z-index: 2;
     }
     .react-grid-item.react-grid-placeholder {
         background-color: ${({theme}) => theme.text};
     }
 `
 const LayoutItem = styled.div`
-    padding-right: 2rem;
+
 `
 
 const TitleContainer = styled.div`
@@ -35,7 +38,7 @@ const Title = styled.div`
     height: 100%;
     font-size: 1.6rem;
     font-weight: 600;
-    color: ${props => props.theme.dynamicText};
+    color: ${props => props.theme.text};
 `
 
 const TitleCta = styled.div`
@@ -64,11 +67,8 @@ const AddCard = styled.div`
     &:hover {
         color: ${props => props.theme.text};
         background: ${({theme}) => theme.surface};
-        // box-shadow: ${({theme}) => theme.boxShadowLight};
-        // border-color: ${({theme}) => theme.surface};
-
-
     }
+    
     svg {
         margin-right: 1rem;
     }
@@ -81,6 +81,8 @@ const TodoLayout = props => {
     const [ copy, setCopy ] = useState(null)
     const [ isAddingCard, setIsAddingCard ] = useState(false)
     const [ isDragging, setIsDragging ] = useState(null)
+    const [ isDraggingTo, setIsDraggingTo ] = useState(null)
+
 
     const addCardHandler = listId => {
         if(isAddingCard !== listId){
@@ -236,15 +238,27 @@ const TodoLayout = props => {
         return null
     }
 
+    const config = {
+        rowHeight: 20,
+        listWidth: 360,
+        margin: [30, 15]
+    }
+
     return (
         <Container>
+            <TodoBackgroundList
+                layout={layout}
+                config={config} 
+                isDragging={isDragging}
+
+            />
             <Layout
                 className="layout"
                 layout={layout}
-                rowHeight={20}
+                rowHeight={config.rowHeight}
                 cols={todoLists.length}
-                width={todoLists.length * 360}
-                margin={[15, 15]}
+                width={todoLists.length * config.listWidth + (40 * todoLists.length)}
+                margin={config.margin}
                 onDrag={() => setIsDragging(true)}
                 onDragStop={stopDragHandler}
             >
