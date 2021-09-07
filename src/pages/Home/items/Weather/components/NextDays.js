@@ -80,10 +80,9 @@ const ItemOverview = styled.div`
 `
 
 const ItemOverviewIcon = styled.div`
-    svg {
+    img {
         width: 5rem;
         height: 5rem;
-        fill:  ${({ theme }) => theme.textLight};
     }
 `
 const ItemOverviewCondition = styled.div`

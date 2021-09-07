@@ -1,6 +1,10 @@
 import React from "react"
 import styled from "styled-components"
-import sprite from './weatherSprite.svg'
+
+const Img = styled.img`
+    width: 2rem;
+    height: 2rem;
+`
 
 const codes = {
     200: "light-thunder",
@@ -8,22 +12,22 @@ const codes = {
     202: "rain-thunder",
     210: "light-thunder",
     211: "light-thunder",
-    212: "light-thunder",
-    221: "light-thunder",
+    212: "heavy-thunder",
+    221: "heavy-thunder",
     230: "rain-thunder",
     231: "rain-thunder",
     232: "rain-thunder",
-    300: "light-rain",
+    300: "extra-light-rain",
     301: "light-rain",
     302: "light-rain",
-    310: "light-rain",
-    311: "light-rain",
+    310: "rain",
+    311: "rain",
     312: "rain",
     313: "rain",
-    314: "heavy-rain",
-    321: "rain",
+    314: "moderate-rain",
+    321: "moderate-rain",
     500: "light-rain",
-    501: "rain",
+    501: "moderate-rain",
     502: "heavy-rain",
     503: "torrential-rain",
     504: "torrential-rain",
@@ -35,9 +39,9 @@ const codes = {
     600: "light-snow",
     601: "snow",
     602: "heavy-snow",
-    611: "light-sleet",
-    612: "light-sleet",
-    613: "light-sleet",
+    611: "sleet",
+    612: "sleet",
+    613: "light-snow",
     615: "light-snow",
     616: "snow",
     620: "light-snow",
@@ -58,68 +62,14 @@ const codes = {
     802: "partly-cloudy",
     803: "cloudy",
     804: "cloudy",
-    
-    1000: "clear",
-    1003: "partly-cloudy",
-    1006: "cloudy",
-    1009: "cloudy",
-    1030: "mist",
-    1063: "light-rain",
-    1066: "light-snow",
-    1069: "light-sleet",
-    1072: "light-rain",
-    1087: "light-thunder",
-    1114: "snow",
-    1117: "heavy-snow",
-    1135: "mist",
-    1147: "mist",
-    1150: "light-rain",
-    1153: "light-rain",
-    1168: "rain",
-    1171: "heavy-rain",
-    1180: "light-rain",
-    1183: "light-rain",
-    1186: "rain",
-    1189: "rain",
-    1192: "heavy-rain",
-    1195: "heavy-rain",
-    1198: "light-rain",
-    1201: "heavy-rain",
-    1204: "light-sleet",
-    1207: "light-sleet",
-    1210: "light-snow",
-    1213: "light-snow",
-    1216: "snow",
-    1219: "snow",
-    1222: "heavy-snow",
-    1225: "heavy-snow",
-    1237: "pellets",
-    1240: "light-rain",
-    1243: "heavy-rain",
-    1246: "torrential-rain",
-    1249: "light-sleet",
-    1252: "light-sleet",
-    1255: "light-snow",
-    1258: "snow",
-    1261: "pellets",
-    1264: "pellets",
-    1273: "rain-thunder",
-    1276: "rain-thunder",
-    1279: "rain-thunder",
-    1282: "rain-thunder"
 }
 
-const Container = styled.svg``
 
 const WeatherIcon = props => {
     const { data:{ id: code , icon} } = props
     const type = icon[2] === "d" ? "day" : "night"
     const id = codes[code]
-    return (
-        <Container className={`#${type}-${id}`}>
-             <use href={sprite + `#${type}-${id}`}/>          
-        </Container>
-     )
+    return <Img src={require(`./weatherIcon/${type}/${id}.png`).default} alt={id} />
 };
 
 export default WeatherIcon;

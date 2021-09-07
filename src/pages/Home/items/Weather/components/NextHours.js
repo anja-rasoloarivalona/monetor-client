@@ -55,10 +55,9 @@ const ItemIconContainer = styled.div`
     justify-content: center;
     margin: 1rem 0;
 
-    svg {
+    img  {
         width: 3.5rem;
         height: 3.5rem;
-        fill: ${({ theme }) => theme.textLight};
     }
 `
 

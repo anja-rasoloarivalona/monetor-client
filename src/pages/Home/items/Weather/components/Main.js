@@ -52,20 +52,6 @@ const LocationLabel = styled.div`
     font-size: 1.4rem;
 `
 
-const Cta = styled.div`
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-    display: flex;
-    justify-content: flex-end;
-    cursor: pointer;
-
-    svg {
-        width: 2rem;
-        height: 2rem;
-        transform: translateX(1rem);
-    }
-`
-
 const Summary = styled.div`
     grid-column: 1 / -1;
     grid-row: 2 / 3;
@@ -76,10 +62,10 @@ const Summary = styled.div`
     font-size: 1.6rem;
     color: ${({theme}) => theme.dynamicTextLight} !important;
 
-    svg {
+    img {
         width: 8rem;
         height: 8rem;
-        fill: ${({theme}) => theme.dynamicTextLight} !important;
+        margin-bottom: 1rem;
     }
 `
 

@@ -2,8 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import {  Link } from '../../components'
 import { useSelector } from 'react-redux'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faEnvelope } from '@fortawesome/free-regular-svg-icons'
+import AppIcon from '../../icons'
+
 
 const Container = styled.div`
     border-bottom: 1px solid ${props => props.theme.background};
@@ -25,6 +25,11 @@ const ListItem = styled.div`
     font-size: 1.4rem;
     cursor: pointer;
 
+    svg {
+        width: 2rem;
+        height: 2rem;
+    }
+
     :hover {
         background: ${props => props.theme.background};
     }
@@ -40,6 +45,11 @@ const ListItemLink = styled(Link)`
     padding-left: 1.5rem;
     font-size: 1.4rem;
 
+    svg {
+        width: 2rem;
+        height: 2rem;
+    }
+    
     :hover {
         background: ${props => props.theme.background};
     }
@@ -66,9 +76,9 @@ const SidebarLinks = props => {
 
     const items = [
         {
-            label: text.home,
-            link: text.link_app_home,
-            icon: "home"
+            label: text.dashboard,
+            link: text.link_dashboard,
+            icon: "dashboard"
         },
         {
             label: text.settings,
@@ -80,11 +90,11 @@ const SidebarLinks = props => {
         //     link: text.link_profile,
         //     icon: faUser
         // },
-        {
-            label: text.invite_members,
-            icon: faEnvelope,
-            action: true
-        }
+        // {
+        //     label: text.invite_members,
+        //     icon: faEnvelope,
+        //     action: true
+        // }
     ]
 
     return (
@@ -92,33 +102,21 @@ const SidebarLinks = props => {
             <List>
                 {items.map((item ,index) => {
 
-                    if(item.action){
-                        return (
-                            <ListItem
-                                key={index}
-                            >
-                                <ListItemIcon>
-                                    <FontAwesomeIcon icon={item.icon}/>
-                                </ListItemIcon>
-                                <ListItemLabel>
-                                    {item.label}
-                                </ListItemLabel>
-                            </ListItem>
-                        )
-                    }
+                    const ItemContainer = item.action ? ListItem : ListItemLink
+
                     return (
-                        <ListItemLink
+                        <ItemContainer
                             key={index}
                             to={`/${item.link}`}
-                            onClick={closeHandler}
+                            onClick={item.action ? closeHandler : null}
                         >
                             <ListItemIcon>
-                                <FontAwesomeIcon icon={item.icon}/>
+                                <AppIcon id={item.icon}/>
                             </ListItemIcon>
                             <ListItemLabel>
                                 {item.label}
                             </ListItemLabel>
-                        </ListItemLink>
+                        </ItemContainer>
                     )
                 })}
             </List>

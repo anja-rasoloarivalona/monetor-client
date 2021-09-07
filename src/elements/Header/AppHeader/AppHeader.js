@@ -7,11 +7,10 @@ import AppIcon from '../../../icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-regular-svg-icons'
 import Messages from './Messages'
-import { Link } from '../../../components'
 import { IconContainer } from './style'
 import { useScroll } from '../../../hooks'
 import { useLocation } from 'react-router-dom'
-import { ReactComponent as Text} from '../../../icons/test.svg'
+import ProjectsSelector from "./ProjectsSelector"
 
 const Container = styled.div`
     height: 6.5rem;
@@ -64,56 +63,76 @@ const Container = styled.div`
 const Section = styled.div`
     display: flex;
     align-items: center;
+    height: 100%;
 `
 
 
 const AppList = styled.div`
     display: flex;
     align-items: center;
+    height: 100%;
+    margin-left: 4rem;
 `
 
 const App = styled.div`
-    border-radius: 1.5rem;
-    overflow: hidden;
-    margin-right: 3rem;
+    margin-right: 4rem;
+    height: 100%;
+    position: relative;
+
+    ul {
+        display: none;
+    }
+
+    :hover {
+        ul {
+            display: block;
+        }
+    }
+
     a {
         display: flex;
         align-items: center;
         text-decoration: none !important;
-        color: ${props => props.theme.text} !important;
+        color: ${props => props.theme.dynamicTextLight} !important;
         font-weight: 500;
-        padding: 1rem 2rem;
-        .icon {
-            svg {
-                fill: ${props => props.theme.text} !important;
-            }
+        height: 100%;
+        padding: 1rem;
+        position: relative;
+
+        svg {
+            fill: ${props => props.theme.dynamicTextLight} !important;
+            margin-left: 1rem;
         }
+
         &:hover {
-            background: ${props => props.theme.onSurface};
+            color:  ${props => props.theme.dynamicText} !important;
         }
         &.active {
-            background: ${props => props.theme.primary};
-            color:  ${props => props.theme.surface} !important;
-            .icon {
-                svg {
-                    fill: ${props => props.theme.surface} !important;
+            color:  ${props => props.theme.dynamicText} !important;
+            svg {
+                fill: ${props => props.theme.dynamicText} !important;
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 3px;
+                width: 100%;
+                background: ${({theme})=>theme.dynamicText}
+            }
+        }
+    }
+
+    ${({ theme, isActive}) => {
+        if(isActive){
+            return {
+                "a, a.active": {
+                    color:  `${theme.dynamicText} !important`,
                 }
             }
         }
-    }
-`
-
-const AppIconContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1rem;
-    border-radius: 50%;
-
-    svg {
-        width: 1.7rem;
-        height: 1.7rem;
-    }
+    }}
 `
 
 const AppLabel = styled.div`
@@ -122,6 +141,18 @@ const AppLabel = styled.div`
 
 const Toggle = styled(IconContainer)`
     margin-right: 2rem;
+    width: 4rem;
+    height 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1.1rem;
+`
+
+const ToggleBar = styled.div`
+    width: 100%;
+    height: 1px;
+    background: ${({ theme }) => theme.text};
 `
 
 const AppHeader = props => {
@@ -131,14 +162,13 @@ const AppHeader = props => {
     const location = useLocation()
 
     const { 
-        user,
         text: { text, page },
         theme: { backgroundImage }
     } = useSelector(state => state)
 
     const initial = backgroundImage ? true : false
     const [ useTransparentHeader, setUseTransparentHeader ] = useState(initial)
-    const [ useSecondary, setUseSecondary ] = useState(false)
+    const [ isHovered, setIsHovered ] = useState(null)
 
     const { scrollY } = useScroll()
 
@@ -156,50 +186,47 @@ const AppHeader = props => {
         if(currentPathname === text.link_transactions){
             setUseTransparentHeader(false)
         }
-        if(currentPathname === text.link_calendar){
-            setUseSecondary(true)
-        } else {
-            setUseSecondary(false)
-        }
     },[location])
 
 
     const links = [
-        {label: text.dashboard, icon: "dashboard", path: text.link_dashboard},
-        {label: text.projects, icon: "todo", path: text.link_projects},
-        {label: text.calendar, icon: "calendar", path: text.link_calendar},
-        {label: text.transactions, icon: "transactions", path: text.link_transactions },
-        {label: text.notes, icon: "notes", path: text.link_notes}
+        {label: text.dashboard, path: text.link_dashboard},
+        {label: text.projects, path: text.link_projects, onHover: () => <ProjectsSelector /> },
+        {label: text.calendar, path: text.link_calendar},
+        {label: text.transactions, path: text.link_transactions },
+        {label: text.notes, path: text.link_notes}
     ]
 
     return (
         <Container
             pageId={page ? page.id : null}
             useTransparentHeader={useTransparentHeader}
-            useSecondary={useSecondary}
         >
                     <Section>
                         <Toggle
                             onClick={() => setShowSidebar(true)}
                             className="icon__container"
                         >
-                            <AppIcon icon="bars"/>
+                            <ToggleBar/>
+                            <ToggleBar/>
+                            <ToggleBar/>
                         </Toggle>
                         <AppList>
                             {links.map((link, index) => (
-                                    <App key={index} >
-                                        <NavLink to={`/${link.path}`}>
-                                            <AppIconContainer className="icon">
-                                                <AppIcon id={link.icon}/>
-                                            </AppIconContainer>
-                                            <AppLabel>{link.label}</AppLabel>
-                                        </NavLink>
-                                    </App>
+                                <App
+                                    key={index}
+                                    onMouseEnter={() => setIsHovered(index)}
+                                    onMouseLeave={() => setIsHovered(null)}
+                                    isActive={isHovered === index}
+                                >
+                                     <NavLink to={`/${link.path}`}>
+                                        <AppLabel>{link.label}</AppLabel>
+                                        {link.onHover && <FontAwesomeIcon icon="chevron-down"/>}
+                                    </NavLink>
+                                    {link.onHover && link.onHover()}
+                                </App>
                             ))}
                         </AppList>
-                    </Section>
-                    <Section>
-                        {/* <Searchbar /> */}
                     </Section>
                     <Section>
                         <Messages />
@@ -208,9 +235,7 @@ const AppHeader = props => {
                         </IconContainer>
                         <UserProfile 
                             useTransparentHeader={useTransparentHeader}
-                            useSecondary={useSecondary}
                         />
-                        {/* <AppSelector useSecondary={useSecondary}/>   */}
                     </Section>
         </Container>
      )

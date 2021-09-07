@@ -1,20 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import { ScrollBar } from '../../components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AppList from './AppList'
 import SubList from './SubList'
 import SidebarLinks from './SidebarLinks'
-
-const Background = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.5);
-    z-index: 99;
-`
+import { useOnClickOutside } from '../../hooks'
 
 const Container = styled.div`
     position: fixed;
@@ -28,6 +18,7 @@ const Container = styled.div`
     transform: translateX(${props => props.showSidebar ? 'none' : '-100%'});
     transition: all .3s ease-in;
     overflow-x: hidden;
+    box-shadow: ${({ theme }) => theme.boxShadow};
 `
 
 const Content = styled.div`
@@ -57,49 +48,27 @@ const HeaderLabel = styled.div`
    font-size: 1.6rem;
 `
 
-const CloseButton = styled.div`
-    width: 4rem;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    cursor: pointer;
-    position: absolute;
-    top: 1rem;
-    left: 32rem;
-    z-index: 110;
-
-    svg {
-        font-size: 2.6rem;
-        color: ${props => props.theme.background};
-    }
-`
 
 const Sidebar = props => {
 
     const { showSidebar, setShowSidebar } = props
-
     const [ showList, setShowList ] = useState(false)
 
+    const container = useRef()
 
     const closeHandler = () => {
         setShowSidebar(false)
         setShowList(false)
     }
 
+    useOnClickOutside(container, () => {
+        if(showSidebar){
+            setShowSidebar(false)
+        }
+    })
+
     return (
-        <>
-            {showSidebar && (
-                <>
-                    <Background onClick={() => setShowSidebar(false)}/>
-                    <CloseButton onClick={() => setShowSidebar(false)}>
-                        <FontAwesomeIcon icon="times"/>
-                    </CloseButton>
-                </>
-            )}
-    
-            <Container showSidebar={showSidebar}>
+<           Container showSidebar={showSidebar} ref={container}>
                 <Content showList={showList}>
                     <ContentSection>
                         <Header>
@@ -125,7 +94,6 @@ const Sidebar = props => {
                     </ContentSection>
                 </Content>   
             </Container>
-        </>
      )
 };
 
