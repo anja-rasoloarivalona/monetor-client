@@ -11,7 +11,7 @@ const Container = styled.div`
     height: 100%;
     padding: 2rem;
     border-radius: 1rem;
-    background: ${({ theme }) => theme.secondarySurface};
+    background: ${({ theme }) => theme.surface};
     position: relative;
 `
 
@@ -29,8 +29,8 @@ const ListItem = styled.div`
     align-items: center;
     cursor: pointer;
     margin-bottom: 1rem;
-    background: ${({ theme }) => theme.surface};
-    box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
+    background: ${({ theme }) => theme.secondarySurface};
+    // box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
     border-radius: .5rem;
 `
 

@@ -15,6 +15,7 @@ const HeaderCtaItem = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border-radius: .5rem;
     svg {
         width: 2rem;
         height: 2rem;

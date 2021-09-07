@@ -274,6 +274,12 @@ const capitalizeFirstLetter = text => {
     return data.join(" ")
 }
 
+
+const stringToQueryParam = text => {
+    if(!text || typeof text !== "string") return ""
+    return text.split(" ").join("-").toLowerCase()
+}
+
 export {
     capitalizeFirstLetter,
     enableScroll,
@@ -288,5 +294,6 @@ export {
     getTimeStamp,
     sortMessages,
     urlIsValid,
-    compressImageFile
+    compressImageFile,
+    stringToQueryParam
 }

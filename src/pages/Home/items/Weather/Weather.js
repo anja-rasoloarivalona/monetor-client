@@ -20,7 +20,7 @@ const Container = styled.div`
     right: 0;
     transition: all .3s ease-in;
     border-radius: 1rem;
-    z-index: 9;
+    z-index: 5;
     display: grid;
     overflow: hidden;
     grid-template-columns: ${({ originPos }) =>  `${originPos.width}px calc(100% - ${originPos.width}px)`};

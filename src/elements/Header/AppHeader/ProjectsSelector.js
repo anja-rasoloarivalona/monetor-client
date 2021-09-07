@@ -12,6 +12,8 @@ const Container = styled.ul`
     border-radius: .5rem;
     list-style: none;
     padding: .5rem;
+    z-index: 10;
+    
     > li:not(:last-child){
         margin-bottom: .5rem;
     }
