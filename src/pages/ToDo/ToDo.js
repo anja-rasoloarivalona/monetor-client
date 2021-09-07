@@ -9,6 +9,7 @@ import EditForm from "./TodoForm/TodoForm"
 import { Loader } from '../../components'
 import axios from 'axios'
 import {  useParams  } from 'react-router-dom'
+import { stringToQueryParam } from '../../functions'
 
 const Container = styled.div`
     width: 100%;
@@ -34,7 +35,7 @@ const Content = styled.div`
 const ToDo = props => {
 
     const dispatch = useDispatch()
-    const { boardId: boardIdParams } = useParams()
+    const { projectName } = useParams()
 
     const { 
         text: { text },
@@ -57,15 +58,20 @@ const ToDo = props => {
 
     useEffect(() => {
         if(!todoBoards){
-            dispatch(actions.getUserTodos(boardIdParams))
+            dispatch(actions.getUserTodos())
         }
     }, [])
 
     useEffect(() => {
         if(todoBoards){
-            if(boardIdParams){
-                if(activeBoardId && boardIdParams !== activeBoardId){
-                    props.history.push(`/${text.link_todo}/${activeBoardId}`)
+            if(projectName){
+                const currentBoard = Object.values(todoBoards).find(board => stringToQueryParam(board.title) === projectName)
+                if(!currentBoard){
+                    props.history.push(`/${text.link_projects}`)
+                } else {
+                    if(!activeBoardId){
+                        dispatch(actions.setActiveTodoBoard(currentBoard.boardId))
+                    }
                 }
             }
         }

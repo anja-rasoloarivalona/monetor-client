@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../store/actions'
 import ProjectForm from "./ProjectForm"
 import AppIcon from '../../icons'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import queryString from 'query-string'
+import { stringToQueryParam } from '../../functions'
 
 const Container = styled.div`
     width: 100%;
@@ -49,6 +50,18 @@ const ListItem = styled.div`
     cursor: pointer;
     position: relative;
     font-size: 1.4rem;
+
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border-radius: .5rem;
+        color: ${({ theme }) => theme.text} !important;
+        padding: 1rem;
+        text-decoration: none !important;
+    }
 
     svg {
         font-size: 2.4rem;
@@ -142,11 +155,6 @@ const TodoHome = props => {
             setIsAdding(false)
         }
     }
-
-    const selectBoardHandler = boardId => {
-        dispatch(actions.setActiveTodoBoard(boardId))
-        props.history.push(`/${text.link_projects}/${boardId}`)
-    }
     
     if(!isReady){
         return null
@@ -171,9 +179,11 @@ const TodoHome = props => {
                         {todoBoards && Object.values(todoBoards).map(board => (
                             <ListItem
                                 key={board.boardId}
-                                onClick={() => selectBoardHandler(board.boardId)}
+                                onClick={() => dispatch(actions.setActiveTodoBoard(board.boardId))}
                             >
-                                {board.title}
+                                <Link to={`/${text.link_projects}/${stringToQueryParam(board.title)}`}>
+                                    {board.title}
+                                </Link>
                             </ListItem>
                         ))}
                     </List>

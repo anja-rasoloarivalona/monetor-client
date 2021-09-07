@@ -98,7 +98,7 @@ const Routes = props => {
                 <Route path={`/${text.link_setup}`} component={Setup} />
                 <Route path={`/${text.link_transactions}`} component={Transactions} />
                 <Route exact path={`/${text.link_projects}`} component={TodoHome} />
-                <Route path={`/${text.link_projects}/:boardId`} component={Todo} />
+                <Route path={`/${text.link_projects}/:projectName`} component={Todo} />
                 <Route path={`/${text.link_dashboard}`} component={Home} />
                 <Route path={`/${text.link_messages}`} component={Messages} />
                 <Route path={`/${text.link_calendar}`} component={Calendar} />

@@ -1,6 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { stringToQueryParam } from '../../../functions'
+import { Link } from 'react-router-dom'
+import * as actions from '../../../store/actions'
 
 const Container = styled.ul`
     position: absolute;
@@ -18,37 +21,41 @@ const Container = styled.ul`
         margin-bottom: .5rem;
     }
 `
-
 const Project = styled.li`
-    padding: 1rem;
     font-size: 1.4rem;
-    border-radius: .5rem;
     cursor: pointer;
+    a {
+        color: ${({ theme }) => theme.text} !important;
+        text-decoration: none !important;
+        padding: 1rem;
+        border-radius: .5rem;
+    }
     :hover {
         background: ${({theme}) => theme.secondarySurface};
     }
 `
 
 const ProjectsSelector = () => {
-
-
+    const dispatch = useDispatch()
     const {
+        text: { text },
         todos: { todoBoards }
     } = useSelector(state => state)
 
     if(!todoBoards){
         return null
     }
-
     return (
         <Container>
             {Object.values(todoBoards).map(board => (
-                <Project key={board.boardId}>
-                    {board.title}
+                <Project key={board.boardId} onClick={() => dispatch(actions.setActiveTodoBoard(board.boardId))}>
+                    <Link to={`/${text.link_projects}/${stringToQueryParam(board.title)}`}>
+                        {board.title}
+                    </Link>
                 </Project>
             ))}
         </Container>
      )
 };
 
-export default ProjectsSelector;
+export default ProjectsSelector
