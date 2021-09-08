@@ -11,6 +11,10 @@
         "fr": "Ajouter",
         "en": "Add"
     },
+    "add_a_card": {
+        "fr": "Ajouter une carte",
+        "en": "Add a card"
+    },
     "add_a_detailed_description": {
         "fr": "Ajouter une description détaillée ...",
         "en": "Add a details description ..."
@@ -343,6 +347,10 @@
         "fr": "Gérer les cartes",
         "en": "Manage cards"
     },
+    "manage_colors": {
+        "fr": "Gérer les couleurs",
+        "en": "Manage colors"
+    },
     "messages": {
         "fr": "Messages",
         "en": "Messages"
@@ -354,6 +362,10 @@
     "months": {
         "fr": "mois",
         "en": "months"
+    },
+    "move_and_resize": {
+        "fr": "Déplacer & redimensionner",
+        "en": "Move & resize"
     },
     "my_dashboards": {
         "fr": "Mes tableaux de bords",

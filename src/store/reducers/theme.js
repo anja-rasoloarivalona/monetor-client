@@ -62,6 +62,7 @@ const themes = {
         boxShadowLight: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
         boxShadowExtraLight: "0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 4%)",
         homeBackground: "#ffffff",
+
         form: {
             unfocused: {
                 color:  "#5f5f5f",

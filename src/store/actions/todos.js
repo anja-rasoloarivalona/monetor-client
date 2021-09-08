@@ -13,6 +13,7 @@ const getUserTodos = (boardIdParams) => {
                     boardId: board.boardId,
                     isAdmin: board.isAdmin,
                     labels: board.labels,
+                    color: board.color,
                     rule: board.rule,
                     title: board.todoBoard.title,
                     backgroundImage: board.backgroundImage,

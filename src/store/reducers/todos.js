@@ -37,6 +37,7 @@ const setTodoBoard = (state, action) => {
     })
 }
 
+
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case actionTypes.SET_TODO_BOARDS: return updatedObject(state, {todoBoards: action.boards})

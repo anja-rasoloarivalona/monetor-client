@@ -100,6 +100,14 @@ const GridItem = styled.div`
             }
         }
     }}
+
+    ${({ isInFront }) => {
+        if(isInFront){
+            return {
+                zIndex: 9
+            }
+        }
+    }}
 `
 
 const GridItemLayer = styled.div`
@@ -136,6 +144,7 @@ const Home = () => {
     const [ isSavingDashboardChanges, setIsSavingDashboardboardChanges ] = useState(false)
     const [ isUserLayout, setIsUserLayout ] = useState(false)
     const [ isViewingWeather, setIsViewingWeather ] = useState(false)
+    const [ isInFront, setIsInFront ] = useState(null)
 
     useEffect(() => {
         Object.keys(breakpoints).forEach(size => {
@@ -207,7 +216,7 @@ const Home = () => {
         return <div></div>
     }
 
-    const renderItem = item => {
+    const renderItem = (item, index) => {
         const Component = item.Component ? item.Component : components[item.i]
         return (
             <GridItem
@@ -215,9 +224,15 @@ const Home = () => {
                 id={item.i}
                 isManagingDashboard={isManagingDashboard}
                 isViewingWeather={isViewingWeather}
+                isInFront={isInFront === index}
             >
                 {isManagingDashboard && <GridItemLayer />}
-                <Component item={item} />
+                <Component
+                    item={item}
+                    setIsManaginDashboard={setIsManaginDashboard} 
+                    setIsInFront={setIsInFront}
+                    index={index}
+                />
             </GridItem>
         )
     }
@@ -292,7 +307,9 @@ const Home = () => {
                     onDragStop={stopHandler}
                     onResizeStop={stopHandler}
                 >
-                    {layout.filter(i => i.display === true).map(renderItem)}
+                    {layout
+                        .filter((i) => i.display === true)
+                        .map((i, index) => renderItem(i, index))}
                 </GridLayout>
             </GridContainer>
         </Container>

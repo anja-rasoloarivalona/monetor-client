@@ -8,7 +8,7 @@ import AppIcon from '../../../../../icons'
 import WeatherIcon from '../../../../../icons/WeatherIcon'
 import { days } from '../../../../../assets/dateLocale'
 import { formatDate, capitalizeFirstLetter } from '../../../../../functions'
-import { HeaderCta, HeaderCtaItem } from '../../style'
+import { HeaderCta, HeaderCtaItem, HeaderCtaItemIcon } from '../../style'
 
 
 const Container = styled.div`
@@ -181,7 +181,9 @@ const Main = props => {
                 <Time>{formatDate(cityDateTime.fullDate, "hh:min", locale)}</Time> :
                 <HeaderCta>
                     <HeaderCtaItem onClick={() => setIsViewingWeather(true)}>
-                        <AppIcon id="expand" />
+                        <HeaderCtaItemIcon>
+                            <AppIcon id="expand" />
+                        </HeaderCtaItemIcon>
                     </HeaderCtaItem>
                 </HeaderCta>
             }

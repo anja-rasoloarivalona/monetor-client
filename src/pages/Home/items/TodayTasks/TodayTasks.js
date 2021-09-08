@@ -1,10 +1,12 @@
-import React, {useEffect, useState } from "react"
+import React, {useEffect, useState, useRef } from "react"
 import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
 import moment from "moment"
 import * as actions from '../../../../store/actions'
 import AppIcon from '../../../../icons'
-import { HeaderCta, HeaderCtaItem, HeaderLabel } from '../style'
+import { HeaderCta, HeaderCtaItem, HeaderLabel,HeaderCtaItemIcon,  Cta, CtaItem } from '../style'
+import { useOnClickOutside } from '../../../../hooks'
+import { Input } from '../../../../components/Form/WithoutValidation'
 
 const Container = styled.div`
     width: 100%;
@@ -33,9 +35,18 @@ const ListItem = styled.div`
     // box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
     border-radius: .5rem;
 `
+const InputContainer = styled.div`
+    margin-bottom: 1rem;
+    input {
+        height: 4rem;
+    }
+`
 
+const ProjectSelector = styled.div``
 
-const TodayTasks = () => {
+const TodayTasks = props => {
+
+    const { setIsManaginDashboard, setIsInFront, index } = props
 
     const dispatch = useDispatch()
 
@@ -45,6 +56,34 @@ const TodayTasks = () => {
     } = useSelector(state => state)
 
     const [ data, setData ] = useState([])
+    const [ showCta, setShowCta ] = useState(false)
+    const [ isAdding, setIsAdding ] = useState(false)
+    const [ title, setTitle ] = useState("")
+    const [ addIsHovered, setAddIsHovered ] = useState(false)
+
+    const ctaRef = useRef()
+    const inputRef = useRef()
+
+    useOnClickOutside(ctaRef, () => {
+        if(showCta){
+            setShowCta(false)
+        }
+    })
+
+    useOnClickOutside(inputRef, () => {
+        if(title === "" && !addIsHovered){
+            setIsAdding(false)
+        }
+    })
+
+    const toggleList = () => {
+        if(!showCta){
+            setIsInFront(index)
+            setShowCta(true)
+        } else {
+            setShowCta(false)
+        }
+    }
 
     const start = new Date(moment().set("hour", 0).set("minute", 0).set("second", 0))
     const end =  new Date(moment().set("hour", 23).set("minute", 59).set("second", 59))
@@ -68,12 +107,18 @@ const TodayTasks = () => {
                 Object.values(board.todoLists).forEach(list => {
                     list.todos.forEach(todo => {
                         if(isInRange(todo)){
-                            res.push(todo)
+                            res.push({
+                                ...todo,
+                                boardId: board.boardId
+                            })
                         }
                         if(todo.checkList){
                             todo.checkList.forEach(item => {
                                 if(isInRange(item)){
-                                    res.push(item)
+                                    res.push({
+                                        ...item,
+                                        boardId: board.boardId
+                                    })
                                 }
                             })
                         }
@@ -86,22 +131,57 @@ const TodayTasks = () => {
         }
     },[todoBoards])
 
+    const ctaList = [
+        {label: text.add_a_card, onClick: () => setIsAdding(true) },
+        {label: text.move_and_resize, onClick: () => setIsManaginDashboard(true)}
+    ]
+
     return (
         <Container>
             <Header>
                 <HeaderLabel>{text.today_tasks}</HeaderLabel>
-                <HeaderCta>
-                    <HeaderCtaItem>
-                        <AppIcon id="plus"/>
+                <HeaderCta >
+                    <HeaderCtaItem onClick={() => !isAdding ? setIsAdding(true) : null} onMouseEnter={() => setAddIsHovered(true)} onMouseLeave={() => setAddIsHovered(false)}>
+                        <HeaderCtaItemIcon>
+                            <AppIcon id="plus"/>
+                        </HeaderCtaItemIcon>
                     </HeaderCtaItem>
-                    <HeaderCtaItem className="small">
-                        <AppIcon id="ellipsis-h"/>
+                    <HeaderCtaItem ref={ctaRef} >
+                        <HeaderCtaItemIcon onClick={toggleList} isActive={showCta} className="small" > 
+                            <AppIcon id="ellipsis-h"/>
+                        </HeaderCtaItemIcon>
+                        {showCta && (
+                            <Cta>
+                                {ctaList.map((action, index) => (
+                                    <CtaItem
+                                        key={index}
+                                        onClick={action.onClick}
+                                    >
+                                        {action.label}
+                                    </CtaItem>
+                                ))}
+                            </Cta>
+                        )}
                     </HeaderCtaItem>
                 </HeaderCta>
             </Header>
             <List>
+                {isAdding && (
+                    <InputContainer>
+                        <Input 
+                            value={title}
+                            onChange={setTitle}
+                            placeholder="New task..."
+                            focusOnMount
+                            customRef={inputRef}
+                        />
+                    </InputContainer>
+                )}
                 {data.map(item => (
-                    <ListItem key={item.id}>
+                    <ListItem
+                        key={item.id}
+                        style={{ backgroundColor: todoBoards[item.boardId].color }}
+                    >
                         {item.title}
                     </ListItem>
                 ))}
