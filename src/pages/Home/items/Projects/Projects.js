@@ -7,13 +7,14 @@ import * as actions from '../../../../store/actions'
 import { HeaderCta, HeaderCtaItem, HeaderCtaItemIcon, HeaderLabel, Cta, CtaItem } from '../style'
 import { stringToQueryParam } from '../../../../functions'
 import { useOnClickOutside } from '../../../../hooks'
-import { Button } from '../../../../components'
+import { ButtonWithLoader } from '../../../../components'
+import axios from 'axios'
 
 const Container = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 1rem;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
     background: ${({ theme }) => theme.surface};
     position: relative;
     padding-bottom: 2rem;
@@ -134,24 +135,30 @@ const Projects = props => {
 
     const [ showCta, setShowCta ] = useState(false)
     const [ isManagingColor, setIsManagingColor ] = useState(false)
-    const [ isSelectingColor, setIsSelectingColor ] = useState(false)
+
+    const [ currentBoardId, setCurrentBoardId ] = useState(false)
+    const [ isSubmitting, setIsSubmitting ] = useState(false)
+    const [ previousBoards, setPreviousBoards ] = useState(null)
 
     const ctaRef = useRef()
     const containerRef = useRef()
+    const colorRef = useRef()
 
     const selectColorHandler = color => {
         const updatedBoard = {
-            ...todoBoards[isSelectingColor],
+            ...todoBoards[currentBoardId],
             color
         }
         dispatch(actions.setTodoBoard(updatedBoard))
     }
 
     const renderColorSelector = () => {
-        const colors = ["#ffdfe4","#c2eef5", "#def2ff",  "#FA8072","#FF7F50", "#D8BFD8"]
-        const allowedColors = todoBoards ? colors.filter(color => Object.values(todoBoards).findIndex(i => i.color === color) === -1) : colors
+        const colors = ["#ffdfe4", "#def2ff",  "#fbd7b2","#dcf9d9", "#f1dcf1", "#c6e0fb", "#e6e6e6", "#fff2a9"]
+        const allowedColors = todoBoards ? 
+            colors.filter(color => Object.values(todoBoards).findIndex(i => i.color === color && i.boardId !== currentBoardId) === -1)
+            : colors
         return (
-            <Colors>
+            <Colors ref={colorRef}>
                 {allowedColors.map((color, index) => (
                     <Color key={index} color={color} onClick={() => selectColorHandler(color)}/>
                 ))}
@@ -171,6 +178,12 @@ const Projects = props => {
         }
     })
 
+    useOnClickOutside(colorRef, () => {
+        if(currentBoardId){
+            setCurrentBoardId(null)
+        }
+    })
+
     const toggleList = () => {
         if(!showCta){
             setIsInFront(index)
@@ -180,7 +193,12 @@ const Projects = props => {
         }
     }
 
-    const startManage = () => {
+    const startManageColorHandler = () => {
+        const copy = {}
+        Object.keys(todoBoards).forEach(boardId => {
+            copy[boardId] = {...todoBoards[boardId]}
+        })
+        setPreviousBoards(copy)
         setShowCta(false)
         setIsManagingColor(true)
     }
@@ -194,14 +212,35 @@ const Projects = props => {
 
   
 
-    const saveHandler = async => {
-
+    const saveHandler = async () => {
+        try {
+            const payload = []
+            Object.values(todoBoards).forEach(board => {
+                if(board.color !== previousBoards[board.boardId].color){
+                    payload.push({
+                        boardId: board.boardId,
+                        isAdmin: board.isAdmin,
+                        color: board.color
+                    })
+                }
+            })
+            setIsSubmitting(true)
+            await Promise.all(payload.map(async board => {
+                return await axios.post("/todo/board/user", board)
+            }))
+            setIsSubmitting(false)
+            setIsManagingColor(false)
+        } catch(err){
+            console.log({
+                err
+            })
+        }
     }
 
     const ctaList = [
         { label: text.new_project, onClick: () => props.history.push(`/${text.link_projects}?add=true`)},
         { label: text.move_and_resize, onClick: () => setIsManaginDashboard(true)},
-        { label: text.manage_colors, onClick: () => startManage()}
+        { label: text.manage_colors, onClick: () => startManageColorHandler()}
     ]
 
   
@@ -209,32 +248,37 @@ const Projects = props => {
         <Container ref={containerRef}>
             <Header>
                 <HeaderLabel>{text.my_projects}</HeaderLabel>
-                <HeaderCta>
-                    <HeaderCtaItem onClick={() => props.history.push(`/${text.link_projects}?add=true`)}>
-                        <HeaderCtaItemIcon>
-                            <AppIcon id="plus"/>
-                        </HeaderCtaItemIcon>
-                        
-                    </HeaderCtaItem>
-                    <HeaderCtaItem className="small" ref={ctaRef} >
-                        <HeaderCtaItemIcon className="small"  onClick={toggleList} isActive={showCta}>
-                            <AppIcon id="ellipsis-h"/>
-                        </HeaderCtaItemIcon>
-                        
-                        {showCta && (
-                            <Cta>
-                                {ctaList.map((action, index) => (
-                                    <CtaItem
-                                        key={index}
-                                        onClick={action.onClick}
-                                    >
-                                        {action.label}
-                                    </CtaItem>
-                                ))}
-                            </Cta>
-                        )}
-                    </HeaderCtaItem>
-                </HeaderCta>
+                    <HeaderCta>
+                        {isManagingColor ?
+                            <ButtonWithLoader outlined square small isLoading={isSubmitting} onClick={saveHandler}>
+                                Done
+                            </ButtonWithLoader> :
+                            <>
+                            <HeaderCtaItem onClick={() => props.history.push(`/${text.link_projects}?add=true`)}>
+                                <HeaderCtaItemIcon>
+                                    <AppIcon id="plus"/>
+                                </HeaderCtaItemIcon>
+                            </HeaderCtaItem>
+                            <HeaderCtaItem className="small" ref={ctaRef} >
+                                <HeaderCtaItemIcon className="small"  onClick={toggleList} isActive={showCta}>
+                                    <AppIcon id="ellipsis-h"/>
+                                </HeaderCtaItemIcon>
+                                {showCta && (
+                                    <Cta>
+                                        {ctaList.map((action, index) => (
+                                            <CtaItem
+                                                key={index}
+                                                onClick={action.onClick}
+                                            >
+                                                {action.label}
+                                            </CtaItem>
+                                        ))}
+                                    </Cta>
+                                )}
+                            </HeaderCtaItem>
+                            </>
+                        }
+                    </HeaderCta>
             </Header>
             <List>
                 {todoBoards && Object.values(todoBoards).map(board => {
@@ -247,8 +291,11 @@ const Projects = props => {
                             <CurrentContent to={`/${text.link_projects}/${stringToQueryParam(board.title)}`}>
                                 {isManagingColor ?
                                     <ListItemColorContainer>
-                                        <ListItemColor currentColor={board.color} onClick={() => setIsSelectingColor(board.boardId)}/>
-                                        {isSelectingColor === board.boardId && renderColorSelector()}
+                                        <ListItemColor
+                                            currentColor={board.color}
+                                            onClick={() => setCurrentBoardId(board.boardId)}
+                                        />
+                                        {currentBoardId === board.boardId && renderColorSelector()}
                                     </ListItemColorContainer> :
                                     <ListItemAvatar currentColor={board.color}>
                                         {board.title[0]}
@@ -259,17 +306,6 @@ const Projects = props => {
                         </ListItem>
                     )
                 })}
-                {isManagingColor && (
-                    <ButtonContainer>
-                        <Button small transparent onClick={() => setIsManagingColor(false)}>
-                            {text.cancel}
-                        </Button>
-                        <Button small primary onClick={saveHandler}>
-                            {text.save}
-                        </Button>
-                    </ButtonContainer>
-                )}
-
             </List>
         </Container>
      )
