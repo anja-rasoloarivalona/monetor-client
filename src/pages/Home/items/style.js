@@ -6,6 +6,11 @@ const HeaderCta = styled.div`
     position: absolute;
     top: 1rem;
     right: 1rem;
+
+    button {
+        margin-right: .5rem;
+        padding: .7rem 1.2rem;
+    }
 `
 const HeaderCtaItem = styled.div`
     position: relative;

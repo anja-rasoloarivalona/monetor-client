@@ -230,6 +230,7 @@ const Home = () => {
                 <Component
                     item={item}
                     setIsManaginDashboard={setIsManaginDashboard} 
+                    isInFront={isInFront}
                     setIsInFront={setIsInFront}
                     index={index}
                 />

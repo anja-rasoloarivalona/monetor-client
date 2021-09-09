@@ -11,7 +11,7 @@ const Container = styled.div`
     left: 0;
     width: 100vw;
     height: max-content;
-    z-index: 9;
+    z-index: 10;
 `
 
 const Header = props => {

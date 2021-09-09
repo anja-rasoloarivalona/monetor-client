@@ -11,7 +11,7 @@ import { Input } from '../../../../components/Form/WithoutValidation'
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
     border-radius: 1rem;
     background: ${({ theme }) => theme.surface};
     position: relative;

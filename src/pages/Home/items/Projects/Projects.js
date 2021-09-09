@@ -124,7 +124,7 @@ const Color = styled.div`
 
 const Projects = props => {
 
-    const { setIsManaginDashboard, setIsInFront, index } = props
+    const { setIsManaginDashboard, isInFront, setIsInFront, index } = props
 
     const dispatch = useDispatch()
 
@@ -168,7 +168,7 @@ const Projects = props => {
 
     useOnClickOutside(ctaRef, () => {
         if(showCta){
-            setShowCta(false)
+            toggleList()
         }
     })
 
@@ -190,6 +190,9 @@ const Projects = props => {
             setShowCta(true)
         } else {
             setShowCta(false)
+            if(isInFront === index){
+                setIsInFront(null)
+            }
         }
     }
 
@@ -199,7 +202,7 @@ const Projects = props => {
             copy[boardId] = {...todoBoards[boardId]}
         })
         setPreviousBoards(copy)
-        setShowCta(false)
+        toggleList(false)
         setIsManagingColor(true)
     }
 
@@ -230,6 +233,7 @@ const Projects = props => {
             }))
             setIsSubmitting(false)
             setIsManagingColor(false)
+            
         } catch(err){
             console.log({
                 err
