@@ -1,41 +1,66 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import Layout from 'react-grid-layout'
-import "../../../node_modules/react-grid-layout/css/styles.css"
-import "../../../node_modules/react-resizable/css/styles.css"
-import Card from './Card'
-import CardInput from './CardInput'
-import AddList from './AddList'
+import "../../../../node_modules/react-grid-layout/css/styles.css"
+import "../../../../node_modules/react-resizable/css/styles.css"
+import Card from '../Card'
+import TodoLayoutHeader from "./TodoLayoutHeader"
 import TodoBackgroundList from "./TodoBackgroundList"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { generateId, arrayToObject } from '../../functions'
+import { generateId, arrayToObject } from '../../../functions'
 
 
 const Container = styled.div`
     flex: 1;
-    height: calc(100vh - 13.8rem);
     display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+`
+
+const LayoutContainer = styled.div`
+    width: 100%;
+    height: calc(100vh - 19rem);
+    overflow-y: scroll;
     position: relative;
+    &::-webkit-scrollbar {
+        // display: none;
+    }
 
     .layout {
         width: 0px !important;
         z-index: 2;
+        transform: translateY(-1.4rem);
     }
     .react-grid-item.react-grid-placeholder {
         background-color: ${({theme}) => theme.text};
     }
+
 `
+
 const LayoutItem = styled.div`
 
+`
+
+const Header = styled.div`
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
 `
 
 const TitleContainer = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    width: 38rem;
+    height: 4rem;
+    margin-right: 1rem;
+    padding: 0 1rem;
+    border-top-right-radius: .5rem;
+    border-top-left-radius: .5rem;
+    background: ${({ theme }) => theme.secondarySurface};
+    box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
 `
 
 const Title = styled.div`
-    height: 100%;
     font-size: 1.6rem;
     font-weight: 600;
     color: ${props => props.theme.text};
@@ -52,6 +77,39 @@ const TitleCta = styled.div`
     }
 `
 
+
+const AddCardContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    ${({ sticky, theme }) => {
+        if(sticky){
+            return {
+                position: "sticky !important",
+                top: 0,
+                right: 0,
+                // background:  theme.secondarySurface,
+                boxShadow: theme.boxShadowExtraLight,
+            }
+        }
+    }}
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: -1rem;
+        left: -1rem;
+        width: calc(100% + 2rem);
+        height: calc(100% + 3rem);
+        background: ${({ theme }) => theme.secondarySurface};
+        box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
+        z-index: 1;
+        border-bottom-right-radius: .5rem;
+        border-bottom-left-radius: .5rem;
+    }
+`
+
 const AddCard = styled.div`
     width: 100%;
     height: 100%;
@@ -63,6 +121,8 @@ const AddCard = styled.div`
     align-items: center;
     border: 1px solid ${props => props.theme.line};
     background: ${({theme}) => theme.background};
+    position: relative;
+    z-index: 3;
 
     &:hover {
         color: ${props => props.theme.text};
@@ -78,34 +138,24 @@ const TodoLayout = props => {
 
     const { todoLists, setTodoLists, setIsEdited } = props
     const [ layout, setLayout ] = useState(null)
-    const [ copy, setCopy ] = useState(null)
     const [ isAddingCard, setIsAddingCard ] = useState(false)
     const [ isDragging, setIsDragging ] = useState(null)
-    const [ isDraggingTo, setIsDraggingTo ] = useState(null)
 
 
-    const addCardHandler = listId => {
-        if(isAddingCard !== listId){
-            setIsAddingCard(listId)
-        }
-    }
-
-
-    const submitCardHandler = (title, todoListId ) => {
-        const tempId = generateId()
-        const tempTodo = {
-            title,
-            id: tempId,
-            todoListId,
-            type: "todo",
-            saved: false,
-            index: Object.keys(copy[todoListId].todos).length
-        }
+    const submitCardHandler = (title ) => {
+        const todoListId = isAddingCard
         setTodoLists(prev => ({
             ...prev,
             [todoListId]: {
                 ...prev[todoListId],
-                todos: [...prev[todoListId].todos, tempTodo]
+                todos: [...prev[todoListId].todos, {
+                    title,
+                    id: generateId(),
+                    todoListId,
+                    type: "todo",
+                    saved: false,
+                    index: prev[todoListId].todos.length
+                }]
             }
         }))
     }
@@ -189,47 +239,26 @@ const TodoLayout = props => {
         const _layout = []
         const _copy = {}
         todoLists.forEach(list => {
-            const listConfig = {
-                x: list.index,
-                y: 0,
-                w: 1,
-                h: 1,
-                i: `title-${list.id}`,
-                static: true,
-                isResizable: false,
-                list
+            _copy[list.id] = {todos: {}}
+            if(list.todos.length > 0){
+                list.todos.forEach((todo, todoIndex) => {
+                    let h = 1.5
+                    let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 1 : 0
+                    let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 1 : 0
+                    const todoConfig = {
+                        x: list.index,
+                        y: todoIndex,
+                        h: h + detailH + labelH,
+                        w: 1,
+                        i: todo.id,
+                        isResizable: false,
+                        todo
+                    }
+                    _copy[list.id].todos[todo.id] = todoConfig
+                    _layout.push(todoConfig)
+                })
             }
-            _copy[list.id] = {...listConfig, todos: {}}
-            _layout.push(listConfig)
-            _layout.push({
-                x: list.index,
-                y: 1,
-                h: 1.5,
-                w: 1,
-                i: `add-${list.id}`,
-                isResizable: false,
-                isDraggable: false,
-                static: true,
-                todoListId: list.id
-            })
-            list.todos.forEach((todo, todoIndex) => {
-                let h = 1.5
-                let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 1 : 0
-                let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 1 : 0
-                const todoConfig = {
-                    x: list.index,
-                    y: 1 + (todoIndex),
-                    h: h + detailH + labelH,
-                    w: 1,
-                    i: todo.id,
-                    isResizable: false,
-                    todo
-                }
-                _copy[list.id].todos[todo.id] = todoConfig
-                _layout.push(todoConfig)
-            })
         })
-        setCopy(_copy)
         setLayout(_layout)
     },[todoLists])
 
@@ -246,65 +275,46 @@ const TodoLayout = props => {
 
     return (
         <Container>
-            <TodoBackgroundList
-                layout={layout}
-                config={config} 
-                isDragging={isDragging}
-
-            />
-            <Layout
-                className="layout"
-                layout={layout}
-                rowHeight={config.rowHeight}
-                cols={todoLists.length}
-                width={todoLists.length * config.listWidth + (40 * todoLists.length)}
-                margin={config.margin}
-                onDrag={() => setIsDragging(true)}
-                onDragStop={stopDragHandler}
-            >
-                {layout.map(item => {
-                    if(item.i.includes("title")){
-                        return (
-                            <LayoutItem key={item.i} id={item.i}>
-                                <TitleContainer>
-                                    <Title>{item.list.title}</Title>
-                                    <TitleCta>
-                                        <FontAwesomeIcon icon="ellipsis-h"/>
-                                    </TitleCta>
-                                </TitleContainer>
-                         
-                            </LayoutItem>
-                        )
-                    }
-                    if(item.i.includes("add")){
-                        return (
-                            <LayoutItem key={item.i} id={item.i}>
-                                <AddCard onClick={() => addCardHandler(item.todoListId)}>
-                                    {isAddingCard === item.todoListId ?
-                                        <CardInput 
-                                            submitCardHandler={(title) => submitCardHandler(title, item.todoListId)}
-                                            setIsAddingCard={setIsAddingCard}
-                                        /> :
-                                        <FontAwesomeIcon icon="plus" />
-                                    }
-                                </AddCard>
-                            </LayoutItem>
-                        )
-                    }
-                    return (
-                        <LayoutItem key={item.i} id={item.i}>
-                            <Card
-                                todo={item.todo} 
-                                setIsEdited={onClickCardHandler}
-                            />
-                        </LayoutItem>
-                    )
-                })}
-            </Layout>
-            <AddList 
-                setTodoLists={setTodoLists}
+            <TodoLayoutHeader
                 todoLists={todoLists}
-           />
+                config={config}
+                submitCardHandler={submitCardHandler}
+                isAddingCard={isAddingCard}
+                setIsAddingCard={setIsAddingCard}
+                setTodoLists={setTodoLists}
+            />
+            <LayoutContainer>
+                <TodoBackgroundList
+                    layout={layout}
+                    config={config} 
+                    isDragging={isDragging}
+                    todoLists={todoLists}
+                    submitCardHandler={submitCardHandler}
+                    isAddingCard={isAddingCard}
+                    setIsAddingCard={setIsAddingCard}
+                />
+                <Layout
+                    className="layout"
+                    layout={layout}
+                    rowHeight={config.rowHeight}
+                    cols={todoLists.length}
+                    width={todoLists.length * config.listWidth + (40 * todoLists.length)}
+                    margin={config.margin}
+                    onDrag={() => setIsDragging(true)}
+                    onDragStop={stopDragHandler}
+                >
+                    {layout.map(item => {
+                        return (
+                            <LayoutItem key={item.i} id={item.i}>
+                                <Card
+                                    todo={item.todo} 
+                                    setIsEdited={onClickCardHandler}
+                                />
+                            </LayoutItem>
+                        )
+                    })}
+                </Layout>
+            </LayoutContainer>
         </Container>
      )
 };

@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../store/actions'
 import Header from './Header/Header'
-import TodoLayout from './TodoLayout'
+import TodoLayout from './TodoLayout/TodoLayout'
 import EditForm from "./TodoForm/TodoForm"
 import { Loader } from '../../components'
 import axios from 'axios'
@@ -14,7 +14,7 @@ import { stringToQueryParam } from '../../functions'
 const Container = styled.div`
     width: 100%;
     height: calc(100vh - 6.5rem);
-    padding: 2rem;
+    padding: 2rem 0;
     color: ${props => props.theme.text};
     background: ${props => props.theme.backgroundImage ? 'none' : props.theme.background};
 
@@ -26,10 +26,6 @@ const Container = styled.div`
 const Content = styled.div`
     width: 100%;
     display: flex;
-
-    > div {
-        margin-right: 2rem;
-    }
 `
 
 const ToDo = props => {
@@ -78,6 +74,10 @@ const ToDo = props => {
     },[todoBoards])
 
     useEffect(() => {
+        console.log({
+            todoBoards,
+            activeBoardId
+        })
         if(todoBoards && activeBoardId){
             if(!mounted){
                 setMounted(true)
@@ -149,22 +149,22 @@ const ToDo = props => {
 
     const saveHandler = async data => {
         if(!isSaving){
-            setIsSaving(true)
-            try {
-                const res = await axios({
-                    method: "put",
-                    url: "/todo/many",
-                    data
-                })
-                if(res.status === 200){
-                    setIsSaving(false)
-                    setToBeSaved(null)
-                }
-            } catch(err){
-                console.log({
-                    err
-                })
-            }
+            // setIsSaving(true)
+            // try {
+            //     const res = await axios({
+            //         method: "put",
+            //         url: "/todo/many",
+            //         data
+            //     })
+            //     if(res.status === 200){
+            //         setIsSaving(false)
+            //         setToBeSaved(null)
+            //     }
+            // } catch(err){
+            //     console.log({
+            //         err
+            //     })
+            // }
         }
     }
 

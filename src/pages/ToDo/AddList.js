@@ -11,27 +11,23 @@ import axios from "axios"
 
 const Container = styled.div`
     display: flex;
-    flex-direction: column;
+    align-items: center;
     width: 35rem;
     border-radius: .5rem;
     font-size: 1.4rem;
-    height: max-content;
     padding: 0 1rem;
-    transform: translateX(${props => `${360 * props.length}`}px);
-    margin-top: .8rem;
-    background: ${props => props.adding ? props.theme.onSurface : "none"};
-
+    background: ${props => props.adding ? props.theme.secondarySurface : "none"};
+    position: relative;
     :hover {
-        background: ${props => props.theme.onSurface};
+        background: ${props => props.theme.secondarySurface};
     }
 
     ${props => {
         if(props.adding){
             return {
-                background: props.theme.onSurface,
-                borderRadius: ".5rem",
-                boxShadow: props.theme.boxShadow,
-                paddingTop: "1rem",
+                background: props.theme.secondarySurface,
+                borderBottomRightRadius: "0rem",
+                borderBottomLeftRadius: "0rem",
                 ".text": {
                     color: props.theme.text
                 }
@@ -42,9 +38,15 @@ const Container = styled.div`
 
 const InputContainer = styled.div`
     width: 100%;
-    height: 100%;
-    padding: 0 1rem;
-    padding-bottom: 1.5rem;
+    height: max-content;
+    padding: 1.5rem 2rem;
+    position: absolute;
+    top: 3.5rem;
+    left: 0;
+    z-index: 2;
+    background: ${props => props.theme.secondarySurface};
+    border-bottom-right-radius: .5rem;
+    border-bottom-left-radius: .5rem;
 
     input {
         height: 4.5rem;
@@ -80,6 +82,8 @@ const TextContainer = styled.div`
     height: 100%;
     cursor: pointer;
     color: ${props => props.theme.backgroundImage ? props.theme.offWhite : props.theme.text};
+    display: flex;
+    align-items: center;
 
     :hover {
         color: ${props => props.theme.text};
@@ -110,7 +114,6 @@ const AddList = props => {
 
     const addListHandler = async () => {
         if(title !== ""){
-
             try {
                 const tempId = generateId()
                 const tempList = {
@@ -184,11 +187,21 @@ const AddList = props => {
         }
     },[title])
 
-    useOnClickOutside(containerRef, () => addListHandler())
+    useOnClickOutside(containerRef, () => {
+        if(title !== ""){
+            addListHandler()
+        } else {
+            closeHandler()
+        }
+    })
 
 
     return (
-        <Container ref={containerRef} adding={adding} length={Object.keys(todoLists).length}> 
+        <Container
+            ref={containerRef}
+            adding={adding}
+            length={Object.keys(todoLists).length}
+        > 
             <TextContainer onClick={() => setAdding(true)} className="text">
                 {adding ?
                     text.list_title_label :

@@ -37,15 +37,16 @@ const CardInput = props => {
         inputRef.current.focus()
     },[])
 
-    const submitHandler = () => {
-        if(title === ""){
-             setIsAddingCard(false)
-        } else {
+    const submitHandler = (isClosing) => {
+        if(title !== ""){
             submitCardHandler(title)
             setTitle("")
         }
+        if(isClosing || title === ""){
+            setIsAddingCard(false)
+        }
     }
-    useOnClickOutside(inputRef, () => submitHandler())
+    useOnClickOutside(inputRef, () => submitHandler(true))
     useKeyboardEvent("Enter",  () => submitHandler())
 
     return (

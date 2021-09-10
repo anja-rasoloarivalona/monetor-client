@@ -7,7 +7,7 @@ import InviteMember from './InviteMember'
 import DashboardSelector from './DashboardSelector'
 
 const Container = styled.div`
-    padding: 0 1rem;
+    padding: 0 3rem;
     display: flex;
     align-items: center;
     justify-content: space-between;

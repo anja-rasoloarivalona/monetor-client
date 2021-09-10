@@ -1,0 +1,101 @@
+import React from "react"
+import styled from "styled-components"
+import CardInput from "../CardInput"
+
+const Container = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    transform: translateY(-1.4rem);
+`
+
+const List = styled.div`
+    ${({ config: { rowHeight, listWidth, margin}, theme, length, index }) => {
+        return {
+            width: `${listWidth}px`,
+            height: `${(rowHeight * length) + (margin[1] * (length))}px`,
+            background: theme.background,
+            transform:  "translateX(15px)",
+            marginLeft: `${margin[0] / 2}px`,
+            marginRight: `${margin[0] / 2}px`
+        }
+    }}
+`
+
+const ListBackground = styled.div`
+    background: ${({ theme }) => theme.secondarySurface};
+    position: absolute;
+    top: 0rem;
+    left: -1rem;
+    margin: auto;
+    width: calc(100% + 2rem);
+    height: calc(100% + 2rem);
+    border-bottom-right-radius: .8rem;
+    border-bottom-left-radius: .8rem;
+    box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
+    z-index: 3;
+`
+
+const AddCard = styled.div`
+    width: 100%;
+    position: absolute;
+    top: calc(100% - .5rem);
+    left: 0;
+    z-index: 1;
+    padding: 0 1rem;
+    background: ${({ theme }) => theme.secondarySurface};
+    box-shadow: 0 1px 1px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 4%);
+    padding-bottom: 1.5rem;
+    border-bottom-right-radius: .8rem;
+    border-bottom-left-radius: .8rem;
+    input {
+       height: 3.8rem;
+    }
+`
+
+const TodoBackgroundList = props => {
+    const { layout, config, todoLists,submitCardHandler,isAddingCard, setIsAddingCard } = props
+
+    const data = []
+
+    layout.forEach(item => {
+        if(data[item.x]){
+            data[item.x] += item.h
+        } else {
+            data[item.x] = item.h
+        }
+    })
+
+    return (
+        <Container>
+            {data.map((length, listIndex) => {
+                const isEmpty = todoLists[listIndex].todos.length === 0
+                return (
+                    <List
+                        key={listIndex}
+                        config={config}
+                        length={length}
+                        index={listIndex}
+                    >
+                        <ListBackground>
+                            {isAddingCard === todoLists[listIndex].id && !isEmpty && (
+                                <AddCard>
+                                    <CardInput 
+                                        submitCardHandler={submitCardHandler}
+                                        setIsAddingCard={setIsAddingCard}
+                                    />
+                                </AddCard>
+                            )}
+                        </ListBackground>
+                    </List>
+                )
+            })}
+        </Container>
+     )
+};
+
+export default TodoBackgroundList;
