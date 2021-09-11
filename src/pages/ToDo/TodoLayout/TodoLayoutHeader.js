@@ -8,7 +8,7 @@ import { useOnClickOutside } from '../../../hooks'
 
 const Container = styled.div`
     display: flex;
-    padding-left: 2rem;
+    margin-right: 3rem;
 `
 
 const Content = styled.div`
@@ -17,8 +17,11 @@ const Content = styled.div`
     background: ${({ theme }) => theme.secondarySurface};
     box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
     width: ${({ config: { listWidth }}) => `${listWidth + 20}px`};
+    min-width: ${({ config: { listWidth }}) => `${listWidth + 20}px`};
+    max-width: ${({ config: { listWidth }}) => `${listWidth + 20}px`};
     min-height: 5rem;
-    margin-right: 1rem;
+    max-height: 5rem;
+    margin-right: 2rem;
     position: relative;
 `
 
@@ -28,7 +31,6 @@ const TitleContainer = styled.div`
     align-items: center;
     padding: 0 1rem;
     height: 5rem;
-    // background: red;
 `
 
 const Title = styled.div`
@@ -219,6 +221,7 @@ const TodoLayoutHeader = props => {
             setShowList(false)
         }
     }
+
 
     return (
         <Container>

@@ -10,18 +10,16 @@ const Container = styled.div`
     height: 100%;
     z-index: 1;
     display: flex;
-    transform: translateY(-1.4rem);
 `
 
 const List = styled.div`
+    position: relative;
     ${({ config: { rowHeight, listWidth, margin}, theme, length, index }) => {
         return {
             width: `${listWidth}px`,
-            height: `${(rowHeight * length) + (margin[1] * (length))}px`,
+            height: `${(rowHeight * length) + (margin[1] * (length > 0 ? length - 1 : 0))}px`,
             background: theme.background,
-            transform:  "translateX(15px)",
-            marginLeft: `${margin[0] / 2}px`,
-            marginRight: `${margin[0] / 2}px`
+            marginRight: `40px`
         }
     }}
 `
@@ -30,7 +28,7 @@ const ListBackground = styled.div`
     background: ${({ theme }) => theme.secondarySurface};
     position: absolute;
     top: 0rem;
-    left: -1rem;
+    left: 0;
     margin: auto;
     width: calc(100% + 2rem);
     height: calc(100% + 2rem);
@@ -59,7 +57,7 @@ const AddCard = styled.div`
 
 const TodoBackgroundList = props => {
     const { layout, config, todoLists,submitCardHandler,isAddingCard, setIsAddingCard } = props
-    
+
     const data = []
     for(let i = 0; i < todoLists.length; i++){
         data.push(0)

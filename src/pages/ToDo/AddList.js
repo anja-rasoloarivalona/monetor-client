@@ -131,10 +131,11 @@ const AddList = props => {
     
                 }))
                 setAdding(false)
-                const res = await axios.post('/todo', tempList)
-     
-                if(res.status === 200){  
+                setTitle("")
 
+                const res = await axios.post('/todo', tempList)
+                
+                if(res.status === 200){  
                     const newList = {
                         ...tempList,
                         ...res.data.data,

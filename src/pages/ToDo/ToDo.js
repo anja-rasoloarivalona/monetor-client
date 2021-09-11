@@ -18,16 +18,15 @@ const Container = styled.div`
     height: calc(100vh - 6.5rem);
     padding: 2rem 0;
     color: ${props => props.theme.text};
-    background: ${props => props.theme.backgroundImage ? 'none' : props.theme.background};
-
-    .layout {
-        width: 100%;
-    }
+    background: ${props => props.theme.backgroundImage ? 'none' : props.theme.background};   
 `
 
 const Content = styled.div`
     width: 100%;
     display: flex;
+    max-width: 100vw;
+    overflow-x: scroll;
+    padding-left: 3rem;
 `
 
 const ToDo = props => {
@@ -212,7 +211,7 @@ const ToDo = props => {
     const config = {
         rowHeight: 20,
         listWidth: 360,
-        margin: [30, 15]
+        margin: [0, 15]
     }
 
     return (

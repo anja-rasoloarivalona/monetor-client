@@ -13,10 +13,6 @@ const Container = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-left: 1rem;
-    // background: red;
-    // max-width: 100vw;
-    // overflow-x: overlay;
 `
 
 const LayoutContainer = styled.div`
@@ -24,11 +20,20 @@ const LayoutContainer = styled.div`
     height: calc(100vh - 19rem);
     overflow-y: scroll;
     position: relative;
+    padding-left: 1rem;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     .layout {
         width: 0px !important;
         z-index: 2;
-        transform: translateY(-1.5rem);
+        .react-grid-item {
+            max-width: 36rem !important;
+            min-width: 36rem !important;
+            width: 36rem !important;
+        }
     }
     .react-grid-item.react-grid-placeholder {
         background-color: ${({theme}) => theme.text};
@@ -210,6 +215,7 @@ const TodoLayout = props => {
                     margin={config.margin}
                     onDrag={() => setIsDragging(true)}
                     onDragStop={stopDragHandler}
+                    containerPadding={[0,0]}
                 >
                     {layout.map(item => {
                         return (

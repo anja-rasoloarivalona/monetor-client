@@ -6,9 +6,19 @@ import "../../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../../node_modules/react-resizable/css/styles.css"
 
 const Container = styled.div`
-    margin-left: 2rem;
     height: calc(100vh - 15rem);
     width: 100%;
+    max-width: ${({ length }) => length * 400}px;
+
+
+
+    .layout {
+        .react-grid-item {
+            max-width: 38rem !important;
+            min-width: 38rem !important;
+            width: 38rem !important;
+        }
+    }
 `
 
 const List = styled.div`
@@ -17,6 +27,7 @@ const List = styled.div`
     border-radius: .8rem;
     padding: 0 1rem;
     cursor: move;
+    
     * {
         cursor: move;
     }
@@ -56,7 +67,8 @@ const TodoListLayout = props => {
                 let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 3.5 : 0
                 let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 3.5 : 0
                 let coverH = todo.coverImage ? 16 : 0
-                h += (3.5 + detailH + labelH + coverH)
+                let origin = detailH > 0 || labelH > 0 || coverH > 0 ? 3.5 : 5.5
+                h += (origin + detailH + labelH + coverH)
             })
             _layout.push({
                 x: list.index,
@@ -76,10 +88,13 @@ const TodoListLayout = props => {
     }
     const config = {
         rowHeight: 10,
-        listWidth: 393,
+        listWidth: 380,
         margin: [10, 0]
     }
 
+    console.log({
+        listLayout
+    })
 
     const stopDragHandler = layout => {
         const updatedLayout = []
@@ -94,17 +109,18 @@ const TodoListLayout = props => {
     }
 
     return (
-        <Container>
+        <Container length={todoLists.length}>
             <Layout
                 className="layout"
                 layout={listLayout}
                 maxRows={1}
                 rowHeight={config.rowHeight}
                 cols={todoLists.length}
-                width={todoLists.length * config.listWidth}
+                width={todoLists.length * config.listWidth + (20 * todoLists.length)}
                 margin={config.margin}
                 isResizable={false}
                 compactType='horizontal'
+                containerPadding={[0,0]}
                 onDragStop={stopDragHandler}
             >
                     {listLayout.map(item => {
