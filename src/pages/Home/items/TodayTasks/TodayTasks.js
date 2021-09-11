@@ -7,6 +7,7 @@ import AppIcon from '../../../../icons'
 import { HeaderCta, HeaderCtaItem, HeaderLabel,HeaderCtaItemIcon,  Cta, CtaItem } from '../style'
 import { useOnClickOutside } from '../../../../hooks'
 import { Input } from '../../../../components/Form/WithoutValidation'
+import { withRouter  } from 'react-router-dom'
 
 const Container = styled.div`
     width: 100%;
@@ -42,7 +43,6 @@ const InputContainer = styled.div`
     }
 `
 
-const ProjectSelector = styled.div``
 
 const TodayTasks = props => {
 
@@ -136,6 +136,16 @@ const TodayTasks = props => {
         {label: text.move_and_resize, onClick: () => setIsManaginDashboard(true)}
     ]
 
+    const onClickTodo = todo => {
+        dispatch(actions.setForm({
+            edited: todo,
+            opened: "todo"
+        }))
+        props.history.push({
+            search: `?active=td&id=${todo.id}&bid=${todo.boardId}&lid=${todo.todoListId}`
+        })
+    }
+
     return (
         <Container>
             <Header>
@@ -181,6 +191,7 @@ const TodayTasks = props => {
                     <ListItem
                         key={item.id}
                         style={{ backgroundColor: todoBoards[item.boardId].color }}
+                        onClick={() => onClickTodo(item)}
                     >
                         {item.title}
                     </ListItem>
@@ -190,4 +201,4 @@ const TodayTasks = props => {
      )
 };
 
-export default TodayTasks;
+export default withRouter(TodayTasks);

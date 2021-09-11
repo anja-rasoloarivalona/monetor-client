@@ -1,10 +1,14 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import TransactionForm from "./TransactionForm"
 import TodoForm from '../../pages/Todo/TodoForm/TodoForm'
 import { ScrollBar } from '../../components'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useLocation, withRouter } from 'react-router-dom'
+import queryString from 'query-string'
+import * as actions from '../../store/actions'
+
 
 const Container = styled.div`
     width: 100vw;
@@ -69,17 +73,61 @@ const CloseIcon = styled.div`
     }
 `
 
-const Form = () => {
+const Form = props => {
 
+    const location = useLocation()
+
+    const dispatch = useDispatch()
 
     const {
-        form: { opened },
+        todos: { todoBoards },
+        form: { opened, edited },
         text: { text }
     } = useSelector(state => state)
 
-    if(!opened){
+    const [ currentEdited, setCurrentEdited ] = useState(edited)
+
+
+    useEffect(() => {
+        const urlQueries = queryString.parse(location.search)
+        const { active: queryFormType} = urlQueries
+        if(queryFormType === "td" && todoBoards){
+            const { id, lid, bid } = urlQueries
+            const existingTodo = todoBoards[bid]?.todoLists[lid]?.todos.find(todo => todo.id === id)
+            if(existingTodo){
+                dispatch(actions.setForm({
+                    opened: "todo",
+                    edited: existingTodo
+                }))
+                setCurrentEdited(existingTodo)
+            }
+        }
+        
+    },[location, todoBoards])
+
+    if(!opened || (opened === "todo" && !currentEdited)){
         return null
     }
+
+    const forms = {
+        transaction: TransactionForm,
+        todo: TodoForm
+    }
+
+    const CurrentForm = forms[opened]
+
+    const toggleHandler = value => {
+        if(value){
+            setCurrentEdited(value)
+        } else {
+            setCurrentEdited(null)
+            dispatch(actions.setForm({}))
+            props.history.push({
+                search: ""
+            })
+        }
+    }
+
 
     return (
         <Container>
@@ -93,12 +141,14 @@ const Form = () => {
                     <FontAwesomeIcon icon="times"/>
                 </CloseIcon>
                 <FormContainer>
-                    <TransactionForm />
-                    {/* <TodoForm /> */}
+                    <CurrentForm
+                        edited={currentEdited}
+                        setIsEdited={toggleHandler}
+                    />
                 </FormContainer>
             </Content>    
         </Container>
      )
 };
 
-export default Form;
+export default withRouter(Form);
