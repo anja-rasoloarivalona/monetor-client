@@ -37,7 +37,7 @@ const Container = styled.div`
             },
             ".content": {
                 gridTemplateColumns: `${sidebar}px 1fr`,
-                maxHeight: `calc(100vh - 6.5rem - ${header}px)`,
+                maxHeight: `calc(100vh - 6.5rem - ${header}px - 8rem)`,
                 "&__slider": {
                     width: `${d * length}px`,
                     gridTemplateColumns: `repeat(auto-fit, ${d}px)`,

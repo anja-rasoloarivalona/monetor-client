@@ -226,6 +226,11 @@ const WeekDayInput = props => {
         closeHandler()
     }
 
+    const textEditorSubmitHandler = () => {
+        if(title !== ""){
+            submitHandler()
+        }
+    }
 
     return (
         <Container ref={containerRef}>
@@ -240,7 +245,7 @@ const WeekDayInput = props => {
             <TextEditor 
                 currentValue={description}
                 onChange={setDescription}
-                submitHandler={submitHandler}
+                submitHandler={textEditorSubmitHandler}
                 customRef={descriptionRef}
                 onFocus={() => setDescriptionIsFocused(true)}
                 onBlur={() => setDescriptionIsFocused(false)}
