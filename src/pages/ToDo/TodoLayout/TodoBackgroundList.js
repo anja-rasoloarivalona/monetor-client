@@ -59,6 +59,7 @@ const AddCard = styled.div`
 
 const TodoBackgroundList = props => {
     const { layout, config, todoLists,submitCardHandler,isAddingCard, setIsAddingCard } = props
+    
     const data = []
     for(let i = 0; i < todoLists.length; i++){
         data.push(0)

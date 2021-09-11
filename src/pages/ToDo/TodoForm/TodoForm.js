@@ -97,18 +97,6 @@ const EditForm = props => {
     const [ checkList, setCheckList ] = useState(edited.checkList || [])
 
 
-    // useOnClickOutside(modal, () => {
-    //     if(!isEditingDate){
-    //         setIsEdited(null)
-    //     }
-    // })
-
-    // useEffect(() => {
-    //     console.log({
-    //         edited
-    //     })
-    // },[edited])
-
     useEffect(() => {
         if(dueDate){
             const dueDateHasChanged = edited.dueDate && dueDate ? new Date(dueDate).getTime() !== new Date(edited.dueDate).getTime() : dueDate
@@ -276,6 +264,8 @@ const EditForm = props => {
                     {edited.attachments && edited.attachments.length > 0 && (
                         <Attachments 
                             edited={edited}
+                            setTodoLists={setTodoLists}
+                            setIsEdited={setIsEdited}
                         />
                     )}
 

@@ -28,6 +28,7 @@ const TitleContainer = styled.div`
     align-items: center;
     padding: 0 1rem;
     height: 5rem;
+    // background: red;
 `
 
 const Title = styled.div`
@@ -221,7 +222,9 @@ const TodoLayoutHeader = props => {
 
     return (
         <Container>
-            {todoLists.map(list => {
+            {todoLists
+                .sort((a, b) => a.index - b.index)
+                .map(list => {
                 let activeTodos = 0
                 list.todos.forEach(todo => {
                     if(!todo.archivedAt){

@@ -14,6 +14,9 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding-left: 1rem;
+    // background: red;
+    // max-width: 100vw;
+    // overflow-x: overlay;
 `
 
 const LayoutContainer = styled.div`
@@ -25,7 +28,7 @@ const LayoutContainer = styled.div`
     .layout {
         width: 0px !important;
         z-index: 2;
-        transform: translateY(-1.4rem);
+        transform: translateY(-1.5rem);
     }
     .react-grid-item.react-grid-placeholder {
         background-color: ${({theme}) => theme.text};
@@ -153,10 +156,11 @@ const TodoLayout = props => {
                         let h = 1.5
                         let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 1 : 0
                         let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 1 : 0
+                        let coverH = todo.coverImage ? 4.5 : 0
                         const todoConfig = {
                             x: list.index,
                             y: todoIndex,
-                            h: h + detailH + labelH,
+                            h: h + detailH + labelH + coverH,
                             w: 1,
                             i: todo.id,
                             isResizable: false,

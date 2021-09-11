@@ -86,10 +86,11 @@ const CheckListInput = props => {
                 </DueDateLabel>
                 {isAddingDueDate && (
                     <DateInput 
-                        dueDate={dueDate ? dueDate : currentCheckList.dueDate} 
-                        setDueDate={val => onChangeDueDateHandler(val)}
+                        currentDate={dueDate ? dueDate : currentCheckList.dueDate} 
+                        setCurrentDate={val => onChangeDueDateHandler(val)}
                         customRef={dateRef}
                         closeHandler={() => setIsAddingDueDate(false)}
+                        formTitle={text.change_due_date}
                     />
                 )}
 

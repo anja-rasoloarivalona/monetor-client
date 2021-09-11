@@ -5,6 +5,7 @@ import {  useOnClickOutside } from '../../../hooks'
 import Settings from './Settings'
 import InviteMember from './InviteMember'
 import DashboardSelector from './DashboardSelector'
+import { Button } from '../../../components'
 
 const Container = styled.div`
     padding: 0 3rem;
@@ -56,7 +57,7 @@ const ButtonsContainer = styled.div`
 
 const TodoHeader = props => {
 
-    const { setIsEditingListOrder } = props
+    const { setIsEditingListOrder, isEditingListOrder,saveListHandler } = props
 
     const {
         text: { text },
@@ -81,10 +82,6 @@ const TodoHeader = props => {
         }
     },[isEditingTitle])
 
-    const selectDashboardHandler = () => {
-
-    }
-
     return (
         <Container ref={containerRef}>
             <TitleContainer>
@@ -100,15 +97,25 @@ const TodoHeader = props => {
                 )}
             </TitleContainer>
             <ButtonsContainer>
-                {/* <InviteMember 
-                    showList={showList}
-                    setShowList={setShowList}
-                /> */}
-                <button onClick={() => setIsEditingListOrder(prev => !prev)}>
-                    Test
-                </button>
-                <Settings />
-                <DashboardSelector />
+
+                {isEditingListOrder ?
+                    <>
+                        <Button transparent square onClick={() => setIsEditingListOrder(false)}>
+                            {text.cancel}
+                        </Button>
+                        <Button square onClick={saveListHandler}>
+                            {text.save}
+                        </Button>
+                    </> :
+                    <>
+                        {/* <InviteMember 
+                            showList={showList}
+                            setShowList={setShowList}
+                        /> */}
+                        <Settings />
+                        <DashboardSelector />
+                    </>
+                }
             </ButtonsContainer>
         </Container>
      )

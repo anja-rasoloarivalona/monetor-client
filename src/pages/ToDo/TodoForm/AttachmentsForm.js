@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import {SidebarItemContainer,  SidebarHeader, SidebarHeaderTitle, SidebarHeaderIcon } from './style'
 import { useSelector } from 'react-redux'
@@ -12,6 +12,9 @@ import { Loader } from '../../../components'
 import { urlIsValid } from '../../../functions'
 import { ImageCropper } from '../../../elements'
 import 'filepond/dist/filepond.min.css';
+import { useOnClickOutside } from '../../../hooks'
+import { serialize } from 'object-to-formdata'
+
 FilePond.registerPlugin(FilePondPluginFileValidateType);
 
 const Container = styled(SidebarItemContainer)`
@@ -131,6 +134,14 @@ const Attachments = props => {
         text: { text }
     } = useSelector(s => s)
 
+    const containerRef = useRef()
+
+    useOnClickOutside(containerRef, () => {
+        if(closeHandler){
+            closeHandler()
+        }
+    })
+
 
     const FileInput = FilePond.FilePond
 
@@ -167,18 +178,36 @@ const Attachments = props => {
     }
 
     const submit = async() => {
-        if(link !== ""){
+        if(canSubmit){
             try {
+                const payload = serialize({
+                    title,
+                    url: link ,
+                    ownerId: edited.id,
+                    coverImage: !edited.coverImage 
+                })
+                if(fileSrc && file){
+                    payload.append('file', file)
+                }
                 setIsSubmitting(true)
                 const res = await axios({
                     method: "post",
                     url: "/todo/attachment",
-                    data: {
-                        title,
-                        url: link ,
-                        ownerId: edited.id
-                    }
+                    data: payload
                 })
+                const updatedTodo = {
+                    ...edited,
+                    attachments: [...edited.attachments, res.data.data],
+                    coverImage: edited.coverImage ? edited.coverImage : res.data.data.id
+                }
+                setTodoLists(prev => {
+                    const listId = edited.todoListId
+                    const tempIndex = prev[listId].todos.findIndex(i => i.id === edited.id)
+                    const updatedLists = {...prev}
+                    updatedLists[listId].todos[tempIndex] = updatedTodo
+                    return updatedLists
+                })
+                setIsEdited(updatedTodo)
                 setIsSubmitting(false)
             } catch(err){
                 console.log({
@@ -190,14 +219,14 @@ const Attachments = props => {
     }
 
     useEffect(() => {
-        if(isLinkValid && title !== ""){
+        if((isLinkValid || fileSrc) && title !== ""){
             setCanSubmit(true)
         }
-    },[isLinkValid, title])
+    },[isLinkValid, title, fileSrc])
 
 
     return (
-        <Container>
+        <Container ref={containerRef}>
             <SidebarHeader>
                 <div></div>
                 <SidebarHeaderTitle>

@@ -9,17 +9,17 @@ const Container = styled.div`
     margin-left: 2rem;
     height: calc(100vh - 15rem);
     width: 100%;
-
-    .layout {
-        transform: translateY(-1.5rem);
-    }
 `
 
 const List = styled.div`
     background: ${({ theme }) => theme.secondarySurface};
     box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
-    border-radius: .5rem;
+    border-radius: .8rem;
     padding: 0 1rem;
+    cursor: move;
+    * {
+        cursor: move;
+    }
 `
 
 const TitleContainer = styled.div`
@@ -35,20 +35,28 @@ const Title = styled.div`
     color: ${props => props.theme.text};
 `
 
-const Todos = styled.div``
+const Todos = styled.div`
+    > div {
+        margin-bottom: 1.5rem;
+    }
+`
 
 const TodoListLayout = props => {
-    const { todoLists } = props
-    const [ layout, setLayout ] = useState(null)
+
+    const { todoLists,  setListLayout, listLayout  } = props
 
     useEffect(() => {
         const _layout = []
         todoLists.forEach(list => {
-            let h = 3
+            let h = 5
+            if(list.todos && list.todos.length > 0){
+                h += 4
+            }
             list.todos.forEach((todo, index) => {
-                let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 1 : 0
-                let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 1 : 0
-                h += (2 + detailH + labelH)
+                let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 3.5 : 0
+                let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 3.5 : 0
+                let coverH = todo.coverImage ? 16 : 0
+                h += (3.5 + detailH + labelH + coverH)
             })
             _layout.push({
                 x: list.index,
@@ -59,27 +67,37 @@ const TodoListLayout = props => {
                 list
             })
         })
-        console.log({
-            _layout
-        })
-        setLayout(_layout)
-    },[todoLists])
+        setListLayout(_layout)
+    },[])
 
 
-    if(!layout){
+    if(!listLayout){
         return null
     }
     const config = {
         rowHeight: 10,
         listWidth: 393,
-        margin: [10, 15]
+        margin: [10, 0]
+    }
+
+
+    const stopDragHandler = layout => {
+        const updatedLayout = []
+        layout.forEach(item => {
+            const list = todoLists.find(list => list.id === item.i)
+            updatedLayout.push({
+                ...item,
+                list
+            })
+        })
+        setListLayout(updatedLayout)
     }
 
     return (
         <Container>
             <Layout
                 className="layout"
-                layout={layout}
+                layout={listLayout}
                 maxRows={1}
                 rowHeight={config.rowHeight}
                 cols={todoLists.length}
@@ -87,8 +105,9 @@ const TodoListLayout = props => {
                 margin={config.margin}
                 isResizable={false}
                 compactType='horizontal'
+                onDragStop={stopDragHandler}
             >
-                    {layout.map(item => {
+                    {listLayout.map(item => {
                         return (
                             <List key={item.i} config={config}>
                                 <TitleContainer>

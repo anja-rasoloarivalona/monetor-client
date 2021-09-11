@@ -10,22 +10,25 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
     background: white;
-    padding:  1rem;
     border-radius: .3rem;
     cursor: pointer;
     background: ${({theme}) => theme.surface};
     box-shadow: ${({theme}) => theme.boxShadowExtraLight};
+    overflow: hidden;
+`
+
+const Body = styled.div`
+    padding:  1rem;
 `
 
 const Title = styled.div`
     font-size: 1.4rem;
-    flex: 1;
     line-height: 1.4;
     width: 100%;
     display: flex;
     align-items: center;
+    height: 2rem;
 `
 
 const Cta = styled.div`
@@ -83,8 +86,8 @@ const CtaCheckListLabel = styled.div`
 const Labels = styled.div`
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
+    height: 3rem;
+    padding-bottom: 1rem;
 `
 const Label = styled.div`
     background: ${({color}) => color};
@@ -98,7 +101,15 @@ const Label = styled.div`
     margin-right: .5rem;
     border-radius: .5rem;
 `
+const CoverContainer = styled.div`
+    width: 100%;
+    height: 16rem;
+    background-image: url(${({ src}) => src});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 
+`
 
 const Card = props => {
 
@@ -122,58 +133,66 @@ const Card = props => {
         return completed
     }
 
+    const getCoverImageUrl = () => {
+        return todo.attachments.find(attachment => attachment.id === todo.coverImage).url
+    }
+
     return (
         <Container
             id={todo.id}
             onClick={() => setIsEdited(todo)}
         >
-            {todo.todoLabels && todo.todoLabels.length > 0 && (
-                <Labels>
-                    {todo.todoLabels.map((label, labelIndex) => {
-                        const labelData = todoBoards[label.boardId].labels.find(l => l.id === label.id)
-                        return (
-                            <>
-                            <Label key={labelIndex} color={labelData.color}>
-                                {labelData.title}
-                            </Label>
-                            </>
-                        )
-                    })}
-                </Labels>
+            {todo.coverImage && (
+                <CoverContainer src={getCoverImageUrl()} />
             )}
-        
-            <Title>
-                {todo.title}
-            </Title>
-            {showCta && (
-                <Cta>
-                    {todo.dueDate && (
-                        <CtaDueDate completed={todo.completedAt}>
-                            <FontAwesomeIcon icon={faClock} />
-                            <AppDate 
-                                value={todo.dueDate}
-                                format="mm dd"
-                                month="short"
-                            />
-                        </CtaDueDate>
-                    )}
-                    {todo.checkList.length > 0  && (
-                        <CtaCheckList>
-                            <FontAwesomeIcon icon="list" />
-                            <CtaCheckListLabel>
-                                {getCompletedCheckList()}/{todo.checkList.length}
-                            </CtaCheckListLabel>
-                        </CtaCheckList>
-                    )}
+            <Body>
+                {todo.todoLabels && todo.todoLabels.length > 0 && (
+                    <Labels>
+                        {todo.todoLabels.map((label, labelIndex) => {
+                            const labelData = todoBoards[label.boardId].labels.find(l => l.id === label.id)
+                            return (
+                                <>
+                                <Label key={labelIndex} color={labelData.color}>
+                                    {labelData.title}
+                                </Label>
+                                </>
+                            )
+                        })}
+                    </Labels>
+                )}
+            
+                <Title>
+                    {todo.title}
+                </Title>
+                {showCta && (
+                    <Cta>
+                        {todo.dueDate && (
+                            <CtaDueDate completed={todo.completedAt}>
+                                <FontAwesomeIcon icon={faClock} />
+                                <AppDate 
+                                    value={todo.dueDate}
+                                    format="mm dd"
+                                    month="short"
+                                />
+                            </CtaDueDate>
+                        )}
+                        {todo.checkList.length > 0  && (
+                            <CtaCheckList>
+                                <FontAwesomeIcon icon="list" />
+                                <CtaCheckListLabel>
+                                    {getCompletedCheckList()}/{todo.checkList.length}
+                                </CtaCheckListLabel>
+                            </CtaCheckList>
+                        )}
 
-                    {todo.description && (
-                        <CtaDescription>
-                            <FontAwesomeIcon icon="align-left"/>
-                        </CtaDescription>
-                    )}
-                </Cta>
-            )}
-
+                        {todo.description && (
+                            <CtaDescription>
+                                <FontAwesomeIcon icon="align-left"/>
+                            </CtaDescription>
+                        )}
+                    </Cta>
+                )}
+            </Body>
         </Container>
     )
 };

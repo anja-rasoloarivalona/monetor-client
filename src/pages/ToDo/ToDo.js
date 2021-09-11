@@ -51,7 +51,8 @@ const ToDo = props => {
     const [ toBeSaved, setToBeSaved ] = useState(null)
     const [ isSaving, setIsSaving ] = useState(false)
     const [ edited, setIsEdited ] = useState(null)
-    const [ isEdtingListOrder, setIsEditingListOrder ] = useState(false)
+    const [ isEditingListOrder, setIsEditingListOrder ] = useState(false)
+    const [ listLayout, setListLayout ] = useState(null)
     
     let timeout
 
@@ -94,7 +95,6 @@ const ToDo = props => {
         }
     },[todoBoards, activeBoardId])
 
-
     useEffect(() => {
         if(mounted  && !isInitialized ){
             setTodoLists({...todoBoards[activeBoardId].todoLists})
@@ -132,6 +132,7 @@ const ToDo = props => {
                             })
                         }
                     })
+
                 })
                 if(hasChanged.length > 0){
                     setToBeSaved(hasChanged)
@@ -140,6 +141,7 @@ const ToDo = props => {
             }, 1000)
         }
     },[todoLists])
+
 
     useEffect(() => {
         if(toBeSaved){
@@ -151,6 +153,40 @@ const ToDo = props => {
     },[toBeSaved])
 
 
+    const saveListHandler = async () => {
+        const payload = []
+        const updatedTodoLists = {}
+        listLayout.forEach(list => {
+            if(list.x !== list.list.index){
+                payload.push({
+                    title: list.list.title,
+                    index: list.x,
+                    id: list.list.id,
+                    type: "list"
+                })
+            }
+            updatedTodoLists[list.list.id] = {
+                ...list.list,
+                index: list.x
+            }
+        })
+
+        setIsEditingListOrder(false)
+        setTodoLists(updatedTodoLists)
+        try {
+            const res = await axios({
+                method: "put",
+                url: "/todo/many",
+                data: payload
+            })   
+            console.log({
+                res
+            })
+        } catch(err){
+            console.log({ err })
+        }
+    }
+
     const saveHandler = async data => {
         if(!isSaving){
             setIsSaving(true)
@@ -160,9 +196,6 @@ const ToDo = props => {
                     method: "put",
                     url: "/todo/many",
                     data
-                })
-                console.log({
-                    res
                 })
                 if(res.status === 200){
                     setIsSaving(false)
@@ -187,9 +220,13 @@ const ToDo = props => {
             {!isInitialized ?
                 <Loader /> :
                 <>
-                    <Header setIsEditingListOrder={setIsEditingListOrder}/>
+                    <Header
+                        setIsEditingListOrder={setIsEditingListOrder}
+                        isEditingListOrder={isEditingListOrder}
+                        saveListHandler={saveListHandler}
+                    />
                      <Content>
-                        {!isEdtingListOrder ?
+                        {!isEditingListOrder ?
                             <TodoLayout 
                                 todoLists={Object.values(todoLists)}
                                 setTodoLists={setTodoLists}
@@ -199,7 +236,8 @@ const ToDo = props => {
                             /> :
                             <TodoListLayout 
                                 todoLists={Object.values(todoLists)}
-                                config={config}
+                                setListLayout={setListLayout}
+                                listLayout={listLayout}
                             />
                         }
                     </Content>

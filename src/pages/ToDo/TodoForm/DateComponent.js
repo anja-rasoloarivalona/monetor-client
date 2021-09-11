@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { AppDate } from '../../../components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import DueDateInput  from './DateInput'
+import DateInput  from './DateInput'
 import { useOnClickOutside } from '../../../hooks'
 
 
@@ -189,7 +189,7 @@ const DateComponent = props => {
                 )}
 
                 {isEditingDate === props.id && (
-                    <DueDateInput 
+                    <DateInput 
                         currentDate={props.value}
                         setCurrentDate={props.onChange}
                         closeHandler={() => setIsEditingDate(false)}

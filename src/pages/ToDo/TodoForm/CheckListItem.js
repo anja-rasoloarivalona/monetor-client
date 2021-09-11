@@ -137,6 +137,7 @@ const CheckListItem = props => {
                                     setDueDate={val => onChangeDueDateHandler(val)}
                                     customRef={dateRef}
                                     closeHandler={() => setChangingDueDate(false)}
+                                    formTitle={text.change_due_date}
                                 />
                             )}
                         </>
