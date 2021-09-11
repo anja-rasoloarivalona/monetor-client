@@ -5,11 +5,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../store/actions'
 import Header from './Header/Header'
 import TodoLayout from './TodoLayout/TodoLayout'
+import TodoListLayout from "./TodoListLayout/TodoListLayout"
 import EditForm from "./TodoForm/TodoForm"
 import { Loader } from '../../components'
 import axios from 'axios'
 import {  useParams  } from 'react-router-dom'
 import { stringToQueryParam } from '../../functions'
+
 
 const Container = styled.div`
     width: 100%;
@@ -49,6 +51,7 @@ const ToDo = props => {
     const [ toBeSaved, setToBeSaved ] = useState(null)
     const [ isSaving, setIsSaving ] = useState(false)
     const [ edited, setIsEdited ] = useState(null)
+    const [ isEdtingListOrder, setIsEditingListOrder ] = useState(false)
     
     let timeout
 
@@ -74,10 +77,6 @@ const ToDo = props => {
     },[todoBoards])
 
     useEffect(() => {
-        console.log({
-            todoBoards,
-            activeBoardId
-        })
         if(todoBoards && activeBoardId){
             if(!mounted){
                 setMounted(true)
@@ -122,7 +121,11 @@ const ToDo = props => {
                 const hasChanged = []
                 Object.keys(todoLists).forEach(todoListId => {
                     todoLists[todoListId].todos.forEach((todo, index) => {
-                        if(!lastSavedTodoLists[todoListId].todos[index] || lastSavedTodoLists[todoListId].todos[index].id !== todo.id){
+                        if(
+                            !lastSavedTodoLists[todoListId].todos[index] || 
+                            lastSavedTodoLists[todoListId].todos[index].id !== todo.id ||
+                            (!lastSavedTodoLists[todoListId].todos[index].archivedAt && todo.archivedAt)
+                        ){
                             hasChanged.push({
                                 ...todo,
                                 type: "todo"
@@ -132,6 +135,7 @@ const ToDo = props => {
                 })
                 if(hasChanged.length > 0){
                     setToBeSaved(hasChanged)
+                    setLastSavedTodoLists(todoLists)
                 }
             }, 1000)
         }
@@ -149,23 +153,33 @@ const ToDo = props => {
 
     const saveHandler = async data => {
         if(!isSaving){
-            // setIsSaving(true)
-            // try {
-            //     const res = await axios({
-            //         method: "put",
-            //         url: "/todo/many",
-            //         data
-            //     })
-            //     if(res.status === 200){
-            //         setIsSaving(false)
-            //         setToBeSaved(null)
-            //     }
-            // } catch(err){
-            //     console.log({
-            //         err
-            //     })
-            // }
+            setIsSaving(true)
+            setToBeSaved(null)
+            try {
+                const res = await axios({
+                    method: "put",
+                    url: "/todo/many",
+                    data
+                })
+                console.log({
+                    res
+                })
+                if(res.status === 200){
+                    setIsSaving(false)
+
+                }
+            } catch(err){
+                console.log({
+                    err
+                })
+            }
         }
+    }
+
+    const config = {
+        rowHeight: 20,
+        listWidth: 360,
+        margin: [30, 15]
     }
 
     return (
@@ -173,13 +187,21 @@ const ToDo = props => {
             {!isInitialized ?
                 <Loader /> :
                 <>
-                    <Header />
+                    <Header setIsEditingListOrder={setIsEditingListOrder}/>
                      <Content>
-                        <TodoLayout 
-                            todoLists={Object.values(todoLists)}
-                            setTodoLists={setTodoLists}
-                            setIsEdited={setIsEdited}
-                        />
+                        {!isEdtingListOrder ?
+                            <TodoLayout 
+                                todoLists={Object.values(todoLists)}
+                                setTodoLists={setTodoLists}
+                                setIsEdited={setIsEdited}
+                                config={config}
+                                setIsEditingListOrder={setIsEditingListOrder}
+                            /> :
+                            <TodoListLayout 
+                                todoLists={Object.values(todoLists)}
+                                config={config}
+                            />
+                        }
                     </Content>
                     {edited && (
                         <EditForm 

@@ -21,9 +21,6 @@ const LayoutContainer = styled.div`
     height: calc(100vh - 19rem);
     overflow-y: scroll;
     position: relative;
-    &::-webkit-scrollbar {
-        // display: none;
-    }
 
     .layout {
         width: 0px !important;
@@ -40,103 +37,10 @@ const LayoutItem = styled.div`
 
 `
 
-const Header = styled.div`
-    display: flex;
-    align-items: center;
-    padding-left: 2rem;
-`
-
-const TitleContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 38rem;
-    height: 4rem;
-    margin-right: 1rem;
-    padding: 0 1rem;
-    border-top-right-radius: .5rem;
-    border-top-left-radius: .5rem;
-    background: ${({ theme }) => theme.secondarySurface};
-    box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
-`
-
-const Title = styled.div`
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: ${props => props.theme.text};
-`
-
-const TitleCta = styled.div`
-    display: flex;
-    align-items: flex-end;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: ${({theme}) => theme.dynamicTextLight};
-    :hover {
-        color: ${({theme}) =>theme.dynamicText}
-    }
-`
-
-
-const AddCardContainer = styled.div`
-    width: 100%;
-    height: 100%;
-    position: relative;
-
-    ${({ sticky, theme }) => {
-        if(sticky){
-            return {
-                position: "sticky !important",
-                top: 0,
-                right: 0,
-                // background:  theme.secondarySurface,
-                boxShadow: theme.boxShadowExtraLight,
-            }
-        }
-    }}
-
-    &:before {
-        content: "";
-        position: absolute;
-        top: -1rem;
-        left: -1rem;
-        width: calc(100% + 2rem);
-        height: calc(100% + 3rem);
-        background: ${({ theme }) => theme.secondarySurface};
-        box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
-        z-index: 1;
-        border-bottom-right-radius: .5rem;
-        border-bottom-left-radius: .5rem;
-    }
-`
-
-const AddCard = styled.div`
-    width: 100%;
-    height: 100%;
-    font-size: 1.3rem;
-    color: ${({ theme }) => theme.dynamicTextLight};
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid ${props => props.theme.line};
-    background: ${({theme}) => theme.background};
-    position: relative;
-    z-index: 3;
-
-    &:hover {
-        color: ${props => props.theme.text};
-        background: ${({theme}) => theme.surface};
-    }
-    
-    svg {
-        margin-right: 1rem;
-    }
-`
 
 const TodoLayout = props => {
 
-    const { todoLists, setTodoLists, setIsEdited } = props
+    const { todoLists, setTodoLists, setIsEdited,config,setIsEditingListOrder } = props
     const [ layout, setLayout ] = useState(null)
     const [ isAddingCard, setIsAddingCard ] = useState(false)
     const [ isDragging, setIsDragging ] = useState(null)
@@ -242,20 +146,22 @@ const TodoLayout = props => {
             _copy[list.id] = {todos: {}}
             if(list.todos.length > 0){
                 list.todos.forEach((todo, todoIndex) => {
-                    let h = 1.5
-                    let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 1 : 0
-                    let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 1 : 0
-                    const todoConfig = {
-                        x: list.index,
-                        y: todoIndex,
-                        h: h + detailH + labelH,
-                        w: 1,
-                        i: todo.id,
-                        isResizable: false,
-                        todo
+                    if(!todo.archivedAt){
+                        let h = 1.5
+                        let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 1 : 0
+                        let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 1 : 0
+                        const todoConfig = {
+                            x: list.index,
+                            y: todoIndex,
+                            h: h + detailH + labelH,
+                            w: 1,
+                            i: todo.id,
+                            isResizable: false,
+                            todo
+                        }
+                        _copy[list.id].todos[todo.id] = todoConfig
+                        _layout.push(todoConfig)
                     }
-                    _copy[list.id].todos[todo.id] = todoConfig
-                    _layout.push(todoConfig)
                 })
             }
         })
@@ -267,12 +173,6 @@ const TodoLayout = props => {
         return null
     }
 
-    const config = {
-        rowHeight: 20,
-        listWidth: 360,
-        margin: [30, 15]
-    }
-
     return (
         <Container>
             <TodoLayoutHeader
@@ -282,6 +182,7 @@ const TodoLayout = props => {
                 isAddingCard={isAddingCard}
                 setIsAddingCard={setIsAddingCard}
                 setTodoLists={setTodoLists}
+                setIsEditingListOrder={setIsEditingListOrder}
             />
             <LayoutContainer>
                 <TodoBackgroundList

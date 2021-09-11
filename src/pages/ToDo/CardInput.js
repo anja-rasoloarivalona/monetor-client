@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useOnClickOutside, useKeyboardEvent } from '../../hooks'
 
 const Container = styled.div`
-    height: 100%;
+    height: max-content;
     width: 100%;
     display: flex;
     align-items: center;
@@ -19,9 +19,6 @@ const Input = styled.input`
     border: none;
     :focus {
         outline: none;
-        ::placeholder {
-            color: transparent;
-        }
     }
 `
 

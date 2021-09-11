@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import CardInput from "../CardInput"
 
@@ -59,21 +59,25 @@ const AddCard = styled.div`
 
 const TodoBackgroundList = props => {
     const { layout, config, todoLists,submitCardHandler,isAddingCard, setIsAddingCard } = props
-
     const data = []
+    for(let i = 0; i < todoLists.length; i++){
+        data.push(0)
+    }
 
     layout.forEach(item => {
-        if(data[item.x]){
-            data[item.x] += item.h
-        } else {
-            data[item.x] = item.h
-        }
+        data[item.x] += item.h
     })
 
     return (
         <Container>
             {data.map((length, listIndex) => {
-                const isEmpty = todoLists[listIndex].todos.length === 0
+                let activeTodos = 0
+                todoLists[listIndex].todos.forEach(todo => {
+                    if(!todo.archivedAt){
+                        activeTodos += 1
+                    }
+                })
+                const isEmpty = activeTodos === 0
                 return (
                     <List
                         key={listIndex}

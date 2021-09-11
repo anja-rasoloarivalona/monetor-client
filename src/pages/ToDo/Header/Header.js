@@ -54,7 +54,9 @@ const ButtonsContainer = styled.div`
     align-items: center;
 `
 
-const TodoHeader = () => {
+const TodoHeader = props => {
+
+    const { setIsEditingListOrder } = props
 
     const {
         text: { text },
@@ -102,6 +104,9 @@ const TodoHeader = () => {
                     showList={showList}
                     setShowList={setShowList}
                 /> */}
+                <button onClick={() => setIsEditingListOrder(prev => !prev)}>
+                    Test
+                </button>
                 <Settings />
                 <DashboardSelector />
             </ButtonsContainer>

@@ -3,10 +3,17 @@ import axios from 'axios'
 import { arrayToObject } from '../../functions'
 import * as actions from './index'
 
-const getUserTodos = (boardIdParams) => {
+const getUserTodos = data => {
+    const boardIdParams = data?.boboardIdParams
+    const archived = data?.archived
+    
     return async function(dispatch){
         try  {
-            const res = await axios.get("/todo/boards")
+            const res = await axios.get("/todo/boards", {
+                params: {
+                    archived
+                }
+            })
             const updatedBoards = {}
             res.data.data.forEach(board => {
                 updatedBoards[board.boardId] = {

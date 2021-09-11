@@ -39,6 +39,10 @@
         "fr": "Montant",
         "en": "Amount"
     },
+    "archive_all_cards": {
+        "fr": "Archiver toutes les cartes",
+        "en": "Archive all cards"
+    },
     "at": {
         "fr": "à",
         "en": "at"
@@ -363,9 +367,17 @@
         "fr": "mois",
         "en": "months"
     },
+    "move_all_cards_in_this_list": {
+        "fr": "Déplacer toutes les cartes dans cette liste",
+        "en": "Move all cards in this list"
+    },
     "move_and_resize": {
         "fr": "Déplacer & redimensionner",
         "en": "Move & resize"
+    },
+    "move_list": {
+        "fr": "Déplacer la liste",
+        "en": "Move list"
     },
     "my_dashboards": {
         "fr": "Mes tableaux de bords",
