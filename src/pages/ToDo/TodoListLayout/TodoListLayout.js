@@ -6,11 +6,9 @@ import "../../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../../node_modules/react-resizable/css/styles.css"
 
 const Container = styled.div`
-    height: calc(100vh - 15rem);
+    height: calc(100vh - 15.5rem);
     width: 100%;
     max-width: ${({ length }) => length * 400}px;
-
-
 
     .layout {
         .react-grid-item {
@@ -91,10 +89,6 @@ const TodoListLayout = props => {
         listWidth: 380,
         margin: [10, 0]
     }
-
-    console.log({
-        listLayout
-    })
 
     const stopDragHandler = layout => {
         const updatedLayout = []

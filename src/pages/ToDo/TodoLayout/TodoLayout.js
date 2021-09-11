@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const LayoutContainer = styled.div`
     width: 100%;
-    height: calc(100vh - 19rem);
+    height: calc(100vh - 20.5rem);
     overflow-y: scroll;
     position: relative;
     padding-left: 1rem;

@@ -97,10 +97,10 @@ const TodoHeader = props => {
                 )}
             </TitleContainer>
             <ButtonsContainer>
-                    <button onClick={() => setIsEditingListOrder(prev => !prev)}>
+                    {/* <button onClick={() => setIsEditingListOrder(prev => !prev)}>
                         test
-                    </button>
-                {/* {isEditingListOrder ?
+                    </button> */}
+                {isEditingListOrder ?
                     <>
                         <Button transparent square onClick={() => setIsEditingListOrder(false)}>
                             {text.cancel}
@@ -110,14 +110,14 @@ const TodoHeader = props => {
                         </Button>
                     </> :
                     <>
-                        <InviteMember 
+                        {/* <InviteMember 
                             showList={showList}
                             setShowList={setShowList}
-                        />
+                        /> */}
                         <Settings />
                         <DashboardSelector />
                     </>
-                } */}
+                }
             </ButtonsContainer>
         </Container>
      )
