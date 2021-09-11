@@ -15,7 +15,7 @@ const SidebarItemContainer = styled.div`
     position: absolute;
     top: calc(100% + 1rem);
     left: 0;
-    z-index: 2;
+    z-index: 3;
     width: 35rem;
     height: max-content;
     background: ${props => props.theme.surface};

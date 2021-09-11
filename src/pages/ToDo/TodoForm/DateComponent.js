@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { AppDate } from '../../../components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import DueDateInput  from './DueDateInput'
+import DueDateInput  from './DateInput'
 import { useOnClickOutside } from '../../../hooks'
 
 
@@ -88,9 +88,32 @@ const Toggle = styled.div`
     }
 `
 
-const DueDate = props => {
+const ToggleList = styled.ul`
+    position: absolute;
+    top: calc(100% + 1rem);
+    right: 0;
+    min-width: 15rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    box-shadow: ${({ theme }) => theme.boxShadow};
+    background: ${({ theme }) => theme.surface};
+    z-index: 2;
+    list-style: none;
+`
 
-    const { dueDate, setDueDate,startDate, setStartDate,  edited, isEditingDate, setIsEditingDate } = props
+const ToggleListItem = styled.li`
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: .5rem;
+    :hover {
+        background: ${({ theme }) => theme.background};
+    }
+`
+
+
+const DateComponent = props => {
+
+    const { dueDate, setDueDate,startDate, setStartDate,  edited } = props
 
     const {
         text: { text }
@@ -99,23 +122,42 @@ const DueDate = props => {
 
     const dueDateRef = useRef()
     const startDateRef = useRef()
+
     const [ isSelectingTime, setIsSelectingTime ] = useState(false)
+    const [ isEditingDate, setIsEditingDate ] = useState(false)
+    const [ showCta, setShowCta ] = useState(null)
 
     useOnClickOutside(dueDateRef, () => {
+        if(showCta === "due-date"){
+            setShowCta(false)
+        }
         if(isEditingDate === "due-date" && !isSelectingTime){
             setIsEditingDate(null)
         }
     })
 
     useOnClickOutside(startDateRef, () => {
+        if(showCta === "start-date"){
+            setShowCta(false)
+        }
         if(isEditingDate === "start-date" && !isSelectingTime){
             setIsEditingDate(null)
         }
     })
 
+
     const toggleHandler = id => {
+        if(id !== showCta){
+            setShowCta(id)
+        } else {
+            setShowCta(null)
+        }
+    }
+
+    const toggleDateHandler = id => {
         if(id !== isEditingDate){
             setIsEditingDate(id)
+            setShowCta(null)
         } else {
             setIsEditingDate(null)
         }
@@ -139,19 +181,27 @@ const DueDate = props => {
                 <Toggle onClick={() => toggleHandler(props.id)}>
                     <FontAwesomeIcon icon="chevron-down"/>
                 </Toggle>
-                    {isEditingDate === props.id && (
-                        <DueDateInput 
-                            dueDate={props.value}
-                            setDueDate={props.onChange}
-                            closeHandler={() => setIsEditingDate(false)}
-                            formTitle={props.formTitle}
-                            isSelectingTime={isSelectingTime}
-                            setIsSelectingTime={setIsSelectingTime}
-                            // minDate={props.id === "due-date" ? startDate || null : null}
-                            // maxDate={props.id === "start-date" ? dueDate || null : null}
-                        />
-                    )}
-                </DueDateContainer>
+                {showCta === props.id && (
+                    <ToggleList>
+                        <ToggleListItem onClick={() => toggleDateHandler(props.id)}>{text.edit}</ToggleListItem>
+                        <ToggleListItem>{text.delete}</ToggleListItem>
+                    </ToggleList>
+                )}
+
+                {isEditingDate === props.id && (
+                    <DueDateInput 
+                        currentDate={props.value}
+                        setCurrentDate={props.onChange}
+                        closeHandler={() => setIsEditingDate(false)}
+                        formTitle={props.formTitle}
+                        isSelectingTime={isSelectingTime}
+                        setIsSelectingTime={setIsSelectingTime}
+                        closeOnClickOutside={false}
+                        // minDate={props.id === "due-date" ? startDate || null : null}
+                        // maxDate={props.id === "start-date" ? dueDate || null : null}
+                    />
+                )}
+            </DueDateContainer>
         )
     }
 
@@ -193,4 +243,4 @@ const DueDate = props => {
      )
 };
 
-export default DueDate;
+export default DateComponent;

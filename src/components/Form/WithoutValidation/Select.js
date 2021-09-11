@@ -209,7 +209,7 @@ const Select = props => {
                 className="current"
             >
                 {displayedValue || "Select..."}
-                <CurrentValueIcon>
+                <CurrentValueIcon className="icon">
                     <FontAwesomeIcon icon="chevron-down" />
                 </CurrentValueIcon>
             </CurrentValue>

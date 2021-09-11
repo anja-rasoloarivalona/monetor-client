@@ -58,7 +58,10 @@ const TodoLayout = props => {
                     todoListId,
                     type: "todo",
                     saved: false,
-                    index: prev[todoListId].todos.length
+                    index: prev[todoListId].todos.length,
+                    checkList: [],
+                    todoLabels: [],
+                    attachments: []
                 }]
             }
         }))

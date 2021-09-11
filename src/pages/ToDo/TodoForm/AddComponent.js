@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import AddDueDate from "./DueDateInput"
+import DateInput from "./DateInput"
 import LabelsSelector from "./LabelsSelector"
 import AttachmentsForm from "./AttachmentsForm"
 import { faClock } from '@fortawesome/free-regular-svg-icons'
@@ -34,9 +34,9 @@ const ListItemContent = styled.div`
     padding: 1rem 2rem;
     cursor: pointer;
     border-radius: .3rem;
-    box-shadow: ${props => props.theme.boxShadowExtraLight};
+    // box-shadow: ${props => props.theme.boxShadowExtraLight};
     :hover {
-        box-shadow: ${props => props.theme.boxShadowLight};
+        background: ${({ theme }) => theme.onSurface};
     }
 
     svg {
@@ -51,13 +51,14 @@ const ListItemLabel = styled.div`
 
 const AddComponent = props => {
 
-    const { dueDate, setDueDate, setIsAddingCheckList, editedHasItems, editedHasDescription, setIsEditingDescription, setTodoLists, setIsEdited, edited, setIsEditingDate} = props
+    const { dueDate, setDueDate, setIsAddingCheckList, editedHasItems, editedHasDescription, setIsEditingDescription, setTodoLists, setIsEdited, edited } = props
 
     const {
         text: { text }
     } = useSelector(state => state)
 
-    const [currentAction, setCurrentAction ] = useState(null)
+    const [ currentAction, setCurrentAction ] = useState(null)
+    const [ isSelectingTime, setIsSelectingTime ] = useState(false)
 
     const addActions = [
         {
@@ -65,20 +66,17 @@ const AddComponent = props => {
             label: text.due_date,
             icon: faClock,
             Component: (
-                <AddDueDate 
-                    dueDate={dueDate}
-                    setDueDate={setDueDate}
+                <DateInput 
+                    currentDate={dueDate}
+                    setCurrentDate={setDueDate}
                     formTitle={ text.change_due_date}
-                    closeHandler={() => {
-                        setCurrentAction(null)
-                        setIsEditingDate(false)
-                    }}
+                    closeHandler={() => setCurrentAction(null)}
+                    setIsSelectingTime={setIsSelectingTime}
+                    isSelectingTime={isSelectingTime}
+                    closeOnClickOutside={true}
                 />
             ),
-            action: () => {
-                setIsEditingDate("due-date")
-                setCurrentAction("due-date")
-            }
+            action: () => setCurrentAction("due-date")
         },
         {
             id: "chech-list",

@@ -172,7 +172,7 @@ const LabelsSelector = props => {
                 <>
                 <List>
                     {displayedLabels.map((color, index) => {
-                        const isSelected = color.id ?  edited.todoLabels.findIndex(label => label.id === color.id) > -1 : false
+                        const isSelected = edited.todoLabels && color.id ?  edited.todoLabels.findIndex(label => label.id === color.id) > -1 : false
                         return (
                             <ListItem
                                 key={index}

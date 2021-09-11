@@ -7,7 +7,6 @@ import { Select } from '../../../components/Form/WithoutValidation'
 
 const Container = styled.div`
     width: 24rem;
-    // min-height: max-content;
     height: 100%;
     padding: 2rem;
     padding-top: 7rem;
@@ -21,7 +20,11 @@ const ListName = styled.div`
     width: 20rem;
     display: flex;
     flex-direction: column;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+
+    .icon {
+        color: ${({ theme }) => theme.textLight};
+    }
 
     > div {
         width: 100%;
@@ -29,6 +32,10 @@ const ListName = styled.div`
 
     > div > div:first-child {
         border: none;
+        height: 3.7rem;
+        :hover {
+            background: ${({ theme }) => theme.onSurface};
+        }
     }
 `
 

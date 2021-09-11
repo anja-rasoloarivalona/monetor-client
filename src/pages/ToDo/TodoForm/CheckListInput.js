@@ -5,7 +5,7 @@ import { ListItemInput, ListItemCta,ListItemCtaSection,ListItemCheckboxContainer
 import { Button, AppDate } from '../../../components'
 import { Input } from '../../../components/Form/WithoutValidation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import DueDateInput from './DueDateInput'
+import DateInput from './DateInput'
 
 const Container = styled.div`
     grid-column: 2 / 3;
@@ -85,7 +85,7 @@ const CheckListInput = props => {
                         : text.due_date}
                 </DueDateLabel>
                 {isAddingDueDate && (
-                    <DueDateInput 
+                    <DateInput 
                         dueDate={dueDate ? dueDate : currentCheckList.dueDate} 
                         setDueDate={val => onChangeDueDateHandler(val)}
                         customRef={dateRef}

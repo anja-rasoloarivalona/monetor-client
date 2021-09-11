@@ -101,12 +101,6 @@ const LabelsEditor = props => {
     const [ labelTitle, setLabelTitle ] = useState("")
     const [ labelColor, setLabelColor ] = useState(editedColor.color)
 
-    // console.log({
-    //     colors,
-    //     labelColor,
-    //     editedColor
-    // })
-
     const {
         text: { text },
         todos: {
@@ -138,7 +132,6 @@ const LabelsEditor = props => {
             if(!isNew){
                 data.id = editedColor.id
             }
-
             const res = await axios({
                 method: isNew ? "POST" : "PUT",
                 url: "/todo",
@@ -150,7 +143,7 @@ const LabelsEditor = props => {
                     currentLabels.push(res.data.data)
                 } else {
                     const updatedLabelIndex = currentLabels.findIndex(label => label.id === editedColor.id)
-                    currentLabels[updatedLabelIndex] = res.data.data
+                    currentLabels[updatedLabelIndex] = data
                 }
                 dispatch(actions.setTodoBoardLabels({
                     labels: currentLabels,

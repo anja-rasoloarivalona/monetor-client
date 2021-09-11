@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import { ListItem, ListItemCheckboxContainer, ListItemCheckbox,ListItemLabel,ListItemLabelText, ListItemLabelCta, ListItemLabelDueDate, ListItemCheck } from './CheckListStyle'
-import DueDateInput from './DueDateInput'
+import DateInput from './DateInput'
 import CheckListInput from "./CheckListInput"
 import {FontAwesomeIcon  } from '@fortawesome/react-fontawesome'
 import { AppDate} from '../../../components'
@@ -132,7 +132,7 @@ const CheckListItem = props => {
                                 /> 
                             </ListItemLabelDueDate>
                             {changingDueDate === index && (
-                                <DueDateInput 
+                                <DateInput 
                                     dueDate={item.dueDate}
                                     setDueDate={val => onChangeDueDateHandler(val)}
                                     customRef={dateRef}

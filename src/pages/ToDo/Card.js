@@ -95,6 +95,8 @@ const Label = styled.div`
     display: flex;
     align-items: center;
     font-size: 1.2rem;
+    margin-right: .5rem;
+    border-radius: .5rem;
 `
 
 
@@ -130,9 +132,11 @@ const Card = props => {
                     {todo.todoLabels.map((label, labelIndex) => {
                         const labelData = todoBoards[label.boardId].labels.find(l => l.id === label.id)
                         return (
+                            <>
                             <Label key={labelIndex} color={labelData.color}>
                                 {labelData.title}
                             </Label>
+                            </>
                         )
                     })}
                 </Labels>

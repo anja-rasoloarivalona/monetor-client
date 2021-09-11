@@ -154,7 +154,7 @@ const AddDueDate = props => {
 
 
 
-    const { dueDate, setDueDate, closeHandler, customRef, formTitle, isSelectingTime,setIsSelectingTime, minDate, maxDate } = props
+    const { currentDate, setCurrentDate, closeHandler, formTitle, isSelectingTime,setIsSelectingTime, minDate, maxDate, closeOnClickOutside } = props
 
     const {
         text: { text },
@@ -164,9 +164,9 @@ const AddDueDate = props => {
     const container = useRef()
 
     const format = locale === "fr" ? "dd/mm/yy" : "mm/dd/yy"
+    const initalValue = currentDate ? new Date(currentDate) : new Date()
 
-    const initalValue = dueDate ? new Date(dueDate) : new Date()
-
+    const [ isMounted, setIsMounted ] = useState(false)
     const [ tempDate, setTempDate ] = useState(initalValue)
     const [ formattedTempDate, setFormattedDate ] = useState(formatDate(initalValue, format, locale))
     const [ dateInputIsFocused, setDateInputIsFocused ] = useState(false)
@@ -182,7 +182,7 @@ const AddDueDate = props => {
     }
 
     const submitDateHandler = () => {
-        setDueDate(tempDate)
+        setCurrentDate(tempDate)
         closeHandler()
     }
 
@@ -192,9 +192,16 @@ const AddDueDate = props => {
         }
     }
 
+    useOnClickOutside(container, () => {
+        if(isMounted && closeOnClickOutside){
+            closeHandler()
+        }
+    })
+
     useEffect(() => {
         const el = document.getElementById("time-picker")
         el.disabled = true
+        setIsMounted(true)
     },[])
 
     useEffect(() => {
@@ -211,7 +218,7 @@ const AddDueDate = props => {
 
 
     return (
-        <Container ref={customRef || container}>
+        <Container ref={container}>
             <Header>
                 {formTitle}
                 <FontAwesomeIcon 

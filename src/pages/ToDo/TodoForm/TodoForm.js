@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useOnClickOutside } from '../../../hooks'
 import Description from './Description'
 import CheckList from './CheckList'
-import DueDate from "./DueDate"
+import DueDate from "./DateComponent"
 import Header from './Header'
 import Labels from "./Labels"
 import Attachments from "./Attachments"
@@ -88,7 +88,6 @@ const EditForm = props => {
     const [ isAddingCheckList, setIsAddingCheckList ] = useState(false)
     const [ isEditingTitle, setIsEditingTitle ] = useState(false)
     const [ isEditingDescription, setIsEditingDescription ] = useState(edited.description ? false : editedHasItems ? false : true)
-    const [ isEditingDate, setIsEditingDate ] = useState(false)
 
     const [ list, setList ] = useState(edited.todoListId)
     const [ title, setTitle ] = useState(edited.title)
@@ -98,11 +97,11 @@ const EditForm = props => {
     const [ checkList, setCheckList ] = useState(edited.checkList || [])
 
 
-    useOnClickOutside(modal, () => {
-        if(!isEditingDate){
-            setIsEdited(null)
-        }
-    })
+    // useOnClickOutside(modal, () => {
+    //     if(!isEditingDate){
+    //         setIsEdited(null)
+    //     }
+    // })
 
     // useEffect(() => {
     //     console.log({
@@ -254,8 +253,8 @@ const EditForm = props => {
                             setDueDate={setDueDate}
                             startDate={startDate}
                             setStartDate={setStartDate}
-                            isEditingDate={isEditingDate}
-                            setIsEditingDate={setIsEditingDate}
+                            // isEditingDate={isEditingDate}
+                            // setIsEditingDate={setIsEditingDate}
                         />
                     )}
                     {edited.todoLabels && edited.todoLabels.length > 0 && (
@@ -302,7 +301,7 @@ const EditForm = props => {
                     setTodoLists={setTodoLists}
                     setIsEdited={setIsEdited}
                     edited={edited}
-                    setIsEditingDate={setIsEditingDate}
+                    // setIsEditingDate={setIsEditingDate}
                 />
              
             </Modal>
