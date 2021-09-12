@@ -30,9 +30,9 @@ const LayoutContainer = styled.div`
         width: 0px !important;
         z-index: 2;
         .react-grid-item {
-            max-width: 36rem !important;
-            min-width: 36rem !important;
-            width: 36rem !important;
+            max-width: ${({ config: { listWidth }}) => listWidth }px !important;
+            min-width: ${({ config: { listWidth }}) => listWidth }px !important;
+            width: ${({ config: { listWidth }}) => listWidth }px !important;
         }
     }
     .react-grid-item.react-grid-placeholder {
@@ -196,7 +196,7 @@ const TodoLayout = props => {
                 setTodoLists={setTodoLists}
                 setIsEditingListOrder={setIsEditingListOrder}
             />
-            <LayoutContainer>
+            <LayoutContainer config={config}>
                 <TodoBackgroundList
                     layout={layout}
                     config={config} 

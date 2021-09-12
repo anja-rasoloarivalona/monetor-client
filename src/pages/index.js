@@ -7,7 +7,7 @@ import Login from "./Login/Login"
 import Signup from "./Signup/Signup"
 import Setup from "./Setup/Setup"
 import Transactions from './Transactions/Transactions'
-import Todo from './Todo/Todo'
+import Todo from './Todo/ToDo'
 import TodoHome from './Todo/TodoHome'
 import Home from './Home/Home'
 import Messages from './Messages/Messages'

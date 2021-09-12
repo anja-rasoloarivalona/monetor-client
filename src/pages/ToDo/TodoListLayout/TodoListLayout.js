@@ -8,13 +8,13 @@ import "../../../../node_modules/react-resizable/css/styles.css"
 const Container = styled.div`
     height: calc(100vh - 15.5rem);
     width: 100%;
-    max-width: ${({ length }) => length * 400}px;
+    max-width: ${({ length }) => length * 320}px;
 
     .layout {
         .react-grid-item {
-            max-width: 38rem !important;
-            min-width: 38rem !important;
-            width: 38rem !important;
+            max-width: 30rem !important;
+            min-width: 30rem !important;
+            width: 30rem !important;
         }
     }
 `
@@ -86,7 +86,7 @@ const TodoListLayout = props => {
     }
     const config = {
         rowHeight: 10,
-        listWidth: 380,
+        listWidth: 300,
         margin: [10, 0]
     }
 

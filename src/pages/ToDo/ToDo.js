@@ -43,6 +43,7 @@ const ToDo = props => {
         }
     } = useSelector(state => state)
 
+
     const [ mounted, setMounted ] = useState(false)
     const [ isInitialized, setIsInitialized ] = useState(false)
     const [ todoLists, setTodoLists ] = useState(null)
@@ -210,7 +211,7 @@ const ToDo = props => {
 
     const config = {
         rowHeight: 20,
-        listWidth: 360,
+        listWidth: 280,
         margin: [0, 15]
     }
 
@@ -220,6 +221,7 @@ const ToDo = props => {
                 <Loader /> :
                 <>
                     <Header
+                        config={config}
                         setIsEditingListOrder={setIsEditingListOrder}
                         isEditingListOrder={isEditingListOrder}
                         saveListHandler={saveListHandler}

@@ -135,9 +135,6 @@ const Cta = styled.ul`
     padding: 1rem;
     list-style: none;
     border-radius: .5rem;
-    li:not(:last-child){
-        // margin-bottom: .5rem;
-    }
 `
 
 const CtaItem = styled.li`

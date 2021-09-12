@@ -57,7 +57,7 @@ const ButtonsContainer = styled.div`
 
 const TodoHeader = props => {
 
-    const { setIsEditingListOrder, isEditingListOrder,saveListHandler } = props
+    const { setIsEditingListOrder, isEditingListOrder,saveListHandler, config } = props
 
     const {
         text: { text },
