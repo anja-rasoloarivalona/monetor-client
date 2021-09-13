@@ -34,12 +34,18 @@ const getInRangeTodoLists = (todoLists, range) => {
         const list = todoLists[listId]
         list.todos.forEach(todo => {
             if(isInRange(todo, range)){
-                data.push(todo)
+                data.push({
+                    ...todo,
+                    boardId: list.boardId
+                })
             }
             if(todo.checkList){
                 todo.checkList.forEach(listItem => {
                     if(isInRange(listItem, range)){
-                        data.push(listItem)
+                        data.push({
+                            ...listItem,
+                            boardId: list.boardId
+                        })
                     }
                 })
             }

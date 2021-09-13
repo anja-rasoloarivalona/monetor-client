@@ -21,8 +21,8 @@ const ViewContainer = styled.div`
     width: calc(100vw - 2rem);
     transform: ${props => props.viewMode === "week" ? 0 : "-100%"};
     background: ${props => props.theme.background};
-    border-top-left-radius: 3rem;
-    border-top-right-radius: 3rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
     overflow: hidden;
     box-shadow: ${({theme}) => theme.boxShadow};
 `

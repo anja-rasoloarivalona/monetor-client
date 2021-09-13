@@ -8,18 +8,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 const Container = styled.div`
     width: 100%;
     height: 100%;
-    background: ${props => props.theme.suface};
-    padding: 1rem;
+    background: ${({ color }) => color};
     cursor: pointer;
 `
 
 const Title = styled.div`
     font-size: 1.2rem;
-    margin: .5rem;
     display: inline-block;
     line-height: 1.4;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 1rem .5rem;
 `
 
 const Timestamp = styled.div`
@@ -33,18 +32,6 @@ const Timestamp = styled.div`
     color: ${props => props.theme.textLight};
 `
 
-const Delete = styled.div`
-    position: absolute;
-    top: .5rem;
-    right: .5rem;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: ${props => props.theme.background};
-`
 
 const TodoItem = props => {
 
@@ -54,7 +41,8 @@ const TodoItem = props => {
     const [ periodsCount, setPeriodsCount ] = useState(periods.length)
 
     const {
-        settings: { unitType }
+        settings: { unitType },
+        todos: { todoBoards }
     } = useSelector(state => state)
 
 
@@ -143,12 +131,14 @@ const TodoItem = props => {
         )
     }
 
+    console.log({
+        item,
+        todoBoards
+    })
+
     return (
-        <Container >
+        <Container color={todoBoards[item.boardId].color}>
             <Title>{data.title}</Title>
-            <Delete>
-                <FontAwesomeIcon icon="times"/>
-            </Delete>
             {renderTimeStamp()}
         </Container>
      )

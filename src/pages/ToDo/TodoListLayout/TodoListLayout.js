@@ -58,14 +58,16 @@ const TodoListLayout = props => {
         const _layout = []
         todoLists.forEach(list => {
             let h = 5
+
             if(list.todos && list.todos.length > 0){
                 h += 4
             }
             list.todos.forEach((todo, index) => {
-                let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 3.5 : 0
+                let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 3 : 0
                 let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 3.5 : 0
-                let coverH = todo.coverImage ? 16 : 0
-                let origin = detailH > 0 || labelH > 0 || coverH > 0 ? 3.5 : 5.5
+                let coverH = todo.coverImage ? 14 : 0
+                let origin = 4.5
+
                 h += (origin + detailH + labelH + coverH)
             })
             _layout.push({
@@ -87,7 +89,7 @@ const TodoListLayout = props => {
     const config = {
         rowHeight: 10,
         listWidth: 300,
-        margin: [10, 0]
+        margin: [0, 0]
     }
 
     const stopDragHandler = layout => {

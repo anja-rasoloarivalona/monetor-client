@@ -34,7 +34,7 @@ const TitleContainer = styled.div`
 `
 
 const Title = styled.div`
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: ${props => props.theme.text};
 `

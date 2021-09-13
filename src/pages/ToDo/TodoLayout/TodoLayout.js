@@ -160,8 +160,8 @@ const TodoLayout = props => {
                     if(!todo.archivedAt){
                         let h = 1.5
                         let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 1 : 0
-                        let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 1 : 0
-                        let coverH = todo.coverImage ? 4.5 : 0
+                        let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? .8 : 0
+                        let coverH = todo.coverImage ? 4 : 0
                         const todoConfig = {
                             x: list.index,
                             y: todoIndex,

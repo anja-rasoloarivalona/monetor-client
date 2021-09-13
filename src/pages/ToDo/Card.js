@@ -34,19 +34,18 @@ const Title = styled.div`
 const Cta = styled.div`
     width: 100%;
     display: flex;
-    align-items: center;
-    margin-top: 1rem;
+    align-items: flex-end;
     font-size: 1.2rem;
     color: ${props => props.themetextLight};
+    height: 2.5rem;
 `
 
 
 const CtaDueDate = styled.div`
     display: flex;
     align-items: center;
-    padding: .5rem;
     border-radius: .3rem;
-    margin-right: .7rem;
+    margin-right: 1rem;
 
     svg {
         margin-right: .5rem;
@@ -103,7 +102,7 @@ const Label = styled.div`
 `
 const CoverContainer = styled.div`
     width: 100%;
-    height: 16rem;
+    height: 14rem;
     background-image: url(${({ src}) => src});
     background-repeat: no-repeat;
     background-size: cover;

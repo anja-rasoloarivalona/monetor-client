@@ -27,7 +27,7 @@ const Container = styled.div`
                 },
                 "&__header": {
                     transform: `translateX(-${sidebar}px)`,
-                    padding: small ? "0" : "0 4rem",
+                    // padding: small ? "0" : "0 4rem",
                     width: small ? `${d + sidebar}px` : "calc(100vw - 2rem)",
                     ":before": {
                         height: small ? "4rem" : "2.5rem",
@@ -98,9 +98,7 @@ const GridLayoutItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${props => props.theme.surface};
-    padding: .2rem;
-    box-shadow: ${props => props.hideBackground ? "none" : props.theme.boxShadow};
+    padding: .3rem;
     border-radius: .2rem;
     position: relative;
     z-index:  5;
