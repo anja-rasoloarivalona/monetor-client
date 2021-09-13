@@ -1,11 +1,13 @@
-import React from "react"
+import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import moment from "moment"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button } from '../../../../components'
 import { months } from '../../data'
 import { useSelector } from 'react-redux'
-
+import { faCalendar } from '@fortawesome/free-regular-svg-icons'
+import { AppDate } from '../../../../components/Form/WithoutValidation'
+import { useOnClickOutside } from '../../../../hooks'
 
 const HeaderSection = styled.div`
     display: flex;
@@ -62,17 +64,90 @@ const ButtonItem = styled.div`
 `
 
 
+const HeaderButtons = styled.div`
+    display: flex;
+    align-items: center;
+    border: 1px solid ${({ theme }) => theme.form.unfocused.border};
+    margin-left: 1.5rem;
+    border-radius: 4px;
+    
+    > div:not(:last-child){
+        border-right: 1px solid ${({ theme }) => theme.form.unfocused.border};
+    }
 
-const TodaySection = styled(HeaderSection)`
-    height: 100%;
-    background: ${props => props.theme.backgroundImage ? "none" : props.theme.surface};
-    width: 20rem;
+    > div:first-child {
+        border-top-left-radius: .5rem;
+        border-bottom-left-radius: .5rem;
+    }
+    > div:last-child {
+        border-top-right-radius: .5rem;
+        border-bottom-right-radius: .5rem;
+    }
+`
+
+const HeaderButton = styled.div`
+    font-size: 1.4rem;
+    color: ${({ theme }) => theme.textLight};
+    cursor: pointer;
+    position: relative;
+    :hover {
+        background: ${({ theme }) => theme.secondarySurface};
+        color: ${({ theme }) => theme.text};
+    }
+    &.text {
+        color: ${({ theme }) => theme.text};
+        font-weight: 600;
+        padding: .8rem 1.4rem;
+    }
+    &.active {
+        svg {
+            color: ${({ theme }) => theme.text};
+        }
+    }
+`
+
+const HeaderButtonIcon = styled.div`
+    padding: .8rem 1rem;
+`
+
+const CalendarContainer = styled.div`
+    position: absolute;
+    top: calc(100% + .8rem);
+    left: 0;
+    z-index: 2;
+    width: 30rem;
+
+    > div:first-child {
+        margin-bottom: 0px;
+    }
+
+    .react-datepicker, .react-datepicker__month-container {
+        max-width: unset;
+    }
+
+    .react-datepicker__day-names, .react-datepicker__week {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .react-datepicker__day--selected {
+        background: ${({theme}) => theme.primary};
+    }
 `
 
 const WeekHeaderLarge = props => {
 
 
-    const { setPos, current} = props
+    const { setPos, current, periods, config, getPeriods } = props
+
+    const [ showCalendar, setShowCalendar ] = useState(null)
+    const calendarRef = useRef()
+
+    useOnClickOutside(calendarRef, () => {
+        if(showCalendar){
+            setShowCalendar(false)
+        }
+    })
 
     const { 
         settings: { locale },
@@ -80,32 +155,82 @@ const WeekHeaderLarge = props => {
     } = useSelector(state => state) 
 
 
+    const goToToday = () => {
+        const formattedToday = moment(new Date()).format("DD-MM-YYYY")
+        const todayData = periods.find(period => period.formatted === formattedToday)
+        if(todayData){
+            setPos(todayData.index.pos - Math.floor(config.days / 2))
+        } else {
+            getPeriods(new Date())
+        }
+    }
+
+    const changeDateHandler = value => {
+        const formatted = moment(new Date(value)).format("DD-MM-YYYY")
+        const existing = periods.find(period => period.formatted === formatted)
+        if(!existing){
+            getPeriods(new Date(value))
+        } else {
+            setPos(existing.index.pos - Math.floor(config.days / 2))
+
+        }
+    }
+
+
     return (
         <>
-            {/* <TodaySection>
-                <Button transparent>
-                    {text.today}
-                </Button>
-            </TodaySection> */}
                 <HeaderSection>
+                    <HeaderButtons>
+                        <HeaderButton className="text" onClick={goToToday}>Today</HeaderButton>
+                        <HeaderButton onClick={() => setPos(prev => prev - 4)}>
+                            <HeaderButtonIcon>
+                                <FontAwesomeIcon icon="angle-double-left"/>
+                            </HeaderButtonIcon>
+                        </HeaderButton>
+                        <HeaderButton onClick={() => setPos(prev => prev - 1)}>
+                            <HeaderButtonIcon>
+                                <FontAwesomeIcon icon="angle-left"/>
+                            </HeaderButtonIcon>
+                        </HeaderButton>
+                        <HeaderButton onClick={() => setPos(prev => prev + 1)}>
+                            <HeaderButtonIcon>
+                                <FontAwesomeIcon icon="angle-right"/>
+                            </HeaderButtonIcon>
 
+                        </HeaderButton>
+                        <HeaderButton onClick={() => setPos(prev => prev + 4)}>
+                            <HeaderButtonIcon>
+                                <FontAwesomeIcon icon="angle-double-right"/>
+                            </HeaderButtonIcon>
+
+                        </HeaderButton>
+                        <HeaderButton ref={calendarRef} className={showCalendar ? 'active' : ""}>
+                            <HeaderButtonIcon onClick={() => setShowCalendar(prev => !prev)}>
+                                <FontAwesomeIcon icon={faCalendar}/>
+                            </HeaderButtonIcon>
+                            {showCalendar && (
+                                <CalendarContainer>
+                                    <AppDate 
+                                        input={{
+                                            label: ""
+                                        }}
+                                        currentValue={new Date()}
+                                        onChange={changeDateHandler}
+                                        props={{
+                                            autoFocus: true,
+                                            inline: true
+                                        }}                                    
+                                    />
+                             </CalendarContainer>
+                            )}
+                            
+                        </HeaderButton>
+                    </HeaderButtons>
                 </HeaderSection>
                 <HeaderSection>
-                    <HeaderIcon onClick={() => setPos(prev => prev - 4)}>
-                        <FontAwesomeIcon icon="angle-double-left" />
-                    </HeaderIcon>
-                    <HeaderIcon onClick={() => setPos(prev => prev - 1)}>
-                        <FontAwesomeIcon icon="chevron-left" />
-                    </HeaderIcon>
                     <HeaderLabel>
                         {months[locale][current.date.getMonth()].long} {current.date.getFullYear()}
                     </HeaderLabel>
-                    <HeaderIcon onClick={() => setPos(prev => prev + 1)}>
-                        <FontAwesomeIcon icon="chevron-right" />
-                    </HeaderIcon>
-                    <HeaderIcon onClick={() => setPos(prev => prev + 4)}>
-                        <FontAwesomeIcon icon="angle-double-right" />
-                    </HeaderIcon>
                 </HeaderSection>
                 <HeaderSection>
                     <ButtonContainer>

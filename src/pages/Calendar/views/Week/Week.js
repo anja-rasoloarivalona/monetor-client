@@ -35,7 +35,7 @@ const Week = props => {
         days: 7,
         h: 80,
         sidebar: 80,
-        header: 100,
+        header: 120,
         d: (windowWidth - 80) / 7,
         ...props.config
     }
@@ -59,35 +59,39 @@ const Week = props => {
             dispatch(actions.getUserTodos())
         } else {
             if(!isScrollInitialized){
-                const res = []
-                if(config.small){
-                    for(let i = 4 * -2; i < 4 * 5; i++){
-                        res.push({
-                            ...getPeriod(addDays(new Date(), i)),
-                            index: {
-                                index: i
-                            }
-                        })
-                    }
-                } else {
-                    for(let i = config.days * -2; i < config.days * 5; i++){
-                        res.push({
-                            ...getPeriod(addDays(new Date(), i)),
-                            index: {
-                                index: i
-                            }
-                        })
-                    }
-                }
-                res.forEach((item, index) => {
-                    res[index].index.pos = index
-                })
-                const current = res.find(i => i.index.index === 0)
-                setPos(current.index.pos)
-                setPeriods(res)
+                getPeriods(new Date())
             }
         }
     },[todoBoards])
+
+    const getPeriods = date => {
+        const res = []
+        if(config.small){
+            for(let i = 4 * -2; i < 4 * 5; i++){
+                res.push({
+                    ...getPeriod(addDays(new Date(date), i)),
+                    index: {
+                        index: i
+                    }
+                })
+            }
+        } else {
+            for(let i = config.days * -2; i < config.days * 5; i++){
+                res.push({
+                    ...getPeriod(addDays(new Date(date), i)),
+                    index: {
+                        index: i
+                    }
+                })
+            }
+        }
+        res.forEach((item, index) => {
+            res[index].index.pos = index
+        })
+        const current = res.find(i => i.index.index === 0)
+        setPos(current.index.pos)
+        setPeriods(res)
+    }
 
     useEffect(() => {
         if(periods){
@@ -99,14 +103,12 @@ const Week = props => {
                         inRange.forEach(item => {
                             let h = 1
                             let y = new Date(item.dueDate).getHours() * 2
-
                             if(item.startDate){
                                 h = (Math.abs(new Date(item.dueDate) - new Date(item.startDate)) / 36e5 ) * 2  ;
                                 const tempY = new Date(item.startDate).getHours() * 2
                                 const tempH = new Date(item.startDate).getMinutes()
                                 y = tempH >= 30 ? tempY + 1 : tempY
                             }
-
                             const itemLayout = {
                                 w: 1,
                                 h,
@@ -114,19 +116,6 @@ const Week = props => {
                                 y,
                                 i: item.id,
                             }
-                            
-                            // if(item.id === "B788CBFB4BD64490ABF3038D1226D021"){
-                            //     console.log({
-                            //         item: {
-                            //             ...item,
-                            //             startDate: new Date(item.startDate),
-                            //             dueDate: new Date(item.dueDate),
-                            //             itemLayout,
-                            //             test: new Date(item.dueDate).getHours()
-                            //         }
-                            //     })
-                            // }
-
                             _layout.push({
                                 ...item,
                                 period,
@@ -258,6 +247,7 @@ const Week = props => {
         return null
     }
 
+
     return (
         <Container
             config={{
@@ -275,6 +265,8 @@ const Week = props => {
                 setPos={setPos}
                 small={config.small}
                 setIsAddingPeriod={setIsAddingPeriod}
+                config={config}
+                getPeriods={getPeriods}
             />
             <Content className="content">
                 <SideBar />

@@ -85,7 +85,7 @@ const LabelDate = styled.div`
 
 const WeekHeader = props => {
     
-    const { periods,setPeriods,  setPos, pos, small,setIsAddingPeriod } = props
+    const { periods,setPeriods,  setPos, pos, small,setIsAddingPeriod, config, getPeriods } = props
 
     const { 
         settings: { locale },
@@ -132,6 +132,9 @@ const WeekHeader = props => {
                     <WeekHeaderLarge 
                         setPos={setPos}
                         current={current}
+                        periods={periods}
+                        config={config}
+                        getPeriods={getPeriods}
                     />
                 }
             </Header>
