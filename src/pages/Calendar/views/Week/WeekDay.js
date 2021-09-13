@@ -40,7 +40,7 @@ const HourLayoutItem = styled.div`
     }
 
     :hover {
-        background: ${props => props.theme.background};
+        background: ${props => props.theme.secondarySurface};
     };
     ${props => {
         const { isHighLighted, current, index } = props

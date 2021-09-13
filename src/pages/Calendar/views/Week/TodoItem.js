@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import moment from "moment"
 import { addDays, getHoursDate } from './functions'
-import { useSelector } from 'react-redux'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useSelector, useDispatch } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import  * as actions from '../../../../store/actions'
 
 const Container = styled.div`
     width: 100%;
@@ -35,7 +36,9 @@ const Timestamp = styled.div`
 
 const TodoItem = props => {
 
-    const { item, setToBeSaved, periods  } = props
+    const dispatch = useDispatch()
+
+    const { item, setToBeSaved, periods , isDragging } = props
 
     const [ data, setData ] = useState(null)
     const [ periodsCount, setPeriodsCount ] = useState(periods.length)
@@ -131,17 +134,24 @@ const TodoItem = props => {
         )
     }
 
-    console.log({
-        item,
-        todoBoards
-    })
+    const onClickHandler = () => {
+        if(!isDragging){
+            dispatch(actions.setForm({
+                edited: item,
+                opened: "todo"
+            }))
+            props.history.push({
+                search: `?active=td&id=${item.id}&bid=${item.boardId}&lid=${item.todoListId}`
+            })
+        }
+    }
 
     return (
-        <Container color={todoBoards[item.boardId].color}>
+        <Container color={todoBoards[item.boardId].color} onClick={onClickHandler}>
             <Title>{data.title}</Title>
             {renderTimeStamp()}
         </Container>
      )
 };
 
-export default TodoItem;
+export default withRouter(TodoItem);

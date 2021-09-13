@@ -29,7 +29,11 @@ const Week = props => {
         todos: { todoBoards, activeBoardId }
     } = useSelector(state => state) 
 
-    const todoLists = todoBoards &&  activeBoardId ? todoBoards[activeBoardId].todoLists : null
+    // const todoLists = todoBoards &&  activeBoardId ? todoBoards[activeBoardId].todoLists : null
+
+
+    const [ todoLists, setTodoLists ] = useState(null)
+
 
     const config = {
         days: 7,
@@ -47,6 +51,7 @@ const Week = props => {
     const [ isScrollInitialized, setIsScrollInitialized] = useState(false)
     const [ isAddingPeriod, setIsAddingPeriod ] = useState(false)
     const [ isPeriodAdded, setIsPeriodAdded ] = useState(false)
+    const [ isDragging, setIsDragging ] = useState(null)
 
 
     const [isScrolling, setIsScrolling] = useState(false)
@@ -61,6 +66,13 @@ const Week = props => {
             if(!isScrollInitialized){
                 getPeriods(new Date())
             }
+            const currentLists = {}
+            Object.values(todoBoards).forEach(board => {
+                Object.values(board.todoLists).forEach(list => {
+                    currentLists[list.id] = list
+                })
+            })
+            setTodoLists(currentLists)
         }
     },[todoBoards])
 
@@ -174,7 +186,11 @@ const Week = props => {
         }
     },[toBeSaved])
 
-    const stopHandler = (data, more) => {
+    const stopHandler = (data) => {
+        setTimeout(() => {
+            setIsDragging(false)
+            console.log("ANOUT TO")
+        },200)
         const updated = []
         layout.forEach(item => {
             const updatedData = data.find(i => i.i === item.i)
@@ -243,7 +259,7 @@ const Week = props => {
     }
 
 
-    if(!periods || !layout){
+    if(!periods || !layout || !todoLists){
         return null
     }
 
@@ -284,6 +300,7 @@ const Week = props => {
                                 margin={[0, 0]}
                                 compactType={null}
                                 onDragStop={stopHandler}
+                                onDrag={() => setIsDragging(true)}
                                 onResizeStop={stopHandler}
                                 preventCollision={true}
                                 useCSSTransforms={false}
@@ -298,6 +315,7 @@ const Week = props => {
                                                 item={item} 
                                                 setToBeSaved={setToBeSaved}
                                                 periods={periods}
+                                                isDragging={isDragging}
                                             />
                                         </GridLayoutItem>
                                     )
