@@ -54,8 +54,6 @@ const Loader = styled.div`
     div:nth-child(3) {
         animation-delay: -0.15s;
       }
-
-      
 `
 
 const AppLoader = props => {
@@ -83,6 +81,28 @@ const AppLoader = props => {
     )
 }
 
+const ComponentLoader = styled.div`
+    overflow: hidden;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 800px 104px;
+
+    @keyframes placeHolderShimmer{
+        0%{
+            background-position: -468px 0
+        }
+        100%{
+            background-position: 468px 0
+        }
+    }
+`
+
 export {
-    AppLoader
+    AppLoader,
+    ComponentLoader
 };

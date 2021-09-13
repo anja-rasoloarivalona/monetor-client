@@ -1,7 +1,7 @@
 import { Link } from './Link'
 import { Button, ButtonWithLoader } from './Button'
 import { SubmitButton } from './SubmitButton'
-import { AppLoader } from './Loader'
+import { AppLoader, ComponentLoader } from './Loader'
 import { EnhancedForm, formProps } from './Form/WithValidation/Form'
 import { Amount } from './Amount'
 import { ScrollBar, ScrollHorizontalBar } from './Scrollbar'
@@ -22,5 +22,6 @@ export {
     AppDate,
     ScrollDrag,
     ScrollHorizontalBar,
-    ButtonWithLoader
+    ButtonWithLoader,
+    ComponentLoader
 }

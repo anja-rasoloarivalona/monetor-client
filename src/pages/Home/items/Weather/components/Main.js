@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import moment from 'moment'
 import AppIcon from '../../../../../icons'
 import WeatherIcon from '../../../../../icons/WeatherIcon'
+import MainLoader from "./MainLoader"
 import { days } from '../../../../../assets/dateLocale'
 import { formatDate, capitalizeFirstLetter } from '../../../../../functions'
 import { HeaderCta, HeaderCtaItem, HeaderCtaItemIcon } from '../../style'
@@ -148,13 +149,19 @@ const Main = props => {
             const currentDateTime = moment(new Date(moment(fullDate).set("minute", 0).set("second", 0))).format("YYYY-MM-DD HH:mm")  
             const hours = weather[currentCity].weather.hourly
             const currentData = hours.find(h => h.dateTime.string === currentDateTime)
-            setData(currentData)
+            setTimeout(() => {
+                setData(currentData)
+            },1000)
         }
     },[cityDateTime])
 
 
     if(!data){
-        return null
+        return (
+            <Container>
+                <MainLoader />
+            </Container>
+        )
     }
 
     const day = cityDateTime.fullDate.getDay() > 0 ? cityDateTime.fullDate.getDay() - 1 : 6
@@ -166,7 +173,6 @@ const Main = props => {
         }
         return `${location.city}, ${location.country}`
     }
-
 
     return (
         <Container className="main">

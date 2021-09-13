@@ -6,17 +6,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import WeekHeader from './WeekHeader'
 import WeekDay from "./WeekDay"
 import { useWindowSize } from '../../../../hooks'
-import { enableScroll, disableScroll } from '../../../../functions'
-import { ScrollBar, ScrollDrag } from '../../../../components'
 import GridLayout from 'react-grid-layout'
 import "../../../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../../../node_modules/react-resizable/css/styles.css"
 import TodoItem from './TodoItem'
 import { addDays, getPeriod, getInRangeTodoLists, addPeriods } from './functions'
 import * as actions from "../../../../store/actions"
-import axios from "axios"
 import moment from 'moment'
-import { isFirefox } from 'react-device-detect'
 import { Container, Content, ContentView, ContentSlider, GridLayoutItem  } from './style'
 
 
@@ -29,11 +25,7 @@ const Week = props => {
         todos: { todoBoards, activeBoardId }
     } = useSelector(state => state) 
 
-    // const todoLists = todoBoards &&  activeBoardId ? todoBoards[activeBoardId].todoLists : null
-
-
     const [ todoLists, setTodoLists ] = useState(null)
-
 
     const config = {
         days: 7,
