@@ -1,39 +1,18 @@
-import React, { useState, useRef } from "react"
+import React from "react"
 import styled from "styled-components"
-import { ScrollBar } from '../../components'
 import AppList from './AppList'
-import SubList from './SubList'
-import SidebarLinks from './SidebarLinks'
-import { useOnClickOutside } from '../../hooks'
 
 const Container = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    width: 27rem;
+    width: ${({ showSidebar}) => showSidebar ? 24 : 7}rem;
     height: 100vh;
-    background: ${props => props.theme.surface};
-    color: ${props => props.theme.textLight};
+    background: ${({ theme }) => theme.surface};
     z-index: 100;
-    transform: translateX(${props => props.showSidebar ? 'none' : '-100%'});
     transition: all .3s ease-in;
     overflow-x: hidden;
-    box-shadow: ${({ theme }) => theme.boxShadow};
-`
-
-const Content = styled.div`
-    width: 27rem;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 100%);
-    grid-template-rows: 100vh;
-    transform: translateX(${props => props.showList && props.showList.display ? '-100%' : 'none'});
-    transition: all .3s ease-in;
-`
-
-const ContentSection = styled(ScrollBar)`
-    width: 100%;
-    height: 100%;
+    box-shadow: ${({ theme }) => theme.boxShadowLight};
 `
 
 const Header = styled.div`
@@ -44,54 +23,56 @@ const Header = styled.div`
     border-bottom: 1px solid ${props => props.theme.background};
     padding: 0 2rem;
 `
+
 const HeaderLabel = styled.div`
    font-size: 1.6rem;
 `
 
+const HeaderIcon = styled.div`
+    min-width: 3.5rem;
+    min-height: 3.5rem;
+    padding: 1rem .8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 50%;
+    cursor: pointer;
+    :hover {
+        background: ${({ theme }) => theme.background};
+    }
+`
+
+const HeaderIconBar = styled.div`
+    width: 100%;
+    height: 1px;
+    background: ${({ theme }) => theme.text};
+`
+
+const Content = styled.div`
+    width: 100%;
+    height: calc(100vh - 6.5rem);
+`
 
 const Sidebar = props => {
-
     const { showSidebar, setShowSidebar } = props
-    const [ showList, setShowList ] = useState(false)
-
-    const container = useRef()
-
-    const closeHandler = () => {
-        setShowSidebar(false)
-        setShowList(false)
-    }
-
-    useOnClickOutside(container, () => {
-        if(showSidebar){
-            setShowSidebar(false)
-        }
-    })
-
     return (
-<           Container showSidebar={showSidebar} ref={container}>
-                <Content showList={showList}>
-                    <ContentSection>
-                        <Header>
-                            <HeaderLabel>
-                                Menu
-                            </HeaderLabel>
-                        </Header>
-                        <SidebarLinks 
-                            closeHandler={closeHandler}
-                        />
-                        <AppList 
-                            setShowList={setShowList}
-                            showList={showList}
-                            closeHandler={closeHandler}
-                        />
-                    </ContentSection>
-                    <ContentSection>
-                        <SubList 
-                            setShowList={setShowList}
-                            showList={showList}
-                            closeHandler={closeHandler}
-                        />
-                    </ContentSection>
+            <Container showSidebar={showSidebar}>
+                <Header>
+                    {showSidebar && (
+                        <HeaderLabel>
+                            Menu
+                        </HeaderLabel>
+                    )}
+                    <HeaderIcon onClick={() => setShowSidebar(prev => !prev)}>
+                        <HeaderIconBar />
+                        <HeaderIconBar />
+                        <HeaderIconBar />
+                    </HeaderIcon>
+                </Header>
+                <Content>
+                    <AppList 
+                        showSidebar={showSidebar}
+                    />
                 </Content>   
             </Container>
      )
