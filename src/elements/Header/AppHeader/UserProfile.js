@@ -14,6 +14,7 @@ const Container = styled.div`
   align-items: center;
   color: ${props =>props.theme.dynamicText};
   margin-left: 1rem;
+  background: red;
 `;
 
 const ImageContainer = styled.div`
@@ -248,7 +249,7 @@ const UserProfile = props => {
       ref={container}
     >
       <UserProfileImage />
-      <UserName>{user.firstname} {user.lastname}</UserName>
+      <UserName>{text.my_account}</UserName>
       <ToggleContainer onClick={() => setShowList((prev) => !prev)}>
         <FontAwesomeIcon icon="chevron-down" />
       </ToggleContainer>

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../store/actions'
-import Header from './Header/Header'
+import GridHeader from './Header/Header'
 import TodoLayout from './TodoLayout/TodoLayout'
 import TodoListLayout from "./TodoListLayout/TodoListLayout"
 import EditForm from "./TodoForm/TodoForm"
@@ -15,18 +15,27 @@ import { stringToQueryParam } from '../../functions'
 
 const Container = styled.div`
     width: 100%;
-    height: calc(100vh - 6.5rem);
-    padding: 2rem 0;
+    height: 100vh;
     color: ${props => props.theme.text};
-    background: ${props => props.theme.backgroundImage ? 'none' : props.theme.background};   
+    background: ${props => props.theme.backgroundImage ? 'none' : props.theme.background}; 
+    padding-left: 4rem;
 `
 
 const Content = styled.div`
     width: 100%;
     display: flex;
-    max-width: 100vw;
-    overflow-x: scroll;
-    padding-left: 3rem;
+    // max-width: 100vw;
+    // overflow-x: scroll;
+`
+const Header = styled.div`
+    width: 100%;
+    height: 6.5rem;
+    display: flex;
+    align-items: center;
+    // background: orange;
+`
+
+const HeaderTitle = styled.h1`
 `
 
 const ToDo = props => {
@@ -210,8 +219,8 @@ const ToDo = props => {
     }
 
     const config = {
-        rowHeight: 20,
-        listWidth: 280,
+        rowHeight: 10,
+        listWidth: 320,
         margin: [0, 15]
     }
 
@@ -220,13 +229,29 @@ const ToDo = props => {
             {!isInitialized ?
                 <Loader /> :
                 <>
-                    <Header
-                        config={config}
-                        setIsEditingListOrder={setIsEditingListOrder}
-                        isEditingListOrder={isEditingListOrder}
-                        saveListHandler={saveListHandler}
-                    />
-                     <Content>
+                    <Header>
+                        <HeaderTitle>
+                            {todoBoards[activeBoardId].title}
+                        </HeaderTitle>
+                    </Header>
+                    <Content>
+
+                    </Content>
+                        <TodoLayout 
+                            todoLists={Object.values(todoLists)}
+                            setTodoLists={setTodoLists}
+                            setIsEdited={setIsEdited}
+                            config={config}
+                            setIsEditingListOrder={setIsEditingListOrder}
+                        />
+                    {/*  <Content>
+                        <TodoLayout 
+                            todoLists={Object.values(todoLists)}
+                            setTodoLists={setTodoLists}
+                            setIsEdited={setIsEdited}
+                            config={config}
+                            setIsEditingListOrder={setIsEditingListOrder}
+                        />
                         {!isEditingListOrder ?
                             <TodoLayout 
                                 todoLists={Object.values(todoLists)}
@@ -241,7 +266,7 @@ const ToDo = props => {
                                 listLayout={listLayout}
                             />
                         }
-                    </Content>
+                    </Content> */}
                     {edited && (
                         <EditForm 
                             edited={edited}

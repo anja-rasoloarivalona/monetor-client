@@ -99,10 +99,10 @@ const View = props => {
     // const [ hasInitializedWeather, setHasInitializedWeather ] = useState(false)
  
     useEffect(() => {
-        if(!locations || (locations && !locations.current)){
-            dispatch(actions.getUserCurrentLocation())
-            dispatch(actions.getUserLocations())
-        }
+        // if(!locations || (locations && !locations.current)){
+        //     dispatch(actions.getUserCurrentLocation())
+        //     dispatch(actions.getUserLocations())
+        // }
     },[])
 
     useEffect(() => {
@@ -117,6 +117,8 @@ const View = props => {
             setPos(originPos)
         }
     },[weatherRef, isViewingWeather])
+
+
 
     if(!pos || !weather || isManagingDashboard || !currentCity){
         return null

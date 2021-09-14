@@ -7,17 +7,17 @@ import Card from '../Card'
 import TodoLayoutHeader from "./TodoLayoutHeader"
 import TodoBackgroundList from "./TodoBackgroundList"
 import { generateId, arrayToObject } from '../../../functions'
-
+import {  getTodoConfig } from '.././functions'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
-    flex: 1;
     display: flex;
     flex-direction: column;
 `
 
 const LayoutContainer = styled.div`
     width: 100%;
-    height: calc(100vh - 20.5rem);
+    height: calc(100vh - 11.5rem);
     overflow-y: scroll;
     position: relative;
     padding-left: 1rem;
@@ -36,13 +36,13 @@ const LayoutContainer = styled.div`
         }
     }
     .react-grid-item.react-grid-placeholder {
-        background-color: ${({theme}) => theme.text};
+        background-color: transparent;
     }
 
 `
 
 const LayoutItem = styled.div`
-
+    padding: 1rem 0;
 `
 
 
@@ -52,6 +52,10 @@ const TodoLayout = props => {
     const [ layout, setLayout ] = useState(null)
     const [ isAddingCard, setIsAddingCard ] = useState(false)
     const [ isDragging, setIsDragging ] = useState(null)
+
+    const {
+        todos: { todoBoards, activeBoardId }
+    } = useSelector(state => state)
 
 
     const submitCardHandler = (title ) => {
@@ -158,19 +162,11 @@ const TodoLayout = props => {
             if(list.todos.length > 0){
                 list.todos.forEach((todo, todoIndex) => {
                     if(!todo.archivedAt){
-                        let h = 1.5
-                        let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 1 : 0
-                        let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? .8 : 0
-                        let coverH = todo.coverImage ? 4 : 0
-                        const todoConfig = {
-                            x: list.index,
-                            y: todoIndex,
-                            h: h + detailH + labelH + coverH,
-                            w: 1,
-                            i: todo.id,
-                            isResizable: false,
-                            todo
-                        }
+                        const todoConfig = getTodoConfig(
+                            todo, 
+                            [list.index, todoIndex, config.listWidth - 20],
+                            todoBoards[activeBoardId].labels
+                        )
                         _copy[list.id].todos[todo.id] = todoConfig
                         _layout.push(todoConfig)
                     }
@@ -180,6 +176,7 @@ const TodoLayout = props => {
         setLayout(_layout)
     },[todoLists])
 
+    
 
     if(!layout){
         return null
@@ -196,6 +193,7 @@ const TodoLayout = props => {
                 setTodoLists={setTodoLists}
                 setIsEditingListOrder={setIsEditingListOrder}
             />
+
             <LayoutContainer config={config}>
                 <TodoBackgroundList
                     layout={layout}
@@ -212,7 +210,7 @@ const TodoLayout = props => {
                     rowHeight={config.rowHeight}
                     cols={todoLists.length}
                     width={todoLists.length * config.listWidth + (40 * todoLists.length)}
-                    margin={config.margin}
+                    margin={[0,0]}
                     onDrag={() => setIsDragging(true)}
                     onDragStop={stopDragHandler}
                     containerPadding={[0,0]}
@@ -223,6 +221,7 @@ const TodoLayout = props => {
                                 <Card
                                     todo={item.todo} 
                                     setIsEdited={onClickCardHandler}
+                                    config={config}
                                 />
                             </LayoutItem>
                         )

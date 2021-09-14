@@ -9,26 +9,37 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 2rem 0;
 `
 
 const List = styled.ul`
     list-style: none;
 `
 
-const ListItem = styled.div`
+const ListItem = styled.li`
     display: flex;
     align-items: center;
-    padding: 1rem 2rem 1rem 1.5rem;
+    padding: 1rem 2rem 1rem 2rem;
     font-size: 1.4rem;
     position: relative;
-
+    cursor: pointer;
     :hover {
         background: ${props => props.theme.background};
         .toggle {
             opacity: 1;
         }
     }
+    ${({ showSidebar }) => {
+        if(!showSidebar){
+            return {
+                ".label": {
+                    display: "none"
+                },
+                ".icon": {
+                    marginRight: 0
+                }
+            }
+        }
+    }}
 `
 
 const ListItemContent = styled(Link)`
@@ -43,7 +54,6 @@ const ListItemContent = styled(Link)`
 const ListItemIcon = styled.div`
     width: 3rem;
     height: 3rem;
-    border-radius: 50%;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -91,22 +101,21 @@ const AppList = props => {
 
     const {
         text: { text },
-        todos: { activeBoardId }
     } = useSelector(state => state)
 
-    const { setShowList, closeHandler } = props
+    const { showSidebar } = props
 
 
     const items = [
         {
-            label: text.messages,
-            icon: "messages",
-            link: text.link_messages
+            label: text.dashboard,
+            link: text.link_dashboard,
+            icon: "dashboard"
         },
         {
             label: text.projects,
             icon: "todo",
-            link: `${text.link_projects}/${activeBoardId}`
+            link: `${text.link_projects}`
         },
         {
             label: text.calendar,
@@ -114,7 +123,17 @@ const AppList = props => {
             link: text.link_calendar
         },
         {
-            label: text.transactions,
+            label: text.notes,
+            icon: "notes",
+            link: text.link_notes
+        },
+        {
+            label: text.messages,
+            icon: "messages",
+            link: text.link_messages
+        },
+        {
+            label: text.my_wallet,
             icon: "transactions",
             link: text.link_transactions,
             id: "transactions",
@@ -136,11 +155,6 @@ const AppList = props => {
             //     }
             // ]
         },
-        {
-            label: text.notes,
-            icon: "notes",
-            link: text.link_notes
-        }
 
     ]
 
@@ -148,30 +162,15 @@ const AppList = props => {
         <Container>
             <List>
                 {items.map((item, index) => (
-                    <ListItem key={index}>
-                        <ListItemContent
-                            to={`/${item.link}`}
-                            onClick={closeHandler}
-                        >
-                            <ListItemIcon>
+                    <ListItem key={index} showSidebar={showSidebar}>
+                        <ListItemContent to={`/${item.link}`}>
+                            <ListItemIcon className="icon">
                                 <AppIcon id={item.icon}/>
                             </ListItemIcon>
-                            <ListItemLabel>
+                            <ListItemLabel className="label">
                                 {item.label}
                             </ListItemLabel>
                         </ListItemContent>
- 
-                        {item.subList && (
-                            <ToggleList
-                                onClick={() => setShowList({
-                                    ...item,
-                                    display: true
-                                })}
-                                className="toggle"
-                            >
-                                <FontAwesomeIcon icon="chevron-right"/>
-                            </ToggleList>
-                        )}
                     </ListItem>
 
                 ))}

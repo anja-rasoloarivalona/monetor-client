@@ -14,33 +14,19 @@ import ProjectsSelector from "./ProjectsSelector"
 
 const Container = styled.div`
     height: 6.5rem;
-    width: 100vw;
-    padding-right: 3rem;
-    padding-left: 2rem;
+    width: 28rem;
+    position: fixed;
+    top: 0;
+    right: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background: transparent;
+    justify-content: flex-end;
     transition: background .1s ease-in;
-
-    
-    ${props => {
-        if(props.showList){
-            return {
-                ".title": {
-                    background: props.theme.background,
-                    borderRadius: ".5rem",
-                    boxShadow: props.theme.boxShadowExtraLight
-                }
-            }
-        }
-    }}
+    padding-right: 2rem;
 
     ${props => {
         if((props.theme.backgroundImage && props.useTransparentHeader)){
             return {
-                background: props.theme.transparentSurface,
-                boxShadow: props.theme.boxShadowExtraLight,
                 ".toggle__menu": {
                     "a": {
                         color: `${props.theme.white} !important`
@@ -51,11 +37,6 @@ const Container = styled.div`
                         color: props.theme.white
                     }
                 }
-            }
-        } else {
-            return {
-                background: props.theme.surface,
-                boxShadow: props.theme.boxShadowLight
             }
         }
     }}
@@ -202,7 +183,11 @@ const AppHeader = props => {
             pageId={page ? page.id : null}
             useTransparentHeader={useTransparentHeader}
         >
-                    <Section>
+            <IconContainer className="icon__container">
+                <FontAwesomeIcon icon={faBell}/>
+            </IconContainer>
+            <UserProfile useTransparentHeader={useTransparentHeader}/>
+                    {/* <Section>
                         <Toggle
                             onClick={() => setShowSidebar(true)}
                             className="icon__container"
@@ -230,13 +215,8 @@ const AppHeader = props => {
                     </Section>
                     <Section>
                         <Messages />
-                        <IconContainer className="icon__container">
-                            <FontAwesomeIcon icon={faBell}/>
-                        </IconContainer>
-                        <UserProfile 
-                            useTransparentHeader={useTransparentHeader}
-                        />
-                    </Section>
+              
+                    </Section> */}
         </Container>
      )
 };

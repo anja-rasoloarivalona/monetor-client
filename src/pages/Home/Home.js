@@ -7,14 +7,13 @@ import { useSelector } from 'react-redux'
 import GridLayout from 'react-grid-layout'
 import "../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../node_modules/react-resizable/css/styles.css"
-import Header from './Header/Header'
+import GridHeader from './Header/Header'
 import WeatherDashboardItem from "./items/Weather/WeatherDashboardItem"
 import Weather from './items/Weather/Weather'
 import RecentNotes from './items/RecentNotes/RecentNotes'
 import TodayTasks from './items/TodayTasks/TodayTasks'
 import Projects from './items/Projects/Projects'
 import ComingSoon from './items/ComingSoon/ComingSoon'
-
 import AppSelector from "./items/AppSelector/AppSelector"
 import Balance from '../Transactions/Dashboard/items/Balance'
 import LastTransactions from '../Transactions/Dashboard/items/Transactions'
@@ -29,9 +28,19 @@ const Container = styled.div`
     flex-direction: column;
     z-index: 2;
     overflow-x: hidden;
-    height: calc(100vh - 6.5rem);
+    min-height: 100vh;
     background: ${props => props.theme.backgroundImage ? "none" : props.theme.background};
+    padding-left: 2rem;
 `
+
+const Header = styled.div`
+    padding-left: 2rem;
+    height: 6.5rem;
+    display: flex;
+    align-items: center;
+`
+
+const HeaderText = styled.h1``
 
 const GridContainer = styled(ScrollBar)`
     flex: 1;
@@ -123,10 +132,10 @@ const GridItemLayer = styled.div`
 const Home = () => {
 
     const { windowWidth } = useWindowSize()
-
     const weatherRef = useRef()
 
     const {
+        text: { text },
         dashboards: {
             breakpoints,
             main: {
@@ -282,13 +291,18 @@ const Home = () => {
 
     return (
         <Container>
-            <Header 
+            <Header>
+                <HeaderText>
+                    {text.dashboard}
+                </HeaderText>
+            </Header>
+            {/* <GridHeader 
                 setIsManaginDashboard={setIsManaginDashboard}
                 cancelDashboardChangesHandler={cancelDashboardChangesHandler}
                 saveDashboardChangesHandler={saveDashboardChangesHandler}
                 isManagingDashboard={isManagingDashboard}
                 isSavingDashboardChanges={isSavingDashboardChanges}
-            />
+            /> */}
             <Weather 
                 isViewingWeather={isViewingWeather}
                 setIsViewingWeather={setIsViewingWeather}

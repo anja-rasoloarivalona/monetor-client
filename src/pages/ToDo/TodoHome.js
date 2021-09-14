@@ -10,15 +10,17 @@ import { stringToQueryParam } from '../../functions'
 
 const Container = styled.div`
     width: 100%;
-    min-height: calc(100vh - 6.5rem);
-    padding: 3rem 4rem;
-    padding-bottom: 5rem;
+    min-height: 100vh;
+    padding-left: 4rem;
     background: ${({ theme }) => theme.backgroundImage ? "none" : theme.background};
 `
 
 const Header = styled.div`
     width: 100%;
-    margin-bottom: 2rem;
+    height: 6.5rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
 `
 
 const HeaderTitle = styled.h1`

@@ -83,6 +83,13 @@ const Container = styled.div`
     }
   }}
 
+  ${({ showSidebar}) => {
+      const paddingLeft = showSidebar ? 24 : 7
+      return {
+        paddingLeft: `${paddingLeft}rem`
+      } 
+  }}
+
 `;
 
 const App = () => {
@@ -201,21 +208,17 @@ const App = () => {
   
   return (
     <BrowserRouter>
-      <ThemeProvider theme={{
-        ...theme,
-        // backgroundImage: null
-      }}>
+      <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Background />
         <Container
+          showSidebar={showSidebar}
           loading={!isAppReady}
           type={text.type}
         >
           {isAppReady ? (
             <>
-              <Header 
-                setShowSidebar={setShowSidebar}
-              />
+              <Header />
               <Sidebar
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}

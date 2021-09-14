@@ -21,15 +21,6 @@ import NotesElement from '../elements/Notes/Notes'
 
 const Container = styled.div`
     min-height: 100vh;
-    padding-top: ${props => props.location.pathname === "/" ? '0' : "6.5rem"};
-
-    ${props => {
-        if(props.isSidebarDisplayed){
-            return {
-                paddingLeft: "23rem"
-            }
-        }
-    }}
 `
 
 const Routes = props => {

@@ -9,18 +9,18 @@ import { useOnClickOutside } from '../../../hooks'
 const Container = styled.div`
     display: flex;
     margin-right: 3rem;
+    height: 5rem;
+    padding-bottom: 1rem;
 `
 
 const Content = styled.div`
     border-top-right-radius: .8rem;
     border-top-left-radius: .8rem;
-    background: ${({ theme }) => theme.secondarySurface};
-    box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
+    // background: ${({ theme }) => theme.secondarySurface};
+    // box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
     width: ${({ config: { listWidth }}) => `${listWidth + 20}px`};
     min-width: ${({ config: { listWidth }}) => `${listWidth + 20}px`};
     max-width: ${({ config: { listWidth }}) => `${listWidth + 20}px`};
-    min-height: 5rem;
-    max-height: 5rem;
     margin-right: 2rem;
     position: relative;
 `
@@ -30,11 +30,11 @@ const TitleContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 1rem;
-    height: 5rem;
+    height: 4rem;
 `
 
 const Title = styled.div`
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 600;
     color: ${props => props.theme.text};
 `
@@ -225,25 +225,16 @@ const TodoLayoutHeader = props => {
             {todoLists
                 .sort((a, b) => a.index - b.index)
                 .map(list => {
-                let activeTodos = 0
-                list.todos.forEach(todo => {
-                    if(!todo.archivedAt){
-                        activeTodos += 1
-                    }
-                })
-                const isEmpty = !list.todos || activeTodos === 0
                 return (
                     <Content key={list.id} config={config}>
                         <TitleContainer>
                             <Title>{list.title}</Title>
                             <TitleCta>
-                                {!isEmpty && (
-                                    <TitleCtaItem onClick={() => setIsAddingCard(list.id)}>
-                                        <TitleCtaItemIcon>
-                                            <AppIcon id="plus"/>
-                                        </TitleCtaItemIcon>
-                                    </TitleCtaItem>
-                                )}
+                                <TitleCtaItem onClick={() => setIsAddingCard(list.id)}>
+                                    <TitleCtaItemIcon>
+                                        <AppIcon id="plus"/>
+                                    </TitleCtaItemIcon>
+                                </TitleCtaItem>
                                 <TitleCtaItem onClick={() => toggleList(list.id)}>
                                     <TitleCtaItemIcon>
                                         <AppIcon id="ellipsis-h"/>
@@ -260,26 +251,13 @@ const TodoLayoutHeader = props => {
                                 </TitleCtaItem>
                             </TitleCta>
                         </TitleContainer>
-                        {isEmpty && (
-                            <AddCard>
-                                {isAddingCard === list.id ?
-                                    <CardInput 
-                                        submitCardHandler={submitCardHandler}
-                                        setIsAddingCard={setIsAddingCard}
-                                    /> :
-                                    <AddCardPlaceholer onClick={() => setIsAddingCard(list.id)}>
-                                        <AppIcon id="plus"/>
-                                    </AddCardPlaceholer>                               
-                                }
-                            </AddCard>
-                        )}
                     </Content>
                 )
             })}
-            <AddList 
+            {/* <AddList 
                 todoLists={todoLists}
                 setTodoLists={setTodoLists}
-            />          
+            />           */}
         </Container>
     )
 };

@@ -379,6 +379,10 @@
         "fr": "Déplacer la liste",
         "en": "Move list"
     },
+    "my_account": {
+        "fr": "Mon compte",
+        "en": "My account"
+    },
     "my_dashboards": {
         "fr": "Mes tableaux de bords",
         "en": "My dashboards"

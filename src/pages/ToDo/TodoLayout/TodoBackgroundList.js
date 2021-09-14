@@ -25,7 +25,7 @@ const List = styled.div`
 `
 
 const ListBackground = styled.div`
-    background: ${({ theme }) => theme.secondarySurface};
+    // background: ${({ theme }) => theme.secondarySurface};
     position: absolute;
     top: 0rem;
     left: 0;
@@ -34,7 +34,7 @@ const ListBackground = styled.div`
     height: calc(100% + 2rem);
     border-bottom-right-radius: .8rem;
     border-bottom-left-radius: .8rem;
-    box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
+    // box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
     z-index: 3;
 `
 

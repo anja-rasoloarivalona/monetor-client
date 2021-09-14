@@ -15,25 +15,20 @@ const Container = styled.div`
 `
 
 const Header = props => {
-
     const location = useLocation()
-
     const { setShowSidebar } = props
-
     const {
         text: { type },
     } = useSelector(state => state)
-
-    const useHomeHeader = type === "public" ||  location.pathname === "/"
-
-    return (
-        <Container>
-            {useHomeHeader ?
-                <HomeHeader /> :
-                <AppHeader setShowSidebar={setShowSidebar}/> 
-            }   
-        </Container>
-     )
+    
+    if(type === "public" || location.pathname === "/"){
+        return (
+            <Container>
+                <HomeHeader />
+            </Container>
+        )
+    }
+    return <AppHeader setShowSidebar={setShowSidebar} />
 };
 
 export default Header;
