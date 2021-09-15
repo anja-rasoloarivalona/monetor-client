@@ -22,8 +22,12 @@ const Container = styled.div`
 `
 
 const Content = styled.div`
-    width: 100%;
+    height: calc(100vh - 15.5rem);
     display: flex;
+    background: blue;
+    position: relative;
+
+
     // max-width: 100vw;
     // overflow-x: scroll;
 `
@@ -32,7 +36,7 @@ const Header = styled.div`
     height: 6.5rem;
     display: flex;
     align-items: center;
-    // background: orange;
+    background: orange;
 `
 
 const HeaderTitle = styled.h1`
@@ -61,7 +65,6 @@ const ToDo = props => {
     const [ isSaving, setIsSaving ] = useState(false)
     const [ edited, setIsEdited ] = useState(null)
     const [ isEditingListOrder, setIsEditingListOrder ] = useState(false)
-    const [ listLayout, setListLayout ] = useState(null)
     
     let timeout
 
@@ -163,37 +166,37 @@ const ToDo = props => {
 
 
     const saveListHandler = async () => {
-        const payload = []
-        const updatedTodoLists = {}
-        listLayout.forEach(list => {
-            if(list.x !== list.list.index){
-                payload.push({
-                    title: list.list.title,
-                    index: list.x,
-                    id: list.list.id,
-                    type: "list"
-                })
-            }
-            updatedTodoLists[list.list.id] = {
-                ...list.list,
-                index: list.x
-            }
-        })
+        // const payload = []
+        // const updatedTodoLists = {}
+        // listLayout.forEach(list => {
+        //     if(list.x !== list.list.index){
+        //         payload.push({
+        //             title: list.list.title,
+        //             index: list.x,
+        //             id: list.list.id,
+        //             type: "list"
+        //         })
+        //     }
+        //     updatedTodoLists[list.list.id] = {
+        //         ...list.list,
+        //         index: list.x
+        //     }
+        // })
 
-        setIsEditingListOrder(false)
-        setTodoLists(updatedTodoLists)
-        try {
-            const res = await axios({
-                method: "put",
-                url: "/todo/many",
-                data: payload
-            })   
-            console.log({
-                res
-            })
-        } catch(err){
-            console.log({ err })
-        }
+        // setIsEditingListOrder(false)
+        // setTodoLists(updatedTodoLists)
+        // try {
+        //     const res = await axios({
+        //         method: "put",
+        //         url: "/todo/many",
+        //         data: payload
+        //     })   
+        //     console.log({
+        //         res
+        //     })
+        // } catch(err){
+        //     console.log({ err })
+        // }
     }
 
     const saveHandler = async data => {
@@ -221,8 +224,12 @@ const ToDo = props => {
     const config = {
         rowHeight: 10,
         listWidth: 320,
-        margin: [0, 15]
+        margin: [0,0]
     }
+
+    console.log({
+        isEditingListOrder
+    })
 
     return (
         <Container>
@@ -235,15 +242,22 @@ const ToDo = props => {
                         </HeaderTitle>
                     </Header>
                     <Content>
-
-                    </Content>
                         <TodoLayout 
                             todoLists={Object.values(todoLists)}
                             setTodoLists={setTodoLists}
                             setIsEdited={setIsEdited}
                             config={config}
                             setIsEditingListOrder={setIsEditingListOrder}
+                            isEditingListOrder={isEditingListOrder}
                         />
+                        <TodoListLayout 
+                            todoLists={Object.values(todoLists)}
+                            setTodoLists={setTodoLists}
+                            config={config}
+                            setIsEditingListOrder={setIsEditingListOrder}
+                        />
+                    </Content>
+                        
                     {/*  <Content>
                         <TodoLayout 
                             todoLists={Object.values(todoLists)}

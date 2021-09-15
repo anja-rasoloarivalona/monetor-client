@@ -62,20 +62,21 @@ const getLabelsLine = (labels, w, boardLabels) => {
         const currentLabel = boardLabels.find(i => i.id === label.id)
         if(currentLabel){
             const currentLabelWidth = getLabelWidth(currentLabel.title) + 5
-            if(currentLineWidth + currentLabelWidth < w){
-                currentLineWidth += currentLabelWidth
-            } else {
 
-            }
 
             console.log({
                 label,
-                currentLabel,
-                width: getLabelWidth(currentLabel.title)
             })
+
+            if(currentLineWidth + currentLabelWidth < w){
+                currentLineWidth += currentLabelWidth
+            } else {
+                line += 1
+                currentLineWidth = 0
+            }
         }
-    
     })
+    return line
 }
 
 
@@ -85,13 +86,14 @@ const getTodoConfig = (todo, [listIndex, todoIndex, width], boardLabels) => {
     const hasDueDate = todo.dueDate
 
     let dueDateH = hasDueDate ? 4 : 0
-    let labelH = hasLabel ? 4 : 0
     let coverH = todo.coverImage ? 4 : 0
 
     let h = 6
 
     const metadata = {
-        description: 0
+        cardH: 0,
+        description: 0,
+        labels: 0
     }
 
     if(todo.description){
@@ -101,20 +103,24 @@ const getTodoConfig = (todo, [listIndex, todoIndex, width], boardLabels) => {
     }
 
     if(hasLabel){
-
-        const labelsH = getLabelsLine(todo.todoLabels, width, boardLabels)
-
-        console.log({
-            todo
-        })
-
+        const labelsH = getLabelsLine(todo.todoLabels, width, boardLabels) * 4 // 4rem per line
+        h += labelsH
+        metadata.labels = labelsH
     }
+
+    if(todo.id === "5493D416252C4AEA907DB9F16B349428"){
+        console.log({
+            h: h + dueDateH,
+            metadata
+        })
+    }
+
+    metadata.cardH = h + dueDateH
 
     return {
         x: listIndex,
         y: todoIndex,
-        // h: h + detailH + labelH + coverH,
-        h: h + labelH + dueDateH,
+        h: h + dueDateH,
         w: 1,
         i: todo.id,
         isResizable: false,

@@ -4,26 +4,31 @@ import Layout from 'react-grid-layout'
 import Card from "../Card"
 import "../../../../node_modules/react-grid-layout/css/styles.css"
 import "../../../../node_modules/react-resizable/css/styles.css"
+import {  getTodoConfig } from '.././functions'
+import { useSelector } from 'react-redux'
 
 const Container = styled.div`
     height: calc(100vh - 15.5rem);
     width: 100%;
-    max-width: ${({ length }) => length * 320}px;
+    position: absolute;
+    top: 0;
+    left: 0;
 
     .layout {
         .react-grid-item {
-            max-width: 30rem !important;
-            min-width: 30rem !important;
-            width: 30rem !important;
+            max-width: ${({ config: { listWidth }}) => listWidth }px !important;
+            min-width: ${({ config: { listWidth }}) => listWidth }px !important;
+            width: ${({ config: { listWidth }}) => listWidth }px !important;
         }
+    }
+    .react-grid-item.react-grid-placeholder {
+        background-color: transparent;
     }
 `
 
 const List = styled.div`
-    background: ${({ theme }) => theme.secondarySurface};
-    box-shadow: ${({ theme }) => theme.boxShadowExtraLight};
+    background: red;
     border-radius: .8rem;
-    padding: 0 1rem;
     cursor: move;
     
     * {
@@ -36,6 +41,7 @@ const TitleContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 5rem;
+    background: green;
 `
 
 const Title = styled.div`
@@ -45,30 +51,36 @@ const Title = styled.div`
 `
 
 const Todos = styled.div`
+    padding: 10px 0;
     > div {
-        margin-bottom: 1.5rem;
+        margin-bottom: 20px;
     }
 `
 
 const TodoListLayout = props => {
 
-    const { todoLists,  setListLayout, listLayout  } = props
+
+    const { todoLists, config, setIsEditingListOrder, setTodoLists } = props
+
+    const {
+        todos: { todoBoards, activeBoardId }
+    } = useSelector(state => state)
+
+    const [ listLayout, setListLayout ] = useState(null)
 
     useEffect(() => {
         const _layout = []
         todoLists.forEach(list => {
             let h = 5
-
-            if(list.todos && list.todos.length > 0){
-                h += 4
-            }
+            const listTodos = []
             list.todos.forEach((todo, index) => {
-                let detailH = (todo.dueDate || (todo.description && todo.description !== "<p><br></p>") || (todo.checkList && todo.checkList.length > 0)) ? 3 : 0
-                let labelH = todo.todoLabels && todo.todoLabels.length > 0 ? 3.5 : 0
-                let coverH = todo.coverImage ? 14 : 0
-                let origin = 4.5
-
-                h += (origin + detailH + labelH + coverH)
+                const todoConfig = getTodoConfig(
+                    todo, 
+                    [list.index, index, config.listWidth - 30],
+                    todoBoards[activeBoardId].labels
+                )
+                listTodos.push(todoConfig.todo)
+                h += todoConfig.h
             })
             _layout.push({
                 x: list.index,
@@ -76,48 +88,57 @@ const TodoListLayout = props => {
                 w: 1,
                 h,
                 i: list.id,
-                list
+                list: {
+                    ...list,
+                    todos: listTodos
+                }
             })
         })
         setListLayout(_layout)
-    },[])
+    },[todoLists])
 
 
     if(!listLayout){
         return null
     }
-    const config = {
-        rowHeight: 10,
-        listWidth: 300,
-        margin: [0, 0]
-    }
 
     const stopDragHandler = layout => {
         const updatedLayout = []
         layout.forEach(item => {
-            const list = todoLists.find(list => list.id === item.i)
+            const list = listLayout.find(i => i.list.id === item.i).list
             updatedLayout.push({
                 ...item,
                 list
             })
         })
-        setListLayout(updatedLayout)
+        const updatedTodoLists = {}
+        todoLists.forEach(list => {
+            updatedTodoLists[list.id] = {
+                ...list,
+                index: updatedLayout.find(i => i.i === list.id).x
+            }
+        })
+        setTodoLists(updatedTodoLists)
+        setTimeout(() => {
+            setIsEditingListOrder(false)
+        },[600])
     }
 
     return (
-        <Container length={todoLists.length}>
+        <Container length={todoLists.length} config={config}>
             <Layout
                 className="layout"
                 layout={listLayout}
                 maxRows={1}
                 rowHeight={config.rowHeight}
                 cols={todoLists.length}
-                width={todoLists.length * config.listWidth + (20 * todoLists.length)}
-                margin={config.margin}
+                width={todoLists.length * config.listWidth + (40 * todoLists.length)}
+                margin={[0, 0]}
                 isResizable={false}
                 compactType='horizontal'
                 containerPadding={[0,0]}
                 onDragStop={stopDragHandler}
+                onDrag={() => setIsEditingListOrder(true)}
             >
                     {listLayout.map(item => {
                         return (
@@ -131,8 +152,15 @@ const TodoListLayout = props => {
                                     {item.list.todos.map(todo => (
                                         <Card 
                                             key={todo.id}
-                                            todo={todo}
+                                            todo={{
+                                                ...todo,
+                                                metadata: {
+                                                    ...todo.metadata,
+                                                    cardH: todo.metadata.cardH 
+                                                }
+                                            }}
                                             setIsEdited={() => null}
+                                            config={config}
                                         />
                                     ))}
                                 </Todos>

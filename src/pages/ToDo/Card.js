@@ -1,13 +1,14 @@
 import React, { useRef, useEffect } from "react"
 import styled from "styled-components"
 import { AppDate } from '../../components'
+import AppIcon from '../../icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faCalendar } from '@fortawesome/free-regular-svg-icons'
 import { useSelector } from 'react-redux'
 import { formatDate } from '../../functions'
 
 const Container = styled.div`
-    height: 100%;
+    height: ${({ height }) => height - 20}px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -20,16 +21,36 @@ const Container = styled.div`
 `
 
 const Body = styled.div`
-    padding:  1rem;
+    padding:  1rem 1.5rem;
+    height: 100%;
 `
 
-const Title = styled.div`
-    font-size: 1.5rem;
-    line-height: 1.4;
+const TitleContainer = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
     height: 2rem;
+`
+
+const Title = styled.div`
+    font-size: 1.6rem;
+    line-height: 1.4;
+    flex: 1;
+`
+
+const TitleIcon = styled.div`
+    width: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`
+
+const TitleIconDot = styled.div`
+    width: .3rem;
+    height: .3rem;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.textLight};
 `
 
 const Description = styled.div`
@@ -109,7 +130,8 @@ const CtaCheckListLabel = styled.div`
 const Labels = styled.div`
     width: 100%;
     display: flex;
-    height: 4rem;
+    flex-wrap: wrap;
+    height: ${({ height }) => height}px;
     padding: .75rem 0;
 `
 const Label = styled.div`
@@ -169,16 +191,23 @@ const Card = props => {
         <Container
             id={todo.id}
             onClick={() => setIsEdited(todo)}
+            height={todo.metadata.cardH * config.rowHeight}
         >
             {/* {todo.coverImage && (
                 <CoverContainer src={getCoverImageUrl()} />
             )} */}
             <Body>
-                <Title>
-                    {todo.title}
-                </Title>
+                <TitleContainer>
+                    <Title>{todo.title}</Title>
+                    <TitleIcon>
+                        <TitleIconDot />
+                        <TitleIconDot />
+                        <TitleIconDot />
+                    </TitleIcon>
+                </TitleContainer>
+
                 {todo.todoLabels && todo.todoLabels.length > 0 && (
-                    <Labels>
+                    <Labels height={todo.metadata.labels * config.rowHeight}>
                         {todo.todoLabels.map((label, labelIndex) => {
                             const labelData = todoBoards[label.boardId].labels.find(l => l.id === label.id)
                             return (

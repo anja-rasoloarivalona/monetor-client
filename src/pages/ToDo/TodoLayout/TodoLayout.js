@@ -13,14 +13,16 @@ import { useSelector } from 'react-redux'
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
+    opacity: ${({ isEditingListOrder }) => isEditingListOrder ? 0 : 1};
 `
 
 const LayoutContainer = styled.div`
     width: 100%;
     height: calc(100vh - 11.5rem);
+    margin-top: 5rem;
     overflow-y: scroll;
     position: relative;
-    padding-left: 1rem;
 
     &::-webkit-scrollbar {
         display: none;
@@ -48,7 +50,7 @@ const LayoutItem = styled.div`
 
 const TodoLayout = props => {
 
-    const { todoLists, setTodoLists, setIsEdited,config,setIsEditingListOrder } = props
+    const { todoLists, setTodoLists, setIsEdited,config, isEditingListOrder } = props
     const [ layout, setLayout ] = useState(null)
     const [ isAddingCard, setIsAddingCard ] = useState(false)
     const [ isDragging, setIsDragging ] = useState(null)
@@ -164,7 +166,7 @@ const TodoLayout = props => {
                     if(!todo.archivedAt){
                         const todoConfig = getTodoConfig(
                             todo, 
-                            [list.index, todoIndex, config.listWidth - 20],
+                            [list.index, todoIndex, config.listWidth - 30],
                             todoBoards[activeBoardId].labels
                         )
                         _copy[list.id].todos[todo.id] = todoConfig
@@ -183,34 +185,15 @@ const TodoLayout = props => {
     }
 
     return (
-        <Container>
-            <TodoLayoutHeader
-                todoLists={todoLists}
-                config={config}
-                submitCardHandler={submitCardHandler}
-                isAddingCard={isAddingCard}
-                setIsAddingCard={setIsAddingCard}
-                setTodoLists={setTodoLists}
-                setIsEditingListOrder={setIsEditingListOrder}
-            />
-
+        <Container isEditingListOrder={isEditingListOrder}>
             <LayoutContainer config={config}>
-                <TodoBackgroundList
-                    layout={layout}
-                    config={config} 
-                    isDragging={isDragging}
-                    todoLists={todoLists}
-                    submitCardHandler={submitCardHandler}
-                    isAddingCard={isAddingCard}
-                    setIsAddingCard={setIsAddingCard}
-                />
                 <Layout
                     className="layout"
                     layout={layout}
                     rowHeight={config.rowHeight}
                     cols={todoLists.length}
                     width={todoLists.length * config.listWidth + (40 * todoLists.length)}
-                    margin={[0,0]}
+                    margin={config.margin}
                     onDrag={() => setIsDragging(true)}
                     onDragStop={stopDragHandler}
                     containerPadding={[0,0]}
